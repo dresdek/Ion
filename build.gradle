@@ -88,14 +88,6 @@ allprojects {
             }
         }
 
-        // screaming bedwars repo
-        maven {
-            url 'https://repo.screamingsandals.org/repository/maven-public/'
-            content {
-                includeGroup "org.screamingsandals.bedwars"
-            }
-        }
-
         // anvilgui repo
         maven {
             url 'https://repo.codemc.io/repository/maven-snapshots/'
@@ -176,9 +168,6 @@ allprojects {
 
         // https://github.com/CitizensDev/Citizens2/
         compileOnly "net.citizensnpcs:citizens:2.0.27-SNAPSHOT"
-
-        // https://github.com/ScreamingSandals/BedWars
-        compileOnly "org.screamingsandals.bedwars:BedWars-API:0.3.0-SNAPSHOT"
 
         // https://kotlinlang.org/
         compileClasspath "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
