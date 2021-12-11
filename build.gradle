@@ -120,7 +120,12 @@ allprojects {
         }
 
         // private repository to host server binaries
-        maven { url "https://maven.starlegacy.net/" }
+        maven {
+            url "https://maven.starlegacy.net/"
+            content {
+                excludeGroup "commons-io"
+            }
+        }
 
         // general maven central repository
         mavenCentral()
