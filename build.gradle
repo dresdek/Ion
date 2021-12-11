@@ -149,7 +149,7 @@ allprojects {
         compileOnly('net.luckperms:api:5.0') { exclude group: "org.bukkit", module: "bukkit" }
 
         // https://github.com/MilkBowl/Vault
-        compileOnly("com.github.MilkBowl:VaultAPI:1.7") { exclude group: "org.bukkit", module: "bukkit" }
+        compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") { exclude group: "org.bukkit", module: "bukkit" }
 
         // https://github.com/bloodmc/GriefDefender/
         compileOnly("com.github.bloodmc:GriefDefenderAPI:master") { exclude group: "org.bukkit", module: "bukkit" }
