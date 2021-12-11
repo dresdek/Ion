@@ -213,7 +213,7 @@ allprojects {
         compileClasspath("club.minnced:discord-webhooks:0.5.6")
 
         compileClasspath 'org.jetbrains.kotlin:kotlin-reflect:1.5.0'
-        compileClasspath 'org.jetbrains.kotlin:kotlin-stdlib:1.5.0'
+        compileClasspath 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
