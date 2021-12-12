@@ -114,7 +114,7 @@ dependencies {
     // https://github.com/egg82/EventChain
     implementation("ninja.egg82:event-chain-bukkit:1.0.7")
 
-    implementation(group: "org.ejml", name: "ejml-all", version: "0.40")
+    implementation("org.ejml:ejml-all:0.40")
 
     // https://github.com/MinnDevelopment/discord-webhooks
     implementation("club.minnced:discord-webhooks:0.5.6")
