@@ -89,7 +89,7 @@ dependencies {
 }
 
 tasks.withType<JavaCompile> {
-    options.compilerArgs += "-parameters"
+    options.compilerArgs.plusAssign("-parameters")
     options.fork = true
     options.forkOptions.executable = "javac"
 }
