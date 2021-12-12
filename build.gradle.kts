@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     idea
@@ -93,11 +95,9 @@ compileJava {
     options.forkOptions.executable = "javac"
 }
 
-compileKotlin {
+tasks.withType<KotlinCompile> {
     kotlinOptions.javaParameters = true
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.noReflect = false
-    kotlinOptions.noStdlib = false
 }
 
 jar {
