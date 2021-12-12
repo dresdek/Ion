@@ -4,15 +4,15 @@ import org.bukkit.Location;
 
 public class WorldChanceFactor extends RandomFactor {
 
-    String world;
+	String world;
 
-    public WorldChanceFactor(float chance, String world) {
-        super(chance);
-        this.world = world;
-    }
+	public WorldChanceFactor(float chance, String world) {
+		super(chance);
+		this.world = world;
+	}
 
-    @Override
-    public boolean factor(Location location) {
-        return super.factor(location) && location.getWorld().getName().equalsIgnoreCase(world);
-    }
+	@Override
+	public boolean factor(Location location) {
+		return super.factor(location) && location.getWorld().getName().equalsIgnoreCase(world);
+	}
 }

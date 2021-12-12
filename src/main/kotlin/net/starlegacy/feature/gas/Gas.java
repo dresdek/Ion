@@ -46,34 +46,34 @@ public class Gas {
 //	};
 
 
-    private String itemId, name;
+	private String itemId, name;
 
-    private List<List<CollectionFactor>> factors;
+	private List<List<CollectionFactor>> factors;
 
-    public Gas(String name, String itemId, List<List<CollectionFactor>> factors) {
-        this.name = name;
-        this.itemId = itemId;
-        this.factors = factors;
-    }
+	public Gas(String name, String itemId, List<List<CollectionFactor>> factors) {
+		this.name = name;
+		this.itemId = itemId;
+		this.factors = factors;
+	}
 
-    public boolean isAvailable(Location location) {
-        return factors.stream().anyMatch(f -> f.stream().allMatch(i -> i.factor(location)));
-    }
+	public boolean isAvailable(Location location) {
+		return factors.stream().anyMatch(f -> f.stream().allMatch(i -> i.factor(location)));
+	}
 
-    public String getItemId() {
-        return itemId;
-    }
+	public String getItemId() {
+		return itemId;
+	}
 
 
-    public CustomItem getItem() {
-        return CustomItems.INSTANCE.get(getItemId());
-    }
+	public CustomItem getItem() {
+		return CustomItems.INSTANCE.get(getItemId());
+	}
 
-    public List<List<CollectionFactor>> getFactors() {
-        return factors;
-    }
+	public List<List<CollectionFactor>> getFactors() {
+		return factors;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 }
