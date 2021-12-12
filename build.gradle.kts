@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    idea
     id("org.jetbrains.kotlin.jvm") version "1.5.0"
     id("com.github.johnrengelman.shadow") version "6.0.0"
 }
@@ -105,13 +104,6 @@ tasks.shadowJar {
     relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
     relocate("co.aikar.commands", "net.starlegacy.libs.acf")
     relocate("org.ejml", "net.starlegacy.libs.ejml")
-}
-
-idea {
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
 }
 
 build.dependsOn shadowJar
