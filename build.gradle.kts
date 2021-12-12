@@ -23,7 +23,7 @@ repositories {
     maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
 
     // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
-    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } }
 
     // used for discordsrv
     maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
@@ -45,14 +45,11 @@ repositories {
     // private repository to host server binaries
     maven { url = uri("https://maven.starlegacy.net/") }
 
-    maven { url = uri("https://repo.mikeprimm.com/") }
+    // Used for dynmap
+    maven { url = uri("https://repo.mikeprimm.com/"); content { includeGroup("org.bukkit") } }
 
     // general maven central repository
     mavenCentral()
-
-    // aikar"s repository which mirrors lots of Minecraft things plus hosts his own projects
-    // put twice: once before to quickly pick up his own plugins, once here as a last resort for other stuff
-    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
 }
 
 dependencies {
@@ -77,7 +74,7 @@ dependencies {
     implementation("redis.clients:jedis:2.9.0") // https://github.com/xetorthio/jedis
     implementation("io.github.config4k:config4k:0.4.1") // https://github.com/config4k/config4k
     implementation("com.googlecode.cqengine:cqengine:3.0.0") // https://github.com/npgall/cqengine
-    implementation("khttp:khttp:1.0.0") // https://github.com/jkcclemens/khttp
+    implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
     implementation("net.wesjd:anvilgui:1.5.0-SNAPSHOT")
     implementation("com.github.stefvanschie.inventoryframework:IF:0.5.8") // https://github.com/stefvanschie/IF
     implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
@@ -86,6 +83,7 @@ dependencies {
     implementation("club.minnced:discord-webhooks:0.5.6") // https://github.com/MinnDevelopment/discord-webhooks
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0")
+    implementation("net.dv8tion:JDA:5.0.0-alpha.2")
 }
 
 tasks.withType<JavaCompile> {
