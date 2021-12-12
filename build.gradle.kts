@@ -10,46 +10,20 @@ group = "net.starlegacy"
 version = "SNAPSHOT"
 
 repositories {
-    // used for github projects without their own repo, com.github.User:Project:Tag
-    maven { url = uri("https://jitpack.io") }
-
-    // Official PaperMC repository for API
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
-
-    // used for WorldEdit and WorldGuard
-    maven { url = uri("https://maven.sk89q.com/repo/") }
-
-    // used for EventChain
-    maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
-
-    // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
-    maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } }
-
-    // used for discordsrv
-    maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
-
-    // used for dependency of discordsrv (MCDiscordReserializer)
-    maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") }
-
-    // used for dependency of discordsrv (UltimateChat)
-    maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") }
-
-    // anvilgui repo
+    maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
+    maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit and WorldGuard
+    maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
+    maven { url = uri("https://nexus.scarsz.me/content/groups/public/") } // used for discordsrv
+    maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") } // used for dependency of discordsrv (MCDiscordReserializer)
+    maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") } // used for dependency of discordsrv (UltimateChat)
+    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") } // anvilgui repo
+    maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
     maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
-
-    // Citizens NPCs plugin repo
-    maven { url = uri("https://repo.citizensnpcs.co/") }
-
-    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
-
-    // private repository to host server binaries
-    maven { url = uri("https://maven.starlegacy.net/") }
-
-    // Used for dynmap
-    maven { url = uri("https://repo.mikeprimm.com/"); content { includeGroup("org.bukkit") } }
-
-    // general maven central repository
-    mavenCentral()
+    maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
+    maven { url = uri("https://repo.mikeprimm.com/"); content { includeGroup("org.bukkit") } } // Used for dynmap
+    mavenCentral() // general maven central repository
 }
 
 dependencies {
