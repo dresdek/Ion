@@ -145,13 +145,6 @@ compileKotlin {
     kotlinOptions.noStdlib = false
 }
 
-// mixed things dont work well otherwise
-sourceSets {
-    main.kotlin.srcDirs += "src/main/java"
-    main.java.srcDirs += "src/main/kotlin"
-    configurations.testImplementation.extendsFrom configurations.compileOnly
-}
-
 jar {
     archiveFileName = project.name + ".jar"
     destinationDir file(rootProject.projectDir.absolutePath + "/build/raw-libs")
