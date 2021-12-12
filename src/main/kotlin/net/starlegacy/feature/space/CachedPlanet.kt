@@ -4,13 +4,7 @@ import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.space.Planet
 import net.starlegacy.feature.misc.CustomItem
 import net.starlegacy.feature.misc.CustomItems
-import net.starlegacy.util.NMSBlockData
-import net.starlegacy.util.NMSBlocks
-import net.starlegacy.util.Vec3i
-import net.starlegacy.util.d
-import net.starlegacy.util.getSphereBlocks
-import net.starlegacy.util.i
-import net.starlegacy.util.nms
+import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.block.data.BlockData
@@ -111,7 +105,7 @@ class CachedPlanet(
 			val noise = (simplexNoise / 2.0 + 0.5)
 
 			return@associateWith when {
-				crustPalette.isEmpty() -> NMSBlocks.DIRT.defaultBlockState
+				crustPalette.isEmpty() -> NMSBlocks.DIRT.defaultBlockState()
 				else -> crustPalette[(noise * crustPalette.size).toInt()]
 			}
 		}
@@ -120,7 +114,7 @@ class CachedPlanet(
 
 		val atmosphere: Map<Vec3i, NMSBlockData> = getSphereBlocks(atmosphereRadius).associateWith { (x, y, z) ->
 			if (atmospherePalette.isEmpty()) {
-				return@associateWith NMSBlocks.AIR.defaultBlockState
+				return@associateWith NMSBlocks.AIR.defaultBlockState()
 			}
 
 			val atmosphereSimplex = random.noise(
@@ -130,7 +124,7 @@ class CachedPlanet(
 			)
 
 			if ((atmosphereSimplex / 2.0 + 0.5) > cloudDensity) {
-				return@associateWith NMSBlocks.AIR.defaultBlockState
+				return@associateWith NMSBlocks.AIR.defaultBlockState()
 			}
 
 			val cloudSimplex = random.noise(
@@ -142,7 +136,7 @@ class CachedPlanet(
 			val noise = (cloudSimplex / 2.0) + 0.5
 
 			if (noise > cloudThreshold) {
-				return@associateWith NMSBlocks.AIR.defaultBlockState
+				return@associateWith NMSBlocks.AIR.defaultBlockState()
 			}
 
 			return@associateWith atmospherePalette[(noise * atmospherePalette.size).toInt()]

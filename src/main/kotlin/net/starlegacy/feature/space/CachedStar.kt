@@ -28,7 +28,7 @@ class CachedStar(
 	val sphereRadius = (MAX_SIZE * size).toInt()
 
 	override fun createStructure(): Map<Vec3i, NMSBlockData> {
-		val blockData = CBMagicNumbers.getBlock(material).defaultBlockState
+		val blockData = CBMagicNumbers.getBlock(material).defaultBlockState()
 
 		return getSphereBlocks(sphereRadius).associateWith { blockData }
 	}
