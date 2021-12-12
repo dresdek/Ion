@@ -56,12 +56,12 @@ fun OutlinePane.withItems(items: Iterable<GuiItem>): OutlinePane {
 }
 
 fun guiButton(itemStack: ItemStack, action: (InventoryClickEvent.() -> Unit)? = null) =
-	GuiItem(itemStack.ensureServerConversions()) {
+	GuiItem(itemStack) {
 		it.isCancelled = true; action?.invoke(it)
 	}
 
 fun guiButton(type: Material, action: (InventoryClickEvent.() -> Unit)? = null) =
-	guiButton(item(type).ensureServerConversions(), action)
+	guiButton(item(type), action)
 
 fun item(type: Material) = ItemStack(type, 1)
 
@@ -82,7 +82,7 @@ fun skullItem(uuid: UUID, name: String): ItemStack =
 		}
 
 		item.itemMeta = meta
-	}.ensureServerConversions()
+	}
 
 fun gui(rows: Int, title: String) = Gui(PLUGIN, rows, color(title))
 

@@ -83,28 +83,28 @@ val NMSEnumDirection.blockFace
 fun ItemStack.withNBTInt(key: String, value: Int): ItemStack {
 	val nms: NMSItemStack = CBItemStack.asNMSCopy(this)
 	val tag: NMSNBTTagCompound = nms.tag ?: NMSNBTTagCompound()
-	tag.setInt(key, value)
+	tag.putInt(key, value)
 	nms.tag = tag
-	return nms.asBukkitCopy().ensureServerConversions()
+	return nms.asBukkitCopy()
 }
 
 fun ItemStack.getNBTInt(key: String): Int? {
 	val tag = CBItemStack.asNMSCopy(this).tag ?: return null
-	if (!tag.hasKey(key)) return null
+	if (!tag.contains(key)) return null
 	return tag.getInt(key)
 }
 
 fun ItemStack.withNBTString(key: String, value: String): ItemStack {
 	val nms: NMSItemStack = CBItemStack.asNMSCopy(this)
 	val tag: NMSNBTTagCompound = nms.tag ?: NMSNBTTagCompound()
-	tag.setString(key, value)
+	tag.putString(key, value)
 	nms.tag = tag
-	return nms.asBukkitCopy().ensureServerConversions()
+	return nms.asBukkitCopy()
 }
 
 fun ItemStack.getNBTString(key: String): String? {
 	val tag = CBItemStack.asNMSCopy(this).tag ?: return null
-	if (!tag.hasKey(key)) return null
+	if (!tag.contains(key)) return null
 	return tag.getString(key)
 }
 //endregion

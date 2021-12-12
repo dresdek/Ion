@@ -3,10 +3,10 @@ package net.starlegacy.feature.multiblock.autocrafter
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
-import net.minecraft.server.v1_16_R3.InventoryCrafting
-import net.minecraft.server.v1_16_R3.MinecraftServer
-import net.minecraft.server.v1_16_R3.NonNullList
-import net.minecraft.server.v1_16_R3.Recipes
+import net.minecraft.world.inventory.CraftingContainer
+import net.minecraft.server.MinecraftServer
+import net.minecraft.core.NonNullList
+import net.minecraft.world.item.crafting.RecipeType
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
@@ -233,8 +233,8 @@ abstract class AutoCrafterMultiblock(
 	}
 }
 
-private val itemsField = InventoryCrafting::class.java.getDeclaredField("items").apply { isAccessible = true }
-private fun getItems(inventoryCrafting: InventoryCrafting): NonNullList<NMSItemStack> {
+private val itemsField = CraftingContainer::class.java.getDeclaredField("items").apply { isAccessible = true }
+private fun getItems(inventoryCrafting: CraftingContainer): NonNullList<NMSItemStack> {
 	@Suppress("UNCHECKED_CAST")
 	return itemsField[inventoryCrafting] as NonNullList<NMSItemStack>
 }
@@ -242,7 +242,7 @@ private fun getItems(inventoryCrafting: InventoryCrafting): NonNullList<NMSItemS
 private val recipeCache: LoadingCache<List<Material?>, Optional<ItemStack>> =
 	CacheBuilder.newBuilder().build(CacheLoader.from { items ->
 		requireNotNull(items)
-		val inventoryCrafting = InventoryCrafting(/*container=*/null, /*width=*/3, /*height=*/3)
+		val inventoryCrafting = CraftingContainer(/*container=*/null, /*width=*/3, /*height=*/3)
 
 		val inventoryItems: NonNullList<NMSItemStack> = getItems(inventoryCrafting)
 		for ((index: Int, material: Material?) in items.withIndex()) {
