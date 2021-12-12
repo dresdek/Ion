@@ -21,13 +21,12 @@ repositories {
 	maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 	maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
-	maven { url = uri("https://repo.mikeprimm.com/"); content { includeGroup("org.bukkit") } } // Used for dynmap
+	maven { url = uri("https://repo.mikeprimm.com/"); content { excludeGroup("org.bukkit") } } // Used for dynmap
 	mavenCentral() // general maven central repository
 }
 
 dependencies {
 	// https://papermc.io (full server hosted at https://maven.starlegacy.net/)
-	compileOnly("io.papermc.paper:paper-api:1.17.1_R0.1-SNAPSHOT")
 	paperDevBundle("1.17.1-R0.1-SNAPSHOT")
 
 	compileOnly("net.luckperms:api:5.3")
@@ -38,7 +37,9 @@ dependencies {
 	compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT") // https://github.com/CitizensDev/Citizens2/
 
 	// https://github.com/webbukkit/dynmap
-	compileOnly("us.dynmap:dynmap-api:3.1")
+	compileOnly("us.dynmap:dynmap-api:3.1") {
+		exclude("org.bukkit:bukkit")
+	}
 	compileOnly("us.dynmap:spigot:3.1")
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // https://kotlinlang.org/
