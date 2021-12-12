@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
 	// https://papermc.io (full server hosted at https://maven.starlegacy.net/)
+	compileOnly("io.papermc.paper:paper-api:1.17.1_R0.1-SNAPSHOT")
 	paperDevBundle("1.17.1-R0.1-SNAPSHOT")
 
 	compileOnly("net.luckperms:api:5.3")
