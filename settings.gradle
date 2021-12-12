@@ -1,4 +1,3 @@
 rootProject.name = "starlegacy"
 
 include "starlegacy-libs"
-include "environments"
