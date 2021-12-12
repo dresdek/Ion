@@ -62,7 +62,7 @@ dependencies {
     compileOnly("com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT")
     compileOnly("com.destroystokyo.paper:paper:1.16.4-R0.1-SNAPSHOT")
 
-    compileOnly("net.luckperms:api:5.0"
+    compileOnly("net.luckperms:api:5.0")
 
     // https://github.com/MilkBowl/Vault
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
@@ -121,15 +121,6 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0")
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
-    testImplementation("io.mockk:mockk:1.10.0")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
-}
-
-test {
-    useJUnitPlatform()
 }
 
 compileJava {
@@ -165,7 +156,3 @@ idea {
 }
 
 build.dependsOn shadowJar
-
-test {
-    useJUnitPlatform()
-}
