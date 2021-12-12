@@ -50,7 +50,7 @@ object SettlementCache : ManualCache() {
 			val tax = settlement.tradeTax
 			val data = SettlementData(id, territory, name, leader, nation, cityState, minBuild, tax)
 			SETTLEMENT_DATA[id] = data
-			nameCache[data.name.toLowerCase()] = id
+			nameCache[data.name.lowercase()] = id
 		}
 
 		for (settlement in Settlement.all()) {
@@ -74,9 +74,9 @@ object SettlementCache : ManualCache() {
 				}
 
 				change[Settlement::name]?.let {
-					nameCache.remove(data.name.toLowerCase())
+					nameCache.remove(data.name.lowercase())
 					data.name = it.string()
-					nameCache[data.name.toLowerCase()] = id
+					nameCache[data.name.lowercase()] = id
 				}
 
 				change[Settlement::leader]?.let {
@@ -114,9 +114,9 @@ object SettlementCache : ManualCache() {
 			synced {
 				val id: Oid<Settlement> = change.oid
 
-				val name = get(id).name.toLowerCase() // get the name first since it's about to be removed
+				val name = get(id).name.lowercase() // get the name first since it's about to be removed
 				SETTLEMENT_DATA.remove(id)
-				nameCache.remove(name.toLowerCase())
+				nameCache.remove(name.lowercase())
 			}
 		}
 	}
@@ -138,5 +138,5 @@ object SettlementCache : ManualCache() {
 	operator fun get(settlementId: Oid<Settlement>): SettlementData = SETTLEMENT_DATA[settlementId]
 		?: error("$settlementId is not cached")
 
-	fun getByName(name: String): Oid<Settlement>? = nameCache[name.toLowerCase()]
+	fun getByName(name: String): Oid<Settlement>? = nameCache[name.lowercase()]
 }

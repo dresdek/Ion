@@ -36,7 +36,7 @@ enum class SLAdvancementCategory(
 		background = "block/black_concrete"
 	);
 
-	val advancementKey = name.toLowerCase()
+	val advancementKey = name.lowercase()
 
 	val namespacedKey = PLUGIN.namespacedKey(advancementKey)
 }
@@ -580,7 +580,7 @@ enum class SLAdvancement(
 	);
 	//endregion
 
-	val advancementKey = name.toLowerCase()
+	val advancementKey = name.lowercase()
 
 	val namespacedKey = PLUGIN.namespacedKey(advancementKey)
 

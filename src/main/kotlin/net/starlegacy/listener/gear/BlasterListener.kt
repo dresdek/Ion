@@ -101,7 +101,7 @@ object BlasterListener : SLEventListener() {
 		if (event.entityType != EntityType.SKELETON) return
 		val skeleton = event.entity as Skeleton
 
-		if (skeleton.world.name.toLowerCase().contains("arena")) Tasks.sync {
+		if (skeleton.world.name.lowercase().contains("arena")) Tasks.sync {
 			val blasterRifle = CustomItems["blaster_rifle"]?.itemStack(1)
 			val meta = blasterRifle?.itemMeta
 			meta?.lore = listOf("PINK")

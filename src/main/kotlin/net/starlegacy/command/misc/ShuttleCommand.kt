@@ -25,7 +25,7 @@ object ShuttleCommand : SLCommand() {
 	private val worldEditPlugin: WorldEditPlugin get() = JavaPlugin.getPlugin(WorldEditPlugin::class.java)
 
 	private fun validateName(name: String) {
-		failIf(name != name.toLowerCase()) { "Name must be lowercase" }
+		failIf(name != name.lowercase()) { "Name must be lowercase" }
 		failIf(!name.replace("_", "").isAlphanumeric()) { "Name must use only letters, numbers, and underscores" }
 	}
 

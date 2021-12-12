@@ -36,7 +36,7 @@ object BlueprintCommand : SLCommand() {
 	}
 
 	private fun validateName(name: String) {
-		failIf(name != name.toLowerCase()) {
+		failIf(name != name.lowercase()) {
 			"Name must be lowercase"
 		}
 		failIf(name.length !in 2..50) {

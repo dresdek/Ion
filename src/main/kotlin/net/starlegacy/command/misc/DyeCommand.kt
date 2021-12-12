@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack
 object DyeCommand : SLCommand() {
 	@Default()
 	fun execute(sender: Player, newColor: String) {
-		val newDyeColor = enumValueOfOrNull<DyeColor>(newColor.toUpperCase())
+		val newDyeColor = enumValueOfOrNull<DyeColor>(newColor.uppercase())
 			?: fail { "Valid colors are " + DyeColor.values().joinToString() }
 
 		val item = sender.inventory.itemInMainHand
@@ -40,7 +40,7 @@ object DyeCommand : SLCommand() {
 	@Subcommand("inventory|inv|all")
 	@CommandPermission("starlegacy.dyeinventoy")
 	fun executeInv(sender: Player, newColor: String) {
-		val newDyeColor = enumValueOfOrNull<DyeColor>(newColor.toUpperCase())
+		val newDyeColor = enumValueOfOrNull<DyeColor>(newColor.uppercase())
 			?: fail { "Valid colors are " + DyeColor.values().joinToString() }
 
 		for (item: ItemStack? in sender.inventory) {

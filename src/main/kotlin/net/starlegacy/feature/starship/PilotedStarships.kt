@@ -89,7 +89,7 @@ object PilotedStarships : SLComponent() {
 	private fun saveLoadshipData(starship: ActivePlayerStarship, player: Player) {
 		val schematic = StarshipSchematic.createSchematic(starship)
 
-		val key = "starships.lastpiloted.${player.uniqueId}.${starship.world.name.toLowerCase()}"
+		val key = "starships.lastpiloted.${player.uniqueId}.${starship.world.name.lowercase()}"
 
 		Tasks.async {
 			redis {
@@ -249,6 +249,6 @@ object PilotedStarships : SLComponent() {
 	}
 
 	private fun getDisplayName(data: PlayerStarshipData): String {
-		return data.name ?: data.type.displayName.toLowerCase()
+		return data.name ?: data.type.displayName.lowercase()
 	}
 }

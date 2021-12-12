@@ -312,13 +312,13 @@ enum class StarshipType(
 
 	companion object {
 		private val stringMap = mutableMapOf<String, StarshipType>().apply {
-			putAll(values().associateBy { it.name.toLowerCase() })
-			putAll(values().associateBy { it.displayName.toLowerCase() })
+			putAll(values().associateBy { it.name.lowercase() })
+			putAll(values().associateBy { it.displayName.lowercase() })
 
 			println(this)
 		}
 
-		fun getType(name: String): StarshipType? = stringMap[name.toLowerCase()]
+		fun getType(name: String): StarshipType? = stringMap[name.lowercase()]
 
 		fun getUnlockedTypes(player: Player): List<StarshipType> = values()
 			.filter { it.canUse(player) }

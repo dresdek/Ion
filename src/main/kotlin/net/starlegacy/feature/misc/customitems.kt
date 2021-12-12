@@ -303,7 +303,7 @@ object CustomItems {
 
 	//region Planet Icons
 	private fun registerPlanetIcon(name: String, model: Int): CustomItem = makeItem(
-		id = "planet_icon_${name.toLowerCase().replace(" ", "")}",
+		id = "planet_icon_${name.lowercase().replace(" ", "")}",
 		name = name,
 		mat = APPLE,
 		model = model

@@ -35,7 +35,7 @@ object PlanetSpawns : SLComponent() {
 		Tasks.async {
 			val planets = LinkedList(Space.getPlanets())
 			planets.removeAll {
-				!File(PLUGIN.sharedDataFolder, "planet_spawn_descriptions/${it.name.toLowerCase()}").exists()
+				!File(PLUGIN.sharedDataFolder, "planet_spawn_descriptions/${it.name.lowercase()}").exists()
 			}
 
 			// check how many active players live on each planet
@@ -68,7 +68,7 @@ object PlanetSpawns : SLComponent() {
 			}
 
 			val extraLores: Map<CachedPlanet, List<String>> = orderedPlanets.associateWith { planet ->
-				val file = File(PLUGIN.sharedDataFolder, "planet_spawn_descriptions/${planet.name.toLowerCase()}")
+				val file = File(PLUGIN.sharedDataFolder, "planet_spawn_descriptions/${planet.name.lowercase()}")
 
 				if (!file.exists()) {
 					file.createNewFile()
@@ -89,7 +89,7 @@ object PlanetSpawns : SLComponent() {
 					val pane = outlinePane(x = 0, y = 0, length = 9, height = rows)
 
 					for (planet in orderedPlanets) {
-						val nameLower: String = planet.name.toLowerCase()
+						val nameLower: String = planet.name.lowercase()
 						val planetIcon = (CustomItems["planet_icon_$nameLower"] ?: CustomItems.DETONATOR).itemStack(1)
 
 						val planetName: String = planet.name

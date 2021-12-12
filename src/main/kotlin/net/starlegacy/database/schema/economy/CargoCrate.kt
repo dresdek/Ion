@@ -54,5 +54,5 @@ data class CargoCrate(
 		BLACK(SLTextStyle.BLACK, Material.BLACK_SHULKER_BOX),
 	}
 
-	fun getValue(planet: String): Double = values.getOrDefault(planet.toUpperCase(), 0.0)
+	fun getValue(planet: String): Double = values.getOrDefault(planet.uppercase(), 0.0)
 }

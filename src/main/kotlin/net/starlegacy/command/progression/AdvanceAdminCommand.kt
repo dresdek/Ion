@@ -169,7 +169,7 @@ object AdvanceAdminCommand : SLCommand() {
 		}
 
 		sender msg "&aThat player would be refunded $refund XP, enough to get to level $level with $remaining XP remaining."
-		sender msg "&7&oThey were a level ${data.level} ${data.track.name.toLowerCase()}, with ${data.points} points."
+		sender msg "&7&oThey were a level ${data.level} ${data.track.name.lowercase()}, with ${data.points} points."
 	}
 
 	@Subcommand("giverefund")

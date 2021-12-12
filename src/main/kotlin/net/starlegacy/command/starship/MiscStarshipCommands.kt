@@ -68,7 +68,7 @@ object MiscStarshipCommands : SLCommand() {
 	fun onLoadShip(sender: Player, player: String, world: String) = asyncCommand(sender) {
 		val uuid = resolveOfflinePlayer(player)
 		redis {
-			val key = "starships.lastpiloted.$uuid.${world.toLowerCase()}"
+			val key = "starships.lastpiloted.$uuid.${world.lowercase()}"
 
 			failIf(!exists(key)) { "$player doesn't have a ship saved for /loadship in $world" }
 
@@ -178,7 +178,7 @@ object MiscStarshipCommands : SLCommand() {
 	@CommandAlias("settarget|starget|st")
 	fun onSetTarget(sender: Player, set: String, @Optional player: OnlinePlayer?) {
 		val starship = getStarshipRiding(sender)
-		val weaponSet = set.toLowerCase()
+		val weaponSet = set.lowercase()
 		failIf(!starship.weaponSets.containsKey(weaponSet)) {
 			"No such weapon set $weaponSet"
 		}

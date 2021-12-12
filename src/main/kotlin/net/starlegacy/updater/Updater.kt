@@ -320,7 +320,7 @@ object Updater : SLComponent() {
 		names: MutableSet<String>
 	) {
 		DataInputStream(FileInputStream(file)).use { input ->
-			var name = input.readUTF().toLowerCase()
+			var name = input.readUTF().lowercase()
 
 			val size = input.readInt()
 
@@ -441,7 +441,7 @@ object Updater : SLComponent() {
 					Gson().fromJson(it, LegacyCryoData::class.java)
 				}
 				val player = UUID.fromString(child.nameWithoutExtension)
-				val world = legacy.world.toLowerCase()
+				val world = legacy.world.lowercase()
 				val pos = Vec3i(legacy.x, legacy.y, legacy.z)
 				CryoPods.setCryoPod(player, world, pos)
 			} catch (e: Exception) {
@@ -487,7 +487,7 @@ object Updater : SLComponent() {
 		}
 	}
 
-	private fun getStarshipType(originalType: String): StarshipType? = when (originalType.toLowerCase()) {
+	private fun getStarshipType(originalType: String): StarshipType? = when (originalType.lowercase()) {
 		"star fighter", "star_fighter" -> StarshipType.STARFIGHTER
 		"corvette" -> StarshipType.GUNSHIP
 		"frigate" -> StarshipType.CORVETTE

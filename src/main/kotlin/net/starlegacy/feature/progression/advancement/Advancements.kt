@@ -134,7 +134,7 @@ object Advancements : SLComponent() {
 	private fun fetchAdvancements(playerId: UUID) {
 		val advancements: Set<SLAdvancement> = SLPlayer[playerId.slPlayerId]
 			?.unlockedAdvancements
-			?.map { SLAdvancement.valueOf(it.toUpperCase()) }
+			?.map { SLAdvancement.valueOf(it.uppercase()) }
 			?.toSet()
 			?: setOf()
 

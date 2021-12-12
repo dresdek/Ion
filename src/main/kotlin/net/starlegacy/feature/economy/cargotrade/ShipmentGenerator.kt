@@ -83,7 +83,7 @@ object ShipmentGenerator : SLComponent() {
 				val importingPlanets: Set<String> = crate.values.filterValues { it < 0 }.keys
 
 				val importingCities: List<TradeCityData> = TradeCities.getAll().filter {
-					importingPlanets.contains(Regions.get<RegionTerritory>(it.territoryId).world.toUpperCase())
+					importingPlanets.contains(Regions.get<RegionTerritory>(it.territoryId).world.uppercase())
 				}.toList()
 
 				return@associate crate to importingCities

@@ -46,7 +46,7 @@ object PowerArmorManager {
 								PotionEffect(PotionEffectType.SPEED, 20, 2)
 							)
 
-							if (hasMovedInLastSecond(player) && !player.world.name.toLowerCase().contains("arena")) {
+							if (hasMovedInLastSecond(player) && !player.world.name.lowercase().contains("arena")) {
 								removePower(item, 1)
 							}
 						}
@@ -56,7 +56,7 @@ object PowerArmorManager {
 							)
 						}
 						PowerArmorModule.ROCKET_BOOSTING -> {
-							if (player.isGliding && !player.world.name.toLowerCase().contains("arena")) {
+							if (player.isGliding && !player.world.name.lowercase().contains("arena")) {
 								removePower(item, 5)
 							}
 						}
@@ -91,7 +91,7 @@ object PowerArmorManager {
 					player.velocity = player.velocity.midpoint(player.location.direction.multiply(0.6))
 					player.world.spawnParticle(Particle.SMOKE_NORMAL, player.location, 5)
 
-					if (!player.world.name.toLowerCase().contains("arena")) {
+					if (!player.world.name.lowercase().contains("arena")) {
 						removePower(item, 5)
 					}
 
