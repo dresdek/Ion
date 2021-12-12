@@ -89,7 +89,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0")
 }
 
-compileJava {
+tasks.withType<JavaCompile> {
     options.compilerArgs += "-parameters"
     options.fork = true
     options.forkOptions.executable = "javac"
