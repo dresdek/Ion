@@ -42,7 +42,6 @@ allprojects {
             url "https://maven.sk89q.com/repo/"
             content {
                 includeGroupByRegex "com\\.sk89q.*"
-                includeGroup "com.sk89q.worldguard"
             }
         }
 
@@ -161,11 +160,6 @@ allprojects {
 
         // https://github.com/EngineHub/WorldEdit
         compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT") {
-            exclude group: "org.bukkit", module: "bukkit"
-        }
-
-        // https://github.com/EngineHub/WorldGuard
-        compileOnly("com.sk89q.worldguard:worldguard-core:7.0.0-SNAPSHOT") {
             exclude group: "org.bukkit", module: "bukkit"
         }
 

@@ -72,7 +72,6 @@ import net.starlegacy.feature.starship.control.StarshipControl
 import net.starlegacy.feature.starship.control.StarshipCruising
 import net.starlegacy.feature.starship.factory.StarshipFactories
 import net.starlegacy.feature.starship.hyperspace.Hyperspace
-import net.starlegacy.feature.starship.hyperspace.HyperspaceBeacons
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
 import net.starlegacy.feature.transport.Extractors
 import net.starlegacy.feature.transport.TransportConfig
@@ -208,7 +207,6 @@ class StarLegacy : JavaPlugin() {
             ContactsDisplay,
             Hangars,
             Hyperspace,
-            HyperspaceBeacons,
             Turrets,
             StarshipFactories,
             TutorialManager,
@@ -353,7 +351,6 @@ class StarLegacy : JavaPlugin() {
             BlueprintCommand,
             StarshipDebugCommand,
             TutorialStartStopCommand,
-            HyperspaceBeaconCommand,
             StarshipInfoCommand
         )
 
