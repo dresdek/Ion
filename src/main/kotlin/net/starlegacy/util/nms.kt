@@ -13,39 +13,39 @@ import org.bukkit.inventory.ItemStack
 //region Aliases
 
 // cb = craftbukkit
-typealias CBAdvancement = org.bukkit.craftbukkit.v1_16_R3.advancement.CraftAdvancement
+typealias CBAdvancement = org.bukkit.craftbukkit.v1_17_R1.advancement.CraftAdvancement
 
-typealias CBPlayer = org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
-typealias CBItemStack = org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
-typealias CBWorld = org.bukkit.craftbukkit.v1_16_R3.CraftWorld
-typealias CBChunk = org.bukkit.craftbukkit.v1_16_R3.CraftChunk
-typealias CBMagicNumbers = org.bukkit.craftbukkit.v1_16_R3.util.CraftMagicNumbers
-typealias CBBlockData = org.bukkit.craftbukkit.v1_16_R3.block.data.CraftBlockData
+typealias CBPlayer = org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
+typealias CBItemStack = org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack
+typealias CBWorld = org.bukkit.craftbukkit.v1_17_R1.CraftWorld
+typealias CBChunk = org.bukkit.craftbukkit.v1_17_R1.CraftChunk
+typealias CBMagicNumbers = org.bukkit.craftbukkit.v1_17_R1.util.CraftMagicNumbers
+typealias CBBlockData = org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData
 // nms = net.minecraft.server
-typealias NMSItemStack = net.minecraft.server.v1_16_R3.ItemStack
+typealias NMSItemStack = net.minecraft.world.item.ItemStack
 
-typealias NMSItem = net.minecraft.server.v1_16_R3.Item
+typealias NMSItem = net.minecraft.world.item.Item
 
-typealias NMSNBTTagCompound = net.minecraft.server.v1_16_R3.NBTTagCompound
-typealias NMSPlayer = net.minecraft.server.v1_16_R3.EntityPlayer
-typealias NMSAdvancement = net.minecraft.server.v1_16_R3.Advancement
-typealias NMSMinecraftKey = net.minecraft.server.v1_16_R3.MinecraftKey
-typealias NMSWorld = net.minecraft.server.v1_16_R3.World
-typealias NMSChunk = net.minecraft.server.v1_16_R3.Chunk
-typealias NMSChunkSection = net.minecraft.server.v1_16_R3.ChunkSection
-typealias NMSBlock = net.minecraft.server.v1_16_R3.Block
-typealias NMSBlocks = net.minecraft.server.v1_16_R3.Blocks
-typealias NMSEnumDirection = net.minecraft.server.v1_16_R3.EnumDirection
-typealias NMSEnumBlockRotation = net.minecraft.server.v1_16_R3.EnumBlockRotation
+typealias NMSNBTTagCompound = net.minecraft.nbt.CompoundTag
+typealias NMSPlayer = net.minecraft.server.level.ServerPlayer
+typealias NMSAdvancement = net.minecraft.advancements.Advancement
+typealias NMSMinecraftKey = net.minecraft.resources.ResourceLocation
+typealias NMSWorld = net.minecraft.world.level.Level
+typealias NMSChunk = net.minecraft.world.level.chunk.LevelChunk
+typealias NMSChunkSection = net.minecraft.world.level.chunk.LevelChunkSection
+typealias NMSBlock = net.minecraft.world.level.block.Block
+typealias NMSBlocks = net.minecraft.world.level.block.Blocks
+typealias NMSEnumDirection = net.minecraft.core.Direction
+typealias NMSEnumBlockRotation = net.minecraft.world.level.block.Rotation
 
-typealias NMSBlockData = net.minecraft.server.v1_16_R3.IBlockData
+typealias NMSBlockData = net.minecraft.world.level.block.state.BlockState
 
-typealias NMSBlockAir = net.minecraft.server.v1_16_R3.BlockAir
-typealias NMSBlockTileEntity = net.minecraft.server.v1_16_R3.BlockTileEntity
-typealias NMSBlockFurnace = net.minecraft.server.v1_16_R3.BlockFurnace
-typealias NMSTileEntity = net.minecraft.server.v1_16_R3.TileEntity
+typealias NMSBlockAir = net.minecraft.world.level.block.AirBlock
+typealias NMSBlockTileEntity = net.minecraft.world.level.block.BaseEntityBlock
+typealias NMSBlockFurnace = net.minecraft.world.level.block.AbstractFurnaceBlock
+typealias NMSTileEntity = net.minecraft.world.level.block.entity.BlockEntity
 
-typealias NMSBlockPos = net.minecraft.server.v1_16_R3.BlockPosition
+typealias NMSBlockPos = net.minecraft.core.BlockPos
 //endregion
 
 //region Access Extensions
