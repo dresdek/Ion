@@ -29,7 +29,7 @@ enum class PowerArmorModule(
 		}
 
 		operator fun get(name: String?): PowerArmorModule? {
-			return nameMap[name?.toUpperCase()]
+			return nameMap[name?.uppercase()]
 		}
 	}
 }

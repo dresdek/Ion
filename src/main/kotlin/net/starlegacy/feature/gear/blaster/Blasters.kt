@@ -32,7 +32,7 @@ object Blasters {
 	}
 
 	fun getColor(player: Player): Color {
-		if (player.world.name.toLowerCase().contains("arena")) {
+		if (player.world.name.lowercase().contains("arena")) {
 			return getRandomColor(player.uniqueId)
 		}
 
@@ -55,7 +55,7 @@ object Blasters {
 				return
 			}
 
-			if (!entity.getWorld().name.toLowerCase().contains("arena")) {
+			if (!entity.getWorld().name.lowercase().contains("arena")) {
 				removePower(blaster, powerUsage)
 			}
 

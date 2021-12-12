@@ -136,7 +136,7 @@ object ShipmentManager : SLComponent() {
 	private fun MenuHelper.getPlanetItem(shipment: UnclaimedShipment): GuiItem {
 		val destinationTerritory: RegionTerritory = Regions[shipment.to.territoryId]
 		val destinationWorld = destinationTerritory.world
-		val planetId = destinationWorld.toLowerCase().replace(" ", "")
+		val planetId = destinationWorld.lowercase().replace(" ", "")
 		val planetIcon = CustomItems["planet_icon_$planetId"] ?: CustomItems.DETONATOR
 		return guiButton(planetIcon.itemStack(1))
 	}

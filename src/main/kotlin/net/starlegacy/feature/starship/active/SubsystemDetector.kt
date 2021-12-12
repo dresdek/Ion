@@ -71,7 +71,7 @@ object SubsystemDetector {
 	private fun detectSign(starship: ActivePlayerStarship, block: Block) {
 		val sign = block.state as Sign
 
-		if (sign.type.isWallSign && sign.getLine(0).toLowerCase().contains("node")) {
+		if (sign.type.isWallSign && sign.getLine(0).lowercase().contains("node")) {
 			val inwardFace = sign.getFacing().oppositeFace
 			val location = sign.block.getRelative(inwardFace).location
 			val pos = Vec3i(location)
@@ -82,7 +82,7 @@ object SubsystemDetector {
 			for (weaponSubsystem in weaponSubsystems) {
 				val nodes = sign.lines.slice(1..3)
 					.filter { it.isNotEmpty() }
-					.map { it.toLowerCase() }
+					.map { it.lowercase() }
 				for (node in nodes) {
 					starship.weaponSets[node].add(weaponSubsystem)
 				}
