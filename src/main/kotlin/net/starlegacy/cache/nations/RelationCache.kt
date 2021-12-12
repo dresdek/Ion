@@ -20,7 +20,7 @@ object RelationCache : DbObjectCache<NationRelation, Oid<NationRelation>>(Nation
 
     override fun addExtraIndexes() {
         cache.addIndex(HashIndex.onAttribute(nationAttr))
-        cache.addIndex(HashIndex.onAttribute(otherAttr))
+//        cache.addIndex(HashIndex.onAttribute(otherAttr))
         cache.addIndex(
             CompoundIndex.onAttributes(
                 nationAttr,
