@@ -51,7 +51,6 @@ repositories {
 
     // general maven central repository
     mavenCentral()
-    jcenter()
 
     // aikar"s repository which mirrors lots of Minecraft things plus hosts his own projects
     // put twice: once before to quickly pick up his own plugins, once here as a last resort for other stuff
