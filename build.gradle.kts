@@ -100,11 +100,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-jar {
-    archiveFileName = project.name + ".jar"
-    destinationDir file(rootProject.projectDir.absolutePath + "/build/raw-libs")
-}
-
 tasks.shadowJar {
     destinationDir file(rootProject.projectDir.absolutePath + "/build/libs")
     relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
