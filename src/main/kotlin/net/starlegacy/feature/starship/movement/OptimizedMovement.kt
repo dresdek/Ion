@@ -4,14 +4,14 @@ import co.aikar.commands.ConditionFailedException
 import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
 import net.minecraft.server.*
 import net.minecraft.server.level.ChunkHolder
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.StainedGlassBlock
+import net.minecraft.world.level.chunk.LevelChunkSection
 import net.starlegacy.feature.starship.Hangars
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.util.*
-import org.bukkit.Bukkit
-import org.bukkit.Chunk
-import org.bukkit.Material
-import org.bukkit.World
+import org.bukkit.*
 import java.util.*
 import java.util.concurrent.ExecutionException
 
@@ -132,8 +132,8 @@ object OptimizedMovement {
 		capturedStates: Array<NMSBlockData>,
 		capturedTiles: MutableMap<Int, NMSTileEntity>
 	) {
-		val lightEngine = world1.nms.chunkProvider.lightEngine
-		val air = Blocks.AIR.blockData
+		val lightEngine = world1.nms.lightEngine
+		val air = Blocks.AIR
 
 		for ((chunkKey, sectionMap) in oldChunkMap) {
 			val chunk = world1.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
@@ -160,7 +160,7 @@ object OptimizedMovement {
 
 					section.setType(localX, localY, localZ, air, false)
 
-					lightEngine.a(NMSBlockPos(x, y, z))
+					lightEngine.checkBlock(NMSBlockPos(x, y, z))
 				}
 			}
 
@@ -177,7 +177,7 @@ object OptimizedMovement {
 		capturedTiles: MutableMap<Int, NMSTileEntity>,
 		blockDataTransform: (NMSBlockData) -> NMSBlockData
 	) {
-		val lightEngine = world2.nms.chunkProvider.lightEngine
+		val lightEngine = world2.nms.lightEngine
 
 		for ((chunkKey, sectionMap) in newChunkMap) {
 			val chunk = world2.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
@@ -198,7 +198,7 @@ object OptimizedMovement {
 					// TODO: Save hangars
 					val data = blockDataTransform(capturedStates[index])
 					section.setType(localX, localY, localZ, data, false)
-					lightEngine.a(NMSBlockPos(x, y, z))
+					lightEngine.checkBlock(NMSBlockPos(x, y, z))
 				}
 			}
 
