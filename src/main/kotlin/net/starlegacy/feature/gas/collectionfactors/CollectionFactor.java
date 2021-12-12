@@ -23,7 +23,7 @@ public abstract class CollectionFactor {
                 String[] locationParams = params[1].split(",");
                 return new DistanceFactor(
                         new Location(Bukkit.getWorld(locationParams[0]), Integer.parseInt(locationParams[1]),
-                                     Integer.parseInt(locationParams[2]), Integer.parseInt(locationParams[3])),
+                                Integer.parseInt(locationParams[2]), Integer.parseInt(locationParams[3])),
                         Integer.parseInt(params[2]), Float.parseFloat(params[3]));
             case "random":
                 return new RandomFactor(Float.parseFloat(params[1]));

@@ -1,7 +1,7 @@
 name: StarLegacy
 version: VersionsTakeEffort
 main: net.starlegacy.StarLegacy
-loadbefore: [Essentials]
-depend: [LuckPerms, Vault, dynmap, WorldEdit, Citizens, WorldGuard]
-softdepend: [GameAPI, GriefDefender]
+loadbefore: [ Essentials ]
+depend: [ LuckPerms, Vault, dynmap, WorldEdit, Citizens, WorldGuard ]
+softdepend: [ GameAPI, GriefDefender ]
 api-version: "1.16"

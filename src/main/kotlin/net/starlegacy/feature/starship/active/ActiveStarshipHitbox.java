@@ -24,11 +24,13 @@ public class ActiveStarshipHitbox {
         calculate(blocks);
     }
 
-    public @NotNull Vec3i getMin() {
+    public @NotNull
+    Vec3i getMin() {
         return min;
     }
 
-    public @NotNull Vec3i getMax() {
+    public @NotNull
+    Vec3i getMax() {
         return max;
     }
 

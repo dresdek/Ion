@@ -15,53 +15,53 @@ import java.util.Date
 import java.util.UUID
 
 object JoinLeaveListener : SLEventListener() {
-    override fun supportsVanilla(): Boolean {
-        return true
-    }
+	override fun supportsVanilla(): Boolean {
+		return true
+	}
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun onPlayerJoin(event: AsyncPlayerPreLoginEvent) {
-        updateOrCreatePlayer(event.uniqueId, event.name)
-    }
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	fun onPlayerJoin(event: AsyncPlayerPreLoginEvent) {
+		updateOrCreatePlayer(event.uniqueId, event.name)
+	}
 
-    @EventHandler
-    fun onPlayerQuit(event: PlayerQuitEvent) = Tasks.async {
-        updateOrCreatePlayer(event.player.uniqueId, event.player.name)
-    }
+	@EventHandler
+	fun onPlayerQuit(event: PlayerQuitEvent) = Tasks.async {
+		updateOrCreatePlayer(event.player.uniqueId, event.player.name)
+	}
 
-    private fun updateOrCreatePlayer(uuid: UUID, name: String) {
-        val id: SLPlayerId = uuid.slPlayerId
-        val data: SLPlayer? = SLPlayer.findById(id)
+	private fun updateOrCreatePlayer(uuid: UUID, name: String) {
+		val id: SLPlayerId = uuid.slPlayerId
+		val data: SLPlayer? = SLPlayer.findById(id)
 
-        val now = Date(System.currentTimeMillis())
+		val now = Date(System.currentTimeMillis())
 
-        when {
-            // new person
-            data == null -> {
-                SLPlayer.col.insertOne(
-                    SLPlayer(
-                        id,
-                        name,
-                        now
-                    )
-                )
-                log.info("Registered $name in the database for the first time, join time $now")
-                return
-            }
+		when {
+			// new person
+			data == null -> {
+				SLPlayer.col.insertOne(
+					SLPlayer(
+						id,
+						name,
+						now
+					)
+				)
+				log.info("Registered $name in the database for the first time, join time $now")
+				return
+			}
 
-            // only need to update last seen
-            data.lastKnownName == name -> {
-                SLPlayer.col.updateOneById(id, org.litote.kmongo.setValue(SLPlayer::lastSeen, now))
-            }
+			// only need to update last seen
+			data.lastKnownName == name -> {
+				SLPlayer.col.updateOneById(id, org.litote.kmongo.setValue(SLPlayer::lastSeen, now))
+			}
 
-            // set both last seen, and username
-            else -> SLPlayer.col.updateOneById(
-                id,
-                combine(
-                    org.litote.kmongo.setValue(SLPlayer::lastSeen, now),
-                    org.litote.kmongo.setValue(SLPlayer::lastKnownName, name)
-                )
-            )
-        }
-    }
+			// set both last seen, and username
+			else -> SLPlayer.col.updateOneById(
+				id,
+				combine(
+					org.litote.kmongo.setValue(SLPlayer::lastSeen, now),
+					org.litote.kmongo.setValue(SLPlayer::lastKnownName, name)
+				)
+			)
+		}
+	}
 }

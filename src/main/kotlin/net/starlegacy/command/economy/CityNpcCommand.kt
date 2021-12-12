@@ -23,87 +23,87 @@ import java.util.*
 
 @CommandAlias("citynpc|cnpc")
 object CityNpcCommand : SLCommand() {
-    private fun getCurrentCityContext(sender: Player): Triple<Location, RegionTerritory, TradeCityData> {
-        val location: Location = sender.location
-        val territory: RegionTerritory = Regions.findFirstOf(location)
-            ?: throw ConditionFailedException("You aren't in a territory")
-        val cityData: TradeCityData = TradeCities.getIfCity(territory)
-            ?: throw ConditionFailedException("You are not in a protected trade city")
-        return Triple(location, territory, cityData)
-    }
+	private fun getCurrentCityContext(sender: Player): Triple<Location, RegionTerritory, TradeCityData> {
+		val location: Location = sender.location
+		val territory: RegionTerritory = Regions.findFirstOf(location)
+			?: throw ConditionFailedException("You aren't in a territory")
+		val cityData: TradeCityData = TradeCities.getIfCity(territory)
+			?: throw ConditionFailedException("You are not in a protected trade city")
+		return Triple(location, territory, cityData)
+	}
 
-    private fun requireCanManage(sender: Player, cityData: TradeCityData) {
-        if (sender.hasPermission("trade.citynpc.admin")) {
-            return
-        }
+	private fun requireCanManage(sender: Player, cityData: TradeCityData) {
+		if (sender.hasPermission("trade.citynpc.admin")) {
+			return
+		}
 
-        when (cityData.type) {
-            TradeCityType.NPC -> throw ConditionFailedException("You don't have control over NPC cities!")
-            TradeCityType.SETTLEMENT -> requireSettlementLeader(sender, cityData.settlementId)
-        }
-    }
+		when (cityData.type) {
+			TradeCityType.NPC -> throw ConditionFailedException("You don't have control over NPC cities!")
+			TradeCityType.SETTLEMENT -> requireSettlementLeader(sender, cityData.settlementId)
+		}
+	}
 
-    @Subcommand("create")
-    @CommandCompletion("@npctypes @nothing")
-    fun onCreate(sender: Player, type: CityNPC.Type, skin: String) = asyncCommand(sender) {
-        val (location, territory, cityData) = getCurrentCityContext(sender)
-        requireCanManage(sender, cityData)
+	@Subcommand("create")
+	@CommandCompletion("@npctypes @nothing")
+	fun onCreate(sender: Player, type: CityNPC.Type, skin: String) = asyncCommand(sender) {
+		val (location, territory, cityData) = getCurrentCityContext(sender)
+		requireCanManage(sender, cityData)
 
-        val id: UUID = getIdFromName(skin)
-        val skinData: Skins.SkinData = Skins[id] ?: fail { "Failed to retrieve skin for $skin!" }
+		val id: UUID = getIdFromName(skin)
+		val skinData: Skins.SkinData = Skins[id] ?: fail { "Failed to retrieve skin for $skin!" }
 
-        CityNPC.create(territory.id, location.x, location.y, location.z, skinData.toBytes(), type)
-        CityNPCs.synchronizeNPCsAsync()
+		CityNPC.create(territory.id, location.x, location.y, location.z, skinData.toBytes(), type)
+		CityNPCs.synchronizeNPCsAsync()
 
-        sender msg green("Created NPC!")
-    }
+		sender msg green("Created NPC!")
+	}
 
-    private fun getIdFromName(name: String): UUID = SLPlayer[name]?._id?.uuid
-        ?: Bukkit.createProfile(name).apply { complete(false) }.id
-        ?: fail { "Player $name not found" }
+	private fun getIdFromName(name: String): UUID = SLPlayer[name]?._id?.uuid
+		?: Bukkit.createProfile(name).apply { complete(false) }.id
+		?: fail { "Player $name not found" }
 
-    @Subcommand("delete|remove")
-    fun onDelete(sender: Player) = asyncCommand(sender) {
-        val npc = requireNearbyNPC(sender)
+	@Subcommand("delete|remove")
+	fun onDelete(sender: Player) = asyncCommand(sender) {
+		val npc = requireNearbyNPC(sender)
 
-        CityNPC.delete(npc._id)
-        CityNPCs.synchronizeNPCsAsync() // update the actual npc
+		CityNPC.delete(npc._id)
+		CityNPCs.synchronizeNPCsAsync() // update the actual npc
 
-        sender msg green("Deleted NPC!")
-    }
+		sender msg green("Deleted NPC!")
+	}
 
-    fun requireNearbyNPC(sender: Player, permission: Boolean = true): CityNPC {
-        val (location, territory, cityData) = getCurrentCityContext(sender)
+	fun requireNearbyNPC(sender: Player, permission: Boolean = true): CityNPC {
+		val (location, territory, cityData) = getCurrentCityContext(sender)
 
-        val npcList: List<CityNPC> = CityNPC.findAt(territory.id).toList()
+		val npcList: List<CityNPC> = CityNPC.findAt(territory.id).toList()
 
-        if (npcList.isEmpty()) {
-            throw ConditionFailedException("City ${cityData.displayName} has no NPCs!")
-        }
+		if (npcList.isEmpty()) {
+			throw ConditionFailedException("City ${cityData.displayName} has no NPCs!")
+		}
 
-        val x = location.x
-        val y = location.y
-        val z = location.z
+		val x = location.x
+		val y = location.y
+		val z = location.z
 
-        val npc = npcList.minByOrNull { distanceSquared(it.x, it.y, it.z, x, y, z) } ?: fail { "No nearby NPCs" }
-        val distance = Location(location.world, npc.x, npc.y, npc.z).distance(location)
+		val npc = npcList.minByOrNull { distanceSquared(it.x, it.y, it.z, x, y, z) } ?: fail { "No nearby NPCs" }
+		val distance = Location(location.world, npc.x, npc.y, npc.z).distance(location)
 
-        if (distance > 5) {
-            throw ConditionFailedException("There are no NPCs within 5 blocks! Nearest distance: $distance")
-        }
+		if (distance > 5) {
+			throw ConditionFailedException("There are no NPCs within 5 blocks! Nearest distance: $distance")
+		}
 
-        if (permission) {
-            requireCanManage(sender, cityData)
-        }
+		if (permission) {
+			requireCanManage(sender, cityData)
+		}
 
-        return npc
-    }
+		return npc
+	}
 
-    @Subcommand("sync")
-    fun onSync(sender: CommandSender) {
-        sender msg gray("Synchronizing...")
-        CityNPCs.synchronizeNPCsAsync {
-            sender msg green("Synchronized!")
-        }
-    }
+	@Subcommand("sync")
+	fun onSync(sender: CommandSender) {
+		sender msg gray("Synchronizing...")
+		CityNPCs.synchronizeNPCsAsync {
+			sender msg green("Synchronized!")
+		}
+	}
 }

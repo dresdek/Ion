@@ -10,18 +10,18 @@ import net.starlegacy.util.toCreditsString
 import org.bukkit.entity.Player
 
 object BuyXPCommand : SLCommand() {
-    @CommandAlias("buyxp")
-    fun onExecute(sender: Player, amount: Int, @Optional cost: Double?) {
-        failIf(amount <= 0) { "Amount must be more than zero" }
+	@CommandAlias("buyxp")
+	fun onExecute(sender: Player, amount: Int, @Optional cost: Double?) {
+		failIf(amount <= 0) { "Amount must be more than zero" }
 
-        val realCost = LEVEL_BALANCING.creditsPerXP * amount
-        requireMoney(sender, realCost, "purchase $amount SLXP")
+		val realCost = LEVEL_BALANCING.creditsPerXP * amount
+		requireMoney(sender, realCost, "purchase $amount SLXP")
 
-        failIf(realCost != cost) {
-            "Purchase $amount SLXP for ${realCost.toCreditsString()}? To confirm, do /buyxp $amount $cost"
-        }
+		failIf(realCost != cost) {
+			"Purchase $amount SLXP for ${realCost.toCreditsString()}? To confirm, do /buyxp $amount $cost"
+		}
 
-        VAULT_ECO.withdrawPlayer(sender, realCost)
-        SLXP.addAsync(sender, amount)
-    }
+		VAULT_ECO.withdrawPlayer(sender, realCost)
+		SLXP.addAsync(sender, amount)
+	}
 }

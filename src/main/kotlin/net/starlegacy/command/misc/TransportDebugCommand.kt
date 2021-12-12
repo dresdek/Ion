@@ -12,14 +12,14 @@ import org.bukkit.command.CommandSender
 @CommandPermission("starlegacy.transportdebug")
 @CommandAlias("transportdebug|transportbug")
 object TransportDebugCommand : SLCommand() {
-    @Subcommand("reload")
-    fun reload(sender: CommandSender) {
-        TransportConfig.reload()
-        sender msg "&aReloaded config"
-    }
+	@Subcommand("reload")
+	fun reload(sender: CommandSender) {
+		TransportConfig.reload()
+		sender msg "&aReloaded config"
+	}
 
-    @Subcommand("clearbusy")
-    fun onClearBusy(sender: CommandSender) {
-        Extractors.BUSY_PIPE_EXTRACTORS.clear()
-    }
+	@Subcommand("clearbusy")
+	fun onClearBusy(sender: CommandSender) {
+		Extractors.BUSY_PIPE_EXTRACTORS.clear()
+	}
 }

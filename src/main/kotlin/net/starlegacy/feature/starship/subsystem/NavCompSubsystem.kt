@@ -6,4 +6,4 @@ import net.starlegacy.util.Vec3i
 import org.bukkit.block.Sign
 
 class NavCompSubsystem(starship: ActiveStarship, sign: Sign, multiblock: NavigationComputerMultiblock) :
-    AbstractMultiblockSubsystem<NavigationComputerMultiblock>(starship, sign, multiblock)
+	AbstractMultiblockSubsystem<NavigationComputerMultiblock>(starship, sign, multiblock)

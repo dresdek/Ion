@@ -112,480 +112,480 @@ internal val PLUGIN: StarLegacy get() = StarLegacy.PLUGIN
 internal lateinit var SETTINGS: Config
 
 class StarLegacy : JavaPlugin() {
-    lateinit var config: SpaceGeneratorConfig
-
-    private val emptyWorldConfig = SpaceGeneratorConfig.World()
-
-    private fun validateRandomAsteroids(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
-        worldConfig.randomAsteroidOreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
-
-        check(worldConfig.randomAsteroidOreDistribution.values
-            .map { it.removeSuffix("%").toFloat() }
-            .sum() <= 100)
-        { "$worldName has asteroid ore percents adding up to more than 100%!" }
-
-        for (asteroidName in worldConfig.randomAsteroids) {
-            check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
-            { "Unknown asteroid $asteroidName specified as a random asteroid for $worldName not found" }
-        }
-    }
-
-    private fun validateAsteroidBelts(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
-        for (asteroidBeltConfig in worldConfig.asteroidBelts) {
-            asteroidBeltConfig.oreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
-            check(asteroidBeltConfig.oreDistribution.values
-                .map { it.removeSuffix("%").toFloat() }
-                .sum() <= 100)
-            { "$worldName's belt '${asteroidBeltConfig.description}' has asteroid ore percents adding up to more than 100%!" }
-
-            for (asteroidName in asteroidBeltConfig.asteroids) {
-                check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
-                { "Unknown asteroid $asteroidName specified as asteroid for belt ${asteroidBeltConfig.description} in $worldName not found" }
-            }
-        }
-    }
-
-    private fun validateWorld(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
-        validateRandomAsteroids(worldConfig, worldName)
-
-        validateAsteroidBelts(worldConfig, worldName)
-    }
-
-    private fun validateConfig() {
-        config.worlds.forEach { (worldName, worldConfig) ->
-            validateWorld(worldConfig, worldName)
-        }
-    }
-
-    override fun getDefaultWorldGenerator(worldName: String, id: String?): ChunkGenerator {
-        val config = config.worlds[worldName] ?: emptyWorldConfig
-        return SpaceChunkGenerator(config)
-    }
-
-    override fun onLoad() {
-        try {
-            dataFolder.mkdirs()
-            config = loadConfig(dataFolder, "generator_settings")
-            AsteroidData.loadAsteroids(File(dataFolder, "asteroid_schematics"))
-            validateConfig()
-        } catch (exception: Throwable) {
-            exception.printStackTrace()
-            Bukkit.shutdown()
-        }
-    }
-
-    lateinit var redisPool: JedisPool
-
-    init {
-        PLUGIN = this
-    }
-
-    companion object {
-        lateinit var PLUGIN: StarLegacy
-        var INITIALIZATION_COMPLETE: Boolean = false
-            private set
-    }
-
-    fun namespacedKey(key: String) = NamespacedKey(this, key)
-
-    /**
-     * Shared folder defined in config for cross-server config files
-     */
-    val sharedDataFolder by lazy { File(SETTINGS.sharedFolder).apply { mkdirs() } }
-
-    // put the get() so the classes aren't initialized right away
-    private val components: List<SLComponent>
-        get() = listOf(
-            Updater,
-            RedisActions,
-            AutoRestart,
-            Caches,
-            Notify,
-            Shuttles,
-
-            PlayerXPLevelCache,
-            Advancements,
-            Levels,
-            SLXP,
-
-            ChannelSelections,
-            ChatChannel.ChannelActions,
-
-            CombatNPCs,
-
-            CryoPods,
-            CustomRecipes,
-            GameplayTweaks,
-
-            SpaceWorlds,
-            Space,
-            SpaceMap,
-            Orbits,
-
-            SpaceMechanics,
-
-            NationsBalancing,
-            Regions,
-            NationsMap,
-
-            StationSieges,
-
-            Multiblocks,
-            PowerMachines,
-            AreaShields,
-            BaseShields,
-            Gasses,
-
-            TransportConfig.Companion,
-            Extractors,
-            Pipes,
-            Filters,
-            Wires,
-
-            Gear,
-
-            TradeCities,
-
-            CollectionMissions,
-            Collectors,
-
-            CrateRestrictions,
-
-            CityNPCs,
-
-            ShipmentBalancing,
-            ShipmentGenerator,
-            ShipmentManager,
-
-            Bazaars,
-            Merchants,
-
-            PlanetSpawns,
-
-            DeactivatedPlayerStarships,
-            ActiveStarships,
-            ActiveStarshipMechanics,
-            PilotedStarships,
-            StarshipDetection,
-            StarshipComputers,
-            StarshipControl,
-            StarshipShields,
-            StarshipCruising,
-            ContactsDisplay,
-            Hangars,
-            Hyperspace,
-            Turrets,
-            StarshipFactories,
-            TutorialManager,
-            Interdiction,
-            StarshipDealers,
-            ShipKillXP,
-            Decomposers
-        )
-
-    // put the get() so the classes aren't initialized right away
-    private val listeners: List<SLEventListener>
-        get() = listOf(
-            JoinLeaveListener,
-            ChatListener,
-            MovementListener,
-            FriendlyFireListener,
-            ProtectionListener,
-
-            GriefDefenderListener,
-
-            BlockListener,
-            EntityListener,
-            FurnaceListener,
-            InteractListener,
-            InventoryListener,
-
-            BlasterListener,
-            DetonatorListener,
-            DoubleJumpListener,
-            PowerArmorListener,
-            PowerToolListener,
-            SwordListener,
-
-            BedWarsListener
-        )
-
-    override fun onEnable() {
-        // Hack. Dumb library has a static plugin set based on which plugin loaded it.
-        // Set it to this, since the starlegacy-libs plugin is loading it.
-        BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
-
-        SETTINGS = loadConfig(dataFolder, "config")
-
-        // manually call this for MongoManager, as some of the components break if it's not ready on init
-        MongoManager.onEnable()
-
-        System.setProperty("https.protocols", "TLSv1.1,TLSv1.2") // java doesn't do https very well by default...
-
-        enableRedis()
-
-        for (component in components) {
-            if (SETTINGS.vanilla && !component.supportsVanilla()) {
-                continue
-            }
-
-            component.onEnable()
-            server.pluginManager.registerEvents(component, this)
-        }
-
-        registerListeners()
-
-        registerCommands()
-
-        if (isMaster()) {
-            // 20 ticks * 60 = 1 minute, 20 ticks * 60 * 60 = 1 hour
-            Tasks.asyncRepeat(20 * 60, 20 * 60 * 60) {
-                NationsMasterTasks.executeAll()
-            }
-        }
-
-        INITIALIZATION_COMPLETE = true
-    }
-
-    private fun registerListeners() {
-        for (listener in listeners) {
-            if (SETTINGS.vanilla && !listener.supportsVanilla()) {
-                continue
-            }
-
-            listener.register()
-        }
-    }
-
-    private val commands
-        get() = listOf(
-            GToggleCommand,
-            PlayerInfoCommand,
-            DyeCommand,
-            GlobalGameRuleCommand,
-
-            APCommand,
-            BatteryCommand,
-            CustomItemCommand,
-            ListCommand,
-            TransportDebugCommand,
-            PlanetSpawnMenuCommand,
-            SLTimeConvertCommand,
-            ShuttleCommand,
-            BuyXPCommand,
-
-            SettlementCommand,
-            NationCommand,
-            NationSpaceStationCommand,
-            NationRelationCommand,
-
-            CityManageCommand,
-            NationAdminCommand,
-            NPCOwnerCommand,
-
-            NationMoneyCommand,
-            SettlementMoneyCommand,
-
-            NationRoleCommand,
-            SettlementRoleCommand,
-
-            SettlementPlotCommand,
-            SettlementZoneCommand,
-
-            SiegeCommand,
-
-            AdvanceAdminCommand,
-            AdvanceCommand,
-            GiveXPCommand,
-            XPCommand,
-
-
-            PlanetCommand,
-            SpaceWorldCommand,
-            StarCommand,
-
-
-            BazaarCommand,
-            CityNpcCommand,
-            CollectedItemCommand,
-            CollectorCommand,
-            EcoStationCommand,
-            TradeDebugCommand,
-
-            MiscStarshipCommands,
-            BlueprintCommand,
-            StarshipDebugCommand,
-            TutorialStartStopCommand,
-            StarshipInfoCommand
-        )
-
-    private fun registerCommands() {
-        val manager = PaperCommandManager(PLUGIN)
-
-        @Suppress("DEPRECATION")
-        manager.enableUnstableAPI("help")
-
-        // Add contexts
-        manager.commandContexts.run {
-            registerContext(CustomItem::class.java) { c: BukkitCommandExecutionContext ->
-                val arg = c.popFirstArg()
-                return@registerContext CustomItems[arg]
-                    ?: throw InvalidCommandArgument("No custom item $arg found!")
-            }
-
-            registerContext(RegionSettlementZone::class.java) { c: BukkitCommandExecutionContext ->
-                val arg = c.popFirstArg() ?: throw InvalidCommandArgument("Zone is required")
-                return@registerContext Regions.getAllOf<RegionSettlementZone>().firstOrNull { it.name == arg }
-                    ?: throw InvalidCommandArgument("Zone $arg not found")
-            }
-
-            registerContext(CachedStar::class.java) { c: BukkitCommandExecutionContext ->
-                Space.starNameCache[c.popFirstArg().toUpperCase()].orNull()
-                    ?: throw InvalidCommandArgument("No such star")
-            }
-
-            registerContext(CachedPlanet::class.java) { c: BukkitCommandExecutionContext ->
-                Space.planetNameCache[c.popFirstArg().toUpperCase()].orNull()
-                    ?: throw InvalidCommandArgument("No such planet")
-            }
-
-            registerContext(CargoCrate::class.java) { c: BukkitCommandExecutionContext ->
-                CargoCrates[c.popFirstArg().toUpperCase()]
-                    ?: throw InvalidCommandArgument("No such crate")
-            }
-
-            registerContext(EcoStation::class.java) { c: BukkitCommandExecutionContext ->
-                val name: String = c.popFirstArg()
-
-                return@registerContext EcoStations.getByName(name)
-                    ?: throw InvalidCommandArgument("Eco station $name not found")
-            }
-        }
-
-        // Add static tab completions
-        mapOf(
-            "levels" to (0..MAX_LEVEL).joinToString("|"),
-            "advancements" to SLAdvancement.values().joinToString("|"),
-            "customitems" to CustomItems.all().joinToString("|") { it.id },
-            "npctypes" to CityNPC.Type.values().joinToString("|") { it.name }
-        ).forEach { manager.commandCompletions.registerStaticCompletion(it.key, it.value) }
-
-        // Add async tab completions
-        @Suppress("RedundantLambdaArrow")
-        mapOf<String, (BukkitCommandCompletionContext) -> List<String>>(
-            "gamerules" to { _ -> Bukkit.getWorlds().first().gameRules.toList() },
-            "settlements" to { _ -> SettlementCache.all().map { it.name } },
-            "member_settlements" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val nation = PlayerCache[player].nation
-
-                SettlementCache.all().filter { nation != null && it.nation == nation }.map { it.name }
-            },
-            "nations" to { _ -> NationCache.all().map { it.name } },
-            "zones" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val settlement = PlayerCache[player].settlement
-
-                Regions.getAllOf<RegionSettlementZone>()
-                    .filter { settlement != null && it.settlement == settlement }
-                    .map { it.name }
-            },
-            "plots" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val slPlayerId = player.slPlayerId
-
-                Regions.getAllOf<RegionSettlementZone>()
-                    .filter { it.owner == slPlayerId }
-                    .map { it.name }
-            },
-            "outposts" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val nation = PlayerCache[player].nation
-                Regions.getAllOf<RegionTerritory>().filter { it.nation == nation }.map { it.name }
-            },
-            "stars" to { _ -> Space.getStars().map(CachedStar::name) },
-            "planets" to { _ -> Space.getPlanets().map(CachedPlanet::name) },
-            "materials" to { _ -> MATERIALS.map { it.name } },
-            "crates" to { _ -> CargoCrates.crates.map { it.name } },
-            "cities" to { _ -> TradeCities.getAll().map { it.displayName } },
-            "collecteditems" to { _ -> CollectedItem.all().map { "${EcoStations[it.station].name}.${it.itemString}" } },
-            "ecostations" to { _ -> EcoStations.getAll().map { it.name } },
-            "shuttles" to { _ -> Shuttle.all().map { it.name } },
-            "shuttleSchematics" to { _ -> Shuttles.getAllSchematics() },
-            "bazaarItemStrings" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val slPlayerId = player.slPlayerId
-                val territory = Regions.findFirstOf<RegionTerritory>(player.location)
-                    ?: throw InvalidCommandArgument("You're not in a territory!")
-                BazaarItem.findProp(
-                    and(BazaarItem::seller eq slPlayerId, BazaarItem::cityTerritory eq territory.id),
-                    BazaarItem::itemString
-                ).toList()
-            },
-            "blueprints" to { c ->
-                val player = c.player ?: throw InvalidCommandArgument("Players only")
-                val slPlayerId = player.slPlayerId
-                Blueprint.col.find(Blueprint::owner eq slPlayerId).map { it.name }.toList()
-            }
-        ).forEach { manager.commandCompletions.registerAsyncCompletion(it.key, it.value) }
-
-        // Register commands
-        for (command in commands) {
-            if (SETTINGS.vanilla && !command.supportsVanilla()) {
-                continue
-            }
-
-            manager.registerCommand(command)
-        }
-    }
-
-    private fun enableRedis() {
-        redisPool = JedisPool(JedisPoolConfig(), SETTINGS.redis.host)
-    }
-
-    override fun onDisable() {
-        SLCommand.ASYNC_COMMAND_THREAD.shutdown()
-
-        for (component in components.asReversed()) {
-            if (SETTINGS.vanilla && !component.supportsVanilla()) {
-                continue
-            }
-
-            try {
-                component.onDisable()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                continue
-            }
-        }
-        redisPool.close()
-
-        // manually disable here since it's not a listed component for the same reason it's manual onEnable
-        MongoManager.onDisable()
-    }
-
-    inline fun <reified T : Event> listen(
-        priority: EventPriority = EventPriority.NORMAL,
-        ignoreCancelled: Boolean = false,
-        noinline block: (T) -> Unit
-    ): Unit = listen<T>(priority, ignoreCancelled) { _, event -> block(event) }
-
-    inline fun <reified T : Event> listen(
-        priority: EventPriority = EventPriority.NORMAL,
-        ignoreCancelled: Boolean = false,
-        noinline block: (Listener, T) -> Unit
-    ) {
-        server.pluginManager.registerEvent(
-            T::class.java,
-            object : Listener {},
-            priority,
-            { listener, event -> block(listener, event as? T ?: return@registerEvent) },
-            this,
-            ignoreCancelled
-        )
-    }
-
-    fun isMaster(): Boolean = SETTINGS.master
+	lateinit var config: SpaceGeneratorConfig
+
+	private val emptyWorldConfig = SpaceGeneratorConfig.World()
+
+	private fun validateRandomAsteroids(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+		worldConfig.randomAsteroidOreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
+
+		check(worldConfig.randomAsteroidOreDistribution.values
+			.map { it.removeSuffix("%").toFloat() }
+			.sum() <= 100)
+		{ "$worldName has asteroid ore percents adding up to more than 100%!" }
+
+		for (asteroidName in worldConfig.randomAsteroids) {
+			check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
+			{ "Unknown asteroid $asteroidName specified as a random asteroid for $worldName not found" }
+		}
+	}
+
+	private fun validateAsteroidBelts(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+		for (asteroidBeltConfig in worldConfig.asteroidBelts) {
+			asteroidBeltConfig.oreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
+			check(asteroidBeltConfig.oreDistribution.values
+				.map { it.removeSuffix("%").toFloat() }
+				.sum() <= 100)
+			{ "$worldName's belt '${asteroidBeltConfig.description}' has asteroid ore percents adding up to more than 100%!" }
+
+			for (asteroidName in asteroidBeltConfig.asteroids) {
+				check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
+				{ "Unknown asteroid $asteroidName specified as asteroid for belt ${asteroidBeltConfig.description} in $worldName not found" }
+			}
+		}
+	}
+
+	private fun validateWorld(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+		validateRandomAsteroids(worldConfig, worldName)
+
+		validateAsteroidBelts(worldConfig, worldName)
+	}
+
+	private fun validateConfig() {
+		config.worlds.forEach { (worldName, worldConfig) ->
+			validateWorld(worldConfig, worldName)
+		}
+	}
+
+	override fun getDefaultWorldGenerator(worldName: String, id: String?): ChunkGenerator {
+		val config = config.worlds[worldName] ?: emptyWorldConfig
+		return SpaceChunkGenerator(config)
+	}
+
+	override fun onLoad() {
+		try {
+			dataFolder.mkdirs()
+			config = loadConfig(dataFolder, "generator_settings")
+			AsteroidData.loadAsteroids(File(dataFolder, "asteroid_schematics"))
+			validateConfig()
+		} catch (exception: Throwable) {
+			exception.printStackTrace()
+			Bukkit.shutdown()
+		}
+	}
+
+	lateinit var redisPool: JedisPool
+
+	init {
+		PLUGIN = this
+	}
+
+	companion object {
+		lateinit var PLUGIN: StarLegacy
+		var INITIALIZATION_COMPLETE: Boolean = false
+			private set
+	}
+
+	fun namespacedKey(key: String) = NamespacedKey(this, key)
+
+	/**
+	 * Shared folder defined in config for cross-server config files
+	 */
+	val sharedDataFolder by lazy { File(SETTINGS.sharedFolder).apply { mkdirs() } }
+
+	// put the get() so the classes aren't initialized right away
+	private val components: List<SLComponent>
+		get() = listOf(
+			Updater,
+			RedisActions,
+			AutoRestart,
+			Caches,
+			Notify,
+			Shuttles,
+
+			PlayerXPLevelCache,
+			Advancements,
+			Levels,
+			SLXP,
+
+			ChannelSelections,
+			ChatChannel.ChannelActions,
+
+			CombatNPCs,
+
+			CryoPods,
+			CustomRecipes,
+			GameplayTweaks,
+
+			SpaceWorlds,
+			Space,
+			SpaceMap,
+			Orbits,
+
+			SpaceMechanics,
+
+			NationsBalancing,
+			Regions,
+			NationsMap,
+
+			StationSieges,
+
+			Multiblocks,
+			PowerMachines,
+			AreaShields,
+			BaseShields,
+			Gasses,
+
+			TransportConfig.Companion,
+			Extractors,
+			Pipes,
+			Filters,
+			Wires,
+
+			Gear,
+
+			TradeCities,
+
+			CollectionMissions,
+			Collectors,
+
+			CrateRestrictions,
+
+			CityNPCs,
+
+			ShipmentBalancing,
+			ShipmentGenerator,
+			ShipmentManager,
+
+			Bazaars,
+			Merchants,
+
+			PlanetSpawns,
+
+			DeactivatedPlayerStarships,
+			ActiveStarships,
+			ActiveStarshipMechanics,
+			PilotedStarships,
+			StarshipDetection,
+			StarshipComputers,
+			StarshipControl,
+			StarshipShields,
+			StarshipCruising,
+			ContactsDisplay,
+			Hangars,
+			Hyperspace,
+			Turrets,
+			StarshipFactories,
+			TutorialManager,
+			Interdiction,
+			StarshipDealers,
+			ShipKillXP,
+			Decomposers
+		)
+
+	// put the get() so the classes aren't initialized right away
+	private val listeners: List<SLEventListener>
+		get() = listOf(
+			JoinLeaveListener,
+			ChatListener,
+			MovementListener,
+			FriendlyFireListener,
+			ProtectionListener,
+
+			GriefDefenderListener,
+
+			BlockListener,
+			EntityListener,
+			FurnaceListener,
+			InteractListener,
+			InventoryListener,
+
+			BlasterListener,
+			DetonatorListener,
+			DoubleJumpListener,
+			PowerArmorListener,
+			PowerToolListener,
+			SwordListener,
+
+			BedWarsListener
+		)
+
+	override fun onEnable() {
+		// Hack. Dumb library has a static plugin set based on which plugin loaded it.
+		// Set it to this, since the starlegacy-libs plugin is loading it.
+		BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
+
+		SETTINGS = loadConfig(dataFolder, "config")
+
+		// manually call this for MongoManager, as some of the components break if it's not ready on init
+		MongoManager.onEnable()
+
+		System.setProperty("https.protocols", "TLSv1.1,TLSv1.2") // java doesn't do https very well by default...
+
+		enableRedis()
+
+		for (component in components) {
+			if (SETTINGS.vanilla && !component.supportsVanilla()) {
+				continue
+			}
+
+			component.onEnable()
+			server.pluginManager.registerEvents(component, this)
+		}
+
+		registerListeners()
+
+		registerCommands()
+
+		if (isMaster()) {
+			// 20 ticks * 60 = 1 minute, 20 ticks * 60 * 60 = 1 hour
+			Tasks.asyncRepeat(20 * 60, 20 * 60 * 60) {
+				NationsMasterTasks.executeAll()
+			}
+		}
+
+		INITIALIZATION_COMPLETE = true
+	}
+
+	private fun registerListeners() {
+		for (listener in listeners) {
+			if (SETTINGS.vanilla && !listener.supportsVanilla()) {
+				continue
+			}
+
+			listener.register()
+		}
+	}
+
+	private val commands
+		get() = listOf(
+			GToggleCommand,
+			PlayerInfoCommand,
+			DyeCommand,
+			GlobalGameRuleCommand,
+
+			APCommand,
+			BatteryCommand,
+			CustomItemCommand,
+			ListCommand,
+			TransportDebugCommand,
+			PlanetSpawnMenuCommand,
+			SLTimeConvertCommand,
+			ShuttleCommand,
+			BuyXPCommand,
+
+			SettlementCommand,
+			NationCommand,
+			NationSpaceStationCommand,
+			NationRelationCommand,
+
+			CityManageCommand,
+			NationAdminCommand,
+			NPCOwnerCommand,
+
+			NationMoneyCommand,
+			SettlementMoneyCommand,
+
+			NationRoleCommand,
+			SettlementRoleCommand,
+
+			SettlementPlotCommand,
+			SettlementZoneCommand,
+
+			SiegeCommand,
+
+			AdvanceAdminCommand,
+			AdvanceCommand,
+			GiveXPCommand,
+			XPCommand,
+
+
+			PlanetCommand,
+			SpaceWorldCommand,
+			StarCommand,
+
+
+			BazaarCommand,
+			CityNpcCommand,
+			CollectedItemCommand,
+			CollectorCommand,
+			EcoStationCommand,
+			TradeDebugCommand,
+
+			MiscStarshipCommands,
+			BlueprintCommand,
+			StarshipDebugCommand,
+			TutorialStartStopCommand,
+			StarshipInfoCommand
+		)
+
+	private fun registerCommands() {
+		val manager = PaperCommandManager(PLUGIN)
+
+		@Suppress("DEPRECATION")
+		manager.enableUnstableAPI("help")
+
+		// Add contexts
+		manager.commandContexts.run {
+			registerContext(CustomItem::class.java) { c: BukkitCommandExecutionContext ->
+				val arg = c.popFirstArg()
+				return@registerContext CustomItems[arg]
+					?: throw InvalidCommandArgument("No custom item $arg found!")
+			}
+
+			registerContext(RegionSettlementZone::class.java) { c: BukkitCommandExecutionContext ->
+				val arg = c.popFirstArg() ?: throw InvalidCommandArgument("Zone is required")
+				return@registerContext Regions.getAllOf<RegionSettlementZone>().firstOrNull { it.name == arg }
+					?: throw InvalidCommandArgument("Zone $arg not found")
+			}
+
+			registerContext(CachedStar::class.java) { c: BukkitCommandExecutionContext ->
+				Space.starNameCache[c.popFirstArg().toUpperCase()].orNull()
+					?: throw InvalidCommandArgument("No such star")
+			}
+
+			registerContext(CachedPlanet::class.java) { c: BukkitCommandExecutionContext ->
+				Space.planetNameCache[c.popFirstArg().toUpperCase()].orNull()
+					?: throw InvalidCommandArgument("No such planet")
+			}
+
+			registerContext(CargoCrate::class.java) { c: BukkitCommandExecutionContext ->
+				CargoCrates[c.popFirstArg().toUpperCase()]
+					?: throw InvalidCommandArgument("No such crate")
+			}
+
+			registerContext(EcoStation::class.java) { c: BukkitCommandExecutionContext ->
+				val name: String = c.popFirstArg()
+
+				return@registerContext EcoStations.getByName(name)
+					?: throw InvalidCommandArgument("Eco station $name not found")
+			}
+		}
+
+		// Add static tab completions
+		mapOf(
+			"levels" to (0..MAX_LEVEL).joinToString("|"),
+			"advancements" to SLAdvancement.values().joinToString("|"),
+			"customitems" to CustomItems.all().joinToString("|") { it.id },
+			"npctypes" to CityNPC.Type.values().joinToString("|") { it.name }
+		).forEach { manager.commandCompletions.registerStaticCompletion(it.key, it.value) }
+
+		// Add async tab completions
+		@Suppress("RedundantLambdaArrow")
+		mapOf<String, (BukkitCommandCompletionContext) -> List<String>>(
+			"gamerules" to { _ -> Bukkit.getWorlds().first().gameRules.toList() },
+			"settlements" to { _ -> SettlementCache.all().map { it.name } },
+			"member_settlements" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val nation = PlayerCache[player].nation
+
+				SettlementCache.all().filter { nation != null && it.nation == nation }.map { it.name }
+			},
+			"nations" to { _ -> NationCache.all().map { it.name } },
+			"zones" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val settlement = PlayerCache[player].settlement
+
+				Regions.getAllOf<RegionSettlementZone>()
+					.filter { settlement != null && it.settlement == settlement }
+					.map { it.name }
+			},
+			"plots" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val slPlayerId = player.slPlayerId
+
+				Regions.getAllOf<RegionSettlementZone>()
+					.filter { it.owner == slPlayerId }
+					.map { it.name }
+			},
+			"outposts" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val nation = PlayerCache[player].nation
+				Regions.getAllOf<RegionTerritory>().filter { it.nation == nation }.map { it.name }
+			},
+			"stars" to { _ -> Space.getStars().map(CachedStar::name) },
+			"planets" to { _ -> Space.getPlanets().map(CachedPlanet::name) },
+			"materials" to { _ -> MATERIALS.map { it.name } },
+			"crates" to { _ -> CargoCrates.crates.map { it.name } },
+			"cities" to { _ -> TradeCities.getAll().map { it.displayName } },
+			"collecteditems" to { _ -> CollectedItem.all().map { "${EcoStations[it.station].name}.${it.itemString}" } },
+			"ecostations" to { _ -> EcoStations.getAll().map { it.name } },
+			"shuttles" to { _ -> Shuttle.all().map { it.name } },
+			"shuttleSchematics" to { _ -> Shuttles.getAllSchematics() },
+			"bazaarItemStrings" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val slPlayerId = player.slPlayerId
+				val territory = Regions.findFirstOf<RegionTerritory>(player.location)
+					?: throw InvalidCommandArgument("You're not in a territory!")
+				BazaarItem.findProp(
+					and(BazaarItem::seller eq slPlayerId, BazaarItem::cityTerritory eq territory.id),
+					BazaarItem::itemString
+				).toList()
+			},
+			"blueprints" to { c ->
+				val player = c.player ?: throw InvalidCommandArgument("Players only")
+				val slPlayerId = player.slPlayerId
+				Blueprint.col.find(Blueprint::owner eq slPlayerId).map { it.name }.toList()
+			}
+		).forEach { manager.commandCompletions.registerAsyncCompletion(it.key, it.value) }
+
+		// Register commands
+		for (command in commands) {
+			if (SETTINGS.vanilla && !command.supportsVanilla()) {
+				continue
+			}
+
+			manager.registerCommand(command)
+		}
+	}
+
+	private fun enableRedis() {
+		redisPool = JedisPool(JedisPoolConfig(), SETTINGS.redis.host)
+	}
+
+	override fun onDisable() {
+		SLCommand.ASYNC_COMMAND_THREAD.shutdown()
+
+		for (component in components.asReversed()) {
+			if (SETTINGS.vanilla && !component.supportsVanilla()) {
+				continue
+			}
+
+			try {
+				component.onDisable()
+			} catch (e: Exception) {
+				e.printStackTrace()
+				continue
+			}
+		}
+		redisPool.close()
+
+		// manually disable here since it's not a listed component for the same reason it's manual onEnable
+		MongoManager.onDisable()
+	}
+
+	inline fun <reified T : Event> listen(
+		priority: EventPriority = EventPriority.NORMAL,
+		ignoreCancelled: Boolean = false,
+		noinline block: (T) -> Unit
+	): Unit = listen<T>(priority, ignoreCancelled) { _, event -> block(event) }
+
+	inline fun <reified T : Event> listen(
+		priority: EventPriority = EventPriority.NORMAL,
+		ignoreCancelled: Boolean = false,
+		noinline block: (Listener, T) -> Unit
+	) {
+		server.pluginManager.registerEvent(
+			T::class.java,
+			object : Listener {},
+			priority,
+			{ listener, event -> block(listener, event as? T ?: return@registerEvent) },
+			this,
+			ignoreCancelled
+		)
+	}
+
+	fun isMaster(): Boolean = SETTINGS.master
 }
 
 fun <T> redis(block: Jedis.() -> T): T = PLUGIN.redisPool.resource.use(block)

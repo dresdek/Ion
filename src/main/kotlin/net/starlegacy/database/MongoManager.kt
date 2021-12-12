@@ -32,122 +32,122 @@ import java.util.concurrent.Executors
 import kotlin.reflect.KClass
 
 object MongoManager : SLComponent() {
-    private val watching = mutableListOf<MongoCursor<ChangeStreamDocument<*>>>()
+	private val watching = mutableListOf<MongoCursor<ChangeStreamDocument<*>>>()
 
-    internal lateinit var client: MongoClient
+	internal lateinit var client: MongoClient
 
-    @PublishedApi // to allow it to be used in inline functions
-    internal lateinit var database: MongoDatabase
+	@PublishedApi // to allow it to be used in inline functions
+	internal lateinit var database: MongoDatabase
 
-    val threadPool = Executors.newCachedThreadPool(Tasks.namedThreadFactory("starlegacy-mongodb-cache"))
+	val threadPool = Executors.newCachedThreadPool(Tasks.namedThreadFactory("starlegacy-mongodb-cache"))
 
-    override fun onEnable() {
-        IdGenerator.defaultGenerator = ObjectIdGenerator
+	override fun onEnable() {
+		IdGenerator.defaultGenerator = ObjectIdGenerator
 
-        System.setProperty(
-            "org.litote.mongo.test.mapping.service",
-            "org.litote.kmongo.jackson.JacksonClassMappingTypeService"
-        )
+		System.setProperty(
+			"org.litote.mongo.test.mapping.service",
+			"org.litote.kmongo.jackson.JacksonClassMappingTypeService"
+		)
 
-        val username = SETTINGS.mongo.username
-        val password = SETTINGS.mongo.password
-        val host = SETTINGS.mongo.host
-        val port = SETTINGS.mongo.port
-        val authDb = SETTINGS.mongo.database
-        val connectionString = ConnectionString("mongodb://$username:$password@$host:$port/$authDb")
-        client = KMongo.createClient(connectionString)
+		val username = SETTINGS.mongo.username
+		val password = SETTINGS.mongo.password
+		val host = SETTINGS.mongo.host
+		val port = SETTINGS.mongo.port
+		val authDb = SETTINGS.mongo.database
+		val connectionString = ConnectionString("mongodb://$username:$password@$host:$port/$authDb")
+		client = KMongo.createClient(connectionString)
 
-        database = client.getDatabase(SETTINGS.mongo.database)
+		database = client.getDatabase(SETTINGS.mongo.database)
 
-        // ##### Load classes of all collections #####
+		// ##### Load classes of all collections #####
 
-        // misc
-        SLPlayer.init()
-        Shuttle.init()
+		// misc
+		SLPlayer.init()
+		Shuttle.init()
 
-        // nations
-        CapturableStation.init()
-        CapturableStationSiege.init()
-        Nation.init()
-        NationRelation.init()
-        NPCTerritoryOwner.init()
-        SettlementRole.init()
-        NationRole.init()
-        Settlement.init()
-        SettlementZone.init()
-        Territory.init()
-        SpaceStation.init()
+		// nations
+		CapturableStation.init()
+		CapturableStationSiege.init()
+		Nation.init()
+		NationRelation.init()
+		NPCTerritoryOwner.init()
+		SettlementRole.init()
+		NationRole.init()
+		Settlement.init()
+		SettlementZone.init()
+		Territory.init()
+		SpaceStation.init()
 
-        // space
-        Planet.init()
-        Star.init()
+		// space
+		Planet.init()
+		Star.init()
 
-        // economy
-        CargoCrate.init()
-        CargoCrateShipment.init()
-        CityNPC.init()
-        CollectedItem.init()
-        EcoStation.init()
-        BazaarItem.init()
+		// economy
+		CargoCrate.init()
+		CargoCrateShipment.init()
+		CityNPC.init()
+		CollectedItem.init()
+		EcoStation.init()
+		BazaarItem.init()
 
-        // starships
-        PlayerStarshipData.init()
-        Blueprint.init()
+		// starships
+		PlayerStarshipData.init()
+		Blueprint.init()
 
-        Updater.updateDatabase()
-    }
+		Updater.updateDatabase()
+	}
 
-    override fun onDisable() {
-        if (::client.isInitialized) {
-            client.close()
-        }
-    }
+	override fun onDisable() {
+		if (::client.isInitialized) {
+			client.close()
+		}
+	}
 
-    inline fun <reified T> decode(document: Document): T =
-        decode(document.toBsonDocument(T::class.java, database.codecRegistry))
+	inline fun <reified T> decode(document: Document): T =
+		decode(document.toBsonDocument(T::class.java, database.codecRegistry))
 
-    inline fun <reified T> decode(document: BsonDocument): T {
-        val codecRegistry: CodecRegistry = database.codecRegistry
-        val clazz: Class<T> = T::class.java
-        BsonDocumentReader(document).use { reader ->
-            return codecRegistry.get(clazz).decode(reader, DecoderContext.builder().build())
-        }
-    }
+	inline fun <reified T> decode(document: BsonDocument): T {
+		val codecRegistry: CodecRegistry = database.codecRegistry
+		val clazz: Class<T> = T::class.java
+		BsonDocumentReader(document).use { reader ->
+			return codecRegistry.get(clazz).decode(reader, DecoderContext.builder().build())
+		}
+	}
 
-    inline fun <reified T> decode(json: String): T {
-        val codecRegistry: CodecRegistry = database.codecRegistry
+	inline fun <reified T> decode(json: String): T {
+		val codecRegistry: CodecRegistry = database.codecRegistry
 
-        val clazz: Class<T> = T::class.java
+		val clazz: Class<T> = T::class.java
 
-        JsonReader(json).use { reader ->
-            return codecRegistry.get(clazz).decode(reader, DecoderContext.builder().build())
-        }
-    }
+		JsonReader(json).use { reader ->
+			return codecRegistry.get(clazz).decode(reader, DecoderContext.builder().build())
+		}
+	}
 
-    internal fun <T : Any> getCollection(clazz: KClass<T>): MongoCollection<T> {
-        try {
-            val collectionName: String = KMongoUtil.defaultCollectionName(clazz)
+	internal fun <T : Any> getCollection(clazz: KClass<T>): MongoCollection<T> {
+		try {
+			val collectionName: String = KMongoUtil.defaultCollectionName(clazz)
 
-            if (!database.listCollectionNames().contains(collectionName)) {
-                database.createCollection(collectionName)
-                log.info("Created collection $collectionName")
-            }
+			if (!database.listCollectionNames().contains(collectionName)) {
+				database.createCollection(collectionName)
+				log.info("Created collection $collectionName")
+			}
 
-            require(database.listCollectionNames().contains(collectionName))
+			require(database.listCollectionNames().contains(collectionName))
 
-            return database.getCollection(collectionName, clazz.java)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
-        }
-    }
+			return database.getCollection(collectionName, clazz.java)
+		} catch (e: Exception) {
+			e.printStackTrace()
+			throw e
+		}
+	}
 
-    internal fun registerWatching(cursor: MongoCursor<ChangeStreamDocument<*>>) {
-        watching.add(cursor)
-    }
+	internal fun registerWatching(cursor: MongoCursor<ChangeStreamDocument<*>>) {
+		watching.add(cursor)
+	}
 
-    fun closeWatch(cursor: MongoCursor<ChangeStreamDocument<*>>) {
-        watching.remove(cursor)
-        cursor.close()
-    }
+	fun closeWatch(cursor: MongoCursor<ChangeStreamDocument<*>>) {
+		watching.remove(cursor)
+		cursor.close()
+	}
 }
