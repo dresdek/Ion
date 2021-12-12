@@ -280,9 +280,7 @@ class StarLegacy : JavaPlugin() {
             Interdiction,
             StarshipDealers,
             ShipKillXP,
-            Decomposers,
-
-            DutyModeMonitor
+            Decomposers
         )
 
     // put the get() so the classes aren't initialized right away
