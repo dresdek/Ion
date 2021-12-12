@@ -159,9 +159,9 @@ jar {
 
 shadowJar {
     destinationDir file(rootProject.projectDir.absolutePath + "/build/libs")
-    relocate "com.fasterxml.jackson", "net.starlegacy.libs.jackson"
-    relocate "co.aikar.commands", "net.starlegacy.libs.acf"
-    relocate "org.ejml", "net.starlegacy.libs.ejml"
+    relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
+    relocate("co.aikar.commands", "net.starlegacy.libs.acf")
+    relocate("org.ejml", "net.starlegacy.libs.ejml")
 }
 
 idea {
