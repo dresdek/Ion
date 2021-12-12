@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import net.starlegacy.spacegenerator.asteroid.AsteroidData;
+import net.starlegacy.spacegenerator.asteroid.AsteroidData;
 import net.starlegacy.spacegenerator.asteroid.AsteroidOreDistribution;
 import net.starlegacy.spacegenerator.asteroid.CachedAsteroid;
 import net.starlegacy.util.Vec3i;

@@ -86,6 +86,10 @@ import net.starlegacy.listener.misc.*
 import net.starlegacy.listener.nations.FriendlyFireListener
 import net.starlegacy.listener.nations.GriefDefenderListener
 import net.starlegacy.listener.nations.MovementListener
+import net.starlegacy.spacegenerator.SpaceChunkGenerator
+import net.starlegacy.spacegenerator.SpaceGeneratorConfig
+import net.starlegacy.spacegenerator.asteroid.AsteroidData
+import net.starlegacy.spacegenerator.asteroid.AsteroidOreType
 import net.starlegacy.updater.Updater
 import net.starlegacy.util.*
 import net.starlegacy.util.redisaction.RedisActions
@@ -95,6 +99,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.generator.ChunkGenerator
 import org.bukkit.plugin.java.JavaPlugin
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
@@ -107,6 +112,68 @@ internal val PLUGIN: StarLegacy get() = StarLegacy.PLUGIN
 internal lateinit var SETTINGS: Config
 
 class StarLegacy : JavaPlugin() {
+    lateinit var config: SpaceGeneratorConfig
+
+    private val emptyWorldConfig = SpaceGeneratorConfig.World()
+
+    private fun validateRandomAsteroids(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+        worldConfig.randomAsteroidOreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
+
+        check(worldConfig.randomAsteroidOreDistribution.values
+            .map { it.removeSuffix("%").toFloat() }
+            .sum() <= 100)
+        { "$worldName has asteroid ore percents adding up to more than 100%!" }
+
+        for (asteroidName in worldConfig.randomAsteroids) {
+            check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
+            { "Unknown asteroid $asteroidName specified as a random asteroid for $worldName not found" }
+        }
+    }
+
+    private fun validateAsteroidBelts(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+        for (asteroidBeltConfig in worldConfig.asteroidBelts) {
+            asteroidBeltConfig.oreDistribution.keys.forEach { AsteroidOreType.valueOf(it) }
+            check(asteroidBeltConfig.oreDistribution.values
+                .map { it.removeSuffix("%").toFloat() }
+                .sum() <= 100)
+            { "$worldName's belt '${asteroidBeltConfig.description}' has asteroid ore percents adding up to more than 100%!" }
+
+            for (asteroidName in asteroidBeltConfig.asteroids) {
+                check(AsteroidData.cachedAsteroids.containsKey(asteroidName))
+                { "Unknown asteroid $asteroidName specified as asteroid for belt ${asteroidBeltConfig.description} in $worldName not found" }
+            }
+        }
+    }
+
+    private fun validateWorld(worldConfig: SpaceGeneratorConfig.World, worldName: String) {
+        validateRandomAsteroids(worldConfig, worldName)
+
+        validateAsteroidBelts(worldConfig, worldName)
+    }
+
+    private fun validateConfig() {
+        config.worlds.forEach { (worldName, worldConfig) ->
+            validateWorld(worldConfig, worldName)
+        }
+    }
+
+    override fun getDefaultWorldGenerator(worldName: String, id: String?): ChunkGenerator {
+        val config = config.worlds[worldName] ?: emptyWorldConfig
+        return SpaceChunkGenerator(config)
+    }
+
+    override fun onLoad() {
+        try {
+            dataFolder.mkdirs()
+            config = loadConfig(dataFolder, "generator_settings")
+            AsteroidData.loadAsteroids(File(dataFolder, "asteroid_schematics"))
+            validateConfig()
+        } catch (exception: Throwable) {
+            exception.printStackTrace()
+            Bukkit.shutdown()
+        }
+    }
+
     lateinit var redisPool: JedisPool
 
     init {
