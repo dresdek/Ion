@@ -87,7 +87,7 @@ object PowerArmorListener : SLEventListener() {
 			}
 
 			if (cause == EntityDamageEvent.DamageCause.ENTITY_ATTACK
-				&& !player.world.name.toLowerCase().contains("arena")
+				&& !player.world.name.lowercase().contains("arena")
 			) {
 				removePower(item, 100)
 			}
@@ -103,7 +103,7 @@ object PowerArmorListener : SLEventListener() {
 						|| cause == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)
 			) {
 				modifier = 0.0
-				if (!player.world.name.toLowerCase().contains("arena")) {
+				if (!player.world.name.lowercase().contains("arena")) {
 					removePower(moduleItem, 10)
 				}
 			}

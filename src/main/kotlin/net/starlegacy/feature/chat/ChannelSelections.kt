@@ -51,7 +51,7 @@ object ChannelSelections : SLComponent() {
 
 			val message: String = event.message
 			val args: List<String> = message.removePrefix("/").split(" ")
-			val command: String = args[0].toLowerCase()
+			val command: String = args[0].lowercase()
 
 			ChatChannel.values().firstOrNull { it.commandAliases.contains(command) }?.let { channel ->
 				event.isCancelled = true
@@ -71,12 +71,12 @@ object ChannelSelections : SLComponent() {
 				}
 
 				if (oldChannel == channel) {
-					player action "&cYou're already in chat ${channel.displayName.toUpperCase()}&c! " +
+					player action "&cYou're already in chat ${channel.displayName.uppercase()}&c! " +
 							"&o(Hint: To get back to global, use /global)"
 					return@listen
 				} else {
 					localCache[playerID] = channel
-					val info: String = "&f&lSwitched to &l${channel.displayName.toUpperCase()}&f&l chat! " +
+					val info: String = "&f&lSwitched to &l${channel.displayName.uppercase()}&f&l chat! " +
 							"To switch back to your previous chat, use '/${oldChannel.commandAliases.first()}'"
 					player action info
 				}

@@ -39,7 +39,7 @@ public class SignUtils {
         private String text;
 
         public String getText() {
-            return color == null ? text : ChatColor.valueOf(color.toUpperCase()) + text;
+            return color == null ? text : ChatColor.valueOf(color.uppercase()) + text;
         }
 
         public void setText(String text) {

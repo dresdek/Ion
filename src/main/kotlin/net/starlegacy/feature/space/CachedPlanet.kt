@@ -55,7 +55,7 @@ class CachedPlanet(
 	var orbitDistance: Int = orbitDistance; private set
 	var orbitProgress: Double = orbitProgress; private set
 
-	val planetIcon: CustomItem = CustomItems["planet_icon_${name.toLowerCase().replace(" ", "")}"]
+	val planetIcon: CustomItem = CustomItems["planet_icon_${name.lowercase().replace(" ", "")}"]
 		?: CustomItems.DETONATOR
 
 	init {

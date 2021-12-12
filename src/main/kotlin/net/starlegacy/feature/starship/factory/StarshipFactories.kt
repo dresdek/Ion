@@ -170,7 +170,7 @@ object StarshipFactories : SLComponent() {
 			list.add("&c$item&8: &d$count")
 		}
 
-		return list.joinToString("&e, ").toLowerCase()
+		return list.joinToString("&e, ").lowercase()
 	}
 
 	fun getRequiredAmount(data: BlockData): Int {

@@ -42,7 +42,7 @@ object CargoCrates : ManualCache() {
 		}.toMap()
 
 		NAME_MAP = crates.map {
-			it.name.toUpperCase() to it
+			it.name.uppercase() to it
 		}.toMap()
 
 		ID_MAP = crates.map {
@@ -124,7 +124,7 @@ object CargoCrates : ManualCache() {
 
 	operator fun get(box: ShulkerBox): CargoCrate? = ITEM_MAP[box.type to box.customName]
 
-	operator fun get(name: String?): CargoCrate? = NAME_MAP[name?.toUpperCase()]
+	operator fun get(name: String?): CargoCrate? = NAME_MAP[name?.uppercase()]
 
 	operator fun get(id: Oid<CargoCrate>): CargoCrate = ID_MAP[id] ?: error("Crate $id not cached!")
 	//endregion CACHES

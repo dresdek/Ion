@@ -34,7 +34,7 @@ enum class StarshipSigns(val undetectedText: String, val baseLines: Array<String
 		override fun onClick(player: Player, sign: Sign, rightClick: Boolean) {
 			val starship = findPlayerStarship(player) ?: return
 			val lines = sign.lines
-			val set = lines[1].toLowerCase()
+			val set = lines[1].lowercase()
 
 			if (!starship.weaponSets.containsKey(set)) {
 				player msg "&cNo nodes for $set"

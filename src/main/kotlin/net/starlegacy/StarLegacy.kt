@@ -440,17 +440,17 @@ class StarLegacy : JavaPlugin() {
 			}
 
 			registerContext(CachedStar::class.java) { c: BukkitCommandExecutionContext ->
-				Space.starNameCache[c.popFirstArg().toUpperCase()].orNull()
+				Space.starNameCache[c.popFirstArg().uppercase()].orNull()
 					?: throw InvalidCommandArgument("No such star")
 			}
 
 			registerContext(CachedPlanet::class.java) { c: BukkitCommandExecutionContext ->
-				Space.planetNameCache[c.popFirstArg().toUpperCase()].orNull()
+				Space.planetNameCache[c.popFirstArg().uppercase()].orNull()
 					?: throw InvalidCommandArgument("No such planet")
 			}
 
 			registerContext(CargoCrate::class.java) { c: BukkitCommandExecutionContext ->
-				CargoCrates[c.popFirstArg().toUpperCase()]
+				CargoCrates[c.popFirstArg().uppercase()]
 					?: throw InvalidCommandArgument("No such crate")
 			}
 
