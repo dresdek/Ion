@@ -66,7 +66,11 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.javaParameters = true
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
 tasks.shadowJar {
