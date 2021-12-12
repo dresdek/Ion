@@ -13,17 +13,17 @@ import org.bukkit.entity.Player
 @CommandPermission("starlegacy.starshipdebug")
 @CommandAlias("starshipdebug|sbug")
 object StarshipDebugCommand : SLCommand() {
-    @Subcommand("teleport")
-    fun onTeleport(sender: Player, x: Int, y: Int, z: Int) {
-        val riding = getStarshipRiding(sender)
-        StarshipTeleportation.teleportStarship(riding, Location(sender.world, x.toDouble(), y.toDouble(), z.toDouble()))
-    }
+	@Subcommand("teleport")
+	fun onTeleport(sender: Player, x: Int, y: Int, z: Int) {
+		val riding = getStarshipRiding(sender)
+		StarshipTeleportation.teleportStarship(riding, Location(sender.world, x.toDouble(), y.toDouble(), z.toDouble()))
+	}
 
-    @Subcommand("thrusters")
-    fun onThrusters(sender: Player) {
-        val starship = getStarshipRiding(sender)
-        for (dir in CARDINAL_BLOCK_FACES) {
-            sender msg starship.thrusterMap[dir].toString()
-        }
-    }
+	@Subcommand("thrusters")
+	fun onThrusters(sender: Player) {
+		val starship = getStarshipRiding(sender)
+		for (dir in CARDINAL_BLOCK_FACES) {
+			sender msg starship.thrusterMap[dir].toString()
+		}
+	}
 }

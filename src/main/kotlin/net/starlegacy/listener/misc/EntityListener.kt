@@ -10,16 +10,16 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntitySpawnEvent
 
 object EntityListener : SLEventListener() {
-    @EventHandler
-    fun onEntitySpawn(event: EntitySpawnEvent) {
-        if (event.entity !is Monster && event.entity !is Slime) {
-            return
-        }
+	@EventHandler
+	fun onEntitySpawn(event: EntitySpawnEvent) {
+		if (event.entity !is Monster && event.entity !is Slime) {
+			return
+		}
 
-        if (!MobDefender.cancelSpawn(event.location)) {
-            return
-        }
+		if (!MobDefender.cancelSpawn(event.location)) {
+			return
+		}
 
-        event.isCancelled = true
-    }
+		event.isCancelled = true
+	}
 }

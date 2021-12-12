@@ -16,27 +16,27 @@ import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit
 
 class HeavyLaserWeaponSubsystem(
-    starship: ActiveStarship,
-    pos: Vec3i,
-    face: BlockFace
+	starship: ActiveStarship,
+	pos: Vec3i,
+	face: BlockFace
 ) : TargetTrackingCannonWeaponSubsystem(starship, pos, face),
-    HeavyWeaponSubsystem,
-    AmmoConsumingWeaponSubsystem {
-    private val sound = "starship.weapon.heavy_laser.single.shoot"
+	HeavyWeaponSubsystem,
+	AmmoConsumingWeaponSubsystem {
+	private val sound = "starship.weapon.heavy_laser.single.shoot"
 
-    override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(5L)
+	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(5L)
 
-    override val length: Int = 8
-    override val powerUsage: Int = 30000
-    override val extraDistance: Int = 1
-    override val aimDistance: Int = 10
+	override val length: Int = 8
+	override val powerUsage: Int = 30000
+	override val extraDistance: Int = 1
+	override val aimDistance: Int = 10
 
-    override fun fire(loc: Location, dir: Vector, shooter: Player, target: Vector?) {
-        checkNotNull(target)
-        HeavyLaserProjectile(starship, loc, dir, shooter, target, aimDistance, sound).fire()
-    }
+	override fun fire(loc: Location, dir: Vector, shooter: Player, target: Vector?) {
+		checkNotNull(target)
+		HeavyLaserProjectile(starship, loc, dir, shooter, target, aimDistance, sound).fire()
+	}
 
-    override fun getRequiredAmmo(): ItemStack {
-        return ItemStack(Material.REDSTONE, 2)
-    }
+	override fun getRequiredAmmo(): ItemStack {
+		return ItemStack(Material.REDSTONE, 2)
+	}
 }

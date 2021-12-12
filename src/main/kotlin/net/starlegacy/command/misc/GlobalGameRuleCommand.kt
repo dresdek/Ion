@@ -10,26 +10,26 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 object GlobalGameRuleCommand : SLCommand() {
-    @CommandAlias("globalgamerule")
-    @CommandPermission("slcore.globalgamerule")
-    @CommandCompletion("@gamerules @nothing")
-    fun onGlobalGameRule(sender: CommandSender, rule: String, value: String) {
-        val worlds = Bukkit.getWorlds()
+	@CommandAlias("globalgamerule")
+	@CommandPermission("slcore.globalgamerule")
+	@CommandCompletion("@gamerules @nothing")
+	fun onGlobalGameRule(sender: CommandSender, rule: String, value: String) {
+		val worlds = Bukkit.getWorlds()
 
-        worlds.forEach {
-            if (!it.isGameRule(rule)) {
-                throw InvalidCommandArgument("$rule is not a gamerule!")
-            }
+		worlds.forEach {
+			if (!it.isGameRule(rule)) {
+				throw InvalidCommandArgument("$rule is not a gamerule!")
+			}
 
-            if (!it.setGameRuleValue(rule, value)) {
-                throw InvalidCommandArgument("$rule doesn't accept value $value!")
-            }
-        }
+			if (!it.setGameRuleValue(rule, value)) {
+				throw InvalidCommandArgument("$rule doesn't accept value $value!")
+			}
+		}
 
-        sender msg "&aSet gamerule $rule to $value in ${worlds.size} worlds"
-    }
+		sender msg "&aSet gamerule $rule to $value in ${worlds.size} worlds"
+	}
 
-    override fun supportsVanilla(): Boolean {
-        return true
-    }
+	override fun supportsVanilla(): Boolean {
+		return true
+	}
 }

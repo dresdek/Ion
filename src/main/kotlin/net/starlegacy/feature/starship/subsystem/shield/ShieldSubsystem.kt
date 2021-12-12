@@ -12,29 +12,29 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 abstract class ShieldSubsystem(
-    starship: ActiveStarship,
-    sign: Sign,
-    multiblock: ShieldMultiblock
+	starship: ActiveStarship,
+	sign: Sign,
+	multiblock: ShieldMultiblock
 ) : AbstractMultiblockSubsystem<ShieldMultiblock>(starship, sign, multiblock) {
-    val name: String = sign.getLine(2).stripColor()
-    val maxPower: Int = (starship.blockCount.coerceAtLeast(500).d().pow(2.0/3.0) * 7000.0).roundToInt()
+	val name: String = sign.getLine(2).stripColor()
+	val maxPower: Int = (starship.blockCount.coerceAtLeast(500).d().pow(2.0 / 3.0) * 7000.0).roundToInt()
 
-    var power: Int = maxPower
-        set(value) {
-            field = value.coerceIn(0, maxPower)
-        }
+	var power: Int = maxPower
+		set(value) {
+			field = value.coerceIn(0, maxPower)
+		}
 
-    var isReinforcementEnabled = multiblock.isReinforced
+	var isReinforcementEnabled = multiblock.isReinforced
 
-    fun isReinforcementActive(): Boolean {
-        return isReinforcementEnabled && powerRatio > 0.8
-    }
+	fun isReinforcementActive(): Boolean {
+		return isReinforcementEnabled && powerRatio > 0.8
+	}
 
-    val powerRatio: Double get() = power.toDouble() / maxPower.toDouble()
+	val powerRatio: Double get() = power.toDouble() / maxPower.toDouble()
 
-    fun getPowerUsage(power: Double): Int {
-        return (power * 3000.0).toInt()
-    }
+	fun getPowerUsage(power: Double): Int {
+		return (power * 3000.0).toInt()
+	}
 
-    abstract fun containsBlock(block: Block): Boolean
+	abstract fun containsBlock(block: Block): Boolean
 }

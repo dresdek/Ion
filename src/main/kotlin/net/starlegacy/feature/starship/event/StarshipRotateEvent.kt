@@ -8,28 +8,28 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.HandlerList
 
 class StarshipRotateEvent(
-    ship: ActivePlayerStarship,
-    player: Player,
-    override val movement: RotationMovement
+	ship: ActivePlayerStarship,
+	player: Player,
+	override val movement: RotationMovement
 ) : StarshipMoveEvent(ship, player, movement), Cancellable {
-    val clockwise = movement.clockwise
+	val clockwise = movement.clockwise
 
-    private var cancelled: Boolean = false
+	private var cancelled: Boolean = false
 
-    override fun getHandlers(): HandlerList {
-        return handlerList
-    }
+	override fun getHandlers(): HandlerList {
+		return handlerList
+	}
 
-    override fun isCancelled(): Boolean {
-        return cancelled
-    }
+	override fun isCancelled(): Boolean {
+		return cancelled
+	}
 
-    override fun setCancelled(cancelled: Boolean) {
-        this.cancelled = cancelled
-    }
+	override fun setCancelled(cancelled: Boolean) {
+		this.cancelled = cancelled
+	}
 
-    companion object {
-        @JvmStatic
-        val handlerList = HandlerList()
-    }
+	companion object {
+		@JvmStatic
+		val handlerList = HandlerList()
+	}
 }

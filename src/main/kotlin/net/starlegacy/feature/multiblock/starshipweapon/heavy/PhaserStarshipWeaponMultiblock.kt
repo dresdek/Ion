@@ -11,25 +11,25 @@ import org.bukkit.block.BlockFace
 import org.bukkit.block.data.type.Slab
 
 object PhaserStarshipWeaponMultiblock : SignlessStarshipWeaponMultiblock<PhaserWeaponSubsystem>() {
-    override fun MultiblockShape.buildStructure() {
-        y(+0) {
-            z(+0..+4 step 2) {
-                x(-1).anyWall()
-                x(+0).copperBlock()
-                x(+1).anyWall()
-            }
-            z(+1..+3 step 2) {
-                x(-1).anyGlassPane()
-                x(+0).type(Material.BELL)
-                x(+1).anyGlassPane()
-            }
-            z(+5) { x(+0).anyDoubleSlab() }
-            z(+6) { x(+0).hopper() }
-            z(+7) { x(+0).type(Material.GRINDSTONE) }
-        }
-    }
+	override fun MultiblockShape.buildStructure() {
+		y(+0) {
+			z(+0..+4 step 2) {
+				x(-1).anyWall()
+				x(+0).copperBlock()
+				x(+1).anyWall()
+			}
+			z(+1..+3 step 2) {
+				x(-1).anyGlassPane()
+				x(+0).type(Material.BELL)
+				x(+1).anyGlassPane()
+			}
+			z(+5) { x(+0).anyDoubleSlab() }
+			z(+6) { x(+0).hopper() }
+			z(+7) { x(+0).type(Material.GRINDSTONE) }
+		}
+	}
 
-    override fun createSubsystem(starship: ActiveStarship, pos: Vec3i, face: BlockFace): PhaserWeaponSubsystem {
-        return PhaserWeaponSubsystem(starship, pos, face)
-    }
+	override fun createSubsystem(starship: ActiveStarship, pos: Vec3i, face: BlockFace): PhaserWeaponSubsystem {
+		return PhaserWeaponSubsystem(starship, pos, face)
+	}
 }

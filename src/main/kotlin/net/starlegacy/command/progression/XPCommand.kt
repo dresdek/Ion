@@ -16,30 +16,30 @@ import org.bukkit.entity.Player
 import java.util.*
 
 object XPCommand : SLCommand() {
-    @CommandAlias("slxp|xp")
-    fun execute(sender: CommandSender, @Optional player: String?) = asyncCommand(sender) {
-        val playerID: UUID = player?.let { resolveOfflinePlayer(it) }
-            ?: (sender as? Player)?.uniqueId
-            ?: throw InvalidCommandArgument("Console must specify a player!")
+	@CommandAlias("slxp|xp")
+	fun execute(sender: CommandSender, @Optional player: String?) = asyncCommand(sender) {
+		val playerID: UUID = player?.let { resolveOfflinePlayer(it) }
+			?: (sender as? Player)?.uniqueId
+			?: throw InvalidCommandArgument("Console must specify a player!")
 
-        val name = SLPlayer.getName(playerID.slPlayerId) ?: fail { "Player not found" }
+		val name = SLPlayer.getName(playerID.slPlayerId) ?: fail { "Player not found" }
 
-        val (xp: Int?, level: Int?) = SLPlayer.getXPAndLevel(
-            playerID.slPlayerId
-        ) ?: throw ConditionFailedException("$name doesn't have any XP data.")
+		val (xp: Int?, level: Int?) = SLPlayer.getXPAndLevel(
+			playerID.slPlayerId
+		) ?: throw ConditionFailedException("$name doesn't have any XP data.")
 
-        val maxLevel: Int = MAX_LEVEL
+		val maxLevel: Int = MAX_LEVEL
 
-        val isSelf: Boolean = name == sender.name
+		val isSelf: Boolean = name == sender.name
 
-        val response: TextComponent = gray((if (isSelf) "You have " else "$name has "))
+		val response: TextComponent = gray((if (isSelf) "You have " else "$name has "))
 
-        response + when (level) {
-            maxLevel -> aqua(xp.toString()) + gray(" SLXP, at max level.")
-            else -> darkAqua("$xp") + aqua("/") + darkAqua(Levels.getLevelUpCost(level + 1).toString()) +
-                    gray(" SLXP, at level ") +
-                    darkPurple("$level") + lightPurple("/") + darkPurple("$maxLevel")
-        }
-        sender msg response
-    }
+		response + when (level) {
+			maxLevel -> aqua(xp.toString()) + gray(" SLXP, at max level.")
+			else -> darkAqua("$xp") + aqua("/") + darkAqua(Levels.getLevelUpCost(level + 1).toString()) +
+					gray(" SLXP, at level ") +
+					darkPurple("$level") + lightPurple("/") + darkPurple("$maxLevel")
+		}
+		sender msg response
+	}
 }

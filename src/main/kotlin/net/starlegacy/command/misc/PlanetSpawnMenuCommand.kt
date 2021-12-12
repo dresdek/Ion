@@ -8,9 +8,9 @@ import co.aikar.commands.bukkit.contexts.OnlinePlayer
 import org.bukkit.command.CommandSender
 
 object PlanetSpawnMenuCommand : SLCommand() {
-    @CommandAlias("planetspawnmenu")
-    @CommandPermission("starlegacy.misc.planetspawnmenu")
-    fun onExecute(sender: CommandSender, target: OnlinePlayer) {
-        PlanetSpawns.openMenu(target.player)
-    }
+	@CommandAlias("planetspawnmenu")
+	@CommandPermission("starlegacy.misc.planetspawnmenu")
+	fun onExecute(sender: CommandSender, target: OnlinePlayer) {
+		PlanetSpawns.openMenu(target.player)
+	}
 }

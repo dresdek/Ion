@@ -21,11 +21,12 @@ public class SpaceChunkGenerator extends ChunkGenerator {
     }
 
     @Override
-    public @NotNull ChunkData generateChunkData(@NotNull World world,
-                                                @NotNull Random random,
-                                                int x,
-                                                int z,
-                                                @NotNull BiomeGrid biomeGrid) {
+    public @NotNull
+    ChunkData generateChunkData(@NotNull World world,
+                                @NotNull Random random,
+                                int x,
+                                int z,
+                                @NotNull BiomeGrid biomeGrid) {
         setBiome(world, biomeGrid);
 
         ChunkData chunkData = createChunkData(world);

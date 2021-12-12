@@ -9,13 +9,13 @@ import org.bukkit.block.BlockFace
 import org.litote.kmongo.mul
 
 class TriTurretWeaponSubsystem(
-    ship: ActiveStarship,
-    pos: Vec3i,
-    face: BlockFace,
-    override val multiblock: TriTurretMultiblock
+	ship: ActiveStarship,
+	pos: Vec3i,
+	face: BlockFace,
+	override val multiblock: TriTurretMultiblock
 ) : TurretWeaponSubsystem(ship, pos, face),
-    HeavyWeaponSubsystem {
-    override val inaccuracyRadians: Double = Math.toRadians(3.0)
-    override val powerUsage: Int = 45_000
-    override val boostChargeNanos: Long = multiblock.cooldownNanos
+	HeavyWeaponSubsystem {
+	override val inaccuracyRadians: Double = Math.toRadians(3.0)
+	override val powerUsage: Int = 45_000
+	override val boostChargeNanos: Long = multiblock.cooldownNanos
 }

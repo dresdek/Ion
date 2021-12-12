@@ -9,12 +9,12 @@ import net.starlegacy.util.msg
 import org.bukkit.command.CommandSender
 
 object GiveXPCommand : SLCommand() {
-    @CommandAlias("givexp")
-    @CommandPermission("advance.givexp")
-    fun execute(sender: CommandSender, target: OnlinePlayer, amount: Int) {
-        val player = target.player
+	@CommandAlias("givexp")
+	@CommandPermission("advance.givexp")
+	fun execute(sender: CommandSender, target: OnlinePlayer, amount: Int) {
+		val player = target.player
 
-        SLXP.addAsync(player, amount)
-        sender msg "&2Gave &d$amount&2 XP to &d${player.name}"
-    }
+		SLXP.addAsync(player, amount)
+		sender msg "&2Gave &d$amount&2 XP to &d${player.name}"
+	}
 }
