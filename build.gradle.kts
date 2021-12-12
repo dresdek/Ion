@@ -13,104 +13,41 @@ version = "SNAPSHOT"
 
 repositories {
     // used for github projects without their own repo, com.github.User:Project:Tag
-    maven {
-        url "https://jitpack.io"
-        content {
-            includeGroupByRegex "com\\.github.*"
-        }
-    }
+    maven { url = uri("https://jitpack.io") }
 
     // Official PaperMC repository for API
-    maven {
-        url "https://papermc.io/repo/repository/maven-public/"
-        content {
-            includeGroupByRegex "org\\.spigotmc.*"
-            includeGroupByRegex "com\\.destroystokyo.*"
-        }
-    }
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
 
     // used for WorldEdit and WorldGuard
-    maven {
-        url "https://maven.sk89q.com/repo/"
-        content {
-            includeGroupByRegex "com\\.sk89q.*"
-        }
-    }
+    maven { url = uri("https://maven.sk89q.com/repo/") }
 
     // used for EventChain
-    maven {
-        url "https://www.myget.org/F/egg82-java/maven/"
-        content {
-            includeGroup "ninja.egg82"
-        }
-    }
+    maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
 
     // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
-    maven {
-        url "https://repo.aikar.co/content/groups/aikar/"
-        content {
-            includeGroup "co.aikar"
-        }
-    }
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
 
     // used for discordsrv
-    maven {
-        url "https://nexus.scarsz.me/content/groups/public/"
-        content {
-            includeGroup "com.discordsrv"
-            includeGroup "github.scarsz"
-            includeGroup "dev.vankka"
-        }
-    }
+    maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
 
     // used for dependency of discordsrv (MCDiscordReserializer)
-    maven {
-        url "https://nexus.vankka.dev/repository/maven-public/"
-        content {
-            includeGroup "dev.vankka"
-        }
-    }
+    maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") }
 
     // used for dependency of discordsrv (UltimateChat)
-    maven {
-        url "https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/"
-        content {
-            includeGroup "br.net.fabiozumbi12.UltimateChat"
-        }
-    }
+    maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") }
 
     // anvilgui repo
-    maven {
-        url "https://repo.codemc.io/repository/maven-snapshots/"
-        content {
-            includeGroup "net.wesjd"
-        }
-    }
+    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 
     // Citizens NPCs plugin repo
-    maven {
-        url "https://repo.citizensnpcs.co/"
-        content {
-            includeGroup "net.citizensnpcs"
-        }
-    }
+    maven { url = uri("https://repo.citizensnpcs.co/") }
 
-    maven {
-        url "https://repo.codemc.io/repository/maven-snapshots/"
-        content {
-            includeGroup "net.wesjd"
-        }
-    }
+    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 
     // private repository to host server binaries
-    maven {
-        url "https://maven.starlegacy.net/"
-        content {
-            excludeGroup "commons-io"
-        }
-    }
+    maven { url = uri("https://maven.starlegacy.net/") }
 
-    maven { url = "https://repo.mikeprimm.com/" }
+    maven { url = uri("https://repo.mikeprimm.com/") }
 
     // general maven central repository
     mavenCentral()
@@ -118,9 +55,7 @@ repositories {
 
     // aikar"s repository which mirrors lots of Minecraft things plus hosts his own projects
     // put twice: once before to quickly pick up his own plugins, once here as a last resort for other stuff
-    maven {
-        url "https://repo.aikar.co/content/groups/aikar/"
-    }
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
 }
 
 dependencies {
