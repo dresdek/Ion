@@ -1,14 +1,10 @@
 package net.starlegacy.util
 
-import net.minecraft.server.v1_16_R3.EntityPlayer
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.X
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.X_ROT
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Y
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Y_ROT
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Z
-import net.minecraft.server.v1_16_R3.PlayerConnection
-import net.minecraft.server.v1_16_R3.Vec3D
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.*
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerGamePacketListenerImpl
+import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
@@ -31,25 +27,25 @@ object ConnectionUtils {
 
 	@Throws(NoSuchFieldException::class)
 	private fun getField(name: String): Field {
-		val field = PlayerConnection::class.java.getDeclaredField(name)
+		val field = ServerGamePacketListenerImpl::class.java.getDeclaredField(name)
 		field.isAccessible = true
 		return field
 	}
 
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
-		val connection = handle.playerConnection
+		val connection = handle.connection
 		val x = loc.x
 		val y = loc.y
 		val z = loc.z
 
-		if (handle.activeContainer !== handle.defaultContainer) {
-			handle.closeInventory()
+		if (handle.containerMenu !== handle.inventoryMenu) {
+			handle.closeContainer()
 		}
 
 		var teleportAwait: Int
 		justTeleportedField.set(connection, true)
-		teleportPosField.set(connection, Vec3D(x, y, z))
+		teleportPosField.set(connection, Vec3(x, y, z))
 		lastPosXField.set(connection, x)
 		lastPosYField.set(connection, y)
 		lastPosZField.set(connection, z)
@@ -76,12 +72,12 @@ object ConnectionUtils {
 			pz = offsetPos.z
 		}
 
-		handle.setLocation(x, y, z, handle.yaw + theta, handle.pitch)
-		handle.worldServer.chunkCheck(handle)
+		handle.absMoveTo(x, y, z, handle.yRot + theta, handle.yRot)
+//		handle.getLevel().updateChunkPos(handle) // This was removed in 1.17.1, if there are issues, look here!
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
-		val packet = PacketPlayOutPosition(px, py, pz, theta, 0f, flags, teleportAwait)
-		connection.sendPacket(packet)
+		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait, true)
+		connection.send(packet)
 	}
 
 	fun teleport(player: Player, loc: Location) {
@@ -96,10 +92,10 @@ object ConnectionUtils {
 		move(player, loc, 0.0f, Vector(dx, dy, dz))
 	}
 
-	fun isTeleporting(player: EntityPlayer?): Boolean {
+	fun isTeleporting(player: ServerPlayer?): Boolean {
 		if (player == null) return false
 		return try {
-			teleportPosField.get(player.playerConnection) != null
+			teleportPosField.get(player.connection) != null
 		} catch (e: IllegalAccessException) {
 			false
 		}
@@ -109,6 +105,6 @@ object ConnectionUtils {
 		if (player == null || !player.isOnline) return
 		if (Bukkit.isPrimaryThread()) move(player, player.location, 0.0, 0.0, 0.0)
 		val handle = (player as CraftPlayer).handle
-		while (player.isOnline && teleportPosField.get(handle.playerConnection) != null) Thread.sleep(0)
+		while (player.isOnline && teleportPosField.get(handle.connection) != null) Thread.sleep(0)
 	}
 }
