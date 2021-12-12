@@ -12,7 +12,7 @@ import org.bukkit.Particle
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.type.Slab
-import java.util.EnumSet
+import java.util.*
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
@@ -261,7 +261,7 @@ class MultiblockShape {
 		fun machineFurnace() = complete { block, inward ->
 			val blockData = block.getNMSBlockData()
 			if (blockData.bukkitMaterial != Material.FURNACE) return@complete false
-			val facing = blockData.get(NMSBlockFurnace.FACING).blockFace
+			val facing = blockData.getValue(NMSBlockFurnace.FACING).blockFace
 			return@complete facing == inward.oppositeFace
 		}
 	}
