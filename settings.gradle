@@ -1,5 +1,4 @@
 rootProject.name = "starlegacy"
 
 include "starlegacy-libs"
-include "dutymode"
 include "environments"
