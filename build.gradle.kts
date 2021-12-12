@@ -5,9 +5,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "6.0.0"
 }
 
-targetCompatibility = 1.8
-sourceCompatibility = 1.8
-
 group = "net.starlegacy"
 version = "SNAPSHOT"
 
