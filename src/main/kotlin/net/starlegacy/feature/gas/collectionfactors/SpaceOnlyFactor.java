@@ -5,8 +5,8 @@ import org.bukkit.Location;
 
 public class SpaceOnlyFactor extends CollectionFactor {
 
-    @Override
-    public boolean factor(Location location) {
-        return SpaceWorlds.INSTANCE.contains(location.getWorld());
-    }
+	@Override
+	public boolean factor(Location location) {
+		return SpaceWorlds.INSTANCE.contains(location.getWorld());
+	}
 }
