@@ -13,7 +13,7 @@ repositories {
 	maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
 	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit and WorldGuard
 	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
-	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
+	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") }} // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
 	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") } // used for discordsrv
 	maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") } // used for dependency of discordsrv (MCDiscordReserializer)
 	maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") } // used for dependency of discordsrv (UltimateChat)
@@ -21,12 +21,13 @@ repositories {
 	maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 	maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
-	maven { url = uri("https://repo.mikeprimm.com/"); content { excludeGroup("org.bukkit") } } // Used for dynmap
+	maven { url = uri("https://repo.mikeprimm.com/") } // Used for dynmap
 	mavenCentral() // general maven central repository
 }
 
 dependencies {
 	// https://papermc.io (full server hosted at https://maven.starlegacy.net/)
+	compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 	paperDevBundle("1.17.1-R0.1-SNAPSHOT")
 
 	compileOnly("net.luckperms:api:5.3")
@@ -37,9 +38,7 @@ dependencies {
 	compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT") // https://github.com/CitizensDev/Citizens2/
 
 	// https://github.com/webbukkit/dynmap
-	compileOnly("us.dynmap:dynmap-api:3.1") {
-		exclude("org.bukkit:bukkit")
-	}
+	compileOnly("us.dynmap:dynmap-api:3.1")
 	compileOnly("us.dynmap:spigot:3.1")
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // https://kotlinlang.org/
