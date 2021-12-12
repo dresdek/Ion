@@ -62,24 +62,22 @@ dependencies {
     compileOnly("com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT")
     compileOnly("com.destroystokyo.paper:paper:1.16.4-R0.1-SNAPSHOT")
 
-    compileOnly("net.luckperms:api:5.0") { exclude group: "org.bukkit", module: "bukkit" }
+    compileOnly("net.luckperms:api:5.0"
 
     // https://github.com/MilkBowl/Vault
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") { exclude group: "org.bukkit", module: "bukkit" }
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
     // https://github.com/bloodmc/GriefDefender/
-    compileOnly("com.github.bloodmc:GriefDefenderAPI:master") { exclude group: "org.bukkit", module: "bukkit" }
+    compileOnly("com.github.bloodmc:GriefDefenderAPI:master")
 
-    compileOnly("com.discordsrv:discordsrv:1.20.0") { exclude group: "org.bukkit", module: "bukkit" }
+    compileOnly("com.discordsrv:discordsrv:1.20.0")
 
     // https://github.com/webbukkit/dynmap
     compileOnly("us.dynmap:dynmap-api:3.1")
     compileOnly("us.dynmap:spigot:3.1")
 
     // https://github.com/EngineHub/WorldEdit
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT") {
-        exclude group: "org.bukkit", module: "bukkit"
-    }
+    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT")
 
     // https://github.com/CitizensDev/Citizens2/
     compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT")
@@ -105,16 +103,16 @@ dependencies {
     // https://github.com/jkcclemens/khttp
     implementation("khttp:khttp:1.0.0")
 
-    implementation("net.wesjd:anvilgui:1.5.0-SNAPSHOT") { exclude group: "org.bukkit", module: "bukkit" }
+    implementation("net.wesjd:anvilgui:1.5.0-SNAPSHOT")
 
     // https://github.com/stefvanschie/IF
-    implementation("com.github.stefvanschie.inventoryframework:IF:0.5.8") { exclude group: "org.bukkit", module: "bukkit" }
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.5.8")
 
     // https://github.com/aikar/commands
-    implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") { exclude group: "org.bukkit", module: "bukkit" }
+    implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT")
 
     // https://github.com/egg82/EventChain
-    implementation("ninja.egg82:event-chain-bukkit:1.0.7") { exclude group: "org.bukkit", module: "bukkit" }
+    implementation("ninja.egg82:event-chain-bukkit:1.0.7")
 
     implementation(group: "org.ejml", name: "ejml-all", version: "0.40")
 
