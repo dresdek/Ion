@@ -1,7 +1,9 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
-import net.minecraft.server.v1_16_R3.*
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
+import net.minecraft.server.*
+import net.minecraft.server.level.ChunkHolder
 import net.starlegacy.feature.starship.Hangars
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
@@ -115,7 +117,7 @@ object OptimizedMovement {
 		}
 	}
 
-	private fun isHangar(newBlockData: NMSBlockData) = newBlockData.block is BlockStainedGlass
+	private fun isHangar(newBlockData: NMSBlockData) = newBlockData.block is StainedGlassBlock
 
 	private fun dissipateHangarBlocks(world2: World, hangars: LinkedList<Long>) {
 		for (blockKey in hangars.iterator()) {
@@ -223,10 +225,10 @@ object OptimizedMovement {
 		}
 	}
 
-	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): ChunkSection {
+	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): LevelChunkSection {
 		var section = nmsChunk.sections[sectionY]
 		if (section == null) {
-			section = ChunkSection(sectionY shl 4, nmsChunk, nmsChunk.world, true)
+			section = LevelChunkSection(sectionY shl 4, nmsChunk, nmsChunk.world, true)
 			nmsChunk.sections[sectionY] = section
 		}
 		return section
@@ -323,8 +325,8 @@ object OptimizedMovement {
 			val (worldID, chunkKey) = key
 			val chunk = Bukkit.getWorld(worldID)!!.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
 			val nmsChunk = chunk.nms
-			val playerChunk: PlayerChunk = nmsChunk.playerChunk ?: continue
-			val packet = PacketPlayOutMapChunk(nmsChunk, bitmask)
+			val playerChunk: ChunkHolder = nmsChunk.playerChunk ?: continue
+			val packet = ClientboundLevelChunkPacket(nmsChunk, bitmask)
 			playerChunk.sendPacketToTrackedPlayers(packet, false)
 		}
 	}
