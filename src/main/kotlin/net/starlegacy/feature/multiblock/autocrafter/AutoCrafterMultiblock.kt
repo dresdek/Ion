@@ -3,22 +3,15 @@ package net.starlegacy.feature.multiblock.autocrafter
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
-import net.minecraft.world.inventory.CraftingContainer
-import net.minecraft.server.MinecraftServer
 import net.minecraft.core.NonNullList
+import net.minecraft.server.MinecraftServer
+import net.minecraft.world.inventory.CraftingContainer
 import net.minecraft.world.item.crafting.RecipeType
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.multiblock.PowerStoringMultiblock
-import net.starlegacy.util.CBItemStack
-import net.starlegacy.util.NMSItemStack
-import net.starlegacy.util.add
-import net.starlegacy.util.getFacing
-import net.starlegacy.util.getStateIfLoaded
-import net.starlegacy.util.nms
-import net.starlegacy.util.orNull
-import net.starlegacy.util.rightFace
+import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Furnace
@@ -26,8 +19,7 @@ import org.bukkit.block.Sign
 import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import java.util.HashMap
-import java.util.Optional
+import java.util.*
 
 private const val POWER_USAGE_PER_INGREDIENT = 50
 
@@ -251,9 +243,7 @@ private val recipeCache: LoadingCache<List<Material?>, Optional<ItemStack>> =
 			inventoryItems[index] = item
 		}
 
-		val result: NMSItemStack? = MinecraftServer.getServer().craftingManager
-			.craft(Recipes.CRAFTING, inventoryCrafting, Bukkit.getWorlds().first().nms)
-			.orNull()?.a(inventoryCrafting)
+		val result: NMSItemStack? = MinecraftServer.getServer().recipeManager.getRecipeFor(RecipeType.CRAFTING, inventoryCrafting, Bukkit.getWorlds().first().nms).orNull()?.resultItem
 
 		return@from Optional.ofNullable(result?.asBukkitCopy())
 	})
