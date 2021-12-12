@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("org.jetbrains.kotlin.jvm") version "1.5.0"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 group = "net.starlegacy"
@@ -66,7 +66,11 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.javaParameters = true
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
 tasks.shadowJar {
