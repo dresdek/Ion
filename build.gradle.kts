@@ -6,8 +6,8 @@ plugins {
 	id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
-group = "net.starlegacy"
-version = "SNAPSHOT"
+group = "net.horizonsend"
+version = "1.0"
 
 repositories {
 	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
