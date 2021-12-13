@@ -45,7 +45,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // https://kotlinlang.org/
 	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
-	implementation("redis.clients:jedis:3.6.3") // https://github.com/xetorthio/jedis
+	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 	implementation("io.github.config4k:config4k:0.4.2") // https://github.com/config4k/config4k
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
