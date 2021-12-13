@@ -1,5 +1,6 @@
 package net.starlegacy.feature.misc
 
+import net.minecraft.world.level.block.state.BlockBehaviour
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.FLYABLE_BLOCKS
 import net.starlegacy.feature.starship.Mass
@@ -112,7 +113,7 @@ object GameplayTweaks : SLComponent() {
 		require(material.isBlock)
 
 		val block = CBMagicNumbers.getBlock(material)
-		val field = net.minecraft.world.level.block.state.BlockBehaviour::class.java.getDeclaredField("explosionResistance")
+		val field = BlockBehaviour::class.java.getDeclaredField("aI") // aI = obfuscation for explosionResistance
 		field.isAccessible = true
 		field.set(block, durability)
 
