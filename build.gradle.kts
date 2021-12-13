@@ -61,10 +61,6 @@ java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
-sourceSets {
-	
-}
-
 tasks {
 	compileJava {
 		options.encoding = Charsets.UTF_8.name()
