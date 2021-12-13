@@ -2,26 +2,28 @@ package net.starlegacy.util.blockplacement
 
 import com.google.common.base.Preconditions
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
-import java.util.function.LongFunction
-import java.util.concurrent.atomic.AtomicInteger
-import net.minecraft.world.level.levelgen.Heightmap
-import net.minecraft.world.level.chunk.LevelChunk
-import org.bukkit.craftbukkit.v1_17_R1.CraftChunk
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.chunk.LevelChunkSection
-import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.core.BlockPos
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.ChunkPos
+import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.chunk.LevelChunk
+import net.minecraft.world.level.chunk.LevelChunkSection
+import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.lighting.LevelLightEngine
 import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.World
+import org.bukkit.craftbukkit.v1_17_R1.CraftChunk
 import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.BiConsumer
 import java.util.function.Consumer
+import java.util.function.LongFunction
 
 internal class BlockPlacementRaw {
 	private val log = LoggerFactory.getLogger(javaClass)
@@ -127,13 +129,13 @@ internal class BlockPlacementRaw {
 		var section: LevelChunkSection? = null
 		var localPlaced = 0
 		var bitmask = 0 // used for the player chunk update thing to let it know which chunks to update
-		val motionBlocking: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING)
-		val motionBlockingNoLeaves: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES)
-		val oceanFloor: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.OCEAN_FLOOR)
-		val worldSurface: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.WORLD_SURFACE)
+		val motionBlocking: Heightmap = nmsChunk.heightmaps[Heightmap.Types.MOTION_BLOCKING]!!
+		val motionBlockingNoLeaves: Heightmap = nmsChunk.heightmaps[Heightmap.Types.MOTION_BLOCKING_NO_LEAVES]!!
+		val oceanFloor: Heightmap = nmsChunk.heightmaps[Heightmap.Types.OCEAN_FLOOR]!!
+		val worldSurface: Heightmap = nmsChunk.heightmaps[Heightmap.Types.WORLD_SURFACE]!!
 		for (y in blocks.indices) {
 			val sectionY = y shr 4
-			if (section == null || sectionY != section.getYPosition()) {
+			if (section == null || sectionY != section.bottomBlockY()) {
 				section = sections[sectionY]
 				if (section == null) {
 					section = LevelChunkSection(sectionY shl 4, nmsChunk, nmsWorld, true)
@@ -145,12 +147,12 @@ internal class BlockPlacementRaw {
 				val zBlocks = xBlocks[x]
 				for (z in zBlocks.indices) {
 					val newData = zBlocks[z] ?: continue
-					val oldData: BlockState = section.getType(x, y and 15, z)
+					val oldData: BlockState = section.getBlockState(x, y and 15, z)
 					if (oldData.block is BaseEntityBlock && oldData.block !== newData.block) {
-						val pos: BlockPos = nmsChunk.pos.asPosition().add(x, y, z)
-						nmsWorld.removeTileEntity(pos)
+						val pos: BlockPos = nmsChunk.pos.worldPosition.added(x, y, z)
+						nmsWorld.removeBlockEntity(pos)
 					}
-					section.setType(x, y and 15, z, newData)
+					section.setBlockState(x, y and 15, z, newData)
 					updateHeightMap(motionBlocking, x, y, z, newData)
 					updateHeightMap(motionBlockingNoLeaves, x, y, z, newData)
 					updateHeightMap(oceanFloor, x, y, z, newData)
@@ -161,8 +163,8 @@ internal class BlockPlacementRaw {
 			bitmask = bitmask or (1 shl sectionY) // update the bitmask to include this section
 		}
 		relight(world, cx, cz, nmsWorld)
-		sendChunkPacket(nmsChunk, bitmask)
-		nmsChunk.setNeedsSaving(true)
+		sendChunkPacket(nmsChunk)
+		nmsChunk.setUnsaved(true)
 		if (!wasLoaded) {
 			world.unloadChunkRequest(cx, cz)
 		}
@@ -179,14 +181,14 @@ internal class BlockPlacementRaw {
 	}
 
 	private fun relight(world: World, cx: Int, cz: Int, nmsWorld: ServerLevel) {
-		val lightEngine: LevelLightEngine = nmsWorld.getChunkProvider().getLightEngine()
-		lightEngine.b(ChunkCoordIntPair(cx, cz), world.environment == World.Environment.NORMAL)
+		val lightEngine: LevelLightEngine = nmsWorld.lightEngine
+		lightEngine.retainData(ChunkPos(cx, cz), world.environment == World.Environment.NORMAL)
 	}
 
-	private fun sendChunkPacket(nmsChunk: LevelChunk, bitmask: Int) {
+	private fun sendChunkPacket(nmsChunk: LevelChunk) {
 		val playerChunk = nmsChunk.playerChunk ?: return
-		val packet = PacketPlayOutMapChunk(nmsChunk, bitmask)
-		playerChunk.sendPacketToTrackedPlayers(packet, false)
+		val packet = ClientboundLevelChunkPacket(nmsChunk)
+		playerChunk.broadcast(packet, false)
 	}
 
 	companion object {
