@@ -148,8 +148,8 @@ object TutorialManager : SLComponent() {
 		val chunk = chunkReference.get() ?: return
 		val nmsChunk = chunk.nms
 		val sections = nmsChunk.sections
-		for (it in nmsChunk.tileEntities.keys.toList()) {
-			nmsChunk.world.removeTileEntity(it)
+		for (it in nmsChunk.blockEntities.keys.toList()) {
+			nmsChunk.level.removeTileEntity(it)
 		}
 		for (i in 0..sections.lastIndex) {
 			sections[i] = NMSChunk.EMPTY_SECTION

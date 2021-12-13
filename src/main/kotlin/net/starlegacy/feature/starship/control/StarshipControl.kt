@@ -1,6 +1,5 @@
 package net.starlegacy.feature.starship.control
 
-import com.flowpowered.math.matrix.Matrix2d
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.space.Space
 import net.starlegacy.feature.starship.PilotedStarships
@@ -10,19 +9,12 @@ import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.hyperspace.Hyperspace
 import net.starlegacy.feature.starship.movement.StarshipTeleportation
 import net.starlegacy.feature.starship.movement.TranslateMovement
-import net.starlegacy.feature.starship.subsystem.weapon.interfaces.ManualWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.StarshipWeapons
-import net.starlegacy.feature.starship.subsystem.weapon.WeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
+import net.starlegacy.feature.starship.subsystem.weapon.WeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.HeavyWeaponSubsystem
-import net.starlegacy.util.ConnectionUtils
-import net.starlegacy.util.PerPlayerCooldown
-import net.starlegacy.util.Tasks
-import net.starlegacy.util.d
-import net.starlegacy.util.isLava
-import net.starlegacy.util.isSign
-import net.starlegacy.util.isWater
-import net.starlegacy.util.nms
+import net.starlegacy.feature.starship.subsystem.weapon.interfaces.ManualWeaponSubsystem
+import net.starlegacy.util.*
 import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
@@ -33,29 +25,14 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerItemHeldEvent
-import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerSwapHandItemsEvent
-import org.bukkit.event.player.PlayerToggleSneakEvent
+import org.bukkit.event.player.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.util.Vector
-import java.util.Collections
-import java.util.LinkedList
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.sign
-import kotlin.math.sin
+import kotlin.collections.set
+import kotlin.math.*
 
 object StarshipControl : SLComponent() {
 	val CONTROLLER_TYPE = Material.CLOCK
@@ -327,7 +304,7 @@ object StarshipControl : SLComponent() {
 	}
 
 	private fun getPing(player: Player): Int {
-		return player.nms.playerConnection.player.ping
+		return player.nms.connection.player.latency
 	}
 
 	private fun rotation() {

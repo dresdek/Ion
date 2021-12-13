@@ -1,15 +1,13 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.Vec3
 import net.starlegacy.feature.progression.ShipKillXP
-import net.starlegacy.feature.starship.Mass
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
-import net.starlegacy.feature.starship.subsystem.weapon.Projectiles
 import net.starlegacy.util.CBMagicNumbers
 import net.starlegacy.util.nms
 import org.bukkit.FluidCollisionMode
@@ -22,7 +20,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.util.RayTraceResult
 import org.bukkit.util.Vector
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 abstract class SimpleProjectile(
@@ -69,8 +67,8 @@ abstract class SimpleProjectile(
 		)
 		val range = if (chunkRange > 1) chunkRange * 16.0 else 16.0
 		val nmsWorld = loc.world.nms
-		val playerList = checkNotNull(nmsWorld.minecraftServer).playerList
-		playerList.sendPacketNearby(null, x, y, z, range, nmsWorld.dimensionKey, packet)
+		val playerList = checkNotNull(nmsWorld.server).playerList
+		playerList.broadcast(null, x, y, z, range, nmsWorld.dimension(), packet)
 	}
 
 	override fun tick() {
@@ -136,8 +134,8 @@ abstract class SimpleProjectile(
 		val world = newLoc.world
 
 		// use these so we dont use hardcoded Material values
-		val armorBlastResist = CBMagicNumbers.getBlock(Material.STONE).durability
-		val impactedBlastResist = CBMagicNumbers.getBlock(block?.type ?: Material.STONE_BRICKS).durability
+		val armorBlastResist = CBMagicNumbers.getBlock(Material.STONE).explosionResistance
+		val impactedBlastResist = CBMagicNumbers.getBlock(block?.type ?: Material.STONE_BRICKS).explosionResistance
 		val fraction = 1.0 + (armorBlastResist - impactedBlastResist) / 20.0
 
 		StarshipShields.withExplosionPowerOverride(fraction * explosionPower * shieldDamageMultiplier) {
