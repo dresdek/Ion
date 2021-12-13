@@ -1,17 +1,9 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import org.bukkit.Location;
+import org.bukkit.Location
 
-public class RandomFactor extends CollectionFactor {
-
-	private float chance;
-
-	public RandomFactor(float chance) {
-		this.chance = chance;
-	}
-
-	@Override
-	public boolean factor(Location location) {
-		return Math.random() <= chance;
+open class RandomFactor(private val chance: Float) : CollectionFactor() {
+	override fun factor(location: Location): Boolean {
+		return Math.random() <= chance
 	}
 }

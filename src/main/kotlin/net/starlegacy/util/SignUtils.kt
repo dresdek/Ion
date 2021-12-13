@@ -1,61 +1,43 @@
-package net.starlegacy.util;
+package net.starlegacy.util
 
-import com.google.gson.Gson;
-import com.sk89q.jnbt.CompoundTag;
-import org.bukkit.ChatColor;
+import com.google.gson.Gson
+import com.sk89q.jnbt.CompoundTag
+import net.starlegacy.util.SignUtils.SignNBTLine
+import net.starlegacy.util.SignUtils
+import org.bukkit.ChatColor
+import java.lang.StringBuilder
 
-import java.util.List;
-
-public class SignUtils {
-	private static Gson gson = new Gson();
-
-	public static String convertLine(String jsonLine) {
-		if (jsonLine == null) return "";
-		SignNBTLine line = gson.fromJson(jsonLine, SignNBTLine.class);
-		StringBuilder text = new StringBuilder(line.getText());
-		if (line.getExtra() != null) {
-			for (SignNBTLine signNBTLine : line.getExtra()) text.append(signNBTLine.getText());
+object SignUtils {
+	private val gson = Gson()
+	fun convertLine(jsonLine: String?): String {
+		if (jsonLine == null) return ""
+		val line = gson.fromJson(jsonLine, SignNBTLine::class.java)
+		val text = StringBuilder(line.text)
+		if (line.extra != null) {
+			for (signNBTLine in line.extra!!) text.append(signNBTLine.text)
 		}
-		return text.toString();
+		return text.toString()
 	}
 
-	public static String[] fromCompoundTag(CompoundTag nbt) {
-		String[] lines = new String[]{"", "", "", ""};
-
+	fun fromCompoundTag(nbt: CompoundTag?): Array<String> {
+		val lines = arrayOf("", "", "", "")
 		if (nbt == null) {
-			return lines;
+			return lines
 		}
-
-		for (int i = 0; i < 4; i++) {
-			lines[i] = convertLine(nbt.getString("Text" + (i + 1)));
+		for (i in 0..3) {
+			lines[i] = convertLine(nbt.getString("Text" + (i + 1)))
 		}
-
-		return lines;
+		return lines
 	}
 
-	public static class SignNBTLine {
-		private List<SignNBTLine> extra;
-		private String color;
-		private String text;
+	class SignNBTLine {
+		var extra: List<SignNBTLine>? = null
+		private var color: String? = null
+		var text: String? = null
+			get() = if (color == null) field else ChatColor.valueOf(color!!.uppercase()).toString() + field
 
-		public String getText() {
-			return color == null ? text : ChatColor.valueOf(color.uppercase()) + text;
-		}
-
-		public void setText(String text) {
-			this.text = text;
-		}
-
-		public List<SignNBTLine> getExtra() {
-			return extra;
-		}
-
-		public void setExtra(List<SignNBTLine> extra) {
-			this.extra = extra;
-		}
-
-		public void setColor(String color) {
-			this.color = color;
+		fun setColor(color: String?) {
+			this.color = color
 		}
 	}
 }

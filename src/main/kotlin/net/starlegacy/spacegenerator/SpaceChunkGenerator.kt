@@ -1,60 +1,46 @@
-package net.starlegacy.spacegenerator;
+package net.starlegacy.spacegenerator
 
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.generator.ChunkGenerator;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.World
+import org.bukkit.block.Biome
+import org.bukkit.generator.ChunkGenerator
+import java.util.*
 
-import java.util.Random;
+class SpaceChunkGenerator(worldConfig: SpaceGeneratorConfig.World?) : ChunkGenerator() {
+	private val asteroidGenerator: AsteroidGenerator
 
-// java used here to optimize performance
-public class SpaceChunkGenerator extends ChunkGenerator {
-	private final AsteroidGenerator asteroidGenerator;
-
-	public SpaceChunkGenerator(SpaceGeneratorConfig.World worldConfig) {
-		asteroidGenerator = new AsteroidGenerator(worldConfig);
+	init {
+		asteroidGenerator = AsteroidGenerator(worldConfig)
 	}
 
-	@Override
-	public boolean isParallelCapable() {
-		return true;
+	override fun isParallelCapable(): Boolean {
+		return true
 	}
 
-	@Override
-	public @NotNull
-	ChunkData generateChunkData(@NotNull World world,
-								@NotNull Random random,
-								int x,
-								int z,
-								@NotNull BiomeGrid biomeGrid) {
-		setBiome(world, biomeGrid);
-
-		ChunkData chunkData = createChunkData(world);
-		asteroidGenerator.addAsteroids(world, x, z, chunkData);
-		return chunkData;
+	override fun generateChunkData(
+		world: World,
+		random: Random,
+		x: Int,
+		z: Int,
+		biomeGrid: BiomeGrid
+	): ChunkData {
+		setBiome(world, biomeGrid)
+		val chunkData = createChunkData(world)
+		asteroidGenerator.addAsteroids(world, x, z, chunkData)
+		return chunkData
 	}
 
-	private void setBiome(World world, BiomeGrid biomeGrid) {
-		Biome biome;
-
-		switch (world.getEnvironment()) {
-			case NORMAL:
-				biome = Biome.THE_VOID;
-				break;
-			case NETHER:
-				biome = Biome.SOUL_SAND_VALLEY;
-				break;
-			case THE_END:
-				biome = Biome.THE_END;
-				break;
-			default:
-				throw new IllegalStateException("Unexpected value: " + world.getEnvironment());
+	private fun setBiome(world: World, biomeGrid: BiomeGrid) {
+		val biome: Biome
+		biome = when (world.environment) {
+			World.Environment.NORMAL -> Biome.THE_VOID
+			World.Environment.NETHER -> Biome.SOUL_SAND_VALLEY
+			World.Environment.THE_END -> Biome.THE_END
+			else -> throw IllegalStateException("Unexpected value: " + world.environment)
 		}
-
-		for (int x = 0; x < 16; x++) {
-			for (int y = 0; y < 256; y++) {
-				for (int z = 0; z < 16; z++) {
-					biomeGrid.setBiome(x, y, z, biome);
+		for (x in 0..15) {
+			for (y in 0..255) {
+				for (z in 0..15) {
+					biomeGrid.setBiome(x, y, z, biome)
 				}
 			}
 		}

@@ -1,11 +1,10 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import net.starlegacy.util.LegacyBlockUtils;
-import org.bukkit.Location;
+import net.starlegacy.util.LegacyBlockUtils.isInside
+import org.bukkit.Location
 
-public class OutdoorsFactor extends CollectionFactor {
-	@Override
-	public boolean factor(Location location) {
-		return !LegacyBlockUtils.INSTANCE.isInside(location, 2);
+class OutdoorsFactor : CollectionFactor() {
+	override fun factor(location: Location): Boolean {
+		return !isInside(location, 2)
 	}
 }

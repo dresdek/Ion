@@ -1,28 +1,13 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import org.bukkit.Location;
+import org.bukkit.Location
 
-public class DistanceFactor extends CollectionFactor {
-
-	private Location origin;
-	private double maxDistance;
-	private float multiplier;
-
-	public DistanceFactor(Location origin, double maxDistance, float multiplier) {
-		this.origin = origin;
-		this.maxDistance = maxDistance;
-		this.multiplier = multiplier;
+class DistanceFactor(private val origin: Location, private val maxDistance: Double, private val multiplier: Float) :
+	CollectionFactor() {
+	override fun factor(location: Location): Boolean {
+		if (origin.world.name != location.world.name) return false
+		val distance = location.distance(origin)
+		if (distance < 1) return true
+		return if (distance > maxDistance) false else RandomFactor(multiplier / distance.toFloat()).factor(location)
 	}
-
-	@Override
-	public boolean factor(Location location) {
-		if (!origin.getWorld().getName().equals(location.getWorld().getName()))
-			return false;
-		double distance = location.distance(origin);
-		if (distance < 1) return true;
-		if (distance > maxDistance)
-			return false;
-		return new RandomFactor(multiplier / (float) distance).factor(location);
-	}
-
 }

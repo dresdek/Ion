@@ -1,46 +1,51 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import net.starlegacy.feature.gas.collectionfactors.CollectionFactor
+import net.starlegacy.feature.gas.collectionfactors.AtmosphereHeightFactor
+import net.starlegacy.feature.gas.collectionfactors.DistanceFactor
+import net.starlegacy.feature.gas.collectionfactors.RandomFactor
+import net.starlegacy.feature.gas.collectionfactors.HyperspaceOnlyFactor
+import net.starlegacy.feature.gas.collectionfactors.SpaceOnlyFactor
+import net.starlegacy.feature.gas.collectionfactors.WorldLimitFactor
+import net.starlegacy.feature.gas.collectionfactors.WorldChanceFactor
+import net.starlegacy.feature.gas.collectionfactors.OutdoorsFactor
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import java.util.ArrayList
 
-import java.util.ArrayList;
-import java.util.List;
+abstract class CollectionFactor {
+	abstract fun factor(location: Location?): Boolean
 
-public abstract class CollectionFactor {
-
-	public static List<CollectionFactor> collectionSetFromString(String string) {
-		List<CollectionFactor> collectionFactors = new ArrayList<>();
-		for (String text : string.split(";")) collectionFactors.add(valueOf(text));
-		return collectionFactors;
-	}
-
-	private static CollectionFactor valueOf(String text) {
-		String[] params = text.split(":");
-		switch (params[0].lowercase()) {
-			case "atmosphereheight":
-				return new AtmosphereHeightFactor(Integer.parseInt(params[1]), Integer.parseInt(params[2]));
-			case "distance":
-				String[] locationParams = params[1].split(",");
-				return new DistanceFactor(
-						new Location(Bukkit.getWorld(locationParams[0]), Integer.parseInt(locationParams[1]),
-								Integer.parseInt(locationParams[2]), Integer.parseInt(locationParams[3])),
-						Integer.parseInt(params[2]), Float.parseFloat(params[3]));
-			case "random":
-				return new RandomFactor(Float.parseFloat(params[1]));
-			case "hyperspaceonly":
-				return new HyperspaceOnlyFactor();
-			case "spaceonly":
-				return new SpaceOnlyFactor();
-			case "worldlimit":
-				return new WorldLimitFactor(params[1].split(","));
-			case "worldchance":
-				return new WorldChanceFactor(Float.parseFloat(params[1]), params[2]);
-			case "skylight":
-			case "outdoors":
-				return new OutdoorsFactor();
+	companion object {
+		fun collectionSetFromString(string: String): List<CollectionFactor> {
+			val collectionFactors: MutableList<CollectionFactor> = ArrayList()
+			for (text in string.split(";").toTypedArray()) collectionFactors.add(valueOf(text))
+			return collectionFactors
 		}
-		return new RandomFactor(1.0f);
-	}
 
-	public abstract boolean factor(Location location);
+		private fun valueOf(text: String): CollectionFactor {
+			val params = text.split(":").toTypedArray()
+			when (params[0].lowercase()) {
+				"atmosphereheight" -> return AtmosphereHeightFactor(
+					params[1].toInt().toDouble(), params[2].toInt().toDouble()
+				)
+				"distance" -> {
+					val locationParams = params[1].split(",").toTypedArray()
+					return DistanceFactor(
+						Location(
+							Bukkit.getWorld(locationParams[0]), locationParams[1].toInt()
+								.toDouble(), locationParams[2].toInt().toDouble(), locationParams[3].toInt().toDouble()
+						), params[2].toInt().toDouble(), params[3].toFloat()
+					)
+				}
+				"random" -> return RandomFactor(params[1].toFloat())
+				"hyperspaceonly" -> return HyperspaceOnlyFactor()
+				"spaceonly" -> return SpaceOnlyFactor()
+				"worldlimit" -> return WorldLimitFactor(params[1].split(",").toTypedArray())
+				"worldchance" -> return WorldChanceFactor(params[1].toFloat(), params[2])
+				"skylight", "outdoors" -> return OutdoorsFactor()
+			}
+			return RandomFactor(1.0f)
+		}
+	}
 }

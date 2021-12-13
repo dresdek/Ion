@@ -1,11 +1,9 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import org.bukkit.Location;
+import org.bukkit.Location
 
-public class HyperspaceOnlyFactor extends CollectionFactor {
-
-	@Override
-	public boolean factor(Location location) {
-		return location.getWorld().getName().contains("Hyperspace");
+class HyperspaceOnlyFactor : CollectionFactor() {
+	override fun factor(location: Location): Boolean {
+		return location.world.name.contains("Hyperspace")
 	}
 }

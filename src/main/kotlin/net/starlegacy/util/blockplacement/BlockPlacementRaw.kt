@@ -1,243 +1,215 @@
-package net.starlegacy.util.blockplacement;
+package net.starlegacy.util.blockplacement
 
-import com.google.common.base.Preconditions;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.lighting.LevelLightEngine;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_17_R1.CraftChunk;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.base.Preconditions
+import net.starlegacy.util.blockKeyY
+import net.starlegacy.util.blockKeyX
+import net.starlegacy.util.blockKeyZ
+import net.starlegacy.util.chunkKey
+import net.starlegacy.util.chunkKeyX
+import net.starlegacy.util.chunkKeyZ
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import java.util.function.LongFunction
+import net.starlegacy.util.blockplacement.BlockPlacementRaw
+import java.util.concurrent.atomic.AtomicInteger
+import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.level.chunk.LevelChunk
+import org.bukkit.craftbukkit.v1_17_R1.CraftChunk
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.chunk.LevelChunkSection
+import net.minecraft.world.level.block.BaseEntityBlock
+import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ChunkHolder
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.lighting.LevelLightEngine
+import org.bukkit.Bukkit
+import org.bukkit.Chunk
+import org.bukkit.World
+import org.slf4j.LoggerFactory
+import java.util.*
+import java.util.concurrent.TimeUnit
+import java.util.function.BiConsumer
+import java.util.function.Consumer
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
-
-import static net.starlegacy.util.CoordinatesKt.*;
-
-class BlockPlacementRaw {
-	private final Logger log = LoggerFactory.getLogger(getClass());
-
-	private final WeakHashMap<World, Long2ObjectOpenHashMap<BlockState[][][]>> worldQueues = new WeakHashMap<>();
-
-	@NotNull
-	private static BlockState[][][] emptyChunkMap() {
-		// y x z array
-		BlockState[][][] array = new BlockState[256][][];
-
-		for (int y1 = 0; y1 < array.length; y1++) {
-			BlockState[][] xArray = new BlockState[16][];
-
-			for (int x1 = 0; x1 < xArray.length; x1++) {
-				xArray[x1] = new BlockState[16];
-			}
-
-			array[y1] = xArray;
-		}
-
-		return array;
+internal class BlockPlacementRaw {
+	private val log = LoggerFactory.getLogger(javaClass)
+	private val worldQueues = WeakHashMap<World, Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>>()
+	@Synchronized
+	fun queue(world: World, queue: Long2ObjectOpenHashMap<BlockState?>) {
+		val worldQueue = worldQueues.computeIfAbsent(world) { w: World? -> Long2ObjectOpenHashMap() }
+		addToWorldQueue(queue, worldQueue)
 	}
 
-	synchronized void queue(World world, Long2ObjectOpenHashMap<BlockState> queue) {
-		Long2ObjectOpenHashMap<BlockState[][][]> worldQueue = worldQueues.computeIfAbsent(world, w -> new Long2ObjectOpenHashMap<>());
-
-		addToWorldQueue(queue, worldQueue);
+	fun addToWorldQueue(
+		queue: Long2ObjectOpenHashMap<BlockState?>,
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>
+	) {
+		queue.forEach(BiConsumer { coords: Long?, blockData: BlockState? ->
+			val y = blockKeyY(coords!!)
+			val x = blockKeyX(coords)
+			val z = blockKeyZ(coords)
+			val chunkX = x shr 4
+			val chunkZ = z shr 4
+			val chunkKey = chunkKey(chunkX, chunkZ)
+			val chunkQueue = worldQueue.computeIfAbsent(chunkKey, LongFunction { c: Long -> emptyChunkMap() })
+			chunkQueue[y][x and 15][z and 15] = blockData
+		})
 	}
 
-	void addToWorldQueue(Long2ObjectOpenHashMap<BlockState> queue, Long2ObjectOpenHashMap<BlockState[][][]> worldQueue) {
-		queue.forEach((coords, blockData) -> {
-			int y = blockKeyY(coords);
-			int x = blockKeyX(coords);
-			int z = blockKeyZ(coords);
-
-			int chunkX = x >> 4;
-			int chunkZ = z >> 4;
-
-			long chunkKey = chunkKey(chunkX, chunkZ);
-
-			BlockState[][][] chunkQueue = worldQueue.computeIfAbsent(chunkKey, c -> emptyChunkMap());
-
-			chunkQueue[y][x & 15][z & 15] = blockData;
-		});
-	}
-
-	void flush(@Nullable Consumer<World> onComplete) {
-		Preconditions.checkState(Bukkit.isPrimaryThread());
-
+	fun flush(onComplete: Consumer<World?>?) {
+		Preconditions.checkState(Bukkit.isPrimaryThread())
 		if (worldQueues.isEmpty()) {
-			return;
+			return
 		}
-
-		for (World world : new ArrayList<>(worldQueues.keySet())) {
-			Long2ObjectOpenHashMap<BlockState[][][]> worldQueue = worldQueues.get(world);
-			placeWorldQueue(world, worldQueue, onComplete, false);
+		for (world in ArrayList(worldQueues.keys)) {
+			val worldQueue = worldQueues[world]!!
+			placeWorldQueue(world, worldQueue, onComplete, false)
 		}
 	}
 
-	void placeWorldQueue(World world, Long2ObjectOpenHashMap<BlockState[][][]> worldQueue, @Nullable Consumer<World> onComplete, boolean immediate) {
+	fun placeWorldQueue(
+		world: World,
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>,
+		onComplete: Consumer<World?>?,
+		immediate: Boolean
+	) {
 		if (worldQueue.isEmpty()) {
-			log.debug("Queue for  " + world.getName() + " was empty!");
-			worldQueues.remove(world, worldQueue);
-			return;
+			log.debug("Queue for  " + world.name + " was empty!")
+			worldQueues.remove(world, worldQueue)
+			return
 		}
-
-		long start = System.nanoTime();
-
-		AtomicInteger placedChunks = new AtomicInteger();
-		AtomicInteger placed = new AtomicInteger();
-
-		int chunkCount = worldQueue.size();
-
-		log.debug("Queued " + chunkCount + " chunks for " + world.getName());
-
-		for (Map.Entry<Long, BlockState[][][]> entry : worldQueue.long2ObjectEntrySet()) {
-			long chunkKey = entry.getKey();
-			BlockState[][][] blocks = entry.getValue();
-
-			actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, chunkKey, blocks, immediate);
+		val start = System.nanoTime()
+		val placedChunks = AtomicInteger()
+		val placed = AtomicInteger()
+		val chunkCount: Int = worldQueue.size()
+		log.debug("Queued " + chunkCount + " chunks for " + world.name)
+		for ((chunkKey, blocks) in worldQueue.long2ObjectEntrySet()) {
+			actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, chunkKey, blocks, immediate)
 		}
-
 		if (worldQueues.remove(world, worldQueue)) {
-			worldQueue.clear();
+			worldQueue.clear()
 		}
 	}
 
-	private void actuallyPlaceChunk(World world, @Nullable Consumer<World> onComplete, long start, AtomicInteger placedChunks,
-									AtomicInteger placed, int chunkCount, long chunkKey, BlockState[][][] blocks, boolean immediate) {
-		int cx = chunkKeyX(chunkKey);
-		int cz = chunkKeyZ(chunkKey);
-
-		boolean isLoaded = world.isChunkLoaded(cx, cz);
-
+	private fun actuallyPlaceChunk(
+		world: World, onComplete: Consumer<World?>?, start: Long, placedChunks: AtomicInteger,
+		placed: AtomicInteger, chunkCount: Int, chunkKey: Long, blocks: Array<Array<Array<BlockState>>>, immediate: Boolean
+	) {
+		val cx = chunkKeyX(chunkKey)
+		val cz = chunkKeyZ(chunkKey)
+		val isLoaded = world.isChunkLoaded(cx, cz)
 		if (!isLoaded && !immediate) {
-			world.getChunkAtAsync(cx, cz).thenAccept(chunk -> {
-				actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, blocks, cx, cz, false, chunk);
-			});
-			return;
+			world.getChunkAtAsync(cx, cz).thenAccept { chunk: Chunk ->
+				actuallyPlaceChunk(
+					world,
+					onComplete,
+					start,
+					placedChunks,
+					placed,
+					chunkCount,
+					blocks,
+					cx,
+					cz,
+					false,
+					chunk
+				)
+			}
+			return
 		}
-
-		org.bukkit.Chunk chunk = world.getChunkAt(cx, cz);
-		actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, blocks, cx, cz, isLoaded, chunk);
+		val chunk = world.getChunkAt(cx, cz)
+		actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, blocks, cx, cz, isLoaded, chunk)
 	}
 
-	private static final boolean ignoreOldData = true; // if false, client will recalculate lighting based on old/new chunk data
-
-	private void updateHeightMap(@Nullable Heightmap heightMap, int x, int y, int z, BlockState iBlockData) {
-		if (heightMap != null) {
-			heightMap.update(x & 15, y, z & 15, iBlockData);
-		}
+	private fun updateHeightMap(heightMap: Heightmap?, x: Int, y: Int, z: Int, iBlockData: BlockState) {
+		heightMap?.update(x and 15, y, z and 15, iBlockData)
 	}
 
-	private void actuallyPlaceChunk(World world, @Nullable Consumer<World> onComplete, long start,
-									AtomicInteger placedChunks, AtomicInteger placed, int chunkCount,
-									BlockState[][][] blocks, int cx, int cz, boolean wasLoaded, org.bukkit.Chunk chunk) {
-		LevelChunk nmsChunk = ((CraftChunk) chunk).getHandle();
-		ServerLevel nmsWorld = nmsChunk.level;
-
-		LevelChunkSection[] sections = nmsChunk.getSections();
-
-		LevelChunkSection section = null;
-
-		int localPlaced = 0;
-
-		int bitmask = 0; // used for the player chunk update thing to let it know which chunks to update
-
-		Heightmap motionBlocking = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING);
-		Heightmap motionBlockingNoLeaves = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES);
-		Heightmap oceanFloor = nmsChunk.heightMap.get(Heightmap.Type.OCEAN_FLOOR);
-		Heightmap worldSurface = nmsChunk.heightMap.get(Heightmap.Type.WORLD_SURFACE);
-
-		for (int y = 0; y < blocks.length; y++) {
-			int sectionY = y >> 4;
-
+	private fun actuallyPlaceChunk(
+		world: World, onComplete: Consumer<World?>?, start: Long,
+		placedChunks: AtomicInteger, placed: AtomicInteger, chunkCount: Int,
+		blocks: Array<Array<Array<BlockState>>>, cx: Int, cz: Int, wasLoaded: Boolean, chunk: Chunk
+	) {
+		val nmsChunk = (chunk as CraftChunk).handle
+		val nmsWorld = nmsChunk.level
+		val sections = nmsChunk.sections
+		var section: LevelChunkSection? = null
+		var localPlaced = 0
+		var bitmask = 0 // used for the player chunk update thing to let it know which chunks to update
+		val motionBlocking: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING)
+		val motionBlockingNoLeaves: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
+		val oceanFloor: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.OCEAN_FLOOR)
+		val worldSurface: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.WORLD_SURFACE)
+		for (y in blocks.indices) {
+			val sectionY = y shr 4
 			if (section == null || sectionY != section.getYPosition()) {
-				section = sections[sectionY];
-
+				section = sections[sectionY]
 				if (section == null) {
-					section = new LevelChunkSection(sectionY << 4, nmsChunk, nmsWorld, true);
-					sections[sectionY] = section;
+					section = LevelChunkSection(sectionY shl 4, nmsChunk, nmsWorld, true)
+					sections[sectionY] = section
 				}
 			}
-
-			BlockState[][] xBlocks = blocks[y];
-
-			for (int x = 0; x < xBlocks.length; x++) {
-				BlockState[] zBlocks = xBlocks[x];
-
-				for (int z = 0; z < zBlocks.length; z++) {
-					BlockState newData = zBlocks[z];
-
-					if (newData == null) {
-						continue;
+			val xBlocks = blocks[y]
+			for (x in xBlocks.indices) {
+				val zBlocks = xBlocks[x]
+				for (z in zBlocks.indices) {
+					val newData = zBlocks[z] ?: continue
+					val oldData: BlockState = section.getType(x, y and 15, z)
+					if (oldData.block is BaseEntityBlock && oldData.block !== newData.block) {
+						val pos: BlockPos = nmsChunk.pos.asPosition().add(x, y, z)
+						nmsWorld.removeTileEntity(pos)
 					}
-
-					BlockState oldData = section.getType(x, y & 15, z);
-
-					if (oldData.getBlock() instanceof BaseEntityBlock && oldData.getBlock() != newData.getBlock()) {
-						BlockPos pos = nmsChunk.getPos().asPosition().add(x, y, z);
-						nmsWorld.removeTileEntity(pos);
-					}
-
-					section.setType(x, y & 15, z, newData);
-					updateHeightMap(motionBlocking, x, y, z, newData);
-					updateHeightMap(motionBlockingNoLeaves, x, y, z, newData);
-					updateHeightMap(oceanFloor, x, y, z, newData);
-					updateHeightMap(worldSurface, x, y, z, newData);
-					localPlaced++;
+					section.setType(x, y and 15, z, newData)
+					updateHeightMap(motionBlocking, x, y, z, newData)
+					updateHeightMap(motionBlockingNoLeaves, x, y, z, newData)
+					updateHeightMap(oceanFloor, x, y, z, newData)
+					updateHeightMap(worldSurface, x, y, z, newData)
+					localPlaced++
 				}
 			}
-
-			bitmask = bitmask | (1 << sectionY); // update the bitmask to include this section
+			bitmask = bitmask or (1 shl sectionY) // update the bitmask to include this section
 		}
-
-		relight(world, cx, cz, nmsWorld);
-		sendChunkPacket(nmsChunk, bitmask);
-
-		nmsChunk.setNeedsSaving(true);
-
+		relight(world, cx, cz, nmsWorld)
+		sendChunkPacket(nmsChunk, bitmask)
+		nmsChunk.setNeedsSaving(true)
 		if (!wasLoaded) {
-			world.unloadChunkRequest(cx, cz);
+			world.unloadChunkRequest(cx, cz)
 		}
-
-		int placedNow = placed.addAndGet(localPlaced);
-		int placedChunksNow = placedChunks.incrementAndGet();
-
+		val placedNow = placed.addAndGet(localPlaced)
+		val placedChunksNow = placedChunks.incrementAndGet()
 		if (placedChunksNow == chunkCount) {
-			long elapsed = System.nanoTime() - start;
-			long elapsedMs = TimeUnit.NANOSECONDS.toMillis(elapsed);
-			log.debug(" ===> Placed " + placed + " blocks in " + elapsedMs + "ms");
-
-			if (onComplete != null) {
-				onComplete.accept(world);
-			}
+			val elapsed = System.nanoTime() - start
+			val elapsedMs = TimeUnit.NANOSECONDS.toMillis(elapsed)
+			log.debug(" ===> Placed " + placed + " blocks in " + elapsedMs + "ms")
+			onComplete?.accept(world)
 		} else {
-			log.debug("Placed " + placedNow + " blocks and " + placedChunksNow + "/" + chunkCount + " chunks ");
+			log.debug("Placed $placedNow blocks and $placedChunksNow/$chunkCount chunks ")
 		}
 	}
 
-	private void relight(World world, int cx, int cz, ServerLevel nmsWorld) {
-		LevelLightEngine lightEngine = nmsWorld.getChunkProvider().getLightEngine();
-		lightEngine.b(new ChunkCoordIntPair(cx, cz), world.getEnvironment() == World.Environment.NORMAL);
+	private fun relight(world: World, cx: Int, cz: Int, nmsWorld: ServerLevel) {
+		val lightEngine: LevelLightEngine = nmsWorld.getChunkProvider().getLightEngine()
+		lightEngine.b(ChunkCoordIntPair(cx, cz), world.environment == World.Environment.NORMAL)
 	}
 
-	private void sendChunkPacket(LevelChunk nmsChunk, int bitmask) {
-		PlayerChunk playerChunk = nmsChunk.playerChunk;
-		if (playerChunk == null) {
-			return;
+	private fun sendChunkPacket(nmsChunk: LevelChunk, bitmask: Int) {
+		val playerChunk = nmsChunk.playerChunk ?: return
+		val packet = PacketPlayOutMapChunk(nmsChunk, bitmask)
+		playerChunk.sendPacketToTrackedPlayers(packet, false)
+	}
+
+	companion object {
+		private fun emptyChunkMap(): Array<Array<Array<BlockState?>>> {
+			// y x z array
+			val array: Array<Array<Array<BlockState?>>> = arrayOfNulls(256)
+			for (y1 in array.indices) {
+				val xArray: Array<Array<BlockState?>> = arrayOfNulls(16)
+				for (x1 in xArray.indices) {
+					xArray[x1] = arrayOfNulls(16)
+				}
+				array[y1] = xArray
+			}
+			return array
 		}
-		PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, bitmask);
-		playerChunk.sendPacketToTrackedPlayers(packet, false);
+
+		private const val ignoreOldData = true // if false, client will recalculate lighting based on old/new chunk data
 	}
 }

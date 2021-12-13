@@ -1,18 +1,9 @@
-package net.starlegacy.feature.gas.collectionfactors;
+package net.starlegacy.feature.gas.collectionfactors
 
-import org.bukkit.Location;
+import org.bukkit.Location
 
-public class WorldChanceFactor extends RandomFactor {
-
-	String world;
-
-	public WorldChanceFactor(float chance, String world) {
-		super(chance);
-		this.world = world;
-	}
-
-	@Override
-	public boolean factor(Location location) {
-		return super.factor(location) && location.getWorld().getName().equalsIgnoreCase(world);
+class WorldChanceFactor(chance: Float, var world: String) : RandomFactor(chance) {
+	override fun factor(location: Location): Boolean {
+		return super.factor(location) && location.world.name.equals(world, ignoreCase = true)
 	}
 }
