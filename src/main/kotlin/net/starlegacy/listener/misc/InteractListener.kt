@@ -1,6 +1,6 @@
 package net.starlegacy.listener.misc
 
-import net.starlegacy.feature.machine.BaseShields
+//import net.starlegacy.feature.machine.BaseShields
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.misc.CustomBlockItem
 import net.starlegacy.feature.misc.CustomBlocks
@@ -100,9 +100,9 @@ object InteractListener : SLEventListener() {
 				while (distance < maxDistance) {
 					val relative = below.getRelative(BlockFace.DOWN, distance)
 
-					if (relative.type != Material.AIR && !BaseShields.isShieldBlock(relative)) {
-						break
-					}
+//					if (relative.type != Material.AIR && !BaseShields.isShieldBlock(relative)) {
+//						break
+//					}
 
 					distance++
 				}
