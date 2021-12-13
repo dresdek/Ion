@@ -1,7 +1,7 @@
 package net.starlegacy.util
 
 import org.bukkit.Material
-import java.util.EnumSet
+import java.util.*
 
 /**
  * This should be used instead of Material.values() to avoid encountering legacy materials
@@ -12,8 +12,8 @@ val MATERIALS = Material.values().filterNot { it.isLegacy }
 fun getMatchingMaterials(filter: (Material) -> Boolean): EnumSet<Material> =
 	MATERIALS.filterTo(EnumSet.noneOf(Material::class.java), filter)
 
-val LIQUID_TYPES = getMatchingMaterials { it.isBlock && it.createBlockData().nms.material.isLiquid }
-val Material.isLiquid: Boolean get() = LIQUID_TYPES.contains(this)
+//val LIQUID_TYPES = getMatchingMaterials { it.isBlock && it.createBlockData().nms.material.isLiquid }
+//val Material.isLiquid: Boolean get() = LIQUID_TYPES.contains(this)
 
 val STAINED_GLASS_TYPES = getMatchingMaterials { it.name.endsWith("_STAINED_GLASS") }
 val Material.isGlass: Boolean get() = this == Material.GLASS || this.isStainedGlass
