@@ -7,17 +7,11 @@ import net.starlegacy.util.*
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
-import org.bukkit.block.Block
-import org.bukkit.block.BlockFace
-import org.bukkit.block.Furnace
-import org.bukkit.block.Hopper
-import org.bukkit.block.Sign
+import org.bukkit.block.*
 import org.bukkit.block.data.Directional
-import org.bukkit.block.data.type.WallSign
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 import java.io.File
-import java.util.HashMap
 
 object Gasses : SLComponent() {
 	private var gasses = mutableMapOf<String, Gas>()
@@ -29,7 +23,7 @@ object Gasses : SLComponent() {
 		gasses = HashMap()
 		for (id in configuration.getKeys(false)) {
 			val item = CustomItems[id] ?: return
-			val name = configuration.getString("$id.name")
+			val name = configuration.getString("$id.name")!!
 			val factors = configuration.getStringList("$id.factors").map(CollectionFactor::collectionSetFromString)
 			gasses[item.id] = Gas(name, id, factors)
 		}
@@ -91,7 +85,7 @@ object Gasses : SLComponent() {
 		val furnace = furnaceBlock.getState(false) as Furnace
 		val hopper = hopperBlock.getState(false) as Hopper
 		val canisterItem = furnace.inventory.smelting ?: return false
-		val gasItem = gas.item.itemStack(1)
+		val gasItem = gas.item!!.itemStack(1)
 		if (!isEmptyCanister(canisterItem)) {
 			return false
 		}

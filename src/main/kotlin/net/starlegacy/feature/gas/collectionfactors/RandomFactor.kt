@@ -3,7 +3,7 @@ package net.starlegacy.feature.gas.collectionfactors
 import org.bukkit.Location
 
 open class RandomFactor(private val chance: Float) : CollectionFactor() {
-	override fun factor(location: Location): Boolean {
+	override fun factor(location: Location?): Boolean {
 		return Math.random() <= chance
 	}
 }

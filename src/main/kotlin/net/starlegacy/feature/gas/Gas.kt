@@ -1,13 +1,17 @@
 package net.starlegacy.feature.gas
 
-import net.starlegacy.feature.misc.CustomItems.get
 import net.starlegacy.feature.gas.collectionfactors.CollectionFactor
 import net.starlegacy.feature.misc.CustomItem
 import net.starlegacy.feature.misc.CustomItems
 import org.bukkit.Location
 
 class Gas(
-	val name: String, //	HELIUM("gas_helium") {
+	val name: String,
+	val itemId: String,
+	val factors: List<List<CollectionFactor>>
+) {
+
+	//	HELIUM("gas_helium") {
 	//		@Override
 	//		public boolean isAvailable(Location location) {
 	//			return new RandomFactor(0.05f).factor(location) && new AtmosphereHeightFactor(70, 0).factor(location);
@@ -43,8 +47,6 @@ class Gas(
 	//			return new RandomFactor(0.02f).factor(location) && new AtmosphereHeightFactor(150, 30).factor(location);
 	//		}
 	//	};
-	val itemId: String, val factors: List<List<CollectionFactor>>
-) {
 
 	fun isAvailable(location: Location?): Boolean {
 		return factors.stream()
