@@ -115,7 +115,7 @@ fun Material.toNMSBlockData(): NMSBlockData = createBlockData().nms
 val NMSBlockData.bukkitMaterial: Material get() = CBMagicNumbers.getMaterial(this.block)
 
 fun Block.getNMSBlockData(): NMSBlockData {
-	return world.nms.getChunkAt(x shr 4, z shr 4).getBlockData(x and 15, y, z and 15)
+	return world.nms.getChunk(x shr 4, z shr 4).getBlockData(x and 15, y, z and 15)
 }
 
 /**
