@@ -35,7 +35,7 @@ dependencies {
 	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
 	compileOnly("com.github.bloodmc:GriefDefenderAPI:master") // https://github.com/bloodmc/GriefDefender/
 	compileOnly("com.discordsrv:discordsrv:1.20.0")
-	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT") // https://github.com/EngineHub/WorldEdit
+	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0-SNAPSHOT") // https://github.com/EngineHub/WorldEdit
 	compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT") // https://github.com/CitizensDev/Citizens2/
 
 	// https://github.com/webbukkit/dynmap
