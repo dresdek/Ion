@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
 	java
 	id("org.jetbrains.kotlin.jvm") version "1.6.0"
-	id("io.papermc.paperweight.userdev") version "1.2.0"
 	id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
@@ -13,7 +14,7 @@ repositories {
 	maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
 	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit and WorldGuard
 	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
-	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") }} // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
+	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
 	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") } // used for discordsrv
 	maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") } // used for dependency of discordsrv (MCDiscordReserializer)
 	maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") } // used for dependency of discordsrv (UltimateChat)
@@ -34,7 +35,7 @@ dependencies {
 	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
 	compileOnly("com.github.bloodmc:GriefDefenderAPI:master") // https://github.com/bloodmc/GriefDefender/
 	compileOnly("com.discordsrv:discordsrv:1.20.0")
-	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.0-SNAPSHOT") // https://github.com/EngineHub/WorldEdit
+	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.0-SNAPSHOT") // https://github.com/EngineHub/WorldEdit
 	compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT") // https://github.com/CitizensDev/Citizens2/
 
 	// https://github.com/webbukkit/dynmap
@@ -44,7 +45,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // https://kotlinlang.org/
 	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
-	implementation("redis.clients:jedis:3.6.3") // https://github.com/xetorthio/jedis
+	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 	implementation("io.github.config4k:config4k:0.4.2") // https://github.com/config4k/config4k
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
