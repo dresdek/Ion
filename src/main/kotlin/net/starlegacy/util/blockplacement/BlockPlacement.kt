@@ -13,7 +13,7 @@ object BlockPlacement {
 		Tasks.syncRepeat(1, 1) { raw.flush(null) }
 	}
 
-	fun queue(world: World, queue: Long2ObjectOpenHashMap<NMSBlockData?>) = raw.queue(world, queue)
+	fun queue(world: World, queue: Long2ObjectOpenHashMap<NMSBlockData>) = raw.queue(world, queue)
 
 	fun flush(onComplete: ((World?) -> Unit)? = null): Unit = raw.flush(onComplete)
 
