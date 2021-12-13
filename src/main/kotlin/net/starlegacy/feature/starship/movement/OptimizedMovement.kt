@@ -1,12 +1,14 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
-import net.minecraft.server.*
 import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.StainedGlassBlock
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.chunk.LevelChunkSection
+import net.minecraft.world.level.levelgen.Heightmap
 import net.starlegacy.feature.starship.Hangars
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
@@ -215,16 +217,16 @@ object OptimizedMovement {
 			val z = blockKeyZ(blockKey)
 
 			val newPos = NMSBlockPos(x, y, z)
-			tile.setLocation(world2.nms, newPos)
+
 			val chunk = world2.getChunkAt(x shr 4, z shr 4)
-			tile.currentChunk = chunk.nms
-			tile.r() // i.e. isRemoved = false
+
+			val newTile = BlockEntity.loadStatic(newPos, tile.blockState, tile.save(CompoundTag()))
 
 			if (world1.uid != world2.uid) {
-				world2.nms.setTileEntity(newPos, tile)
+				world2.nms.setBlockEntity(newTile)
 			}
 
-			chunk.nms.blockEntities[newPos] = tile
+			chunk.nms.blockEntities[newPos] = newTile
 		}
 	}
 
@@ -238,7 +240,7 @@ object OptimizedMovement {
 	}
 
 	private fun updateHeightMaps(nmsChunk: NMSChunk) {
-		HeightMap.a(nmsChunk, HeightMap.Type.values().toSet())
+		Heightmap.primeHeightmaps(nmsChunk, Heightmap.Types.values().toSet())
 	}
 
 	private fun processOldTile(
