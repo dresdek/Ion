@@ -1,12 +1,11 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.core.BlockPos
 import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
 import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.StainedGlassBlock
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.chunk.LevelChunkSection
 import net.minecraft.world.level.levelgen.Heightmap
 import net.starlegacy.feature.starship.Hangars
@@ -218,16 +217,22 @@ object OptimizedMovement {
 
 			val newPos = NMSBlockPos(x, y, z)
 
-			val chunk = world2.getChunkAt(x shr 4, z shr 4)
+			val locationField = tile.javaClass.getField("o") // o = worldPosition
+			locationField.isAccessible = true
+			locationField.set(BlockPos::class, newPos)
 
-			val newTile = BlockEntity.loadStatic(newPos, tile.blockState, tile.save(CompoundTag()))
-			chunk.nms.addAndRegisterBlockEntity(newTile)
+			tile.level = world2.nms
+
+			val chunk = world2.getChunkAt(x shr 4, z shr 4)
+//			tile.currentChunk = chunk.nms
+
+			tile.clearRemoved() // i.e. isRemoved = false
 
 			if (world1.uid != world2.uid) {
-				world2.nms.setBlockEntity(newTile)
+				world2.nms.setBlockEntity(tile)
 			}
 
-			chunk.nms.blockEntities[newPos] = newTile
+			chunk.nms.blockEntities[newPos] = tile
 		}
 	}
 
