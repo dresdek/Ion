@@ -331,7 +331,7 @@ object OptimizedMovement {
 			val chunk = Bukkit.getWorld(worldID)!!.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
 			val nmsChunk = chunk.nms
 			val playerChunk: ChunkHolder = nmsChunk.playerChunk ?: continue
-			val packet = ClientboundLevelChunkPacket(nmsChunk)
+			val packet = ClientboundLevelChunkPacket(nmsChunk, false)
 			playerChunk.broadcast(packet, false)
 		}
 	}
