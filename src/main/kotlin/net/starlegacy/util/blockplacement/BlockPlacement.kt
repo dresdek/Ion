@@ -23,10 +23,10 @@ object BlockPlacement {
 		queue: Long2ObjectOpenHashMap<NMSBlockData>,
 		onComplete: ((World) -> Unit)? = null
 	) {
-		val worldQueue = Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>()
+		val worldQueue = Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>()
 		raw.addToWorldQueue(queue, worldQueue)
 		Tasks.sync {
-			raw.placeWorldQueue(world, worldQueue, onComplete as ((World?) -> Unit)?, false)
+			raw.placeWorldQueue(world, worldQueue, onComplete, false)
 		}
 	}
 
@@ -35,8 +35,8 @@ object BlockPlacement {
 		queue: Long2ObjectOpenHashMap<NMSBlockData>,
 		onComplete: ((World) -> Unit)? = null
 	) {
-		val worldQueue = Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>()
+		val worldQueue = Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>()
 		raw.addToWorldQueue(queue, worldQueue)
-		raw.placeWorldQueue(world, worldQueue, onComplete as ((World?) -> Unit)?, true)
+		raw.placeWorldQueue(world, worldQueue, onComplete, true)
 	}
 }
