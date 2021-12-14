@@ -3,7 +3,10 @@ package net.starlegacy.util.blockplacement;
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket;
+import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -17,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.minecraft.world.level.chunk.LevelChunk
+import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -155,10 +158,10 @@ class BlockPlacementRaw {
 
 		int bitmask = 0; // used for the player chunk update thing to let it know which chunks to update
 
-		Heightmap motionBlocking = nmsChunk.heightMaps.get(Heightmap.Types.MOTION_BLOCKING);
-		Heightmap motionBlockingNoLeaves = nmsChunk.heightMaps.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
-		Heightmap oceanFloor = nmsChunk.heightMaps.get(Heightmap.Types.OCEAN_FLOOR);
-		Heightmap worldSurface = nmsChunk.heightMaps.get(Heightmap.Types.WORLD_SURFACE);
+		Heightmap motionBlocking = nmsChunk.heightmaps.get(Heightmap.Types.MOTION_BLOCKING);
+		Heightmap motionBlockingNoLeaves = nmsChunk.heightmaps.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
+		Heightmap oceanFloor = nmsChunk.heightmaps.get(Heightmap.Types.OCEAN_FLOOR);
+		Heightmap worldSurface = nmsChunk.heightmaps.get(Heightmap.Types.WORLD_SURFACE);
 
 		for (int y = 0; y < blocks.length; y++) {
 			int sectionY = y >> 4;
@@ -187,7 +190,7 @@ class BlockPlacementRaw {
 					BlockState oldData = section.getBlockState(x, y & 15, z);
 
 					if (oldData.getBlock() instanceof BaseEntityBlock && oldData.getBlock() != newData.getBlock()) {
-						BlockPos pos = nmsChunk.getPos().asPosition().add(x, y, z);
+						BlockPos pos = new BlockPos(nmsChunk.getPos().getWorldPosition().getX() + x, nmsChunk.getPos().getWorldPosition().getX() + y, nmsChunk.getPos().getWorldPosition().getX() + z); //.add(x, y, z);
 						nmsWorld.removeBlockEntity(pos);
 					}
 
@@ -206,7 +209,7 @@ class BlockPlacementRaw {
 		relight(world, cx, cz, nmsWorld);
 		sendChunkPacket(nmsChunk, bitmask);
 
-		nmsChunk.setNeedsSaving(true);
+		nmsChunk.setUnsaved(true);
 
 		if (!wasLoaded) {
 			world.unloadChunkRequest(cx, cz);
@@ -229,16 +232,16 @@ class BlockPlacementRaw {
 	}
 
 	private void relight(World world, int cx, int cz, ServerLevel nmsWorld) {
-		LevelLightEngine lightEngine = nmsWorld.getChunkProvider().getLightEngine();
-		lightEngine.b(new ChunkCoordIntPair(cx, cz), world.getEnvironment() == World.Environment.NORMAL);
+		LevelLightEngine lightEngine = nmsWorld.getLightEngine();
+		lightEngine.retainData(new ChunkPos(cx, cz), world.getEnvironment() == World.Environment.NORMAL);
 	}
 
 	private void sendChunkPacket(LevelChunk nmsChunk, int bitmask) {
-		PlayerChunk playerChunk = nmsChunk.playerChunk;
+		ChunkHolder playerChunk = nmsChunk.playerChunk;
 		if (playerChunk == null) {
 			return;
 		}
-		PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, bitmask);
-		playerChunk.sendPacketToTrackedPlayers(packet, false);
+		ClientboundLevelChunkPacket packet = new ClientboundLevelChunkPacket(nmsChunk);
+		playerChunk.broadcast(packet, false);
 	}
 }
