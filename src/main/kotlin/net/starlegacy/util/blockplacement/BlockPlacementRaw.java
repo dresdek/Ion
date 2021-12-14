@@ -154,10 +154,10 @@ class BlockPlacementRaw {
 
 		int bitmask = 0; // used for the player chunk update thing to let it know which chunks to update
 
-		Heightmap motionBlocking = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING);
-		Heightmap motionBlockingNoLeaves = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES);
-		Heightmap oceanFloor = nmsChunk.heightMap.get(Heightmap.Type.OCEAN_FLOOR);
-		Heightmap worldSurface = nmsChunk.heightMap.get(Heightmap.Type.WORLD_SURFACE);
+		Heightmap motionBlocking = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING);
+		Heightmap motionBlockingNoLeaves = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
+		Heightmap oceanFloor = nmsChunk.heightMap.get(Heightmap.Types.OCEAN_FLOOR);
+		Heightmap worldSurface = nmsChunk.heightMap.get(Heightmap.Types.WORLD_SURFACE);
 
 		for (int y = 0; y < blocks.length; y++) {
 			int sectionY = y >> 4;

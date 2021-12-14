@@ -11,7 +11,7 @@ public abstract class CollectionFactor {
 	public static List<CollectionFactor> collectionSetFromString(String string) {
 		List<CollectionFactor> collectionFactors = new ArrayList<>();
 		for (String text : string.split(";")) collectionFactors.add(valueOf(text));
-		return collectionFactors;
+		return collectionFactors;Actually actually compile Java files
 	}
 
 	private static CollectionFactor valueOf(String text) {
