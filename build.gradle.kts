@@ -63,7 +63,7 @@ java {
 
 sourceSets {
 	main {
-		java.srcDir("src/kotlin")
+		java.srcDir("src/main/kotlin")
 	}
 }
 
