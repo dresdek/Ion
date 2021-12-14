@@ -27,14 +27,14 @@ internal class BlockPlacementRaw {
 	private val log = LoggerFactory.getLogger(javaClass)
 	private val worldQueues = WeakHashMap<World, Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>>()
 	@Synchronized
-	fun queue(world: World, queue: Long2ObjectOpenHashMap<NMSBlockData>) {
+	fun queue(world: World, queue: Long2ObjectOpenHashMap<BlockState?>) {
 		val worldQueue = worldQueues.computeIfAbsent(world) { w: World? -> Long2ObjectOpenHashMap() }
 		addToWorldQueue(queue, worldQueue)
 	}
 
 	fun addToWorldQueue(
-		queue: Long2ObjectOpenHashMap<NMSBlockData>,
-		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>
+		queue: Long2ObjectOpenHashMap<BlockState?>,
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>
 	) {
 		queue.forEach(BiConsumer { coords: Long?, blockData: BlockState? ->
 			val y = blockKeyY(coords!!)
@@ -61,8 +61,8 @@ internal class BlockPlacementRaw {
 
 	fun placeWorldQueue(
 		world: World,
-		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>,
-		onComplete: ((World) -> Unit)?,
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>,
+		onComplete: Consumer<World?>?,
 		immediate: Boolean
 	) {
 		if (worldQueue.isEmpty()) {

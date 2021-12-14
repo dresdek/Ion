@@ -50,13 +50,13 @@ object Orbits : SLComponent() {
 		log.info("Flushing queue...")
 
 		BlockPlacement.flush { world ->
-			log.info("Finished planets in ${world!!.name}, saving...")
+			log.info("Finished planets in ${world.name}, saving...")
 
 			for (planet in Space.getPlanets().filter { it.spaceWorld == world }) {
 				Planet.setOrbitProgress(planet.databaseId, planet.orbitProgress)
 			}
 
-			world!!.save()
+			world.save()
 
 			elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
 			log.info("  -> $elapsedMillis milliseconds elapsed")
