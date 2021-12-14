@@ -16,7 +16,7 @@ public abstract class CollectionFactor {
 
 	private static CollectionFactor valueOf(String text) {
 		String[] params = text.split(":");
-		switch (params[0].lowercase()) {
+		switch (params[0].toLowerCase()) {
 			case "atmosphereheight":
 				return new AtmosphereHeightFactor(Integer.parseInt(params[1]), Integer.parseInt(params[2]));
 			case "distance":
