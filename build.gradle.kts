@@ -1,13 +1,12 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	java
 	id("org.jetbrains.kotlin.jvm") version "1.6.0"
+	id("io.papermc.paperweight.userdev") version "1.2.0"
 	id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
-group = "net.starlegacy"
-version = "SNAPSHOT"
+group = "net.horizonsend"
+version = "1.0"
 
 repositories {
 	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
@@ -22,14 +21,14 @@ repositories {
 	maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 	maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
-	maven { url = uri("https://repo.mikeprimm.com/"); content { includeGroup("org.bukkit") } } // Used for dynmap
+	maven { url = uri("https://repo.mikeprimm.com/") } // Used for dynmap
 	mavenCentral() // general maven central repository
 }
 
 dependencies {
 	// https://papermc.io (full server hosted at https://maven.starlegacy.net/)
-	compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-	compileOnly("com.destroystokyo.paper:paper:1.16.4-R0.1-SNAPSHOT")
+	compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+	paperDevBundle("1.17.1-R0.1-SNAPSHOT")
 
 	compileOnly("net.luckperms:api:5.3")
 	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
@@ -58,23 +57,25 @@ dependencies {
 	implementation("net.dv8tion:JDA:5.0.0-alpha.2")
 }
 
-tasks.withType<JavaCompile> {
-	options.compilerArgs.plusAssign("-parameters")
-	options.isFork = true
-	options.forkOptions.executable = "javac"
-}
-
-tasks.withType<KotlinCompile> {
-	kotlinOptions.javaParameters = true
-	kotlinOptions.jvmTarget = "16"
-}
-
 java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
-tasks.shadowJar {
-	relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
-	relocate("co.aikar.commands", "net.starlegacy.libs.acf")
-	relocate("org.ejml", "net.starlegacy.libs.ejml")
+tasks {
+	compileJava {
+		options.encoding = Charsets.UTF_8.name()
+
+		options.release.set(16)
+	}
+
+	shadowJar {
+		relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
+		relocate("co.aikar.commands", "net.starlegacy.libs.acf")
+		relocate("org.ejml", "net.starlegacy.libs.ejml")
+	}
+
+	build {
+		dependsOn(shadowJar)
+		dependsOn(reobfJar)
+	}
 }

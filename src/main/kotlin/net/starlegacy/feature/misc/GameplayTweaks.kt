@@ -1,13 +1,10 @@
 package net.starlegacy.feature.misc
 
+import net.minecraft.world.level.block.state.BlockBehaviour
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.FLYABLE_BLOCKS
 import net.starlegacy.feature.starship.Mass
-import net.starlegacy.util.CBMagicNumbers
-import net.starlegacy.util.SLAB_TYPES
-import net.starlegacy.util.STAINED_GLASS_TYPES
-import net.starlegacy.util.STAINED_TERRACOTTA_TYPES
-import net.starlegacy.util.STAIR_TYPES
+import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
@@ -20,7 +17,6 @@ import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.event.world.PortalCreateEvent
-import org.bukkit.inventory.ItemStack
 
 object GameplayTweaks : SLComponent() {
 	override fun onEnable() {
@@ -117,7 +113,7 @@ object GameplayTweaks : SLComponent() {
 		require(material.isBlock)
 
 		val block = CBMagicNumbers.getBlock(material)
-		val field = net.minecraft.server.v1_16_R3.BlockBase::class.java.getDeclaredField("durability")
+		val field = BlockBehaviour::class.java.getDeclaredField("aI") // aI = obfuscation for explosionResistance
 		field.isAccessible = true
 		field.set(block, durability)
 

@@ -1,6 +1,6 @@
 package net.starlegacy.feature.progression.advancement
 
-import net.minecraft.server.v1_16_R3.AdvancementProgress
+import net.minecraft.advancements.AdvancementProgress
 import net.starlegacy.SLComponent
 import net.starlegacy.database.schema.misc.SLPlayer
 import net.starlegacy.database.slPlayerId
@@ -167,31 +167,31 @@ object Advancements : SLComponent() {
 
 		val nmsPlayer: NMSPlayer = player.nms
 
-		val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancementData.data.keys
-			.filter { it.name.namespace == namespace && nmsPlayer.advancementData.getProgress(it).isDone }
+		val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements.advancements.keys
+			.filter { it.id.namespace == namespace && nmsPlayer.advancements.getOrStartProgress(it).isDone }
 
 		val newAdvancements: Set<SLAdvancement> = Advancements[player]
 
-		val oldNames: Set<String> = oldAdvancements.asSequence().map { it.name.key }.toSet()
+		val oldNames: Set<String> = oldAdvancements.asSequence().map { it.id.path }.toSet()
 		val newNames: Set<String> = newAdvancements.asSequence().map { it.advancementKey }.toSet()
 
-		val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.name.key) }
+		val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.id.path) }
 		val added: List<SLAdvancement> = newAdvancements.filter { !oldNames.contains(it.advancementKey) }
 
 		removed.forEach { nmsAdvancement ->
-			val progress: AdvancementProgress = nmsPlayer.advancementData.getProgress(nmsAdvancement)
+			val progress: AdvancementProgress = nmsPlayer.advancements.getOrStartProgress(nmsAdvancement)
 
-			progress.awardedCriteria.forEach { criteria ->
-				nmsPlayer.advancementData.revokeCritera(nmsAdvancement, criteria)
+			progress.completedCriteria.forEach { criteria ->
+				nmsPlayer.advancements.revoke(nmsAdvancement, criteria)
 			}
 		}
 
 		added.forEach { advancement ->
-			val progress: AdvancementProgress = nmsPlayer.advancementData.getProgress(advancement.nmsAdvancement)
+			val progress: AdvancementProgress = nmsPlayer.advancements.getOrStartProgress(advancement.nmsAdvancement)
 
 			if (!progress.isDone) {
 				progress.remainingCriteria.forEach { criteria ->
-					nmsPlayer.advancementData.grantCriteria(advancement.nmsAdvancement, criteria)
+					nmsPlayer.advancements.award(advancement.nmsAdvancement, criteria)
 				}
 			}
 		}

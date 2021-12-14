@@ -1,5 +1,6 @@
 package net.starlegacy.feature.transport
 
+//import net.starlegacy.feature.multiblock.baseshield.BaseShieldMultiblock
 import co.aikar.timings.Timing
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
@@ -8,7 +9,6 @@ import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.Multiblocks
 import net.starlegacy.feature.multiblock.PowerStoringMultiblock
 import net.starlegacy.feature.multiblock.areashield.AreaShield
-import net.starlegacy.feature.multiblock.baseshield.BaseShieldMultiblock
 import net.starlegacy.util.*
 import org.bukkit.Location
 import org.bukkit.Material
@@ -17,12 +17,8 @@ import org.bukkit.block.BlockFace
 import org.bukkit.block.Sign
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.Directional
-import java.util.Optional
-import java.util.concurrent.ConcurrentLinkedQueue
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.ThreadLocalRandom
-import java.util.concurrent.TimeUnit
+import java.util.*
+import java.util.concurrent.*
 import kotlin.math.min
 
 object Wires : SLComponent() {
@@ -261,7 +257,8 @@ object Wires : SLComponent() {
 				val destinationFreeSpace = destinationPowerMax - destinationPower
 
 				val transferLimit = when (destinationMultiblock) {
-					is BaseShieldMultiblock, is AreaShield -> transportConfig.wires.maxShieldInput
+					// is BaseShieldMultiblock,
+					is AreaShield -> transportConfig.wires.maxShieldInput
 					else -> transportConfig.wires.maxPowerInput
 				}
 

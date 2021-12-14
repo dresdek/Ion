@@ -1,7 +1,14 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
-import net.minecraft.server.v1_16_R3.*
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
+import net.minecraft.server.level.ChunkHolder
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.StainedGlassBlock
+import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.chunk.LevelChunkSection
+import net.minecraft.world.level.levelgen.Heightmap
 import net.starlegacy.feature.starship.Hangars
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
@@ -101,7 +108,7 @@ object OptimizedMovement {
 					val localY = y and 0xF
 					val localZ = z and 0xF
 
-					val blockData = section.getType(localX, localY, localZ)
+					val blockData = section.getBlockState(localX, localY, localZ)
 
 					if (!passThroughBlocks.contains(blockData)) {
 						if (!isHangar(blockData)) {
@@ -115,7 +122,7 @@ object OptimizedMovement {
 		}
 	}
 
-	private fun isHangar(newBlockData: NMSBlockData) = newBlockData.block is BlockStainedGlass
+	private fun isHangar(newBlockData: NMSBlockData) = newBlockData.block is StainedGlassBlock
 
 	private fun dissipateHangarBlocks(world2: World, hangars: LinkedList<Long>) {
 		for (blockKey in hangars.iterator()) {
@@ -130,8 +137,8 @@ object OptimizedMovement {
 		capturedStates: Array<NMSBlockData>,
 		capturedTiles: MutableMap<Int, NMSTileEntity>
 	) {
-		val lightEngine = world1.nms.chunkProvider.lightEngine
-		val air = Blocks.AIR.blockData
+		val lightEngine = world1.nms.lightEngine
+		val air = Blocks.AIR.defaultBlockState()
 
 		for ((chunkKey, sectionMap) in oldChunkMap) {
 			val chunk = world1.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
@@ -149,16 +156,16 @@ object OptimizedMovement {
 					val localY = y and 0xF
 					val localZ = z and 0xF
 
-					val type = section.getType(localX, localY, localZ)
+					val type = section.getBlockState(localX, localY, localZ)
 					capturedStates[index] = type
 
 					if (type.block is NMSBlockTileEntity) {
 						processOldTile(blockKey, chunk, capturedTiles, index, world1, world2)
 					}
 
-					section.setType(localX, localY, localZ, air, false)
+					section.setBlockState(localX, localY, localZ, air, false)
 
-					lightEngine.a(NMSBlockPos(x, y, z))
+					lightEngine.checkBlock(NMSBlockPos(x, y, z))
 				}
 			}
 
@@ -175,7 +182,7 @@ object OptimizedMovement {
 		capturedTiles: MutableMap<Int, NMSTileEntity>,
 		blockDataTransform: (NMSBlockData) -> NMSBlockData
 	) {
-		val lightEngine = world2.nms.chunkProvider.lightEngine
+		val lightEngine = world2.nms.lightEngine
 
 		for ((chunkKey, sectionMap) in newChunkMap) {
 			val chunk = world2.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
@@ -195,8 +202,8 @@ object OptimizedMovement {
 
 					// TODO: Save hangars
 					val data = blockDataTransform(capturedStates[index])
-					section.setType(localX, localY, localZ, data, false)
-					lightEngine.a(NMSBlockPos(x, y, z))
+					section.setBlockState(localX, localY, localZ, data, false)
+					lightEngine.checkBlock(NMSBlockPos(x, y, z))
 				}
 			}
 
@@ -210,30 +217,30 @@ object OptimizedMovement {
 			val z = blockKeyZ(blockKey)
 
 			val newPos = NMSBlockPos(x, y, z)
-			tile.setLocation(world2.nms, newPos)
+
 			val chunk = world2.getChunkAt(x shr 4, z shr 4)
-			tile.currentChunk = chunk.nms
-			tile.r() // i.e. isRemoved = false
+
+			val newTile = BlockEntity.loadStatic(newPos, tile.blockState, tile.save(CompoundTag()))
 
 			if (world1.uid != world2.uid) {
-				world2.nms.setTileEntity(newPos, tile)
+				world2.nms.setBlockEntity(newTile)
 			}
 
-			chunk.nms.tileEntities[newPos] = tile
+			chunk.nms.blockEntities[newPos] = newTile
 		}
 	}
 
-	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): ChunkSection {
+	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): LevelChunkSection {
 		var section = nmsChunk.sections[sectionY]
 		if (section == null) {
-			section = ChunkSection(sectionY shl 4, nmsChunk, nmsChunk.world, true)
+			section = LevelChunkSection(sectionY shl 4, nmsChunk, nmsChunk.level, true)
 			nmsChunk.sections[sectionY] = section
 		}
 		return section
 	}
 
 	private fun updateHeightMaps(nmsChunk: NMSChunk) {
-		HeightMap.a(nmsChunk, HeightMap.Type.values().toSet())
+		Heightmap.primeHeightmaps(nmsChunk, Heightmap.Types.values().toSet())
 	}
 
 	private fun processOldTile(
@@ -254,11 +261,11 @@ object OptimizedMovement {
 		capturedTiles[index] = tile
 
 		if (world1.uid != world2.uid) {
-			world1.nms.removeTileEntity(blockPos)
+			world1.nms.removeBlockEntity(blockPos)
 			return
 		}
 
-		chunk.nms.tileEntities.remove(blockPos, tile)
+		chunk.nms.blockEntities.remove(blockPos, tile)
 	}
 
 	private fun getChunkMap(positionArray: LongArray): ChunkMap {
@@ -323,9 +330,9 @@ object OptimizedMovement {
 			val (worldID, chunkKey) = key
 			val chunk = Bukkit.getWorld(worldID)!!.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
 			val nmsChunk = chunk.nms
-			val playerChunk: PlayerChunk = nmsChunk.playerChunk ?: continue
-			val packet = PacketPlayOutMapChunk(nmsChunk, bitmask)
-			playerChunk.sendPacketToTrackedPlayers(packet, false)
+			val playerChunk: ChunkHolder = nmsChunk.playerChunk ?: continue
+			val packet = ClientboundLevelChunkPacket(nmsChunk, true)
+			playerChunk.broadcast(packet, false)
 		}
 	}
 }

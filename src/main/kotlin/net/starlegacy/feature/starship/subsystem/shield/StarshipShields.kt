@@ -1,8 +1,8 @@
 package net.starlegacy.feature.starship.subsystem.shield
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
-import net.minecraft.server.v1_16_R3.BlockTileEntity
-import net.minecraft.server.v1_16_R3.PacketPlayOutBlockChange
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket
+import net.minecraft.world.level.block.BaseEntityBlock
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.multiblock.Multiblocks
@@ -28,7 +28,6 @@ import org.bukkit.event.player.PlayerInteractEvent
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.math.abs
@@ -358,9 +357,8 @@ object StarshipShields : SLComponent() {
 			}
 
 			val pos = NMSBlockPos(bx, by, bz)
-			val packet = PacketPlayOutBlockChange(nmsWorld, pos)
-			packet.block = flare
-			nmsWorld.getChunkAtWorldCoords(pos).playerChunk.sendPacketToTrackedPlayers(packet, false)
+			val packet = ClientboundBlockUpdatePacket(pos, flare)
+			nmsWorld.getChunkAt(pos).playerChunk.broadcast(packet, false)
 		}
 	}
 
@@ -388,15 +386,14 @@ object StarshipShields : SLComponent() {
 
 				val data = world.getBlockAtKey(key).blockData.nms
 
-				if (data.block is BlockTileEntity) {
+				if (data.block is BaseEntityBlock) {
 					world.getBlockAtKey(key).state.update(false, false)
 					continue
 				}
 
 				val pos = NMSBlockPos(blockKeyX(key), blockKeyY(key), blockKeyZ(key))
-				val packet = PacketPlayOutBlockChange(nmsWorld, pos)
-				packet.block = data
-				nmsWorld.getChunkAtWorldCoords(pos).playerChunk.sendPacketToTrackedPlayers(packet, false)
+				val packet = ClientboundBlockUpdatePacket(pos, data)
+				nmsWorld.getChunkAt(pos).playerChunk.broadcast(packet, false)
 			}
 		}
 	}

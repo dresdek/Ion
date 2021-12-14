@@ -2,7 +2,7 @@ package net.starlegacy.feature.multiblock.starshipweapon.turret
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
-import net.minecraft.server.v1_16_R3.EnumBlockRotation
+import net.minecraft.world.level.block.Rotation
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.database.Oid
@@ -153,10 +153,10 @@ abstract class TurretMultiblock : StarshipWeaponMultiblock<TurretWeaponSubsystem
 			else -> error("Failed to calculate rotation iteration count from $oldFace to $newFace")
 		}
 
-		val nmsRotation: EnumBlockRotation = when (i) {
-			1 -> EnumBlockRotation.CLOCKWISE_90
-			2 -> EnumBlockRotation.CLOCKWISE_180
-			3 -> EnumBlockRotation.COUNTERCLOCKWISE_90
+		val nmsRotation: Rotation = when (i) {
+			1 -> Rotation.CLOCKWISE_90
+			2 -> Rotation.CLOCKWISE_180
+			3 -> Rotation.COUNTERCLOCKWISE_90
 			else -> return oldFace // can only be 0
 		}
 
@@ -179,7 +179,7 @@ abstract class TurretMultiblock : StarshipWeaponMultiblock<TurretWeaponSubsystem
 			val z = z0 + sign.z
 			val block = world.getBlockAt(x, y, z)
 			val data = block.blockData
-			val newData = data.nms.a(nmsRotation).createCraftBlockData()
+			val newData = data.nms.rotate(nmsRotation).createCraftBlockData()
 			val nx0 = (x0.toDouble() * cosFactor - z0.toDouble() * sinFactor).roundToInt()
 			val nz0 = (x0.toDouble() * sinFactor + z0.toDouble() * cosFactor).roundToInt()
 			val nx = nx0 + sign.x

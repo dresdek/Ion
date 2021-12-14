@@ -48,7 +48,7 @@ import net.starlegacy.feature.economy.collectors.Collectors
 import net.starlegacy.feature.gas.Gasses
 import net.starlegacy.feature.gear.Gear
 import net.starlegacy.feature.machine.AreaShields
-import net.starlegacy.feature.machine.BaseShields
+//import net.starlegacy.feature.machine.BaseShields
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.machine.Turrets
 import net.starlegacy.feature.misc.*
@@ -233,7 +233,7 @@ class StarLegacy : JavaPlugin() {
 			Multiblocks,
 			PowerMachines,
 			AreaShields,
-			BaseShields,
+//			BaseShields,
 			Gasses,
 
 			TransportConfig.Companion,

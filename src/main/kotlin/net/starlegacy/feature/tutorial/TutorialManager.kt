@@ -5,9 +5,9 @@ import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.DeactivatedPlayerStarships
 import net.starlegacy.feature.starship.PilotedStarships
 import net.starlegacy.feature.starship.StarshipDestruction
-import net.starlegacy.feature.starship.event.StarshipTranslateEvent
 import net.starlegacy.feature.starship.event.StarshipRotateEvent
 import net.starlegacy.feature.starship.event.StarshipStartCruisingEvent
+import net.starlegacy.feature.starship.event.StarshipTranslateEvent
 import net.starlegacy.feature.starship.event.StarshipUnpilotEvent
 import net.starlegacy.util.*
 import org.bukkit.*
@@ -148,11 +148,11 @@ object TutorialManager : SLComponent() {
 		val chunk = chunkReference.get() ?: return
 		val nmsChunk = chunk.nms
 		val sections = nmsChunk.sections
-		for (it in nmsChunk.tileEntities.keys.toList()) {
-			nmsChunk.world.removeTileEntity(it)
+		for (it in nmsChunk.blockEntities.keys.toList()) {
+			nmsChunk.level.removeBlockEntity(it)
 		}
 		for (i in 0..sections.lastIndex) {
-			sections[i] = NMSChunk.EMPTY_CHUNK_SECTION
+			sections[i] = NMSChunk.EMPTY_SECTION
 		}
 	}
 

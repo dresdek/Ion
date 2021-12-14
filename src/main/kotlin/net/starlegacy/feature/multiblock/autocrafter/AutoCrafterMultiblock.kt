@@ -3,22 +3,15 @@ package net.starlegacy.feature.multiblock.autocrafter
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
-import net.minecraft.server.v1_16_R3.InventoryCrafting
-import net.minecraft.server.v1_16_R3.MinecraftServer
-import net.minecraft.server.v1_16_R3.NonNullList
-import net.minecraft.server.v1_16_R3.Recipes
+import net.minecraft.core.NonNullList
+import net.minecraft.server.MinecraftServer
+import net.minecraft.world.inventory.CraftingContainer
+import net.minecraft.world.item.crafting.RecipeType
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.multiblock.PowerStoringMultiblock
-import net.starlegacy.util.CBItemStack
-import net.starlegacy.util.NMSItemStack
-import net.starlegacy.util.add
-import net.starlegacy.util.getFacing
-import net.starlegacy.util.getStateIfLoaded
-import net.starlegacy.util.nms
-import net.starlegacy.util.orNull
-import net.starlegacy.util.rightFace
+import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Furnace
@@ -26,8 +19,7 @@ import org.bukkit.block.Sign
 import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import java.util.HashMap
-import java.util.Optional
+import java.util.*
 
 private const val POWER_USAGE_PER_INGREDIENT = 50
 
@@ -233,8 +225,8 @@ abstract class AutoCrafterMultiblock(
 	}
 }
 
-private val itemsField = InventoryCrafting::class.java.getDeclaredField("items").apply { isAccessible = true }
-private fun getItems(inventoryCrafting: InventoryCrafting): NonNullList<NMSItemStack> {
+private val itemsField = CraftingContainer::class.java.getDeclaredField("items").apply { isAccessible = true }
+private fun getItems(inventoryCrafting: CraftingContainer): NonNullList<NMSItemStack> {
 	@Suppress("UNCHECKED_CAST")
 	return itemsField[inventoryCrafting] as NonNullList<NMSItemStack>
 }
@@ -242,18 +234,16 @@ private fun getItems(inventoryCrafting: InventoryCrafting): NonNullList<NMSItemS
 private val recipeCache: LoadingCache<List<Material?>, Optional<ItemStack>> =
 	CacheBuilder.newBuilder().build(CacheLoader.from { items ->
 		requireNotNull(items)
-		val inventoryCrafting = InventoryCrafting(/*container=*/null, /*width=*/3, /*height=*/3)
+		val inventoryCrafting = CraftingContainer(/*container=*/null, /*width=*/3, /*height=*/3)
 
 		val inventoryItems: NonNullList<NMSItemStack> = getItems(inventoryCrafting)
 		for ((index: Int, material: Material?) in items.withIndex()) {
 			val item: NMSItemStack = if (material != null) CBItemStack.asNMSCopy(ItemStack(material, 1))
-			else NMSItemStack.NULL_ITEM
+			else NMSItemStack.EMPTY
 			inventoryItems[index] = item
 		}
 
-		val result: NMSItemStack? = MinecraftServer.getServer().craftingManager
-			.craft(Recipes.CRAFTING, inventoryCrafting, Bukkit.getWorlds().first().nms)
-			.orNull()?.a(inventoryCrafting)
+		val result: NMSItemStack? = MinecraftServer.getServer().recipeManager.getRecipeFor(RecipeType.CRAFTING, inventoryCrafting, Bukkit.getWorlds().first().nms).orNull()?.resultItem
 
 		return@from Optional.ofNullable(result?.asBukkitCopy())
 	})
