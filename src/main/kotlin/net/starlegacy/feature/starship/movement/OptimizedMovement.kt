@@ -233,7 +233,7 @@ object OptimizedMovement {
 	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): LevelChunkSection {
 		var section = nmsChunk.sections[sectionY]
 		if (section == null) {
-			section = LevelChunkSection(sectionY shl 4, nmsChunk, nmsChunk.level, true)
+			section = LevelChunkSection(sectionY, nmsChunk, nmsChunk.level, true)
 			nmsChunk.sections[sectionY] = section
 		}
 		return section
