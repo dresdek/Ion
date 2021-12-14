@@ -1,97 +1,127 @@
-package net.starlegacy.feature.starship.active
+package net.starlegacy.feature.starship.active;
 
-import net.starlegacy.util.Vec3i
-import net.starlegacy.util.blockKeyX
-import net.starlegacy.util.blockKeyY
-import net.starlegacy.util.blockKeyZ
+import net.starlegacy.util.Vec3i;
+import org.jetbrains.annotations.NotNull;
 
-class ActiveStarshipHitbox(blocks: Set<Long>) {
+import java.util.Set;
+
+import static net.starlegacy.util.CoordinatesKt.*;
+
+public class ActiveStarshipHitbox {
 	/**
 	 * First dimension: array of z axes
 	 * Second dimension: Array of y axis bounds
 	 * Third dimension: arrays with length 2, 0 is min y, 1 is max y
 	 */
-	private var boundsArray: Array<Array<IntArray?>?> = arrayOfNulls(0)
-	var min = Vec3i(0, 0, 0)
-		private set
-	var max = Vec3i(0, 0, 0)
-		private set
+	@NotNull
+	private int[][][] boundsArray = new int[0][][];
+	@NotNull
+	private Vec3i min = new Vec3i(0, 0, 0);
+	@NotNull
+	private Vec3i max = new Vec3i(0, 0, 0);
 
-	init {
-		calculate(blocks)
+	public ActiveStarshipHitbox(Set<Long> blocks) {
+		calculate(blocks);
 	}
 
-	fun calculate(blocks: Set<Long>) {
-		calculateMinMax(blocks)
-		calculateBounds(blocks)
+	public @NotNull
+	Vec3i getMin() {
+		return min;
 	}
 
-	fun calculateBounds(blocks: Set<Long>) {
+	public @NotNull
+	Vec3i getMax() {
+		return max;
+	}
+
+	public void calculate(@NotNull Set<Long> blocks) {
+		calculateMinMax(blocks);
+		calculateBounds(blocks);
+	}
+
+	public void calculateBounds(@NotNull Set<Long> blocks) {
 		if (blocks.isEmpty()) {
-			min = Vec3i(0, 0, 0)
-			max = Vec3i(0, 0, 0)
-			return
+			min = new Vec3i(0, 0, 0);
+			max = new Vec3i(0, 0, 0);
+			return;
 		}
-		val minX = min.x
-		val minY = min.y
-		val minZ = min.z
-		val width = max.x - minX + 1
-		val length = max.z - minZ + 1
-		boundsArray = arrayOfNulls(width)
-		for (key in blocks) {
-			val x = blockKeyX(key) - minX
-			val y = blockKeyY(key) - minY
-			val z = blockKeyZ(key) - minZ
-			var yBoundsArray = boundsArray[x]
+
+		int minX = min.getX();
+		int minY = min.getY();
+		int minZ = min.getZ();
+		int width = max.getX() - minX + 1;
+
+		int length = max.getZ() - minZ + 1;
+		boundsArray = new int[width][][];
+
+		for (long key : blocks) {
+			int x = blockKeyX(key) - minX;
+			int y = blockKeyY(key) - minY;
+			int z = blockKeyZ(key) - minZ;
+
+			int[][] yBoundsArray = boundsArray[x];
+
 			if (yBoundsArray == null) {
-				yBoundsArray = arrayOfNulls(length)
-				boundsArray[x] = yBoundsArray
+				yBoundsArray = new int[length][];
+				boundsArray[x] = yBoundsArray;
 			}
-			var yBounds = yBoundsArray[z]
+
+			int[] yBounds = yBoundsArray[z];
+
 			if (yBounds == null) {
-				yBounds = IntArray(2)
-				yBounds[0] = y
-				yBounds[1] = y
-				boundsArray[x]!![z] = yBounds
+				yBounds = new int[2];
+				yBounds[0] = y;
+				yBounds[1] = y;
+				boundsArray[x][z] = yBounds;
 			} else if (y < yBounds[0]) {
-				yBounds[0] = y
+				yBounds[0] = y;
 			} else if (y > yBounds[1]) {
-				yBounds[1] = y
+				yBounds[1] = y;
 			}
 		}
 	}
 
-	fun calculateMinMax(blocks: Set<Long>) {
+	public void calculateMinMax(Set<Long> blocks) {
 		if (blocks.isEmpty()) {
-			boundsArray = arrayOfNulls(0)
-			return
+			boundsArray = new int[0][][];
+			return;
 		}
-		val start = blocks.iterator().next()
-		var minX = blockKeyX(start)
-		var minY = blockKeyY(start)
-		var minZ = blockKeyZ(start)
-		var maxX = minX
-		var maxY = minY
-		var maxZ = minZ
-		for (key in blocks) {
-			val x = blockKeyX(key)
-			val y = blockKeyY(key)
-			val z = blockKeyZ(key)
-			if (x < minX) minX = x
-			if (x > maxX) maxX = x
-			if (y < minY) minY = y
-			if (y > maxY) maxY = y
-			if (z < minZ) minZ = z
-			if (z > maxZ) maxZ = z
+
+		long start = blocks.iterator().next();
+		int minX = blockKeyX(start), minY = blockKeyY(start), minZ = blockKeyZ(start);
+		int maxX = minX, maxY = minY, maxZ = minZ;
+
+		for (long key : blocks) {
+			int x = blockKeyX(key);
+			int y = blockKeyY(key);
+			int z = blockKeyZ(key);
+
+			if (x < minX) minX = x;
+			if (x > maxX) maxX = x;
+
+			if (y < minY) minY = y;
+			if (y > maxY) maxY = y;
+
+			if (z < minZ) minZ = z;
+			if (z > maxZ) maxZ = z;
 		}
-		min = Vec3i(minX, minY, minZ)
-		max = Vec3i(maxX, maxY, maxZ)
+
+		min = new Vec3i(minX, minY, minZ);
+		max = new Vec3i(maxX, maxY, maxZ);
 	}
 
-	fun contains(x: Int, y: Int, z: Int, minX: Int, minY: Int, minZ: Int, tolerance: Int): Boolean {
-		val zArray = boundsArray[x - minX] ?: return false
-		val yBounds = zArray[z - minZ] ?: return false
-		val yDiff = y - minY
-		return yDiff >= yBounds[0] - tolerance && yDiff <= yBounds[1] + tolerance
+	public boolean contains(int x, int y, int z, int minX, int minY, int minZ, int tolerance) {
+		int[][] zArray = boundsArray[x - minX];
+		if (zArray == null) {
+			return false;
+		}
+
+		int[] yBounds = zArray[z - minZ];
+		if (yBounds == null) {
+			return false;
+		}
+
+		int yDiff = y - minY;
+		return yDiff >= yBounds[0] - tolerance && yDiff <= yBounds[1] + tolerance;
 	}
 }

@@ -1,11 +1,21 @@
-package net.starlegacy.feature.gas.collectionfactors
+package net.starlegacy.feature.gas.collectionfactors;
 
-import org.bukkit.Location
+import org.bukkit.Location;
 
-class AtmosphereHeightFactor(private val minAtmosphereHeight: Double, private val maxAtmosphereHeight: Double) :
-	CollectionFactor() {
-	override fun factor(location: Location?): Boolean {
-		return !SpaceOnlyFactor().factor(location) && location!!.y >= minAtmosphereHeight && location.y <=
-			maxAtmosphereHeight
+public class AtmosphereHeightFactor extends CollectionFactor {
+
+	private double maxAtmosphereHeight;
+	private double minAtmosphereHeight;
+
+	public AtmosphereHeightFactor(double minAtmosphereHeight, double maxAtmosphereHeight) {
+		this.minAtmosphereHeight = minAtmosphereHeight;
+		this.maxAtmosphereHeight = maxAtmosphereHeight;
 	}
+
+	@Override
+	public boolean factor(Location location) {
+		return !new SpaceOnlyFactor().factor(location) && location.getY() >= minAtmosphereHeight && location.getY() <=
+				maxAtmosphereHeight;
+	}
+
 }

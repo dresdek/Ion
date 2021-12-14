@@ -1,12 +1,19 @@
-package net.starlegacy.feature.gas.collectionfactors
+package net.starlegacy.feature.gas.collectionfactors;
 
-import net.starlegacy.feature.gas.collectionfactors.CollectionFactor
-import org.bukkit.Location
-import java.util.*
+import org.bukkit.Location;
 
-class WorldLimitFactor(private val enabledWorlds: Array<String>) : CollectionFactor() {
-	override fun factor(location: Location): Boolean {
-		return Arrays.stream(enabledWorlds)
-			.anyMatch { anotherString: String? -> location.world.name.equals(anotherString, ignoreCase = true) }
+import java.util.Arrays;
+
+public class WorldLimitFactor extends CollectionFactor {
+
+	private String[] enabledWorlds;
+
+	public WorldLimitFactor(String[] enabledWorlds) {
+		this.enabledWorlds = enabledWorlds;
+	}
+
+	@Override
+	public boolean factor(Location location) {
+		return Arrays.stream(enabledWorlds).anyMatch(location.getWorld().getName()::equalsIgnoreCase);
 	}
 }

@@ -1,9 +1,18 @@
-package net.starlegacy.feature.gas.collectionfactors
+package net.starlegacy.feature.gas.collectionfactors;
 
-import org.bukkit.Location
+import org.bukkit.Location;
 
-class SkyLightFactor(private val minimum: Int, private val maximum: Int) : CollectionFactor() {
-	override fun factor(location: Location): Boolean {
-		return location.block.lightFromSky <= maximum && location.block.lightFromSky >= minimum
+public class SkyLightFactor extends CollectionFactor {
+	private int minimum;
+	private int maximum;
+
+	public SkyLightFactor(int minimum, int maximum) {
+		this.minimum = minimum;
+		this.maximum = maximum;
+	}
+
+	@Override
+	public boolean factor(Location location) {
+		return location.getBlock().getLightFromSky() <= maximum && location.getBlock().getLightFromSky() >= minimum;
 	}
 }
