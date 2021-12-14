@@ -54,7 +54,7 @@ dependencies {
 	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
 	implementation("net.dv8tion:JDA:5.0.0-alpha.2")
 }
 
