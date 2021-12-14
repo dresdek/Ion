@@ -6,7 +6,10 @@ import org.bukkit.util.Vector
 
 object ConnectionUtils {
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
-		player.teleportAsync(loc)
+		loc.pitch = player.location.pitch
+		loc.yaw = player.location.yaw + theta
+
+		player.teleport(loc.add(offsetPos ?: Vector(0.0, 0.0, 0.0)))
 	}
 
 	fun teleport(player: Player, loc: Location) {
