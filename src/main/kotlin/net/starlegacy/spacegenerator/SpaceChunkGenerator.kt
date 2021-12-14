@@ -9,7 +9,7 @@ class SpaceChunkGenerator(worldConfig: SpaceGeneratorConfig.World?) : ChunkGener
 	private val asteroidGenerator: AsteroidGenerator
 
 	init {
-		asteroidGenerator = AsteroidGenerator(worldConfig!!)
+		asteroidGenerator = AsteroidGenerator(worldConfig)
 	}
 
 	override fun isParallelCapable(): Boolean {
