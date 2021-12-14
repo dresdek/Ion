@@ -154,15 +154,15 @@ class BlockPlacementRaw {
 
 		int bitmask = 0; // used for the player chunk update thing to let it know which chunks to update
 
-		Heightmap motionBlocking = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING);
-		Heightmap motionBlockingNoLeaves = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
-		Heightmap oceanFloor = nmsChunk.heightMap.get(Heightmap.Types.OCEAN_FLOOR);
-		Heightmap worldSurface = nmsChunk.heightMap.get(Heightmap.Types.WORLD_SURFACE);
+		Heightmap motionBlocking = nmsChunk.heightMaps.get(Heightmap.Types.MOTION_BLOCKING);
+		Heightmap motionBlockingNoLeaves = nmsChunk.heightMaps.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES);
+		Heightmap oceanFloor = nmsChunk.heightMaps.get(Heightmap.Types.OCEAN_FLOOR);
+		Heightmap worldSurface = nmsChunk.heightMaps.get(Heightmap.Types.WORLD_SURFACE);
 
 		for (int y = 0; y < blocks.length; y++) {
 			int sectionY = y >> 4;
 
-			if (section == null || sectionY != section.getYPosition()) {
+			if (section == null || sectionY != section.bottomBlockY()) {
 				section = sections[sectionY];
 
 				if (section == null) {
@@ -183,14 +183,14 @@ class BlockPlacementRaw {
 						continue;
 					}
 
-					BlockState oldData = section.getType(x, y & 15, z);
+					BlockState oldData = section.getBlockState(x, y & 15, z);
 
 					if (oldData.getBlock() instanceof BaseEntityBlock && oldData.getBlock() != newData.getBlock()) {
 						BlockPos pos = nmsChunk.getPos().asPosition().add(x, y, z);
-						nmsWorld.removeTileEntity(pos);
+						nmsWorld.removeBlockEntity(pos);
 					}
 
-					section.setType(x, y & 15, z, newData);
+					section.setBlockState(x, y & 15, z, newData);
 					updateHeightMap(motionBlocking, x, y, z, newData);
 					updateHeightMap(motionBlockingNoLeaves, x, y, z, newData);
 					updateHeightMap(oceanFloor, x, y, z, newData);
