@@ -34,7 +34,7 @@ internal class BlockPlacementRaw {
 
 	fun addToWorldQueue(
 		queue: Long2ObjectOpenHashMap<NMSBlockData>,
-		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>
 	) {
 		queue.forEach(BiConsumer { coords: Long?, blockData: BlockState? ->
 			val y = blockKeyY(coords!!)
@@ -61,8 +61,8 @@ internal class BlockPlacementRaw {
 
 	fun placeWorldQueue(
 		world: World,
-		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState?>>>>,
-		onComplete: Consumer<World?>?,
+		worldQueue: Long2ObjectOpenHashMap<Array<Array<Array<BlockState>>>>,
+		onComplete: ((World) -> Unit)?,
 		immediate: Boolean
 	) {
 		if (worldQueue.isEmpty()) {
