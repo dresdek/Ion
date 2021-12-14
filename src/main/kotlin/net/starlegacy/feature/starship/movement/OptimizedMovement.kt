@@ -221,6 +221,7 @@ object OptimizedMovement {
 			val chunk = world2.getChunkAt(x shr 4, z shr 4)
 
 			val newTile = BlockEntity.loadStatic(newPos, tile.blockState, tile.save(CompoundTag()))
+			newTile.level = world2.nms
 
 			if (world1.uid != world2.uid) {
 				world2.nms.setBlockEntity(newTile)
