@@ -61,12 +61,6 @@ java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
-sourceSets {
-	main {
-		java.srcDir("src/main/kotlin")
-	}
-}
-
 tasks {
 	compileJava {
 		options.encoding = Charsets.UTF_8.name()
