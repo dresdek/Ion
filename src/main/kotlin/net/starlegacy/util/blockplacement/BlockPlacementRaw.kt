@@ -1,8 +1,15 @@
 package net.starlegacy.util.blockplacement
 
 import com.google.common.base.Preconditions
+import net.starlegacy.util.blockKeyY
+import net.starlegacy.util.blockKeyX
+import net.starlegacy.util.blockKeyZ
+import net.starlegacy.util.chunkKey
+import net.starlegacy.util.chunkKeyX
+import net.starlegacy.util.chunkKeyZ
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import java.util.function.LongFunction
+import net.starlegacy.util.blockplacement.BlockPlacementRaw
 import java.util.concurrent.atomic.AtomicInteger
 import net.minecraft.world.level.levelgen.Heightmap
 import net.minecraft.world.level.chunk.LevelChunk
@@ -11,9 +18,9 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.chunk.LevelChunkSection
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.lighting.LevelLightEngine
-import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.World
@@ -73,7 +80,7 @@ internal class BlockPlacementRaw {
 		val start = System.nanoTime()
 		val placedChunks = AtomicInteger()
 		val placed = AtomicInteger()
-		val chunkCount: Int = worldQueue.size
+		val chunkCount: Int = worldQueue.size()
 		log.debug("Queued " + chunkCount + " chunks for " + world.name)
 		for ((chunkKey, blocks) in worldQueue.long2ObjectEntrySet()) {
 			actuallyPlaceChunk(world, onComplete, start, placedChunks, placed, chunkCount, chunkKey, blocks, immediate)
@@ -85,7 +92,7 @@ internal class BlockPlacementRaw {
 
 	private fun actuallyPlaceChunk(
 		world: World, onComplete: Consumer<World?>?, start: Long, placedChunks: AtomicInteger,
-		placed: AtomicInteger, chunkCount: Int, chunkKey: Long, blocks: Array<Array<Array<BlockState?>>>, immediate: Boolean
+		placed: AtomicInteger, chunkCount: Int, chunkKey: Long, blocks: Array<Array<Array<BlockState>>>, immediate: Boolean
 	) {
 		val cx = chunkKeyX(chunkKey)
 		val cz = chunkKeyZ(chunkKey)
@@ -119,7 +126,7 @@ internal class BlockPlacementRaw {
 	private fun actuallyPlaceChunk(
 		world: World, onComplete: Consumer<World?>?, start: Long,
 		placedChunks: AtomicInteger, placed: AtomicInteger, chunkCount: Int,
-		blocks: Array<Array<Array<BlockState?>>>, cx: Int, cz: Int, wasLoaded: Boolean, chunk: Chunk
+		blocks: Array<Array<Array<BlockState>>>, cx: Int, cz: Int, wasLoaded: Boolean, chunk: Chunk
 	) {
 		val nmsChunk = (chunk as CraftChunk).handle
 		val nmsWorld = nmsChunk.level
@@ -127,10 +134,10 @@ internal class BlockPlacementRaw {
 		var section: LevelChunkSection? = null
 		var localPlaced = 0
 		var bitmask = 0 // used for the player chunk update thing to let it know which chunks to update
-		val motionBlocking: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING)
-		val motionBlockingNoLeaves: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES)
-		val oceanFloor: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.OCEAN_FLOOR)
-		val worldSurface: Heightmap = nmsChunk.heightMap.get(Heightmap.Types.WORLD_SURFACE)
+		val motionBlocking: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING)
+		val motionBlockingNoLeaves: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES)
+		val oceanFloor: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.OCEAN_FLOOR)
+		val worldSurface: Heightmap = nmsChunk.heightMap.get(Heightmap.Type.WORLD_SURFACE)
 		for (y in blocks.indices) {
 			val sectionY = y shr 4
 			if (section == null || sectionY != section.getYPosition()) {
@@ -192,16 +199,15 @@ internal class BlockPlacementRaw {
 	companion object {
 		private fun emptyChunkMap(): Array<Array<Array<BlockState?>>> {
 			// y x z array
-			val array: Array<Array<Array<BlockState?>>?> = arrayOfNulls(256)
+			val array: Array<Array<Array<BlockState?>>> = arrayOfNulls(256)
 			for (y1 in array.indices) {
-				val xArray: Array<Array<BlockState?>?> = arrayOfNulls(16)
+				val xArray: Array<Array<BlockState?>> = arrayOfNulls(16)
 				for (x1 in xArray.indices) {
 					xArray[x1] = arrayOfNulls(16)
 				}
-
-				array[y1] = xArray.requireNoNulls()
+				array[y1] = xArray
 			}
-			return array.requireNoNulls()
+			return array
 		}
 
 		private const val ignoreOldData = true // if false, client will recalculate lighting based on old/new chunk data
