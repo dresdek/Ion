@@ -125,8 +125,8 @@ enum class StarshipType(
 		menuItemMaterial = Material.OAK_PLANKS,
 		isWarship = false
 	),
-	BULK_FREIGHTER(
-		displayName = "Bulk Freighter",
+	HEAVY_FREIGHTER(
+		displayName = "Heavy Freighter",
 		minSize = 8000,
 		maxSize = 12000,
 		containerPercent = 0.045,
