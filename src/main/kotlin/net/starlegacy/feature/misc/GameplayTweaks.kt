@@ -86,6 +86,7 @@ object GameplayTweaks : SLComponent() {
 		setBlastResistance(Material.DISPENSER, 6.0f)
 		setBlastResistance(Material.IRON_TRAPDOOR, 6.0f)
 		STAINED_GLASS_TYPES.forEach { setBlastResistance(it, 5.0f) }
+		STAINED_GLASS_PANE_TYPES.forEach { setBlastResistance(it, 5.0f) }
 		setBlastResistance(Material.END_STONE, 5.0f)
 		setBlastResistance(Material.END_PORTAL_FRAME, 5.0f)
 		setBlastResistance(Material.END_STONE_BRICKS, 6.0f)
