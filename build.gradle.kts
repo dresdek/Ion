@@ -40,6 +40,7 @@ dependencies {
 	compileOnly("us.dynmap:dynmap-api:3.1")
 	compileOnly("us.dynmap:spigot:3.1")
 
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
 	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
