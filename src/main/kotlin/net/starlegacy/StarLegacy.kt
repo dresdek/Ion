@@ -218,9 +218,6 @@ class StarLegacy : JavaPlugin() {
 		)
 
 	override fun onEnable() {
-		// Load Ion
-		Ion().onEnable()
-
 		// Hack. Dumb library has a static plugin set based on which plugin loaded it.
 		// Set it to this, since the starlegacy-libs plugin is loading it.
 		BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
