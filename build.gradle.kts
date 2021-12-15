@@ -12,7 +12,7 @@ repositories {
 	mavenCentral() // general maven central repository
 	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
 	maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
-	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit and WorldGuard
+	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit
 	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
 	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
 	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") } // used for discordsrv
