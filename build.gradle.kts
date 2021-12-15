@@ -67,7 +67,7 @@ tasks {
 	}
 
 	shadowJar {
-
+		minimize()
 	}
 
 	build {
