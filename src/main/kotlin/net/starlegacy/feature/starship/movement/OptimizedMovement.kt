@@ -227,7 +227,7 @@ object OptimizedMovement {
 			tileData.put("z", IntTag.valueOf(z))
 
 			// Get New Block Entity
-			val newTile = world2.nms.getBlockEntity(BlockPos(x, y, z))
+			val newTile = world2.nms.getBlockEntity(BlockPos(x, y, z))!!
 
 			// Load data into the new block entity
 			newTile.load(tileData)
