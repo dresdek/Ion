@@ -1,6 +1,9 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
+import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.IntTag
 import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
 import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.Blocks
@@ -214,7 +217,20 @@ object OptimizedMovement {
 			val y = blockKeyY(blockKey)
 			val z = blockKeyZ(blockKey)
 
-			world2.setNMSBlockData(x, y, z, tile.blockState) // JUST WORK PLEASE
+			// Based on: https://github.com/IntellectualSites/FastAsyncWorldEdit/blob/a87323616da3b63ef32029760b12f3f1e1153f90/worldedit-bukkit/adapters/adapter-1_17_1/src/main/java/com/sk89q/worldedit/bukkit/adapter/impl/fawe/v1_17_R1_2/PaperweightFaweAdapter.java#L294
+			// Block Entity Data
+			val tileData = tile.save(CompoundTag())
+
+			// Set new location
+			tileData.put("x", IntTag.valueOf(x))
+			tileData.put("y", IntTag.valueOf(y))
+			tileData.put("z", IntTag.valueOf(z))
+
+			// Get New Block Entity
+			val newTile = world2.nms.getBlockEntity(BlockPos(x, y, z))
+
+			// Load data into the new block entity
+			newTile.load(tileData)
 		}
 	}
 
