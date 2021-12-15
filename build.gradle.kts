@@ -70,9 +70,9 @@ tasks {
 
 	shadowJar {
 		relocate("com.github.stefvanschie.inventoryframework", "net.horizonsend.libs.inventoryframework")
-		relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
-		relocate("co.aikar.commands", "net.starlegacy.libs.acf")
-		relocate("org.ejml", "net.starlegacy.libs.ejml")
+		relocate("com.fasterxml.jackson", "net.horizonsend.libs.jackson")
+		relocate("co.aikar.commands", "net.horizonsend.libs.acf")
+		relocate("org.ejml", "net.horizonsend.libs.ejml")
 	}
 
 	build {
