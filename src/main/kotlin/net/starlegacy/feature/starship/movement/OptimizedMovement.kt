@@ -224,7 +224,7 @@ object OptimizedMovement {
 			tile.level = world2.nms
 
 			val chunk = world2.getChunkAt(x shr 4, z shr 4)
-//			tile.currentChunk = chunk.nms
+			chunk.nms.blockEntities[newPos] = tile
 
 			tile.clearRemoved() // i.e. isRemoved = false
 
