@@ -1,5 +1,9 @@
 package net.starlegacy.command
 
+import co.aikar.commands.BaseCommand
+import co.aikar.commands.CommandHelp
+import co.aikar.commands.InvalidCommandArgument
+import co.aikar.commands.annotation.HelpCommand
 import net.md_5.bungee.api.ChatColor
 import net.starlegacy.PLUGIN
 import net.starlegacy.cache.nations.NationCache
@@ -14,12 +18,7 @@ import net.starlegacy.database.slPlayerId
 import net.starlegacy.database.uuid
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import net.starlegacy.feature.progression.Levels
 import net.starlegacy.feature.starship.active.ActiveStarships
-import co.aikar.commands.BaseCommand
-import co.aikar.commands.CommandHelp
-import co.aikar.commands.InvalidCommandArgument
-import co.aikar.commands.annotation.HelpCommand
 import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandException
@@ -143,9 +142,6 @@ abstract class SLCommand : BaseCommand() {
 
 	protected fun resolveNation(name: String): Oid<Nation> = NationCache.getByName(name)
 		?: fail { "Nation $name not found" }
-
-	protected fun requireMinLevel(sender: Player, level: Int) = failIf(Levels[sender] < level)
-	{ "You need to be at least level $level to do that" }
 
 	protected fun requireTerritoryIn(sender: Player): RegionTerritory = Regions.findFirstOf(sender.location)
 		?: fail { "You're not in a territory on a planet" }

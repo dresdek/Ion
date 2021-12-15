@@ -2,15 +2,12 @@ package net.starlegacy.feature.multiblock.misc
 
 import net.starlegacy.feature.multiblock.Multiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
-import net.starlegacy.feature.progression.advancement.SLAdvancement
 import org.bukkit.ChatColor
 import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 import java.util.UUID
 
 object CryoPodMultiblock : Multiblock() {
-	override val advancement: SLAdvancement? = null
-
 	override val name = "cryopod"
 
 	override val signText = createSignText(

@@ -9,7 +9,6 @@ import net.starlegacy.cache.Caches
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.SettlementCache
-import net.starlegacy.cache.trade.CargoCrates
 import net.starlegacy.cache.trade.EcoStations
 import net.starlegacy.command.SLCommand
 import net.starlegacy.command.economy.*
@@ -24,7 +23,6 @@ import net.starlegacy.command.nations.roles.NationRoleCommand
 import net.starlegacy.command.nations.roles.SettlementRoleCommand
 import net.starlegacy.command.nations.settlementZones.SettlementPlotCommand
 import net.starlegacy.command.nations.settlementZones.SettlementZoneCommand
-import net.starlegacy.command.progression.*
 import net.starlegacy.command.space.PlanetCommand
 import net.starlegacy.command.space.SpaceWorldCommand
 import net.starlegacy.command.space.StarCommand
@@ -38,10 +36,6 @@ import net.starlegacy.feature.chat.ChannelSelections
 import net.starlegacy.feature.chat.ChatChannel
 import net.starlegacy.feature.economy.bazaar.Bazaars
 import net.starlegacy.feature.economy.bazaar.Merchants
-import net.starlegacy.feature.economy.cargotrade.CrateRestrictions
-import net.starlegacy.feature.economy.cargotrade.ShipmentBalancing
-import net.starlegacy.feature.economy.cargotrade.ShipmentGenerator
-import net.starlegacy.feature.economy.cargotrade.ShipmentManager
 import net.starlegacy.feature.economy.city.CityNPCs
 import net.starlegacy.feature.economy.city.TradeCities
 import net.starlegacy.feature.economy.collectors.CollectionMissions
@@ -61,9 +55,6 @@ import net.starlegacy.feature.nations.StationSieges
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionSettlementZone
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import net.starlegacy.feature.progression.*
-import net.starlegacy.feature.progression.advancement.Advancements
-import net.starlegacy.feature.progression.advancement.SLAdvancement
 import net.starlegacy.feature.space.*
 import net.starlegacy.feature.starship.*
 import net.starlegacy.feature.starship.active.ActiveStarshipMechanics
@@ -137,11 +128,6 @@ class StarLegacy : JavaPlugin() {
 			Notify,
 			Shuttles,
 
-			PlayerXPLevelCache,
-			Advancements,
-			Levels,
-			SLXP,
-
 			ChannelSelections,
 			ChatChannel.ChannelActions,
 
@@ -183,13 +169,7 @@ class StarLegacy : JavaPlugin() {
 			CollectionMissions,
 			Collectors,
 
-			CrateRestrictions,
-
 			CityNPCs,
-
-			ShipmentBalancing,
-			ShipmentGenerator,
-			ShipmentManager,
 
 			Bazaars,
 			Merchants,
@@ -213,7 +193,6 @@ class StarLegacy : JavaPlugin() {
 			TutorialManager,
 			Interdiction,
 			StarshipDealers,
-			ShipKillXP,
 			Decomposers
 		)
 
@@ -304,12 +283,10 @@ class StarLegacy : JavaPlugin() {
 			APCommand,
 			BatteryCommand,
 			CustomItemCommand,
-			ListCommand,
 			TransportDebugCommand,
 			PlanetSpawnMenuCommand,
 			SLTimeConvertCommand,
 			ShuttleCommand,
-			BuyXPCommand,
 
 			SettlementCommand,
 			NationCommand,
@@ -331,23 +308,15 @@ class StarLegacy : JavaPlugin() {
 
 			SiegeCommand,
 
-			AdvanceAdminCommand,
-			AdvanceCommand,
-			GiveXPCommand,
-			XPCommand,
-
-
 			PlanetCommand,
 			SpaceWorldCommand,
 			StarCommand,
-
 
 			BazaarCommand,
 			CityNpcCommand,
 			CollectedItemCommand,
 			CollectorCommand,
 			EcoStationCommand,
-			TradeDebugCommand,
 
 			MiscStarshipCommands,
 			BlueprintCommand,
@@ -386,11 +355,6 @@ class StarLegacy : JavaPlugin() {
 					?: throw InvalidCommandArgument("No such planet")
 			}
 
-			registerContext(CargoCrate::class.java) { c: BukkitCommandExecutionContext ->
-				CargoCrates[c.popFirstArg().uppercase()]
-					?: throw InvalidCommandArgument("No such crate")
-			}
-
 			registerContext(EcoStation::class.java) { c: BukkitCommandExecutionContext ->
 				val name: String = c.popFirstArg()
 
@@ -401,8 +365,6 @@ class StarLegacy : JavaPlugin() {
 
 		// Add static tab completions
 		mapOf(
-			"levels" to (0..MAX_LEVEL).joinToString("|"),
-			"advancements" to SLAdvancement.values().joinToString("|"),
 			"customitems" to CustomItems.all().joinToString("|") { it.id },
 			"npctypes" to CityNPC.Type.values().joinToString("|") { it.name }
 		).forEach { manager.commandCompletions.registerStaticCompletion(it.key, it.value) }
@@ -443,7 +405,6 @@ class StarLegacy : JavaPlugin() {
 			"stars" to { _ -> Space.getStars().map(CachedStar::name) },
 			"planets" to { _ -> Space.getPlanets().map(CachedPlanet::name) },
 			"materials" to { _ -> MATERIALS.map { it.name } },
-			"crates" to { _ -> CargoCrates.crates.map { it.name } },
 			"cities" to { _ -> TradeCities.getAll().map { it.displayName } },
 			"collecteditems" to { _ -> CollectedItem.all().map { "${EcoStations[it.station].name}.${it.itemString}" } },
 			"ecostations" to { _ -> EcoStations.getAll().map { it.name } },

@@ -13,7 +13,6 @@ import net.starlegacy.database.schema.economy.CityNPC
 import net.starlegacy.database.schema.nations.Territory
 import net.starlegacy.feature.economy.bazaar.Bazaars
 import net.starlegacy.feature.economy.bazaar.Merchants
-import net.starlegacy.feature.economy.cargotrade.ShipmentManager
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
 import net.starlegacy.util.SLTextStyle
@@ -178,8 +177,6 @@ object CityNPCs : SLComponent() {
 		log.info("Trade city: $cityInfo")
 
 		when (type) {
-			CityNPC.Type.EXPORTER -> ShipmentManager.openShipmentSelectMenu(player, cityInfo)
-			CityNPC.Type.IMPORTER -> ShipmentManager.onImport(player, cityInfo)
 			CityNPC.Type.BAZAAR -> Bazaars.onClickBazaarNPC(player, cityInfo)
 			CityNPC.Type.MERCHANT -> Merchants.onClickMerchantNPC(player, cityInfo)
 		}

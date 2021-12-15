@@ -7,7 +7,6 @@ import com.sk89q.worldedit.extent.clipboard.Clipboard
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.regions.Region
 import net.starlegacy.SLComponent
-import net.starlegacy.cache.trade.CargoCrates
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.misc.Shuttle
 import net.starlegacy.feature.nations.gui.openConfirmMenu
@@ -231,10 +230,6 @@ object Shuttles : SLComponent() {
 					val (x, y, z) = Vec3i(player.location)
 					return@filter region.contains(BlockVector3.at(x, y, z))
 				}.filter { player ->
-					if (player.inventory.any { CargoCrates[it] != null }) {
-						player msg "&cCan't ride a shuttle with crates in your inventory!"
-						return@filter false
-					}
 					for (item: ItemStack? in player.inventory) {
 						if (item != null && isTicket(item)) {
 							item.amount--

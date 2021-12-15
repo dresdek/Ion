@@ -1,7 +1,6 @@
 package net.starlegacy.feature.multiblock.starshipweapon.turret
 
 import net.starlegacy.feature.multiblock.MultiblockShape
-import net.starlegacy.feature.progression.advancement.SLAdvancement
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.primary.HeavyTurretWeaponSubsystem
@@ -16,7 +15,6 @@ sealed class HeavyTurretMultiblock : TurretMultiblock() {
 
 	protected abstract fun getSign(): Int
 
-	override val advancement: SLAdvancement? = null
 	override val cooldownNanos: Long = TimeUnit.MILLISECONDS.toNanos(500L)
 	override val range: Double = 300.0
 	override val sound: String = "starship.weapon.turbolaser.heavy.shoot"

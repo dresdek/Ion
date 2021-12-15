@@ -4,7 +4,6 @@ import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.Vec3
-import net.starlegacy.feature.progression.ShipKillXP
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
@@ -154,14 +153,8 @@ abstract class SimpleProjectile(
 	private fun addToDamagers(world: World, block: Block) {
 		val damagerId: UUID = requireNotNull(shooter).uniqueId
 		val damagerSize: Int? = starship?.blockCount
-		val damager = ShipKillXP.Damager(damagerId, damagerSize)
 		val x = block.x
 		val y = block.y
 		val z = block.z
-		for (otherStarship in ActiveStarships.getInWorld(world)) {
-			if (otherStarship != starship && otherStarship.contains(x, y, z)) {
-				otherStarship.damagers.getOrPut(damager, { AtomicInteger() }).incrementAndGet()
-			}
-		}
 	}
 }

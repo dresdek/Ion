@@ -2,13 +2,8 @@ package net.starlegacy.listener.misc
 
 import net.starlegacy.feature.chat.ChannelSelections
 import net.starlegacy.feature.chat.ChatChannel
-import net.starlegacy.feature.progression.Levels
 import net.starlegacy.listener.SLEventListener
-import net.starlegacy.util.SLTextStyle
-import net.starlegacy.util.colorize
-import net.starlegacy.util.filtered
-import net.starlegacy.util.subscribe
-import net.starlegacy.util.vaultChat
+import net.starlegacy.util.*
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
@@ -27,11 +22,6 @@ object ChatListener : SLEventListener() {
 				val channel = ChannelSelections[event.player]
 				event.message = "${channel.messageColor}${event.message}"
 			}
-		}
-
-		subscribe<AsyncPlayerChatEvent>(EventPriority.HIGH).handler { event ->
-			val levelText = Levels.toArabicNumeral(Levels[event.player])
-			event.format = "&8[&b&l$levelText&8]&7".colorize() + event.format
 		}
 
 		subscribe<AsyncPlayerChatEvent>(EventPriority.HIGHEST)

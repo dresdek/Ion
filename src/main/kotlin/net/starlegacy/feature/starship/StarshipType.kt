@@ -1,6 +1,5 @@
 package net.starlegacy.feature.starship
 
-import net.starlegacy.feature.progression.Levels
 import net.starlegacy.util.setDisplayNameAndGet
 import net.starlegacy.util.setLoreAndGet
 import org.bukkit.Material
@@ -307,9 +306,6 @@ enum class StarshipType(
 			)
 		)
 
-	fun canUse(player: Player): Boolean =
-		player.hasPermission("starships.anyship") || Levels[player] >= minLevel
-
 	companion object {
 		private val stringMap = mutableMapOf<String, StarshipType>().apply {
 			putAll(values().associateBy { it.name.lowercase() })
@@ -320,8 +316,6 @@ enum class StarshipType(
 
 		fun getType(name: String): StarshipType? = stringMap[name.lowercase()]
 
-		fun getUnlockedTypes(player: Player): List<StarshipType> = values()
-			.filter { it.canUse(player) }
-			.sortedBy { it.minLevel }
+		fun getUnlockedTypes(player: Player): List<StarshipType> = values().sortedBy { it.minLevel }
 	}
 }

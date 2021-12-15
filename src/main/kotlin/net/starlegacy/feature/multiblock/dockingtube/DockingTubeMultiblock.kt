@@ -2,18 +2,14 @@ package net.starlegacy.feature.multiblock.dockingtube
 
 import net.starlegacy.feature.multiblock.Multiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
-import net.starlegacy.feature.progression.advancement.SLAdvancement
 import net.starlegacy.util.rightFace
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.block.Sign
 import org.bukkit.entity.Player
-import java.util.ArrayList
 
 abstract class DockingTubeMultiblock(val stateText: String) : Multiblock() {
-	override val advancement = SLAdvancement.DOCKING_TUBE
-
 	override val name = "dockingtube"
 
 	override val signText = createSignText(

@@ -15,7 +15,6 @@ import net.starlegacy.database.schema.economy.EcoStation
 import net.starlegacy.feature.misc.CustomItem
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.nations.gui.playerClicker
-import net.starlegacy.feature.progression.SLXP
 import net.starlegacy.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -212,7 +211,6 @@ object CollectionMissions : SLComponent() {
 
 		incrementLocalStock(item, mission)
 		incrementDatabaseValues(item, mission)
-		giveXP(player, mission)
 
 		player msg "&2Completed collection mission! " +
 				"Delivered &a${mission.stacks}&2 stack(s) of &f${itemStack.displayName}&2 " +
@@ -264,10 +262,6 @@ object CollectionMissions : SLComponent() {
 
 	private fun incrementLocalStock(item: CollectedItem, mission: CollectionMission) {
 		item.stock += mission.stacks
-	}
-
-	private fun giveXP(player: Player, mission: CollectionMission) {
-		SLXP.addAsync(player, mission.xp)
 	}
 
 	private fun tryBuy(player: Player, stationId: Oid<EcoStation>, collectedItem: CollectedItem, shiftClick: Boolean) {

@@ -1,5 +1,9 @@
 package net.starlegacy.command.nations
 
+import co.aikar.commands.InvalidCommandArgument
+import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.Optional
+import net.md_5.bungee.api.chat.TextComponent
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.SettlementCache
 import net.starlegacy.command.SLCommand
@@ -16,10 +20,6 @@ import net.starlegacy.feature.nations.NATIONS_BALANCE
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
 import net.starlegacy.feature.nations.utils.*
-import co.aikar.commands.InvalidCommandArgument
-import co.aikar.commands.annotation.*
-import co.aikar.commands.annotation.Optional
-import net.md_5.bungee.api.chat.TextComponent
 import net.starlegacy.util.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -56,8 +56,6 @@ internal object SettlementCommand : SLCommand() {
 	@Description("Create your own settlement in the territory you're in (More expensive for bigger territories)")
 	fun onCreate(sender: Player, name: String, @Optional cost: Int?): Unit = asyncCommand(sender) {
 		requireNotInSettlement(sender)
-
-		requireMinLevel(sender, NATIONS_BALANCE.settlement.minCreateLevel)
 
 		validateName(name, null)
 
