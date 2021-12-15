@@ -73,7 +73,6 @@ import net.starlegacy.feature.transport.pipe.filter.Filters
 import net.starlegacy.feature.tutorial.TutorialManager
 import net.starlegacy.listener.SLEventListener
 import net.starlegacy.listener.gear.*
-import net.starlegacy.listener.minigame.BedWarsListener
 import net.starlegacy.listener.misc.*
 import net.starlegacy.listener.nations.FriendlyFireListener
 import net.starlegacy.listener.nations.GriefDefenderListener
@@ -218,7 +217,6 @@ class StarLegacy : JavaPlugin() {
 			PowerToolListener,
 			SwordListener,
 
-			BedWarsListener
 		)
 
 	override fun onEnable() {
