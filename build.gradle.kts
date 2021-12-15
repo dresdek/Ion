@@ -21,7 +21,6 @@ repositories {
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") } // anvilgui repo
 	maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
-	maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
 	maven { url = uri("https://repo.mikeprimm.com/") } // Used for dynmap
 }
 
