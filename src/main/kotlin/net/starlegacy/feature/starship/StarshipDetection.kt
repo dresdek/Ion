@@ -4,14 +4,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
 import net.starlegacy.SLComponent
 import net.starlegacy.database.schema.starships.PlayerStarshipData
-import net.starlegacy.util.Vec3i
-import net.starlegacy.util.blockKey
-import net.starlegacy.util.blockKeyX
-import net.starlegacy.util.blockKeyY
-import net.starlegacy.util.blockKeyZ
-import net.starlegacy.util.chunkKey
-import net.starlegacy.util.getBlockDataSafe
-import net.starlegacy.util.isConcrete
+import net.starlegacy.util.*
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
 import org.bukkit.block.data.BlockData
@@ -19,14 +12,13 @@ import org.bukkit.block.data.Directional
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitTask
-import java.util.Stack
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
 import kotlin.math.min
-import kotlin.math.sqrt
 
 object StarshipDetection : SLComponent() {
 	class DetectionFailedException(message: String) : Exception(message)
@@ -207,13 +199,6 @@ object StarshipDetection : SLComponent() {
 			throw DetectionFailedException(
 				"'${type.displayName}' can't fly with more than more than ${maxContainerPercent * 100}% containers. " +
 						"Current %: ${containerPercent * 100}"
-			)
-		}
-
-		val maxStickyPistons: Int = (min(0.015 * size, sqrt(size.toDouble())) * type.crateLimitMultiplier).toInt()
-		if (stickyPistons > maxStickyPistons) {
-			throw DetectionFailedException(
-				"Your ship can only fit $maxStickyPistons sticky pistons but it has $stickyPistons"
 			)
 		}
 

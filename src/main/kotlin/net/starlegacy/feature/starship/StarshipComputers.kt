@@ -230,7 +230,7 @@ object StarshipComputers : SLComponent() {
 
 	private fun openTypeMenu(player: Player, data: PlayerStarshipData) {
 		MenuHelper.apply {
-			val items = StarshipType.getUnlockedTypes(player).map { type ->
+			val items = StarshipType.values().map { type ->
 				guiButton(type.menuItem) {
 					// prevent from being piloted
 					if (ActiveStarships[data._id] != null) {
