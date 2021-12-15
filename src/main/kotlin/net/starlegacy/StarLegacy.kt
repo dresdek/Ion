@@ -4,6 +4,7 @@ import co.aikar.commands.BukkitCommandCompletionContext
 import co.aikar.commands.BukkitCommandExecutionContext
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.PaperCommandManager
+import net.horizonsend.Ion
 import net.starlegacy.cache.Caches
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.PlayerCache
@@ -244,6 +245,9 @@ class StarLegacy : JavaPlugin() {
 		)
 
 	override fun onEnable() {
+		// Load Ion
+		Ion().onEnable()
+
 		// Hack. Dumb library has a static plugin set based on which plugin loaded it.
 		// Set it to this, since the starlegacy-libs plugin is loading it.
 		BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
