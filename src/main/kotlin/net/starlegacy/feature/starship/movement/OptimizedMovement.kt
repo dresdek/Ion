@@ -15,7 +15,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.World
-import org.bukkit.block.data.BlockData
 import java.util.*
 import java.util.concurrent.ExecutionException
 
@@ -215,7 +214,7 @@ object OptimizedMovement {
 			val y = blockKeyY(blockKey)
 			val z = blockKeyZ(blockKey)
 
-			world2.setBlockData(x, y, z, (tile as BlockData)) // Just do it with bukkit, I don't understand NMS enough to do it with NMS
+			world2.setNMSBlockData(x, y, z, tile.blockState) // JUST WORK PLEASE
 		}
 	}
 
