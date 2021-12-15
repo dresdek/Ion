@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship
 
-import com.github.stefvanschie.inventoryframework.GuiItem
+import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid

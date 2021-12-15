@@ -2,7 +2,7 @@ package net.starlegacy.command.starship
 
 import co.aikar.commands.annotation.*
 import co.aikar.commands.annotation.Optional
-import com.github.stefvanschie.inventoryframework.GuiItem
+import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.extent.clipboard.Clipboard
 import com.sk89q.worldedit.math.BlockVector3

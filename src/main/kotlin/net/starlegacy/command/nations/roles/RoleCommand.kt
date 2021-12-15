@@ -1,6 +1,6 @@
 package net.starlegacy.command.nations.roles
 
-import com.github.stefvanschie.inventoryframework.GuiItem
+import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid

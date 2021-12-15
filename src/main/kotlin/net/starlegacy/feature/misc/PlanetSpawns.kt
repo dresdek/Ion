@@ -1,6 +1,6 @@
 package net.starlegacy.feature.misc
 
-import com.github.stefvanschie.inventoryframework.GuiItem
+import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.Multimap
 import net.starlegacy.PLUGIN

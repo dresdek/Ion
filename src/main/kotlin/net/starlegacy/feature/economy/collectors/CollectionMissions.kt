@@ -1,6 +1,6 @@
 package net.starlegacy.feature.economy.collectors
 
-import com.github.stefvanschie.inventoryframework.GuiItem
+import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
@@ -23,7 +23,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.inventory.ItemStack
 import org.litote.kmongo.inc
-import java.util.*
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
@@ -233,8 +232,8 @@ object CollectionMissions : SLComponent() {
 			.filter { it.value != null }
 			.filter {
 				when (customItem) {
-					null -> it.value.isSimilar(itemStack) && it.value.amount == it.value.maxStackSize
-					else -> customItem == CustomItems[it.value] && it.value.amount == customItem.material.maxStackSize
+					null -> it.value?.isSimilar(itemStack)!! && it.value?.amount == it.value?.maxStackSize
+					else -> customItem == CustomItems[it.value] && it.value?.amount == customItem.material.maxStackSize
 				}
 			}
 			// limit to the amount of stacks to avoid taking more stacks than required if they're carrying extra

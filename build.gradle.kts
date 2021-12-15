@@ -9,6 +9,7 @@ group = "net.horizonsend"
 version = "1.0"
 
 repositories {
+	mavenCentral() // general maven central repository
 	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
 	maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
 	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit and WorldGuard
@@ -22,7 +23,6 @@ repositories {
 	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 	maven { url = uri("https://maven.starlegacy.net/") } // private repository to host server binaries
 	maven { url = uri("https://repo.mikeprimm.com/") } // Used for dynmap
-	mavenCentral() // general maven central repository
 }
 
 dependencies {
@@ -49,7 +49,7 @@ dependencies {
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
-	implementation("com.github.stefvanschie.inventoryframework:IF:0.5.8") // https://github.com/stefvanschie/IF
+	implementation("com.github.stefvanschie.inventoryframework:IF:0.10.3") // https://github.com/stefvanschie/IF
 	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
@@ -69,6 +69,7 @@ tasks {
 	}
 
 	shadowJar {
+		relocate("com.github.stefvanschie.inventoryframework", "net.horizonsend.libs.inventoryframework")
 		relocate("com.fasterxml.jackson", "net.starlegacy.libs.jackson")
 		relocate("co.aikar.commands", "net.starlegacy.libs.acf")
 		relocate("org.ejml", "net.starlegacy.libs.ejml")
