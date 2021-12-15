@@ -70,7 +70,6 @@ import net.starlegacy.feature.transport.TransportConfig
 import net.starlegacy.feature.transport.Wires
 import net.starlegacy.feature.transport.pipe.Pipes
 import net.starlegacy.feature.transport.pipe.filter.Filters
-import net.starlegacy.feature.tutorial.TutorialManager
 import net.starlegacy.listener.SLEventListener
 import net.starlegacy.listener.gear.*
 import net.starlegacy.listener.misc.*
@@ -187,7 +186,6 @@ class StarLegacy : JavaPlugin() {
 			Hyperspace,
 			Turrets,
 			StarshipFactories,
-			TutorialManager,
 			Interdiction,
 			StarshipDealers,
 			Decomposers
@@ -317,7 +315,6 @@ class StarLegacy : JavaPlugin() {
 			MiscStarshipCommands,
 			BlueprintCommand,
 			StarshipDebugCommand,
-			TutorialStartStopCommand,
 			StarshipInfoCommand
 		)
 
