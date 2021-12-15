@@ -1,7 +1,6 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
-import net.minecraft.core.BlockPos
 import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
 import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.Blocks
@@ -16,6 +15,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.World
+import org.bukkit.block.data.BlockData
 import java.util.*
 import java.util.concurrent.ExecutionException
 
@@ -215,24 +215,7 @@ object OptimizedMovement {
 			val y = blockKeyY(blockKey)
 			val z = blockKeyZ(blockKey)
 
-			val newPos = NMSBlockPos(x, y, z)
-
-			val locationField = tile.javaClass.getField("o") // o = worldPosition
-			locationField.isAccessible = true
-			locationField.set(BlockPos::class, newPos)
-
-			tile.level = world2.nms
-
-			val chunk = world2.getChunkAt(x shr 4, z shr 4)
-			chunk.nms.blockEntities[newPos] = tile
-
-			tile.clearRemoved() // i.e. isRemoved = false
-
-			if (world1.uid != world2.uid) {
-				world2.nms.setBlockEntity(tile)
-			}
-
-			chunk.nms.blockEntities[newPos] = tile
+			world2.setBlockData(x, y, z, (tile as BlockData)) // Just do it with bukkit, I don't understand NMS enough to do it with NMS
 		}
 	}
 
