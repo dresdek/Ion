@@ -6,4 +6,3 @@ pluginManagement {
 }
 
 rootProject.name = "Ion"
-include("StarLegacy")
