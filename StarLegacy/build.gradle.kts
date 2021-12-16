@@ -1,22 +1,6 @@
 group = "net.starlegacy"
 version = "1.0"
 
-repositories {
-	mavenCentral() // general maven central repository
-	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
-	maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
-	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit
-	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
-	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
-	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") } // used for discordsrv
-	maven { url = uri("https://nexus.vankka.dev/repository/maven-public/") } // used for dependency of discordsrv (MCDiscordReserializer)
-	maven { url = uri("https://raw.githubusercontent.com/FabioZumbi12/UltimateChat/mvn-repo/") } // used for dependency of discordsrv (UltimateChat)
-	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") } // anvilgui repo
-	maven { url = uri("https://repo.citizensnpcs.co/") } // Citizens NPCs plugin repo
-	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
-	maven { url = uri("https://repo.mikeprimm.com/") } // Used for dynmap
-}
-
 dependencies {
 	compileOnly("net.luckperms:api:5.3")
 	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
