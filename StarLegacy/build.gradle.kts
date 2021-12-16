@@ -1,17 +1,10 @@
-plugins {
-	java
-	id("org.jetbrains.kotlin.jvm") version "1.6.10"
-	id("io.papermc.paperweight.userdev") version "1.2.0"
-	id("com.github.johnrengelman.shadow") version "7.1.1"
-}
-
 group = "net.starlegacy"
 version = "1.0"
 
 repositories {
 	mavenCentral() // general maven central repository
 	maven { url = uri("https://jitpack.io") } // used for github projects without their own repo, com.github.User:Project:Tag
-	maven { url = uri("https://papermc.io/repo/repository/maven-public/") } // Official PaperMC repository for API
+	maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
 	maven { url = uri("https://maven.sk89q.com/repo/") } // used for WorldEdit
 	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") } // used for EventChain
 	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content { excludeGroup("org.bukkit") } } // aikar's repository which mirrors lots of Minecraft things plus hosts his own projects
@@ -25,10 +18,6 @@ repositories {
 }
 
 dependencies {
-	// https://papermc.io (full server hosted at https://maven.starlegacy.net/)
-	compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
-	paperDevBundle("1.17.1-R0.1-SNAPSHOT")
-
 	compileOnly("net.luckperms:api:5.3")
 	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
 	compileOnly("com.github.bloodmc:GriefDefenderAPI:master") // https://github.com/bloodmc/GriefDefender/
@@ -54,25 +43,4 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 	implementation("net.dv8tion:JDA:5.0.0-alpha.2")
-}
-
-java {
-	toolchain.languageVersion.set(JavaLanguageVersion.of(16))
-}
-
-tasks {
-	compileJava {
-		options.encoding = Charsets.UTF_8.name()
-
-		options.release.set(16)
-	}
-
-	shadowJar {
-		minimize()
-	}
-
-	build {
-		dependsOn(shadowJar)
-		dependsOn(reobfJar)
-	}
 }
