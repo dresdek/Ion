@@ -29,6 +29,7 @@ dependencies {
 	compileOnly("net.luckperms:api:5.3")
 	compileOnly("us.dynmap:spigot:3.1") // https://github.com/webbukkit/dynmap
 
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 	implementation("com.github.stefvanschie.inventoryframework:IF:0.10.3") // https://github.com/stefvanschie/IF
 	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
