@@ -65,7 +65,6 @@ tasks {
 	shadowJar {
 		destinationDirectory.set(file(rootProject.projectDir.absolutePath + "/build"))
 		archiveFileName.set("Ion.jar")
-		minimize()
 	}
 
 	build {
