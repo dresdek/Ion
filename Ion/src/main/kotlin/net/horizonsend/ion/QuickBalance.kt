@@ -3,6 +3,7 @@ package net.horizonsend.ion
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Subcommand
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -13,6 +14,7 @@ import org.bukkit.command.CommandSender
 import java.io.File
 
 @ExperimentalSerializationApi
+@CommandPermission("ion.quickbalance")
 @CommandAlias("quickbalance")
 object QuickBalance: BaseCommand() {
 	private val defaultBalancedValues = mapOf(
