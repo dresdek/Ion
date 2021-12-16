@@ -51,6 +51,9 @@ sourceSets {
 			srcDir("StarLegacy/src/main/kotlin")
 		}
 	}
+	resources {
+		srcDir("Ion/src/main/resources")
+	}
 }
 
 java {
