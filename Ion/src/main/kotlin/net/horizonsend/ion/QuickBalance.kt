@@ -9,7 +9,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
-import net.starlegacy.PLUGIN
+import net.horizonsend.ion.Ion.Companion.plugin
 import org.bukkit.command.CommandSender
 import java.io.File
 
@@ -36,15 +36,15 @@ object QuickBalance: BaseCommand() {
 
 	init {
 		try {
-			customBalancedValues = Json.decodeFromStream(File(PLUGIN.dataFolder, "values.json").inputStream())
+			customBalancedValues = Json.decodeFromStream(File(plugin.dataFolder, "values.json").inputStream())
 		} catch (e: Exception) {
-			PLUGIN.logger.warning("Failed to load custom balanced values. Creating new file.")
+			plugin.logger.warning("Failed to load custom balanced values. Creating new file.")
 			saveBalancedValues()
 		}
 	}
 
 	private fun saveBalancedValues() {
-		Json.encodeToStream(customBalancedValues, File(PLUGIN.dataFolder, "values.json").outputStream())
+		Json.encodeToStream(customBalancedValues, File(plugin.dataFolder, "values.json").outputStream())
 	}
 
 	@Subcommand("list")
