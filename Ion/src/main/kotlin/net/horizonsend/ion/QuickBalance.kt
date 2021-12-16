@@ -18,13 +18,21 @@ import java.io.File
 @CommandAlias("quickbalance")
 object QuickBalance: BaseCommand() {
 	private val defaultBalancedValues = mapOf(
-		"test" to 1.2
+		"TriTurretCooldownSeconds" to 3.0,
+		"TriTurretInaccuracy" to 3.0,
+		"TriTurretPowerUsage" to 45000.0,
+		"TriTurretRange" to 500.0,
+		"TriTurretProjectileSpeed" to 125.0,
+		"TriTurretExplosionPower" to 6.0,
+		"TriTurretShieldDamageMultiplier" to 3.0,
 	)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()
 
 	// This is dumb... this will cause us to spend a lot of time moving around data for no reason
 	val balancedValues get() = defaultBalancedValues.toMutableMap().apply { putAll(customBalancedValues) }.toMap()
+
+	fun getBalancedValue(name: String) = balancedValues[name] ?: throw IllegalArgumentException("No balanced value for $name")
 
 	init {
 		try {

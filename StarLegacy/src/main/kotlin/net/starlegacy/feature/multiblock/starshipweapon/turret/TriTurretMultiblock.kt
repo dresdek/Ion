@@ -1,5 +1,6 @@
 package net.starlegacy.feature.multiblock.starshipweapon.turret
 
+import net.horizonsend.ion.QuickBalance.getBalancedValue
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
@@ -15,14 +16,14 @@ sealed class TriTurretMultiblock : TurretMultiblock() {
 
 	protected abstract fun getYFactor(): Int
 
-	override val cooldownNanos: Long = TimeUnit.SECONDS.toNanos(3L)
-	override val range: Double = 500.0
+	override val cooldownNanos get() = TimeUnit.SECONDS.toNanos(getBalancedValue("TriTurretCooldownSeconds").toLong())
+	override val range get() = getBalancedValue("TriTurretRange")
 	override val sound: String = "starship.weapon.turbolaser.tri.shoot"
 
-	override val projectileSpeed: Int = 125
+	override val projectileSpeed get() = getBalancedValue("TriTurretProjectileSpeed").toInt()
 	override val projectileParticleThickness: Double = 0.8
-	override val projectileExplosionPower: Float = 6f
-	override val projectileShieldDamageMultiplier: Int = 3
+	override val projectileExplosionPower get() = getBalancedValue("TriTurretExplosionPower").toFloat()
+	override val projectileShieldDamageMultiplier get() = getBalancedValue("TriTurretShieldDamageMultiplier").toInt()
 
 	override fun buildFirePointOffsets(): List<Vec3i> = listOf(
 		Vec3i(-2, getYFactor() * 3, +6),

@@ -1,12 +1,12 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
+import net.horizonsend.ion.QuickBalance
 import net.starlegacy.feature.multiblock.starshipweapon.turret.TriTurretMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.HeavyWeaponSubsystem
 import net.starlegacy.util.Vec3i
 import org.bukkit.block.BlockFace
-import org.litote.kmongo.mul
 
 class TriTurretWeaponSubsystem(
 	ship: ActiveStarship,
@@ -15,7 +15,7 @@ class TriTurretWeaponSubsystem(
 	override val multiblock: TriTurretMultiblock
 ) : TurretWeaponSubsystem(ship, pos, face),
 	HeavyWeaponSubsystem {
-	override val inaccuracyRadians: Double = Math.toRadians(3.0)
-	override val powerUsage: Int = 45_000
-	override val boostChargeNanos: Long = multiblock.cooldownNanos
+	override val inaccuracyRadians get() = Math.toRadians(QuickBalance.getBalancedValue("TriTurretInaccuracy"))
+	override val powerUsage get() = QuickBalance.getBalancedValue("TriTurretPowerUsage").toInt()
+	override val boostChargeNanos get() = multiblock.cooldownNanos
 }
