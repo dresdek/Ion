@@ -5,7 +5,7 @@ plugins {
 	id("com.github.johnrengelman.shadow") version "7.1.1"
 }
 
-group = "net.horizonsend"
+group = "net.starlegacy"
 version = "1.0"
 
 repositories {
