@@ -45,6 +45,8 @@ dependencies {
 sourceSets {
 	main {
 		java {
+			srcDir("Ion/src/main/java")
+			srcDir("Ion/src/main/kotlin")
 			srcDir("StarLegacy/src/main/java")
 			srcDir("StarLegacy/src/main/kotlin")
 		}
