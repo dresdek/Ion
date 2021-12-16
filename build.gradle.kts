@@ -26,21 +26,25 @@ allprojects {
 	java {
 		toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 	}
-}
 
-tasks {
-	compileJava {
-		options.encoding = Charsets.UTF_8.name()
+	tasks {
+		compileJava {
+			options.encoding = Charsets.UTF_8.name()
 
-		options.release.set(16)
-	}
+			options.release.set(16)
+		}
 
-	shadowJar {
-		minimize()
-	}
+		jar {
+			destinationDir = file(rootProject.projectDir.absolutePath + "/build/libs")
+		}
 
-	build {
-		dependsOn(shadowJar)
-		dependsOn(reobfJar)
+		shadowJar {
+			destinationDir = file(rootProject.projectDir.absolutePath + "/build/jar")
+			minimize()
+		}
+
+		build {
+			dependsOn(reobfJar)
+		}
 	}
 }
