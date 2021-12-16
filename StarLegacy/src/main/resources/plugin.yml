@@ -3,6 +3,6 @@ version: 1.0.0
 main: net.starlegacy.StarLegacy
 loadbefore: [ Essentials ]
 depend: [ LuckPerms, Vault, dynmap, WorldEdit, Citizens, WorldGuard ]
-softdepend: [ GameAPI, GriefDefender ]
+softdepend: [ GriefDefender ]
 authors: [ PeterCrawley, trainb0y, Sciath, MicleBrick ]
 api-version: "1.17"
