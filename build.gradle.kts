@@ -65,6 +65,10 @@ java {
 }
 
 tasks {
+	shadowJar {
+		minimize()
+	}
+
 	reobfJar {
 		outputJar.set(file(rootProject.projectDir.absolutePath + "/build/Ion.jar"))
 	}
