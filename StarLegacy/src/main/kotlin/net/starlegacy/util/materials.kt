@@ -23,6 +23,24 @@ val STAINED_GLASS_PANE_TYPES = getMatchingMaterials { it.name.endsWith("_STAINED
 val Material.isGlassPane: Boolean get() = this == Material.GLASS_PANE || this.isStainedGlassPane
 val Material.isStainedGlassPane: Boolean get() = STAINED_GLASS_PANE_TYPES.contains(this)
 
+val Material.isCopperBlock: Boolean get() =
+	this == Material.COPPER_BLOCK               ||
+	this == Material.EXPOSED_COPPER             ||
+	this == Material.WEATHERED_COPPER           ||
+	this == Material.OXIDIZED_COPPER            ||
+	this == Material.WAXED_COPPER_BLOCK         ||
+	this == Material.WAXED_EXPOSED_COPPER       ||
+	this == Material.WAXED_WEATHERED_COPPER     ||
+	this == Material.WAXED_OXIDIZED_COPPER      ||
+	this == Material.CUT_COPPER                 ||
+	this == Material.EXPOSED_CUT_COPPER         ||
+	this == Material.WEATHERED_CUT_COPPER       ||
+	this == Material.OXIDIZED_CUT_COPPER        ||
+	this == Material.WAXED_CUT_COPPER           ||
+	this == Material.WAXED_EXPOSED_CUT_COPPER   ||
+	this == Material.WAXED_WEATHERED_CUT_COPPER ||
+	this == Material.WAXED_OXIDIZED_CUT_COPPER
+
 val Material.isLava: Boolean get() = this == Material.LAVA
 
 val Material.isWater: Boolean get() = this == Material.WATER

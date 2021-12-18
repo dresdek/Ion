@@ -226,7 +226,7 @@ class MultiblockShape {
 		fun netheriteBlock() = type(Material.NETHERITE_BLOCK)
 		fun emeraldBlock() = type(Material.EMERALD_BLOCK)
 		fun redstoneBlock() = type(Material.REDSTONE_BLOCK)
-		fun copperBlock() = customBlock(CustomBlocks.MINERAL_COPPER.block)
+		fun copperBlock() = filteredTypes { it.isCopperBlock }
 		fun titaniumBlock() = customBlock(CustomBlocks.MINERAL_TITANIUM.block)
 		fun aluminumBlock() = customBlock(CustomBlocks.MINERAL_ALUMINUM.block)
 		fun chetheriteBlock() = customBlock(CustomBlocks.MINERAL_CHETHERITE.block)
