@@ -48,7 +48,7 @@ object NationsBalancing : SLComponent() {
 	}
 
 	fun reload() {
-//		NATIONS_BALANCE = loadConfig(plugin.sharedDataFolder, "nations_balancing")
+		NATIONS_BALANCE = Config()
 	}
 
 	override fun supportsVanilla(): Boolean {

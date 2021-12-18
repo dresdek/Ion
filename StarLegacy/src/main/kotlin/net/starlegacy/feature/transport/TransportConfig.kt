@@ -30,7 +30,7 @@ data class TransportConfig(
 		}
 
 		fun reload() {
-//			transportConfig = loadConfig(parent = plugin.sharedDataFolder, name = "transport-settings")
+			transportConfig = TransportConfig()
 		}
 	}
 }
