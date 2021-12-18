@@ -53,7 +53,7 @@ object MongoManager : SLComponent() {
 		val host = SETTINGS.mongo.host
 		val port = SETTINGS.mongo.port
 		val authDb = SETTINGS.mongo.database
-		val connectionString = ConnectionString("mongodb://$username:$password@$host:$port/$authDb")
+		val connectionString = ConnectionString("mongodb://$username:$password@$host:$port/$authDb?authSource=$authDb")
 		client = KMongo.createClient(connectionString)
 
 		database = client.getDatabase(SETTINGS.mongo.database)
