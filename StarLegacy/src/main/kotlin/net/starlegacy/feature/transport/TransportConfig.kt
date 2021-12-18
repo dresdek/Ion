@@ -1,7 +1,6 @@
 package net.starlegacy.feature.transport
 
 import net.starlegacy.SLComponent
-import net.starlegacy.util.loadConfig
 
 lateinit var transportConfig: TransportConfig
 
@@ -31,7 +30,7 @@ data class TransportConfig(
 		}
 
 		fun reload() {
-			transportConfig = loadConfig(parent = plugin.sharedDataFolder, name = "transport-settings")
+//			transportConfig = loadConfig(parent = plugin.sharedDataFolder, name = "transport-settings")
 		}
 	}
 }

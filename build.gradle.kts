@@ -38,7 +38,6 @@ dependencies {
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
 	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
-	implementation("io.github.config4k:config4k:0.4.2") // https://github.com/config4k/config4k
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
 	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo

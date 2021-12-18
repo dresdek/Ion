@@ -1,5 +1,6 @@
 package net.starlegacy
 
+//import net.starlegacy.feature.machine.BaseShields
 import co.aikar.commands.BukkitCommandCompletionContext
 import co.aikar.commands.BukkitCommandExecutionContext
 import co.aikar.commands.InvalidCommandArgument
@@ -26,9 +27,15 @@ import net.starlegacy.command.nations.settlementZones.SettlementZoneCommand
 import net.starlegacy.command.space.PlanetCommand
 import net.starlegacy.command.space.SpaceWorldCommand
 import net.starlegacy.command.space.StarCommand
-import net.starlegacy.command.starship.*
+import net.starlegacy.command.starship.BlueprintCommand
+import net.starlegacy.command.starship.MiscStarshipCommands
+import net.starlegacy.command.starship.StarshipDebugCommand
+import net.starlegacy.command.starship.StarshipInfoCommand
 import net.starlegacy.database.MongoManager
-import net.starlegacy.database.schema.economy.*
+import net.starlegacy.database.schema.economy.BazaarItem
+import net.starlegacy.database.schema.economy.CityNPC
+import net.starlegacy.database.schema.economy.CollectedItem
+import net.starlegacy.database.schema.economy.EcoStation
 import net.starlegacy.database.schema.misc.Shuttle
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.database.slPlayerId
@@ -43,7 +50,6 @@ import net.starlegacy.feature.economy.collectors.Collectors
 import net.starlegacy.feature.gas.Gasses
 import net.starlegacy.feature.gear.Gear
 import net.starlegacy.feature.machine.AreaShields
-//import net.starlegacy.feature.machine.BaseShields
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.machine.Turrets
 import net.starlegacy.feature.misc.*
@@ -76,7 +82,10 @@ import net.starlegacy.listener.misc.*
 import net.starlegacy.listener.nations.FriendlyFireListener
 import net.starlegacy.listener.nations.GriefDefenderListener
 import net.starlegacy.listener.nations.MovementListener
-import net.starlegacy.util.*
+import net.starlegacy.util.MATERIALS
+import net.starlegacy.util.Notify
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.orNull
 import net.starlegacy.util.redisaction.RedisActions
 import ninja.egg82.events.BukkitEvents
 import org.bukkit.Bukkit
@@ -214,7 +223,6 @@ class StarLegacy : JavaPlugin() {
 			PowerArmorListener,
 			PowerToolListener,
 			SwordListener,
-
 		)
 
 	override fun onEnable() {
@@ -224,7 +232,19 @@ class StarLegacy : JavaPlugin() {
 		// Set it to this, since the starlegacy-libs plugin is loading it.
 		BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
 
-		SETTINGS = loadConfig(dataFolder, "config")
+		saveDefaultConfig()
+		reloadConfig()
+
+		SETTINGS = Config()
+		SETTINGS.mongo = Config.Mongo(
+			config.getString("host")!!,
+			config.getInt("port"),
+			config.getString("database")!!,
+			config.getString("username")!!,
+			config.getString("password")!!
+		)
+
+			//loadConfig(dataFolder, "config")
 
 		// manually call this for MongoManager, as some of the components break if it's not ready on init
 		MongoManager.onEnable()

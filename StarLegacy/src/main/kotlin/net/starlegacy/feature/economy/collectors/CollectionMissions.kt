@@ -72,7 +72,7 @@ object CollectionMissions : SLComponent() {
 		})
 
 	fun rebalance() {
-		config = loadConfig(plugin.sharedDataFolder, "collection_missions")
+//		config = loadConfig(plugin.sharedDataFolder, "collection_missions")
 		reset()
 	}
 

@@ -12,7 +12,7 @@ data class Config(
 
 	//@Comment("The hour (0-23) of day to restart the server automatically")
 //    @ValidatorRange(min = 0, max = 23)
-	val restartHour: Int = 2,
+	val restartHour: Int = 0,
 
 	//@Comment("Whether to allow players in the same group to attack eachother on this server")
 	val allowFriendlyFire: Boolean = false,
@@ -21,7 +21,7 @@ data class Config(
 	val territoryCost: Int = 10,
 
 	//@Comment("Connection details for the MongoDB database")
-	val mongo: Mongo = Mongo(),
+	var mongo: Mongo = Mongo(),
 
 	val redis: Redis = Redis(),
 

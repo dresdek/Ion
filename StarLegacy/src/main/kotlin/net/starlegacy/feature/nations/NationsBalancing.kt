@@ -1,7 +1,7 @@
 package net.starlegacy.feature.nations
 
 import net.starlegacy.SLComponent
-import net.starlegacy.util.loadConfig
+//import net.starlegacy.util.loadConfig
 
 lateinit var NATIONS_BALANCE: NationsBalancing.Config
 
@@ -48,7 +48,7 @@ object NationsBalancing : SLComponent() {
 	}
 
 	fun reload() {
-		NATIONS_BALANCE = loadConfig(plugin.sharedDataFolder, "nations_balancing")
+//		NATIONS_BALANCE = loadConfig(plugin.sharedDataFolder, "nations_balancing")
 	}
 
 	override fun supportsVanilla(): Boolean {
