@@ -63,12 +63,6 @@ java {
 	toolchain.languageVersion.set(JavaLanguageVersion.of(16))
 }
 
-tasks {
-	shadowJar {
-		minimize()
-	}
-
-	reobfJar {
-		outputJar.set(file(rootProject.projectDir.absolutePath + "/build/Ion.jar"))
-	}
+tasks.reobfJar {
+	outputJar.set(file(rootProject.projectDir.absolutePath + "/build/Ion.jar"))
 }
