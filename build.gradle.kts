@@ -42,7 +42,7 @@ dependencies {
 	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
 	implementation("net.dv8tion:JDA:5.0.0-alpha.2")
-	implementation("redis.clients:jedis:4.0.0") // https://github.com/xetorthio/jedis
+	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 }
 
 sourceSets {
