@@ -50,7 +50,7 @@ data class Config(
 	)
 
 	data class Redis(
-		val host: String = "localhost",
+		val host: String = "127.0.0.1",
 
 		val channel: String = "starlegacytest"
 	)
