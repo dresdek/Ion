@@ -239,16 +239,6 @@ object CustomRecipes : SLComponent() {
 				's' to materialChoice(Material.STICK)
 			)
 		)
-
-		createRecipe(
-			CustomItems.POWER_TOOL_CHAINSAW, "ai ", "ibt", " ts", ingredients = mapOf(
-				'a' to customItemChoice(CustomItems.MINERAL_ALUMINUM),
-				'i' to materialChoice(Material.IRON_INGOT),
-				'b' to customItemChoice(CustomItems.BATTERY_MEDIUM),
-				't' to customItemChoice(CustomItems.MINERAL_TITANIUM),
-				's' to materialChoice(Material.STICK)
-			)
-		)
 	}
 
 	private fun registerGasCanisterRecipe() {

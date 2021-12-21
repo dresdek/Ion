@@ -1,13 +1,10 @@
 package net.starlegacy.listener.gear
 
-import net.starlegacy.PLUGIN
-import net.starlegacy.feature.gear.TreeCutter
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.misc.getPower
 import net.starlegacy.feature.misc.removePower
 import net.starlegacy.listener.SLEventListener
 import net.starlegacy.util.Tasks
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Effect
 import org.bukkit.GameMode
@@ -62,27 +59,6 @@ object PowerToolListener : SLEventListener() {
 					block.breakNaturally(PICKAXE)
 				}
 
-				return
-			}
-			"chainsaw" -> {
-				val breakEvent = BlockBreakEvent(block, player)
-				Bukkit.getPluginManager().callEvent(breakEvent)
-				if (breakEvent.isCancelled) return
-
-				event.isCancelled = true
-
-				if (!TreeCutter.isApplicable(blockType)) {
-					return
-				}
-
-				if (getPower(item) < 1000) {
-					player.sendMessage(ChatColor.RED.toString() + "Out of power.")
-					return
-				}
-
-				removePower(item, 1000)
-
-				TreeCutter(event.player, block).runTaskAsynchronously(PLUGIN)
 				return
 			}
 			else -> println("Unhandled power tool $type")
