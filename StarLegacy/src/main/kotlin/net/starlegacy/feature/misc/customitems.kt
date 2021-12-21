@@ -255,7 +255,6 @@ object CustomItems {
 		idMap["power_tool_pickaxe"] = POWER_TOOL_DRILL
 	}
 
-	val POWER_TOOL_CHAINSAW = registerPowerTool("chainsaw", "Chainsaw", DIAMOND_AXE, 1, 100000)
 	//endregion Power Tools
 
 	//region Minerals
