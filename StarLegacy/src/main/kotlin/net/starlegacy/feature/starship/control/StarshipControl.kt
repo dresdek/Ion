@@ -184,6 +184,10 @@ object StarshipControl : SLComponent() {
 		}
 		vectors.add(vector)
 
+		if (vector.x != 0.0 || vector.z != 0.0) {
+			ConnectionUtils.teleport(pilot, center)
+		}
+
 		var highestFrequency = Collections.frequency(vectors, vector)
 		for (previousVector in vectors) {
 			val frequency = Collections.frequency(vectors, previousVector)
@@ -237,10 +241,6 @@ object StarshipControl : SLComponent() {
 
 		pilot.walkSpeed = 0.009f
 		TranslateMovement.loadChunksAndMove(starship, dx, dy, dz)
-
-		if (vector.x != 0.0 || vector.z != 0.0) {
-			ConnectionUtils.teleport(pilot, center)
-		}
 	}
 
 	private fun processSneakFlight(pilot: Player, starship: ActivePlayerStarship) {
