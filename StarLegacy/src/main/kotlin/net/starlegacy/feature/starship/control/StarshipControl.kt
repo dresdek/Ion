@@ -198,7 +198,7 @@ object StarshipControl : SLComponent() {
 		dz = directControlVec.blockZ
 
 		dx *= speedFac
-		dy *= speedFac
+//		dy *= speedFac // This may be causing the ship to be moved stupidly
 		dz *= speedFac
 
 		when {
