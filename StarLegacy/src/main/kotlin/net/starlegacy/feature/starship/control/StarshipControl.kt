@@ -126,11 +126,11 @@ object StarshipControl : SLComponent() {
 		var dz = 0
 		val direction = starship.getTargetForward()
 		val targetSpeed = calculateSpeed(heldItemSlot)
-		dx += (targetSpeed * direction.modX)
-		dz += (targetSpeed * direction.modZ)
+		dx += (targetSpeed * direction.modX) * 2
+		dz += (targetSpeed * direction.modZ) * 2
 		if (pilot.isSneaking) {
-			dx *= 2
-			dz *= 2
+			dx /= 2
+			dz /= 2
 		}
 		var center = starship.directControlCenter
 		if (center == null) {
