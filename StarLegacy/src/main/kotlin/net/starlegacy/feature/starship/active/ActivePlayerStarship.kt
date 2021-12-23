@@ -15,7 +15,11 @@ import net.starlegacy.feature.starship.event.StarshipTranslateEvent
 import net.starlegacy.feature.starship.movement.RotationMovement
 import net.starlegacy.feature.starship.movement.StarshipMovement
 import net.starlegacy.feature.starship.movement.TranslateMovement
-import net.starlegacy.util.*
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.Vec3i
+import net.starlegacy.util.leftFace
+import net.starlegacy.util.msg
+import net.starlegacy.util.rightFace
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.Location
@@ -165,7 +169,7 @@ class ActivePlayerStarship(
 	fun setDirectControlEnabled(enabled: Boolean) {
 		isDirectControlEnabled = enabled
 		if (enabled) {
-			sendMessage("&7Direct Control: &aON &e[Use /dc to turn it off - scroll or use hotbar keys to adjust speed - use W/A/S/D to maneuver - hold sneak (Lshift) for a boost]")
+			sendMessage("&7Direct Control: &aON &e[Use /dc to turn it off - scroll or use hotbar keys to adjust speed - use W/A/S/D to maneuver - hold sneak (Lshift) to reduce speed]")
 
 			val pilot = this.pilot ?: return
 			pilot.walkSpeed = 0.009f
