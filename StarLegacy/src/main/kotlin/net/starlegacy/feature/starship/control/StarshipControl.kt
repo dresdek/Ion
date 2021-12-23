@@ -201,7 +201,7 @@ object StarshipControl : SLComponent() {
 		val strafeAxis = if (forwardZ) vector.x else vector.z
 		val strafe = sign(strafeAxis).toInt() * abs(targetSpeed)
 		val ascensionAxis = if (forwardZ) vector.z * -direction.modZ else vector.x * -direction.modX
-		val ascension = sign(ascensionAxis).toInt() * abs(targetSpeed)
+		val ascension = sign(ascensionAxis).toInt() //* abs(targetSpeed)
 		if (forwardZ) dx += strafe else dz += strafe
 		dy += ascension
 
