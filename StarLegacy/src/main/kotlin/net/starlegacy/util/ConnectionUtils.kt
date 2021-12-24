@@ -46,8 +46,8 @@ object ConnectionUtils {
 		val y = loc.y
 		val z = loc.z
 
-		if (handle.activeContainer !== handle.defaultContainer) {
-			handle.closeInventory()
+		if (handle.containerMenu !== handle.inventoryMenu) {
+			handle.closeContainer()
 		}
 
 		var teleportAwait: Int
