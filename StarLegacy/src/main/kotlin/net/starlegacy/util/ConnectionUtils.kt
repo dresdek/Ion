@@ -81,7 +81,7 @@ object ConnectionUtils {
 
 		handle.setPos(x, y, z)
 		handle.setRot(handle.yRot + theta, handle.xRot)
-		handle.worldServer.chunkCheck(handle)
+//		handle.level.updateChunkPos(handle) // Removed with 1.17.1
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
 		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait)
