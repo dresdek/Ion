@@ -4,14 +4,11 @@ import net.minecraft.data.models.blockstates.VariantProperties.X_ROT
 import net.minecraft.data.models.blockstates.VariantProperties.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.world.phys.Vec3
-import net.starlegacy.feature.multiblock.MultiblockShape
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
@@ -21,7 +18,7 @@ import java.lang.reflect.Field
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
-	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, MultiblockShape.Y, Z)
+	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
 	private var justTeleportedField: Field = getField("justTeleported")
 	private var teleportPosField: Field = getField("teleportPos")
