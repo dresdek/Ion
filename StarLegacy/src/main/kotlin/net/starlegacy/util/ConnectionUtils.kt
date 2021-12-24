@@ -20,7 +20,7 @@ object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
-//	private var justTeleportedField: Field = getField("justTeleported")
+	private var justTeleportedField: Field = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works
 	private var teleportPosField: Field = getField("y") // awaitingPositionFromClient / teleportPos
 	private var lastPosXField: Field = getField("o") // lastPosX / lastGoodX
 	private var lastPosYField: Field = getField("u") // lastPosY / lastGoodY
@@ -48,7 +48,7 @@ object ConnectionUtils {
 		}
 
 		var teleportAwait: Int
-//		justTeleportedField.set(connection, true)
+		justTeleportedField.set(connection, true)
 		teleportPosField.set(connection, Vec3(x, y, z))
 		lastPosXField.set(connection, x)
 		lastPosYField.set(connection, y)
