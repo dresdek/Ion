@@ -84,8 +84,9 @@ object ConnectionUtils {
 //		handle.level.updateChunkPos(handle) // Removed with 1.17.1
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
-		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait)
-		connection.sendPacket(packet)
+		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, setOf(), 0, true)
+//		old:	ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait)
+		connection.send(packet)
 	}
 
 	fun teleport(player: Player, loc: Location) {
