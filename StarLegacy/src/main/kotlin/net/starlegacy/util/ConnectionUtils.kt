@@ -6,19 +6,32 @@ import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.Relat
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
+import net.minecraft.server.network.ServerGamePacketListenerImpl
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.lang.System.currentTimeMillis
+import java.lang.reflect.Field
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
+	private var justTeleportedField: Field = getField("justTeleported")
+
+	@Throws(NoSuchFieldException::class)
+	private fun getField(name: String): Field {
+		val field = ServerGamePacketListenerImpl::class.java.getDeclaredField(name)
+		field.isAccessible = true
+		return field
+	}
+
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
 		val connection = handle.connection
+
+		justTeleportedField.set(connection, true)
 
 		if (handle.containerMenu !== handle.inventoryMenu) handle.closeContainer()
 
