@@ -1,10 +1,10 @@
 package net.starlegacy.util
 
-import net.minecraft.data.models.blockstates.VariantProperties.X_ROT
-import net.minecraft.data.models.blockstates.VariantProperties.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.network.ServerGamePacketListenerImpl
@@ -78,10 +78,11 @@ object ConnectionUtils {
 
 		handle.setPos(x, y, z)
 		handle.setRot(handle.yRot + theta, handle.xRot)
+
 //		handle.level.updateChunkPos(handle) // Removed with 1.17.1
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
-		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, setOf(), 0, true)
+		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, 0, true)
 //		old:	ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait)
 		connection.send(packet)
 	}
