@@ -26,8 +26,8 @@ object ConnectionUtils {
 	private var lastPosYField: Field = getField("u") // lastPosY / lastGoodY
 	private var lastPosZField: Field = getField("q") // lastPosZ / lastGoodZ
 	private var teleportAwaitField: Field = getField("z") // awaitingTeleport / teleportAwait
-	private var AField: Field = getField("A")
-	private var eField: Field = getField("e")
+//	private var AField: Field = getField("A")
+//	private var eField: Field = getField("e")
 
 	@Throws(NoSuchFieldException::class)
 	private fun getField(name: String): Field {
@@ -60,7 +60,7 @@ object ConnectionUtils {
 		}
 
 		teleportAwaitField.set(connection, teleportAwait)
-		AField.set(connection, eField.get(connection))
+//		AField.set(connection, eField.get(connection))
 
 		val px: Double
 		val py: Double
