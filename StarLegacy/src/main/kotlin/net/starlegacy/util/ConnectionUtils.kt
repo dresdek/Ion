@@ -1,24 +1,27 @@
 package net.starlegacy.util
 
-import net.minecraft.server.v1_16_R3.EntityPlayer
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.X
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.X_ROT
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Y
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Y_ROT
-import net.minecraft.server.v1_16_R3.PacketPlayOutPosition.EnumPlayerTeleportFlags.Z
-import net.minecraft.server.v1_16_R3.PlayerConnection
-import net.minecraft.server.v1_16_R3.Vec3D
+import net.minecraft.data.models.blockstates.VariantProperties.X_ROT
+import net.minecraft.data.models.blockstates.VariantProperties.Y_ROT
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X_ROT
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerGamePacketListenerImpl
+import net.minecraft.world.phys.Vec3
+import net.starlegacy.feature.multiblock.MultiblockShape
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.lang.reflect.Field
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
-	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
+	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, MultiblockShape.Y, Z)
 
 	private var justTeleportedField: Field = getField("justTeleported")
 	private var teleportPosField: Field = getField("teleportPos")
@@ -31,7 +34,7 @@ object ConnectionUtils {
 
 	@Throws(NoSuchFieldException::class)
 	private fun getField(name: String): Field {
-		val field = PlayerConnection::class.java.getDeclaredField(name)
+		val field = ServerGamePacketListenerImpl::class.java.getDeclaredField(name)
 		field.isAccessible = true
 		return field
 	}
@@ -49,7 +52,7 @@ object ConnectionUtils {
 
 		var teleportAwait: Int
 		justTeleportedField.set(connection, true)
-		teleportPosField.set(connection, Vec3D(x, y, z))
+		teleportPosField.set(connection, Vec3(x, y, z))
 		lastPosXField.set(connection, x)
 		lastPosYField.set(connection, y)
 		lastPosZField.set(connection, z)
@@ -80,7 +83,7 @@ object ConnectionUtils {
 		handle.worldServer.chunkCheck(handle)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
-		val packet = PacketPlayOutPosition(px, py, pz, theta, 0f, flags, teleportAwait)
+		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait)
 		connection.sendPacket(packet)
 	}
 
@@ -96,7 +99,7 @@ object ConnectionUtils {
 		move(player, loc, 0.0f, Vector(dx, dy, dz))
 	}
 
-	fun isTeleporting(player: EntityPlayer?): Boolean {
+	fun isTeleporting(player: ServerPlayer?): Boolean {
 		if (player == null) return false
 		return try {
 			teleportPosField.get(player.playerConnection) != null
