@@ -41,7 +41,7 @@ object ConnectionUtils {
 
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
-		val connection = handle.playerConnection
+		val connection = handle.connection
 		val x = loc.x
 		val y = loc.y
 		val z = loc.z
@@ -102,7 +102,7 @@ object ConnectionUtils {
 	fun isTeleporting(player: ServerPlayer?): Boolean {
 		if (player == null) return false
 		return try {
-			teleportPosField.get(player.playerConnection) != null
+			teleportPosField.get(player.connection) != null
 		} catch (e: IllegalAccessException) {
 			false
 		}
@@ -112,6 +112,6 @@ object ConnectionUtils {
 		if (player == null || !player.isOnline) return
 		if (Bukkit.isPrimaryThread()) move(player, player.location, 0.0, 0.0, 0.0)
 		val handle = (player as CraftPlayer).handle
-		while (player.isOnline && teleportPosField.get(handle.playerConnection) != null) Thread.sleep(0)
+		while (player.isOnline && teleportPosField.get(handle.connection) != null) Thread.sleep(0)
 	}
 }
