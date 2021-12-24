@@ -10,6 +10,7 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
+import java.lang.System.currentTimeMillis
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
@@ -29,7 +30,7 @@ object ConnectionUtils {
 		handle.setRot(handle.yRot + theta, handle.xRot)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
-		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, 0, true)
+		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, (currentTimeMillis() / 1000).toInt(), true)
 		connection.send(packet)
 	}
 
