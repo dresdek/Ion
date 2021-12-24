@@ -79,7 +79,8 @@ object ConnectionUtils {
 			pz = offsetPos.z
 		}
 
-		handle.setLocation(x, y, z, handle.yaw + theta, handle.pitch)
+		handle.setPos(x, y, z)
+		handle.setRot(handle.yRot + theta, handle.xRot)
 		handle.worldServer.chunkCheck(handle)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
