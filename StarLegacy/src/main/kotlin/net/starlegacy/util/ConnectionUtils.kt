@@ -6,10 +6,8 @@ import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.Relat
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.world.phys.Vec3
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
@@ -97,21 +95,5 @@ object ConnectionUtils {
 
 	fun move(player: Player, loc: Location, dx: Double, dy: Double, dz: Double) {
 		move(player, loc, 0.0f, Vector(dx, dy, dz))
-	}
-
-	fun isTeleporting(player: ServerPlayer?): Boolean {
-		if (player == null) return false
-		return try {
-			teleportPosField.get(player.connection) != null
-		} catch (e: IllegalAccessException) {
-			false
-		}
-	}
-
-	fun unfreeze(player: Player?) {
-		if (player == null || !player.isOnline) return
-		if (Bukkit.isPrimaryThread()) move(player, player.location, 0.0, 0.0, 0.0)
-		val handle = (player as CraftPlayer).handle
-		while (player.isOnline && teleportPosField.get(handle.connection) != null) Thread.sleep(0)
 	}
 }
