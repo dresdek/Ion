@@ -25,8 +25,8 @@ object ConnectionUtils {
 		val py: Double = offsetPos?.y ?: loc.y
 		val pz: Double = offsetPos?.z ?: loc.z
 
-//		handle.setPos(loc.x, loc.y, loc.z)
-//		handle.setRot(handle.yRot + theta, handle.xRot)
+		handle.setPos(loc.x, loc.y, loc.z)
+		handle.setRot(handle.yRot + theta, handle.xRot)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
 		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, 0, true)
