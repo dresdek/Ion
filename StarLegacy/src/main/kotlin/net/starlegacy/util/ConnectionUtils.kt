@@ -18,29 +18,14 @@ object ConnectionUtils {
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
 		val connection = handle.connection
-		val x = loc.x
-		val y = loc.y
-		val z = loc.z
 
-		if (handle.containerMenu !== handle.inventoryMenu) {
-			handle.closeContainer()
-		}
+		if (handle.containerMenu !== handle.inventoryMenu) handle.closeContainer()
 
-		val px: Double
-		val py: Double
-		val pz: Double
+		val px: Double = offsetPos?.x ?: loc.x
+		val py: Double = offsetPos?.y ?: loc.y
+		val pz: Double = offsetPos?.z ?: loc.z
 
-		if (offsetPos == null) {
-			px = x
-			py = y
-			pz = z
-		} else {
-			px = offsetPos.x
-			py = offsetPos.y
-			pz = offsetPos.z
-		}
-
-		handle.setPos(x, y, z)
+		handle.setPos(loc.x, loc.y, loc.z)
 		handle.setRot(handle.yRot + theta, handle.xRot)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
