@@ -205,6 +205,7 @@ object CustomItems {
 	val BLASTER_RIFLE = registerBlaster(type = "rifle", typeName = "Rifle", model = 2, maxPower = 7500)
 	val BLASTER_SNIPER = registerBlaster(type = "sniper", typeName = "Sniper", model = 3, maxPower = 20000)
 	val BLASTER_CANNON = registerBlaster(type = "cannon", typeName = "Cannon", model = 4, maxPower = 25000)
+	val NUKE_LAUNCHER = registerBlaster(type = "nuke", typeName = "Nuke", model = 4, maxPower = 200000)
 	//endregion Blasters
 
 	//region Power Armor

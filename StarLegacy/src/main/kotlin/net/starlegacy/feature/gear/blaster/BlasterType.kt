@@ -64,5 +64,18 @@ enum class BlasterType(
 		pitchBase = 0.6,
 		pitchRange = 0.1,
 		explosionPower = 2.0f
+	),
+	NUKE_LAUNCHER(
+			CustomItems.NUKE_LAUNCHER,
+			speed = 1000.0,
+			range = 500,
+			thickness = 0.5,
+			cooldown = -1,
+			power = 500,
+			damage = 9001.0,
+			sound = Sound.ENTITY_ENDER_DRAGON_DEATH.name,
+			pitchBase = 0.6,
+			pitchRange = 0.1,
+			explosionPower = 100.0f
 	)
 }
