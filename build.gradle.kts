@@ -39,7 +39,7 @@ dependencies {
 	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
-	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
+	implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
 	implementation("net.dv8tion:JDA:5.0.0-alpha.3")
 	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
