@@ -30,7 +30,7 @@ dependencies {
 	compileOnly("net.luckperms:api:5.3")
 	compileOnly("us.dynmap:spigot:3.1") // https://github.com/webbukkit/dynmap
 
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 	implementation("com.github.stefvanschie.inventoryframework:IF:0.10.3") // https://github.com/stefvanschie/IF
