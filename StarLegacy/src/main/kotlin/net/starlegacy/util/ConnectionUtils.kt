@@ -20,12 +20,12 @@ object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
-	private var justTeleportedField: Field = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works
+	private var justTeleportedField: Field = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works/
 	private var teleportPosField: Field = getField("y") // awaitingPositionFromClient / teleportPos
-	private var lastPosXField: Field = getField("o") // lastPosX / lastGoodX
-	private var lastPosYField: Field = getField("u") // lastPosY / lastGoodY
-	private var lastPosZField: Field = getField("q") // lastPosZ / lastGoodZ
-	private var teleportAwaitField: Field = getField("z") // awaitingTeleport / teleportAwait
+//	private var lastPosXField: Field = getField("o") // lastPosX / lastGoodX
+//	private var lastPosYField: Field = getField("u") // lastPosY / lastGoodY
+//	private var lastPosZField: Field = getField("q") // lastPosZ / lastGoodZ
+//	private var teleportAwaitField: Field = getField("z") // awaitingTeleport / teleportAwait
 //	private var AField: Field = getField("A")
 //	private var eField: Field = getField("e")
 
@@ -47,19 +47,19 @@ object ConnectionUtils {
 			handle.closeContainer()
 		}
 
-		var teleportAwait: Int
-		justTeleportedField.set(connection, true)
+//		var teleportAwait: Int
+//		justTeleportedField.set(connection, true)
 		teleportPosField.set(connection, Vec3(x, y, z))
-		lastPosXField.set(connection, x)
-		lastPosYField.set(connection, y)
-		lastPosZField.set(connection, z)
-		teleportAwait = teleportAwaitField.getInt(connection).plus(1)
+//		lastPosXField.set(connection, x)
+//		lastPosYField.set(connection, y)
+//		lastPosZField.set(connection, z)
+//		teleportAwait = teleportAwaitField.getInt(connection).plus(1)
+//
+//		if (teleportAwait == 2147483647) {
+//			teleportAwait = 0
+//		}
 
-		if (teleportAwait == 2147483647) {
-			teleportAwait = 0
-		}
-
-		teleportAwaitField.set(connection, teleportAwait)
+//		teleportAwaitField.set(connection, teleportAwait)
 //		AField.set(connection, eField.get(connection))
 
 		val px: Double
