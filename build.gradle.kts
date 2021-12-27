@@ -41,7 +41,7 @@ dependencies {
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
 	implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
-	implementation("net.dv8tion:JDA:5.0.0-alpha.2")
+	implementation("net.dv8tion:JDA:5.0.0-alpha.3")
 	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 }
 
