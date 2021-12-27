@@ -1,5 +1,6 @@
 package net.starlegacy.listener.gear
 
+import net.starlegacy.feature.gear.blaster.BlasterType
 import net.starlegacy.feature.gear.blaster.Blasters
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.listener.SLEventListener
@@ -45,9 +46,10 @@ object BlasterListener : SLEventListener() {
 		if (entity is Player && entity.gameMode == GameMode.SPECTATOR) {
 			return
 		}
-
 		val blaster = Blasters.getBlaster(bow) ?: return
-
+		if (entity is Player && !entity.hasPermission("ion.staffcannon") && Blasters.getBlasterType(blaster) == BlasterType.NUKE_LAUNCHER) {
+			return
+		}
 		event.isCancelled = true
 		Blasters.fireBlaster(entity, bow, Blasters.getBlasterType(blaster))
 	}
