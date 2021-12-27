@@ -20,7 +20,7 @@ object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
-	private var justTeleportedField: Field = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works/
+//	private var justTeleportedField: Field = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works/
 	private var teleportPosField: Field = getField("y") // awaitingPositionFromClient / teleportPos
 //	private var lastPosXField: Field = getField("o") // lastPosX / lastGoodX
 //	private var lastPosYField: Field = getField("u") // lastPosY / lastGoodY
@@ -36,20 +36,15 @@ object ConnectionUtils {
 		return field
 	}
 
-	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
+	fun move(player: Player, targetLocation: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
 		val connection = handle.connection
-		val x = loc.x
-		val y = loc.y
-		val z = loc.z
 
-		if (handle.containerMenu !== handle.inventoryMenu) {
-			handle.closeContainer()
-		}
+		if (handle.containerMenu !== handle.inventoryMenu) handle.closeContainer()
 
 //		var teleportAwait: Int
 //		justTeleportedField.set(connection, true)
-		teleportPosField.set(connection, Vec3(x, y, z))
+		teleportPosField.set(connection, Vec3(targetLocation.x, targetLocation.y, targetLocation.z))
 //		lastPosXField.set(connection, x)
 //		lastPosYField.set(connection, y)
 //		lastPosZField.set(connection, z)
@@ -67,16 +62,16 @@ object ConnectionUtils {
 		val pz: Double
 
 		if (offsetPos == null) {
-			px = x
-			py = y
-			pz = z
+			px = targetLocation.x
+			py = targetLocation.y
+			pz = targetLocation.z
 		} else {
 			px = offsetPos.x
 			py = offsetPos.y
 			pz = offsetPos.z
 		}
 
-		handle.setPos(x, y, z)
+		handle.setPos(px, py, pz)
 		handle.setRot(handle.yRot + theta, handle.xRot)
 
 //		handle.level.updateChunkPos(handle) // Removed with 1.17.1
