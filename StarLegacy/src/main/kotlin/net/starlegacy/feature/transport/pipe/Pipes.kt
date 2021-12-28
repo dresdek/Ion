@@ -32,8 +32,7 @@ import org.bukkit.inventory.FurnaceInventory
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import java.util.EnumMap
-import java.util.EnumSet
+import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -402,7 +401,7 @@ object Pipes : SLComponent() {
 					}
 
 					// move all the items by default
-					else -> sourceInventory.contents.withIndex()
+					else -> sourceInventory.contents?.withIndex()!!
 				}
 
 				for ((index: Int, item: ItemStack?) in items) {
