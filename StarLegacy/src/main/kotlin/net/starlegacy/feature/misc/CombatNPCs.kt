@@ -41,7 +41,7 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.UUID
+import java.util.*
 
 object CombatNPCs : SLComponent() {
 	private const val remainTimeMinutes = 1L
@@ -108,7 +108,7 @@ object CombatNPCs : SLComponent() {
 
 			entityToPlayer[entityId] = playerId
 
-			val inventoryCopy: Array<ItemStack?> = player.inventory.contents
+			val inventoryCopy: Array<ItemStack?> = player.inventory.contents!!
 				.map { item: ItemStack? -> item?.clone() }
 				.toTypedArray()
 			inventories[entityId] = inventoryCopy
@@ -284,7 +284,7 @@ object CombatNPCs : SLComponent() {
 				// this is necessary because of a weird mix of kotlin nullability,
 				// and plain old clear() not clearing some slots like offhand
 				@Suppress("UNCHECKED_CAST")
-				player.inventory.contents = arrayOfNulls<ItemStack?>(player.inventory.contents.size) as Array<ItemStack>
+				for (i in 0 until player.inventory.size) player.inventory.setItem(i, ItemStack(Material.AIR))
 				player.health = 0.0
 
 				val zonedDateTime: ZonedDateTime = Instant.ofEpochMilli(data.timestamp).atZone(ZoneId.systemDefault())
