@@ -31,8 +31,9 @@ import kotlin.math.min
 @CommandAlias("nation|n")
 internal object NationCommand : SLCommand() {
 	private fun validateName(name: String, nationId: Oid<Nation>?) {
-		if (!name.isAlphanumeric()) {
-			throw InvalidCommandArgument("Name must be alphanumeric")
+		val alphanumeric = "\\w*".toRegex()
+		if (!alphanumeric.matches(name)) {
+			throw InvalidCommandArgument("Name must be alphanumeric.")
 		}
 
 		if (name.length < 3) {
