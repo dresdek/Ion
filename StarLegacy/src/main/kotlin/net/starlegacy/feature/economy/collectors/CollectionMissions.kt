@@ -15,7 +15,14 @@ import net.starlegacy.database.schema.economy.EcoStation
 import net.starlegacy.feature.misc.CustomItem
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.nations.gui.playerClicker
-import net.starlegacy.util.*
+import net.starlegacy.util.MenuHelper
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.VAULT_ECO
+import net.starlegacy.util.colorize
+import net.starlegacy.util.displayName
+import net.starlegacy.util.msg
+import net.starlegacy.util.randomRange
+import net.starlegacy.util.toCreditsString
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -226,17 +233,17 @@ object CollectionMissions : SLComponent() {
 
 		// slots of the full stack items that match the collector mission's item type
 		return player.inventory.contents
-			.withIndex()
-			.filter { it.value != null }
-			.filter {
+			?.withIndex()
+			?.filter { it.value != null }
+			?.filter {
 				when (customItem) {
 					null -> it.value?.isSimilar(itemStack)!! && it.value?.amount == it.value?.maxStackSize
 					else -> customItem == CustomItems[it.value] && it.value?.amount == customItem.material.maxStackSize
 				}
 			}
 			// limit to the amount of stacks to avoid taking more stacks than required if they're carrying extra
-			.take(stacks)
-			.map { it.index }
+			?.take(stacks)
+			?.map { it.index }!!
 	}
 
 	private fun incrementDatabaseValues(item: CollectedItem, mission: CollectionMission) {
