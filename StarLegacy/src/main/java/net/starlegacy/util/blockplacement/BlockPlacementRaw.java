@@ -3,7 +3,6 @@ package net.starlegacy.util.blockplacement;
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket;
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
@@ -15,12 +14,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_17_R1.CraftChunk;
+import org.bukkit.craftbukkit.v1_18_R1.CraftChunk;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.minecraft.world.level.chunk.LevelChunk;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -169,10 +167,11 @@ class BlockPlacementRaw {
 			if (section == null || sectionY != section.bottomBlockY()) {
 				section = sections[sectionY];
 
-				if (section == null) {
-					section = new LevelChunkSection(sectionY << 4, nmsChunk, nmsWorld, true);
-					sections[sectionY] = section;
-				}
+				// Casually remove the null check, will fix if it breaks heh heh heh
+//				if (section == null) {
+//					section = new LevelChunkSection(sectionY << 4, nmsChunk, nmsWorld, true);
+//					sections[sectionY] = section;
+//				}
 			}
 
 			BlockState[][] xBlocks = blocks[y];
@@ -207,7 +206,7 @@ class BlockPlacementRaw {
 		}
 
 		relight(world, cx, cz, nmsWorld);
-		sendChunkPacket(nmsChunk, bitmask);
+		updateChunks(nmsChunk, bitmask);
 
 		nmsChunk.setUnsaved(true);
 
@@ -236,12 +235,10 @@ class BlockPlacementRaw {
 		lightEngine.retainData(new ChunkPos(cx, cz), world.getEnvironment() == World.Environment.NORMAL);
 	}
 
-	private void sendChunkPacket(LevelChunk nmsChunk, int bitmask) {
+	private void updateChunks(LevelChunk nmsChunk, int bitmask) {
 		ChunkHolder playerChunk = nmsChunk.playerChunk;
-		if (playerChunk == null) {
-			return;
-		}
-		ClientboundLevelChunkPacket packet = new ClientboundLevelChunkPacket(nmsChunk);
-		playerChunk.broadcast(packet, false);
+		if (playerChunk == null) return;
+
+		playerChunk.broadcastChanges(nmsChunk);
 	}
 }
