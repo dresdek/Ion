@@ -11,7 +11,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.lang.reflect.Field
