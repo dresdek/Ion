@@ -1,7 +1,7 @@
 plugins {
 	java
 	id("org.jetbrains.kotlin.jvm") version "1.6.10"
-	id("io.papermc.paperweight.userdev") version "1.2.0"
+	id("io.papermc.paperweight.userdev") version "1.3.4-SNAPSHOT"
 	id("com.github.johnrengelman.shadow") version "7.1.1"
 }
 
