@@ -24,7 +24,7 @@ import org.bukkit.block.BlockFace
 import org.bukkit.block.BlockState
 import org.bukkit.block.data.BlockData
 import org.bukkit.block.data.type.DaylightDetector
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftInventory
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftInventory
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
@@ -33,7 +33,7 @@ import org.bukkit.event.world.WorldUnloadEvent
 import org.bukkit.inventory.InventoryHolder
 import java.io.File
 import java.nio.file.Files
-import java.util.Timer
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.collections.set
 import kotlin.concurrent.fixedRateTimer
