@@ -358,7 +358,7 @@ object StarshipShields : SLComponent() {
 
 			val pos = NMSBlockPos(bx, by, bz)
 			val packet = ClientboundBlockUpdatePacket(pos, flare)
-			nmsWorld.getChunkAt(pos).playerChunk.broadcast(packet, false)
+			nmsWorld.getChunkAt(pos).playerChunk?.broadcast(packet, false)
 		}
 	}
 
@@ -393,7 +393,7 @@ object StarshipShields : SLComponent() {
 
 				val pos = NMSBlockPos(blockKeyX(key), blockKeyY(key), blockKeyZ(key))
 				val packet = ClientboundBlockUpdatePacket(pos, data)
-				nmsWorld.getChunkAt(pos).playerChunk.broadcast(packet, false)
+				nmsWorld.getChunkAt(pos).playerChunk?.broadcast(packet, false)
 			}
 		}
 	}
@@ -422,7 +422,7 @@ object StarshipShields : SLComponent() {
 				val x = x0 + dx + 0.5
 				val y = y0 + dy + 0.5
 				val z = z0 + dz + 0.5
-				world.spawnParticle(Particle.BARRIER, x, y, z, 1, 0.0, 0.0, 0.0, 0.0)
+				world.spawnParticle(Particle.BLOCK_MARKER, x, y, z, 1, 0.0, 0.0, 0.0, 0.0)
 			}
 
 			if (System.nanoTime() - start > TimeUnit.SECONDS.toNanos(10L)) {
