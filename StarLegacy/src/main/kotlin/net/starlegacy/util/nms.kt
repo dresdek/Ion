@@ -114,7 +114,7 @@ fun Material.toNMSBlockData(): NMSBlockData = createBlockData().nms
 val NMSBlockData.bukkitMaterial: Material get() = CBMagicNumbers.getMaterial(this.block)
 
 fun Block.getNMSBlockData(): NMSBlockData {
-	return world.nms.getChunk(x shr 4, z shr 4).getBlockData(x and 15, y, z and 15)
+	return world.nms.getChunk(x shr 4, z shr 4).getBlockState(x and 15, y, z and 15)
 }
 
 /**
@@ -129,7 +129,7 @@ fun getNMSBlockDataSafe(world: World, x: Int, y: Int, z: Int): NMSBlockData? {
 	return try {
 		val chunk: NMSChunk = world.nms.getChunkIfLoaded(x shr 4, z shr 4) ?: return null
 
-		chunk.getBlockData(x and 15, y, z and 15)
+		chunk.getBlockState(x and 15, y, z and 15)
 	} catch (indexOutOfBounds: IndexOutOfBoundsException) {
 		null
 	}
