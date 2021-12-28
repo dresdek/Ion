@@ -86,32 +86,36 @@ object LegacyItemUtils {
 		return inventory.addItem(*item).size == 0
 	}
 
-	fun removeInventoryItems(inv: Inventory, type: Material, amount: Int) {
+	/**
+	 * Remove items of a certain type from an inventory.
+	 *
+	 * @param targetInventory The inventory to remove from
+	 * @param targetMaterial The material to remove
+	 * @param amount The amount to remove
+	 */
+	fun removeInventoryItems(targetInventory: Inventory, targetMaterial: Material, amount: Int) {
 		var currentAmount = amount
-		val items = inv.contents
-		for (i in items.indices) {
-			val `is` = items[i]
-			if (`is` != null && `is`.type == type) {
-				val newAmount = `is`.amount - currentAmount
+
+		for ((index, item) in targetInventory.contents!!.withIndex()) {
+			if (item != null && item.type == targetMaterial) {
+				val newAmount = item.amount - currentAmount
 				if (newAmount > 0) {
-					`is`.amount = newAmount
+					targetInventory.setItem(index, item.clone().apply { setAmount(newAmount) })
 					break
 				} else {
-					items[i] = ItemStack(Material.AIR)
+					targetInventory.setItem(index, ItemStack(Material.AIR))
 					currentAmount = -newAmount
-					if (currentAmount == 0)
-						break
+					if (currentAmount == 0) break
 				}
 			}
 		}
-		inv.contents = items
 	}
 
 	fun getTotalItems(inv: Inventory, type: Material): Int {
 		var amount = 0
-		for (`is` in inv.contents) {
-			if (`is` != null && `is`.type == type) {
-				amount += `is`.amount
+		for (item in inv.contents!!) {
+			if (item != null && item.type == type) {
+				amount += item.amount
 			}
 		}
 		return amount
@@ -119,7 +123,7 @@ object LegacyItemUtils {
 
 	fun getTotalItems(inv: Inventory, item: ItemStack): Int {
 		var amount = 0
-		for (`is` in inv.contents) {
+		for (`is` in inv.contents!!) {
 			if (`is` != null) {
 				if (`is`.isSimilar(item))
 					amount += `is`.amount
