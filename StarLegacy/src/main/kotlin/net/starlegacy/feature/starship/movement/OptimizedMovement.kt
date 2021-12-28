@@ -2,9 +2,7 @@ package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
 import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.IntTag
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket
 import net.minecraft.server.level.ChunkHolder
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.StainedGlassBlock
@@ -13,13 +11,39 @@ import net.minecraft.world.level.levelgen.Heightmap
 import net.starlegacy.feature.starship.Hangars
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
-import net.starlegacy.util.*
+import net.starlegacy.util.NMSBlockData
+import net.starlegacy.util.NMSBlockPos
+import net.starlegacy.util.NMSBlockTileEntity
+import net.starlegacy.util.NMSChunk
+import net.starlegacy.util.NMSTileEntity
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.blockKeyX
+import net.starlegacy.util.blockKeyY
+import net.starlegacy.util.blockKeyZ
+import net.starlegacy.util.chunkKey
+import net.starlegacy.util.chunkKeyX
+import net.starlegacy.util.chunkKeyZ
+import net.starlegacy.util.nms
+import net.starlegacy.util.time
+import net.starlegacy.util.timing
 import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.World
 import java.util.*
 import java.util.concurrent.ExecutionException
+import kotlin.collections.Map
+import kotlin.collections.MutableMap
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.getOrPut
+import kotlin.collections.indices
+import kotlin.collections.iterator
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.collections.toSet
 
 object OptimizedMovement {
 	private val passThroughBlocks = listOf(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.SNOW)
@@ -217,9 +241,8 @@ object OptimizedMovement {
 			val y = blockKeyY(blockKey)
 			val z = blockKeyZ(blockKey)
 
-			// Based on: https://github.com/IntellectualSites/FastAsyncWorldEdit/blob/a87323616da3b63ef32029760b12f3f1e1153f90/worldedit-bukkit/adapters/adapter-1_17_1/src/main/java/com/sk89q/worldedit/bukkit/adapter/impl/fawe/v1_17_R1_2/PaperweightFaweAdapter.java#L294
 			// Block Entity Data
-			val tileData = tile.save(CompoundTag())
+			val tileData = tile.saveWithFullMetadata()
 
 			// Set new location
 			tileData.put("x", IntTag.valueOf(x))
@@ -235,12 +258,13 @@ object OptimizedMovement {
 	}
 
 	private fun getChunkSection(nmsChunk: NMSChunk, sectionY: Int): LevelChunkSection {
-		var section = nmsChunk.sections[sectionY]
-		if (section == null) {
-			section = LevelChunkSection(sectionY, nmsChunk, nmsChunk.level, true)
-			nmsChunk.sections[sectionY] = section
-		}
-		return section
+		// Creation of chunk sections has changed, we just won't for the time being and then come back to this if something breaks.
+//		if (section == null) {
+//			section = LevelChunkSection(sectionY, section, nmsChunk.level, true)
+//			nmsChunk.sections[sectionY] = section
+//		}
+
+		return nmsChunk.sections[sectionY]
 	}
 
 	private fun updateHeightMaps(nmsChunk: NMSChunk) {
@@ -335,8 +359,7 @@ object OptimizedMovement {
 			val chunk = Bukkit.getWorld(worldID)!!.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
 			val nmsChunk = chunk.nms
 			val playerChunk: ChunkHolder = nmsChunk.playerChunk ?: continue
-			val packet = ClientboundLevelChunkPacket(nmsChunk, true)
-			playerChunk.broadcast(packet, false)
+			playerChunk.broadcastChanges(nmsChunk)
 		}
 	}
 }
