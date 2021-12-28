@@ -1,5 +1,9 @@
 package net.starlegacy.command.misc
 
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Subcommand
 import com.sk89q.worldedit.EmptyClipboardException
 import com.sk89q.worldedit.LocalSession
 import com.sk89q.worldedit.bukkit.WorldEditPlugin
@@ -9,11 +13,11 @@ import com.sk89q.worldedit.session.ClipboardHolder
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.misc.Shuttle
 import net.starlegacy.feature.misc.Shuttles
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Subcommand
-import net.starlegacy.util.*
+import net.starlegacy.util.getBlockTypeSafe
+import net.starlegacy.util.isAlphanumeric
+import net.starlegacy.util.msg
+import net.starlegacy.util.readSchematic
+import net.starlegacy.util.writeSchematic
 import org.bukkit.Particle
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -153,7 +157,7 @@ object ShuttleCommand : SLCommand() {
 			val z = vec.blockZ + dz
 			failIf(getBlockTypeSafe(world, x, y, z)?.isAir != true) { "Blocked at $x $y $z" }
 			val block = world.getBlockAt(x, y, z)
-			world.spawnParticle(Particle.BARRIER, block.location.toCenterLocation(), 1)
+			world.spawnParticle(Particle.CRIT, block.location.toCenterLocation(), 1)
 		}
 
 		Shuttle.addDestination(shuttle._id, Shuttle.Destination(destinationName, world.name, ox, oy, oz))

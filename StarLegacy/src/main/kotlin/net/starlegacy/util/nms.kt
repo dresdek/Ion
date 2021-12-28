@@ -13,14 +13,13 @@ import org.bukkit.inventory.ItemStack
 //region Aliases
 
 // cb = craftbukkit
-typealias CBAdvancement = org.bukkit.craftbukkit.v1_17_R1.advancement.CraftAdvancement
-
-typealias CBPlayer = org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
-typealias CBItemStack = org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack
-typealias CBWorld = org.bukkit.craftbukkit.v1_17_R1.CraftWorld
-typealias CBChunk = org.bukkit.craftbukkit.v1_17_R1.CraftChunk
-typealias CBMagicNumbers = org.bukkit.craftbukkit.v1_17_R1.util.CraftMagicNumbers
-typealias CBBlockData = org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData
+typealias CBAdvancement = org.bukkit.craftbukkit.v1_18_R1.advancement.CraftAdvancement
+typealias CBPlayer = org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
+typealias CBItemStack = org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack
+typealias CBWorld = org.bukkit.craftbukkit.v1_18_R1.CraftWorld
+typealias CBChunk = org.bukkit.craftbukkit.v1_18_R1.CraftChunk
+typealias CBMagicNumbers = org.bukkit.craftbukkit.v1_18_R1.util.CraftMagicNumbers
+typealias CBBlockData = org.bukkit.craftbukkit.v1_18_R1.block.data.CraftBlockData
 // nms = net.minecraft.server
 typealias NMSItemStack = net.minecraft.world.item.ItemStack
 
