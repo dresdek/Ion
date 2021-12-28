@@ -20,7 +20,7 @@ object CustomItemCommand : SLCommand() {
 	) {
 		val player = target?.player ?: sender as? Player ?: fail { "Console must specify a target player" }
 		failIf(amount <= 0) { "Amount cannot be <= 0" }
-        failIf(target?.player != sender && !sender.hasPermission("ion.giveothercustomitem")) {"You cannot send others customitem, lacking permission node ion.giveothercustomitem"}
+        failIf(target?.player != sender && !sender.hasPermission("ion.giveothercstomitem")) {"You cannot send others customitem, lacking permission node ion.giveothercustomitem"}
 
 		val item = customItem.itemStack(amount)
 		val result = player.inventory.addItem(item)
