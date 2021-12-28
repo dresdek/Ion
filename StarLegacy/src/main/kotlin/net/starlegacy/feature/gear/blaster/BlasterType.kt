@@ -73,7 +73,7 @@ enum class BlasterType(
 			cooldown = -1,
 			power = 500,
 			damage = 9001.0,
-			sound = Sound.ENTITY_ENDER_DRAGON_DEATH.name,
+			sound = Sound.ENTITY_WITHER_SPAWN.name,
 			pitchBase = 0.6,
 			pitchRange = 0.1,
 			explosionPower = 100.0f
