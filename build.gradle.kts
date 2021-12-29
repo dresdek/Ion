@@ -6,17 +6,14 @@ plugins {
 }
 
 repositories {
-	maven("https://papermc.io/repo/repository/maven-public/")
-	maven("https://nexus.scarsz.me/content/groups/public/")
-	maven{
-		uri("https://repo.aikar.co/content/groups/aikar/")
-		content{ excludeModule("org.bukkit", "bukkit") }
-	}
-	maven("https://www.myget.org/F/egg82-java/maven/")
-	maven("https://maven.sk89q.com/repo/")
-	maven("https://repo.citizensnpcs.co/")
-	maven("https://repo.mikeprimm.com/")
-	maven("https://jitpack.io")
+	maven { url = uri("https://papermc.io/repo/repository/maven-public/")}
+	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
+	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{ excludeModule("org.bukkit", "bukkit") } }
+	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
+	maven { url = uri("https://maven.sk89q.com/repo/") }
+	maven { url = uri("https://repo.citizensnpcs.co/") }
+	maven { url = uri("https://repo.mikeprimm.com/") }
+	maven { url = uri("https://jitpack.io") }
 	mavenCentral()
 }
 
