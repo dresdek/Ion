@@ -17,7 +17,7 @@ object Orbits : SLComponent() {
 				orbitPlanets()
 			}
 		} else {
-			log.warn("Not orbiting because not an automatic restart")
+			log.info("Not orbiting because not an automatic restart")
 		}
 
 //        schedule()
