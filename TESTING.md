@@ -3,7 +3,7 @@ Running Ion requires Redis, and MongoDB. While Redis is easy and should just wor
 
 For MongoDB you need to ensure that MongoDB is started with the options `--replSet rs0 --bind_ip_all`. How to set this will vary from system to system, so please look for the appropriate documentation, if you can't find it then feel free to ask but please ACTUALLY SPEND MORE THAN A FEW MINUTES LOOKING.
 
-Once MongoDB is started, you need to open a mongo shell in your terminal or your "command prompt" for the Windows users, and run `rs.initiate();db.createUser({user:"test",pwd:"test",roles:[{role:"readWrite",db:"test"}]});`. Feel free to change the username, password, and database name however you will need to remember what you changed it to later.
+Once MongoDB is started, you need to open a mongo shell in your terminal or your "command prompt" for the Windows users, and run `rs.initiate()` and then `db.createUser({user:"test",pwd:"test",roles:[{role:"readWrite",db:"test"}]});`. Feel free to change the username, password, and database name however you will need to remember what you changed it to later.
 
 #### Building the plugin
 Build the plugin using the provided run configuration in IntelliJ or alternatively run the gradle task "`reobfJar`" either in your IDE or from the terminal:
