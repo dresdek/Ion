@@ -12,9 +12,27 @@ import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.SettlementCache
 import net.starlegacy.cache.trade.EcoStations
 import net.starlegacy.command.SLCommand
-import net.starlegacy.command.economy.*
-import net.starlegacy.command.misc.*
-import net.starlegacy.command.nations.*
+import net.starlegacy.command.economy.BazaarCommand
+import net.starlegacy.command.economy.CityNpcCommand
+import net.starlegacy.command.economy.CollectedItemCommand
+import net.starlegacy.command.economy.CollectorCommand
+import net.starlegacy.command.economy.EcoStationCommand
+import net.starlegacy.command.misc.APCommand
+import net.starlegacy.command.misc.BatteryCommand
+import net.starlegacy.command.misc.CustomItemCommand
+import net.starlegacy.command.misc.DyeCommand
+import net.starlegacy.command.misc.GToggleCommand
+import net.starlegacy.command.misc.GlobalGameRuleCommand
+import net.starlegacy.command.misc.PlanetSpawnMenuCommand
+import net.starlegacy.command.misc.PlayerInfoCommand
+import net.starlegacy.command.misc.SLTimeConvertCommand
+import net.starlegacy.command.misc.ShuttleCommand
+import net.starlegacy.command.misc.TransportDebugCommand
+import net.starlegacy.command.nations.NationCommand
+import net.starlegacy.command.nations.NationRelationCommand
+import net.starlegacy.command.nations.NationSpaceStationCommand
+import net.starlegacy.command.nations.SettlementCommand
+import net.starlegacy.command.nations.SiegeCommand
 import net.starlegacy.command.nations.admin.CityManageCommand
 import net.starlegacy.command.nations.admin.NPCOwnerCommand
 import net.starlegacy.command.nations.admin.NationAdminCommand
@@ -52,7 +70,16 @@ import net.starlegacy.feature.gear.Gear
 import net.starlegacy.feature.machine.AreaShields
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.machine.Turrets
-import net.starlegacy.feature.misc.*
+import net.starlegacy.feature.misc.AutoRestart
+import net.starlegacy.feature.misc.CombatNPCs
+import net.starlegacy.feature.misc.CryoPods
+import net.starlegacy.feature.misc.CustomItem
+import net.starlegacy.feature.misc.CustomItems
+import net.starlegacy.feature.misc.CustomRecipes
+import net.starlegacy.feature.misc.Decomposers
+import net.starlegacy.feature.misc.GameplayTweaks
+import net.starlegacy.feature.misc.PlanetSpawns
+import net.starlegacy.feature.misc.Shuttles
 import net.starlegacy.feature.multiblock.Multiblocks
 import net.starlegacy.feature.nations.NationsBalancing
 import net.starlegacy.feature.nations.NationsMap
@@ -61,8 +88,20 @@ import net.starlegacy.feature.nations.StationSieges
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionSettlementZone
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import net.starlegacy.feature.space.*
-import net.starlegacy.feature.starship.*
+import net.starlegacy.feature.space.CachedPlanet
+import net.starlegacy.feature.space.CachedStar
+import net.starlegacy.feature.space.Orbits
+import net.starlegacy.feature.space.Space
+import net.starlegacy.feature.space.SpaceMap
+import net.starlegacy.feature.space.SpaceMechanics
+import net.starlegacy.feature.space.SpaceWorlds
+import net.starlegacy.feature.starship.DeactivatedPlayerStarships
+import net.starlegacy.feature.starship.Hangars
+import net.starlegacy.feature.starship.Interdiction
+import net.starlegacy.feature.starship.PilotedStarships
+import net.starlegacy.feature.starship.StarshipComputers
+import net.starlegacy.feature.starship.StarshipDealers
+import net.starlegacy.feature.starship.StarshipDetection
 import net.starlegacy.feature.starship.active.ActiveStarshipMechanics
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.control.ContactsDisplay
@@ -77,8 +116,20 @@ import net.starlegacy.feature.transport.Wires
 import net.starlegacy.feature.transport.pipe.Pipes
 import net.starlegacy.feature.transport.pipe.filter.Filters
 import net.starlegacy.listener.SLEventListener
-import net.starlegacy.listener.gear.*
-import net.starlegacy.listener.misc.*
+import net.starlegacy.listener.gear.BlasterListener
+import net.starlegacy.listener.gear.DetonatorListener
+import net.starlegacy.listener.gear.DoubleJumpListener
+import net.starlegacy.listener.gear.PowerArmorListener
+import net.starlegacy.listener.gear.PowerToolListener
+import net.starlegacy.listener.gear.SwordListener
+import net.starlegacy.listener.misc.BlockListener
+import net.starlegacy.listener.misc.ChatListener
+import net.starlegacy.listener.misc.EntityListener
+import net.starlegacy.listener.misc.FurnaceListener
+import net.starlegacy.listener.misc.InteractListener
+import net.starlegacy.listener.misc.InventoryListener
+import net.starlegacy.listener.misc.JoinLeaveListener
+import net.starlegacy.listener.misc.ProtectionListener
 import net.starlegacy.listener.nations.FriendlyFireListener
 import net.starlegacy.listener.nations.MovementListener
 import net.starlegacy.util.MATERIALS
@@ -86,7 +137,6 @@ import net.starlegacy.util.Notify
 import net.starlegacy.util.Tasks
 import net.starlegacy.util.orNull
 import net.starlegacy.util.redisaction.RedisActions
-import ninja.egg82.events.BukkitEvents
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.event.Event
@@ -224,10 +274,6 @@ class StarLegacy : JavaPlugin() {
 
 	override fun onEnable() {
 		Ion().onEnable()
-
-		// Hack. Dumb library has a static plugin set based on which plugin loaded it.
-		// Set it to this, since the starlegacy-libs plugin is loading it.
-		BukkitEvents::class.java.getDeclaredField("plugin").apply { isAccessible = true }.set(null, this)
 
 		saveDefaultConfig()
 		reloadConfig()

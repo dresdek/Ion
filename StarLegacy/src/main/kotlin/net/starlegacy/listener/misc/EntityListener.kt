@@ -2,8 +2,6 @@ package net.starlegacy.listener.misc
 
 import net.starlegacy.feature.multiblock.misc.MobDefender
 import net.starlegacy.listener.SLEventListener
-import net.starlegacy.util.filtered
-import net.starlegacy.util.subscribe
 import org.bukkit.entity.Monster
 import org.bukkit.entity.Slime
 import org.bukkit.event.EventHandler

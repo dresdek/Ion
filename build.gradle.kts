@@ -33,7 +33,6 @@ dependencies {
 	implementation("com.github.stefvanschie.inventoryframework:IF:0.10.3") // https://github.com/stefvanschie/IF
 	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
-	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
 	implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT") // https://github.com/aikar/commands
