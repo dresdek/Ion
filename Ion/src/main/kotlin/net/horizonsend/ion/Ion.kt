@@ -16,9 +16,9 @@ class Ion {
 	}
 
 	fun onEnable() {
-		getScheduler().runTaskAsynchronously(plugin, Runnable {
-			DynmapCommonAPIListener.register(Listener())
+		DynmapCommonAPIListener.register(Listener())
 
+		getScheduler().runTaskAsynchronously(plugin, Runnable {
 			PaperCommandManager(plugin).apply {
 				registerCommand(QuickBalance)
 
