@@ -39,10 +39,6 @@ object Interdiction : SLComponent() {
 			if (!starship.contains(block.x, block.y, block.z)) {
 				return@subscribe
 			}
-			if (!SpaceWorlds.contains(starship.world)) {
-				player msg "&cYou cannot cast a mass shadow within another mass shadow, so you can only use gravity wells in space"
-				return@subscribe
-			}
 			when (event.action) {
 				Action.RIGHT_CLICK_BLOCK -> {
 					toggleGravityWell(starship, sign)
@@ -100,10 +96,6 @@ object Interdiction : SLComponent() {
 			val pilot = cruisingShip.pilot ?: continue
 
 			if (pilot.location.distance(sign.location) > GravityWellMultiblock.PULSE_RADIUS) {
-				continue
-			}
-
-			if (isAllied(pilot, player)) {
 				continue
 			}
 
