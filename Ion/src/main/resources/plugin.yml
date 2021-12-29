@@ -7,4 +7,4 @@ load: POSTWORLD
 authors: [PeterCrawley, trainb0y, Sciath, DoctorXeno, MicleBrick]
 website: https://horizonsend.net
 depend: [dynmap, WorldEdit, Citizens, DiscordSRV, LuckPerms]
-softdepend: [WorldGuard, GriefDefender] # WorldGuard is a softdepend because it must be loaded before Ion
+softdepend: [WorldGuard] # WorldGuard is a softdepend because it must be loaded before Ion
