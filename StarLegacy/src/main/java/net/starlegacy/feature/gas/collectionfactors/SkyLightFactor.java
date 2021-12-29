@@ -3,8 +3,8 @@ package net.starlegacy.feature.gas.collectionfactors;
 import org.bukkit.Location;
 
 public class SkyLightFactor extends CollectionFactor {
-	private int minimum;
-	private int maximum;
+	private final int minimum;
+	private final int maximum;
 
 	public SkyLightFactor(int minimum, int maximum) {
 		this.minimum = minimum;

@@ -46,9 +46,10 @@ public class Gas {
 //	};
 
 
-	private String itemId, name;
+	private final String itemId;
+	private final String name;
 
-	private List<List<CollectionFactor>> factors;
+	private final List<List<CollectionFactor>> factors;
 
 	public Gas(String name, String itemId, List<List<CollectionFactor>> factors) {
 		this.name = name;

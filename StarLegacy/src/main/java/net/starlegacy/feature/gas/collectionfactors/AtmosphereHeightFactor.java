@@ -4,8 +4,8 @@ import org.bukkit.Location;
 
 public class AtmosphereHeightFactor extends CollectionFactor {
 
-	private double maxAtmosphereHeight;
-	private double minAtmosphereHeight;
+	private final double maxAtmosphereHeight;
+	private final double minAtmosphereHeight;
 
 	public AtmosphereHeightFactor(double minAtmosphereHeight, double maxAtmosphereHeight) {
 		this.minAtmosphereHeight = minAtmosphereHeight;

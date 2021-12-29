@@ -4,7 +4,7 @@ import org.bukkit.Location;
 
 public class RandomFactor extends CollectionFactor {
 
-	private float chance;
+	private final float chance;
 
 	public RandomFactor(float chance) {
 		this.chance = chance;

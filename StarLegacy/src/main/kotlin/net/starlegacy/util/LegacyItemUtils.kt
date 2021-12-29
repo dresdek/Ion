@@ -17,7 +17,7 @@ object LegacyItemUtils {
 
 		val lore: MutableList<String> = item.lore ?: mutableListOf()
 		lore.add(CONTRABAND)
-		item.setLore(lore)
+		item.lore = lore
 	}
 
 	fun isContraband(item: ItemStack?): Boolean {

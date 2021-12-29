@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 object Interdiction : SLComponent() {
 	override fun onEnable() {
-		subscribe<PlayerInteractEvent>() { event ->
+		subscribe<PlayerInteractEvent> { event ->
 			val player = event.player
 			val block = event.clickedBlock ?: return@subscribe
 			if (!block.type.isWallSign) {

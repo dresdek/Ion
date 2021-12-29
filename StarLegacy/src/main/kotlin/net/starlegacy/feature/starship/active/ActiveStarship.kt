@@ -153,10 +153,10 @@ abstract class ActiveStarship(
 		val finalSpeedFactor = 1.0
 
 		val mass = this.mass
-		val totalAccel = 1.0 + faceThrusters.sumByDouble { it.type.accel }
-		val totalWeight = faceThrusters.sumBy { it.type.weight }.toDouble()
+		val totalAccel = 1.0 + faceThrusters.sumOf { it.type.accel }
+		val totalWeight = faceThrusters.sumOf { it.type.weight }.toDouble()
 		val reduction = reductionBase.pow(sqrt(totalWeight))
-		val totalSpeed = faceThrusters.sumByDouble { it.type.speed } * reduction
+		val totalSpeed = faceThrusters.sumOf { it.type.speed } * reduction
 
 		val calculatedSpeed = totalSpeed.pow(speedExponent) / mass.pow(massExponent) * baseSpeedFactor
 

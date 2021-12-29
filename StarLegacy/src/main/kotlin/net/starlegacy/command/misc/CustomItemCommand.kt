@@ -30,7 +30,7 @@ object CustomItemCommand : SLCommand() {
 					white("${amount}x ${customItem.displayName}") +
 					green(" to ${player.name}")
 		} else {
-			val extra = result.values.sumBy { it.amount }
+			val extra = result.values.sumOf { it.amount }
 			sender msg red("Could not fit $extra out of the $amount items in ${player.name}'s inventory!")
 		}
 	}

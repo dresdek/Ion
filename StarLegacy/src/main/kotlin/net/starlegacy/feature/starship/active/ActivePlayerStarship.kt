@@ -47,7 +47,6 @@ class ActivePlayerStarship(
 	override val interdictionRange: Int = data.type.interdictionRange
 
 	private var lastUnpilotTime = System.nanoTime()
-		private set
 	var pilot: Player? = null
 		set(value) {
 			if (value == null) {

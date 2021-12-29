@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class WorldLimitFactor extends CollectionFactor {
 
-	private String[] enabledWorlds;
+	private final String[] enabledWorlds;
 
 	public WorldLimitFactor(String[] enabledWorlds) {
 		this.enabledWorlds = enabledWorlds;

@@ -31,7 +31,7 @@ class ReactorSubsystem(
 		val shieldPortion = this.powerDistributor.shieldPortion
 		val shieldEfficiency = starship.shieldEfficiency
 		val shieldPower = reactorOutput * shieldPortion * shieldEfficiency * delta
-		val totalMissing = starship.shields.sumBy { shield -> shield.maxPower - shield.power }
+		val totalMissing = starship.shields.sumOf { shield -> shield.maxPower - shield.power }
 
 		if (totalMissing == 0) {
 			return

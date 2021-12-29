@@ -90,7 +90,7 @@ object StarshipInfoCommand : SLCommand() {
 		p msg "   &7Center of Mass:&f ${ship.centerOfMass}"
 
 		val worth = blocks.values
-			.sumByDouble { StarshipFactories.getPrice(it.blockData) ?: 0.0 }
+			.sumOf { StarshipFactories.getPrice(it.blockData) ?: 0.0 }
 			.roundToInt()
 
 		p msg "   &7Worth:&f ~$worth"

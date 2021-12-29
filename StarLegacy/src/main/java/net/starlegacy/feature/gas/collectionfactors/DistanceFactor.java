@@ -4,9 +4,9 @@ import org.bukkit.Location;
 
 public class DistanceFactor extends CollectionFactor {
 
-	private Location origin;
-	private double maxDistance;
-	private float multiplier;
+	private final Location origin;
+	private final double maxDistance;
+	private final float multiplier;
 
 	public DistanceFactor(Location origin, double maxDistance, float multiplier) {
 		this.origin = origin;

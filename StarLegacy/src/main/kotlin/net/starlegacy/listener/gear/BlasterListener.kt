@@ -106,7 +106,7 @@ object BlasterListener : SLEventListener() {
 			val meta = blasterRifle?.itemMeta
 			meta?.lore = listOf("PINK")
 			blasterRifle?.itemMeta = meta
-			skeleton.equipment?.setItemInMainHand(blasterRifle)
+			skeleton.equipment.setItemInMainHand(blasterRifle)
 		}
 	}
 

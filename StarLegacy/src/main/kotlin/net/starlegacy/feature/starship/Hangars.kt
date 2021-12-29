@@ -74,7 +74,7 @@ object Hangars : SLComponent() {
 				continue
 			}
 			Tasks.sync {
-				val queue = Long2ObjectOpenHashMap<NMSBlockData>();
+				val queue = Long2ObjectOpenHashMap<NMSBlockData>()
 				for ((data, blockKey) in restorations) {
 					if (!world.isChunkLoaded(blockKeyX(blockKey) shr 4, blockKeyZ(blockKey) shr 4)) {
 						continue
@@ -119,7 +119,7 @@ object Hangars : SLComponent() {
 					val blockData = Bukkit.createBlockData(dis.readUTF())
 					val valueCount = dis.readInt()
 					if (map.containsKey(blockData)) {
-						dis.skip(valueCount * 8L);
+						dis.skip(valueCount * 8L)
 						log.warn("Duplicate entry of type $blockData")
 						return@repeat
 					}

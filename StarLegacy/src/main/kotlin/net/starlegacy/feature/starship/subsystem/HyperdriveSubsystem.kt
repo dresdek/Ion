@@ -20,7 +20,7 @@ class HyperdriveSubsystem(starship: ActiveStarship, sign: Sign, multiblock: Hype
 		hopper.inventory.asSequence()
 			.filterNotNull()
 			.filter(::isHypermatter)
-			.sumBy { it.amount } >= Hyperspace.HYPERMATTER_AMOUNT
+			.sumOf { it.amount } >= Hyperspace.HYPERMATTER_AMOUNT
 	}
 
 	fun useFuel(): Unit = getHoppers().forEach { hopper ->

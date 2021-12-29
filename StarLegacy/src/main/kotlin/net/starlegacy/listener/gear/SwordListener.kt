@@ -88,7 +88,7 @@ object SwordListener : SLEventListener() {
 		if (event.entityType != EntityType.ZOMBIE) return
 		val zombie = event.entity as Zombie
 		if (zombie.world.name.lowercase().contains("arena")) Tasks.sync {
-			zombie.equipment?.setItemInMainHand(CustomItems["energy_sword_purple"]?.itemStack(1))
+			zombie.equipment.setItemInMainHand(CustomItems["energy_sword_purple"]?.itemStack(1))
 		}
 	}
 
@@ -98,7 +98,7 @@ object SwordListener : SLEventListener() {
 		val vindicator = event.entity as Vindicator
 
 		if (vindicator.world.name.lowercase().contains("arena")) Tasks.sync {
-			vindicator.equipment?.setItemInMainHand(CustomItems["energy_sword_green"]?.itemStack(1))
+			vindicator.equipment.setItemInMainHand(CustomItems["energy_sword_green"]?.itemStack(1))
 		}
 	}
 
@@ -108,7 +108,7 @@ object SwordListener : SLEventListener() {
 		val vex = event.entity as Vex
 
 		if (vex.world.name.lowercase().contains("arena")) Tasks.sync {
-			vex.equipment?.setItemInMainHand(CustomItems["energy_sword_blue"]?.itemStack(1))
+			vex.equipment.setItemInMainHand(CustomItems["energy_sword_blue"]?.itemStack(1))
 		}
 	}
 
@@ -118,7 +118,7 @@ object SwordListener : SLEventListener() {
 		val witherskeleton = event.entity as WitherSkeleton
 
 		if (witherskeleton.world.name.lowercase().contains("arena")) Tasks.sync {
-			witherskeleton.equipment?.setItemInMainHand(CustomItems["energy_sword_red"]?.itemStack(1))
+			witherskeleton.equipment.setItemInMainHand(CustomItems["energy_sword_red"]?.itemStack(1))
 		}
 	}
 

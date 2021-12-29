@@ -183,7 +183,7 @@ abstract class AutoCrafterMultiblock(
 				val remaining: HashMap<Int, ItemStack> = output.inventory.addItem(result)
 
 				if (remaining.isNotEmpty()) {
-					val added = result.amount - remaining.values.sumBy { it.amount }
+					val added = result.amount - remaining.values.sumOf { it.amount }
 					check(added >= 0)
 					if (added > 0) {
 						output.inventory.removeItem(result.clone().apply { amount = added })

@@ -42,7 +42,7 @@ object PowerArmorListener : SLEventListener() {
 				return@sync
 			}
 
-			val item: ItemStack = player.inventory.armorContents[3 - slot.ordinal] ?: return@sync
+			val item: ItemStack = player.inventory.armorContents[3 - slot.ordinal]
 			val customItem: CustomItems.PowerArmorItem = CustomItems[item] as? CustomItems.PowerArmorItem ?: return@sync
 
 			val meta = item.itemMeta as LeatherArmorMeta

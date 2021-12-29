@@ -209,15 +209,15 @@ object CombatNPCs : SLComponent() {
 
 		// copy inventory
 		val inventory = player.inventory
-		armorStand.equipment?.helmet = inventory.helmet
-		armorStand.equipment?.chestplate = inventory.chestplate
-		armorStand.equipment?.chestplate = inventory.leggings
-		armorStand.equipment?.boots = inventory.boots
-		armorStand.equipment?.setItemInMainHand(inventory.itemInMainHand)
+		armorStand.equipment.helmet = inventory.helmet
+		armorStand.equipment.chestplate = inventory.chestplate
+		armorStand.equipment.chestplate = inventory.leggings
+		armorStand.equipment.boots = inventory.boots
+		armorStand.equipment.setItemInMainHand(inventory.itemInMainHand)
 		armorStand.setItem(EquipmentSlot.HAND, inventory.itemInMainHand)
 
 		// set skull
-		armorStand.equipment?.helmet = ItemStack(Material.PLAYER_HEAD, 1).apply {
+		armorStand.equipment.helmet = ItemStack(Material.PLAYER_HEAD, 1).apply {
 			itemMeta = (itemMeta as SkullMeta).apply {
 				setDisplayName(helmetText)
 				playerProfile = player.playerProfile
