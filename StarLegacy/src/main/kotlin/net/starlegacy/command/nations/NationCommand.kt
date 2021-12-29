@@ -542,5 +542,6 @@ internal object NationCommand : SLCommand() {
 	}
 
 	@Subcommand("role")
+	@Suppress("UNUSED_PARAMETER")
 	fun onRole(sender: CommandSender): Unit = fail { "Use /nrole, not /n role (remove the space)" }
 }

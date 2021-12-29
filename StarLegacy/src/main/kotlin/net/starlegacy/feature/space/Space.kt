@@ -14,7 +14,7 @@ import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.data.BlockData
 import org.bukkit.event.world.WorldUnloadEvent
-import java.util.Optional
+import java.util.*
 
 object Space : SLComponent() {
 	private val stars = mutableListOf<CachedStar>()

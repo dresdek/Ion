@@ -14,11 +14,9 @@ import net.starlegacy.util.loadChunkAsync
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.forEach
 import kotlin.collections.set
-import kotlin.collections.toList
 
 object Collectors : SLComponent() {
 	private val isCitizensLoaded get() = plugin.server.pluginManager.isPluginEnabled("Citizens")

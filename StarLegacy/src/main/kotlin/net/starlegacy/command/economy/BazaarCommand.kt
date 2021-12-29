@@ -1,6 +1,10 @@
 package net.starlegacy.command.economy
 
-import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Subcommand
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.economy.BazaarItem
 import net.starlegacy.database.schema.economy.CityNPC
@@ -19,7 +23,13 @@ import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
 import net.starlegacy.feature.space.Sector
 import net.starlegacy.feature.space.Space
-import net.starlegacy.util.*
+import net.starlegacy.util.MenuHelper
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.VAULT_ECO
+import net.starlegacy.util.displayName
+import net.starlegacy.util.msg
+import net.starlegacy.util.roundToHundredth
+import net.starlegacy.util.toCreditsString
 import org.bukkit.DyeColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -45,7 +55,6 @@ object BazaarCommand : SLCommand() {
 	}
 
 	private fun requireItemInHand(sender: Player) = sender.inventory.itemInMainHand
-		?: fail { "You're not holding any item" }
 
 	@Subcommand("string")
 	fun onString(sender: Player) {
@@ -253,6 +262,7 @@ object BazaarCommand : SLCommand() {
 
 	@Subcommand("merchant setprice")
 	@CommandPermission("trade.merchantadmin")
+	@Suppress("UNUSED_PARAMETER")
 	fun onMerchantSetPrice(sender: CommandSender, itemString: String, price: Double) {
 		validateItemString(itemString)
 		Merchants.setMerchantDefaultPrice(itemString, price)
@@ -260,6 +270,7 @@ object BazaarCommand : SLCommand() {
 
 	@Subcommand("merchant unsetprice")
 	@CommandPermission("trade.merchantadmin")
+	@Suppress("UNUSED_PARAMETER")
 	fun onMerchantUnsetPrice(sender: Player, itemString: String) {
 		Merchants.removeMerchantItem(itemString)
 	}

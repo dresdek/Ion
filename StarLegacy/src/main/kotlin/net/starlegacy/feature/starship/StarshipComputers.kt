@@ -13,7 +13,14 @@ import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.control.StarshipControl
 import net.starlegacy.feature.starship.event.StarshipComputerOpenMenuEvent
 import net.starlegacy.feature.starship.event.StarshipDetectEvent
-import net.starlegacy.util.*
+import net.starlegacy.util.MenuHelper
+import net.starlegacy.util.SLTextStyle
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.action
+import net.starlegacy.util.actionAndMsg
+import net.starlegacy.util.colorize
+import net.starlegacy.util.msg
+import net.starlegacy.util.toText
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.Block

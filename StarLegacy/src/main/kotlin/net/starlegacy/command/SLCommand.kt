@@ -13,13 +13,22 @@ import net.starlegacy.cache.nations.SettlementCache
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.misc.SLPlayer
 import net.starlegacy.database.schema.misc.SLPlayerId
-import net.starlegacy.database.schema.nations.*
+import net.starlegacy.database.schema.nations.NPCTerritoryOwner
+import net.starlegacy.database.schema.nations.Nation
+import net.starlegacy.database.schema.nations.NationRelation
+import net.starlegacy.database.schema.nations.NationRole
+import net.starlegacy.database.schema.nations.Settlement
+import net.starlegacy.database.schema.nations.SettlementRole
 import net.starlegacy.database.slPlayerId
 import net.starlegacy.database.uuid
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
 import net.starlegacy.feature.starship.active.ActiveStarships
-import net.starlegacy.util.*
+import net.starlegacy.util.SLTextStyle
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.VAULT_ECO
+import net.starlegacy.util.msg
+import net.starlegacy.util.toCreditsString
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandException
 import org.bukkit.command.CommandSender
@@ -30,6 +39,7 @@ import org.litote.kmongo.eq
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 abstract class SLCommand : BaseCommand() {
@@ -38,7 +48,8 @@ abstract class SLCommand : BaseCommand() {
 	protected val plugin get() = PLUGIN
 
 	companion object {
-		val ASYNC_COMMAND_THREAD = Executors.newSingleThreadExecutor(Tasks.namedThreadFactory("sl-async-commands"))
+		val ASYNC_COMMAND_THREAD: ExecutorService =
+			Executors.newSingleThreadExecutor(Tasks.namedThreadFactory("sl-async-commands"))
 	}
 
 	/**
@@ -82,6 +93,7 @@ abstract class SLCommand : BaseCommand() {
 	//endregion
 
 
+	@Suppress("UNUSED_PARAMETER")
 	@HelpCommand
 	fun onHelp(sender: CommandSender, help: CommandHelp) = help.showHelp()
 

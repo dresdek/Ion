@@ -1,6 +1,10 @@
 package net.starlegacy.command.nations.settlementZones
 
-import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.Subcommand
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.nations.Settlement
 import net.starlegacy.database.schema.nations.SettlementZone
@@ -8,7 +12,12 @@ import net.starlegacy.database.slPlayerId
 import net.starlegacy.feature.nations.gui.playerClicker
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionSettlementZone
-import net.starlegacy.util.*
+import net.starlegacy.util.MenuHelper
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.VAULT_ECO
+import net.starlegacy.util.colorize
+import net.starlegacy.util.msg
+import net.starlegacy.util.toCreditsString
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -59,9 +68,9 @@ internal object SettlementPlotCommand : SLCommand() {
 
 				val trustedPlayers = zone.trustedPlayers?.joinToString { getPlayerName(it) }
 					?: "None"
-				val trustedNations = zone.trustedNations?.joinToString { getNationName(it) ?: "!!ERROR!!" }
+				val trustedNations = zone.trustedNations?.joinToString { getNationName(it) }
 					?: "None"
-				val trustedSettlements = zone.trustedSettlements?.joinToString { getSettlementName(it) ?: "!!ERROR!!" }
+				val trustedSettlements = zone.trustedSettlements?.joinToString { getSettlementName(it) }
 					?: "None"
 
 				return@map guiButton(Material.KNOWLEDGE_BOOK) {

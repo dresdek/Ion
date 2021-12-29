@@ -103,7 +103,7 @@ internal object SettlementZoneCommand : SLCommand() {
 
 	const val VISUALIZATION_DURATION = 4000L
 
-	fun visualizeRegion(firstPoint: Vec3i, secondPoint: Vec3i, sender: Player, seed: Int) {
+	private fun visualizeRegion(firstPoint: Vec3i, secondPoint: Vec3i, sender: Player, seed: Int) {
 		val points = getHollowCube(firstPoint, secondPoint)
 
 		val random = Random(seed.toLong())

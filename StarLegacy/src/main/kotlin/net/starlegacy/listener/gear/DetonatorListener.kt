@@ -16,7 +16,6 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.util.Vector
-import java.util.ArrayList
 
 object DetonatorListener : SLEventListener() {
 	@EventHandler(priority = EventPriority.LOWEST)

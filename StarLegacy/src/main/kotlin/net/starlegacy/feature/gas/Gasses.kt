@@ -3,7 +3,11 @@ package net.starlegacy.feature.gas
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.gas.collectionfactors.CollectionFactor
 import net.starlegacy.feature.misc.CustomItems
-import net.starlegacy.util.*
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.getFacing
+import net.starlegacy.util.getRelativeIfLoaded
+import net.starlegacy.util.leftFace
+import net.starlegacy.util.rightFace
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -13,11 +17,10 @@ import org.bukkit.block.Furnace
 import org.bukkit.block.Hopper
 import org.bukkit.block.Sign
 import org.bukkit.block.data.Directional
-import org.bukkit.block.data.type.WallSign
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 import java.io.File
-import java.util.HashMap
+import kotlin.collections.set
 
 object Gasses : SLComponent() {
 	private var gasses = mutableMapOf<String, Gas>()

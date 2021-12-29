@@ -1,6 +1,5 @@
 package net.starlegacy.command.economy
 
-import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
@@ -66,7 +65,6 @@ object CollectedItemCommand : SLCommand() {
 	@Subcommand("string")
 	fun onString(sender: Player) {
 		val item: ItemStack = sender.inventory.itemInMainHand
-			?: throw ConditionFailedException("You're not holding an item!")
 
 		val itemString = CollectionMissions.getString(item)
 

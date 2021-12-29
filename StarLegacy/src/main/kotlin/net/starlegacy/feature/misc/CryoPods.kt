@@ -23,8 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.util.Optional
-import java.util.UUID
+import java.util.*
 
 object CryoPods : SLComponent() {
 	private val folder = File(plugin.dataFolder, "cryopods")

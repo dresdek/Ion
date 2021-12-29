@@ -1,8 +1,11 @@
 package net.starlegacy.command.nations
 
 import co.aikar.commands.InvalidCommandArgument
-import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.Subcommand
 import net.md_5.bungee.api.chat.TextComponent
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.SettlementCache
@@ -19,8 +22,25 @@ import net.starlegacy.feature.economy.city.TradeCities
 import net.starlegacy.feature.nations.NATIONS_BALANCE
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import net.starlegacy.feature.nations.utils.*
-import net.starlegacy.util.*
+import net.starlegacy.feature.nations.utils.cmd
+import net.starlegacy.feature.nations.utils.hover
+import net.starlegacy.feature.nations.utils.isActive
+import net.starlegacy.feature.nations.utils.isInactive
+import net.starlegacy.feature.nations.utils.isSemiActive
+import net.starlegacy.util.Notify
+import net.starlegacy.util.SLTextStyle
+import net.starlegacy.util.VAULT_ECO
+import net.starlegacy.util.colorize
+import net.starlegacy.util.darkAqua
+import net.starlegacy.util.darkGreen
+import net.starlegacy.util.darkPurple
+import net.starlegacy.util.fromLegacy
+import net.starlegacy.util.gray
+import net.starlegacy.util.isAlphanumeric
+import net.starlegacy.util.msg
+import net.starlegacy.util.style
+import net.starlegacy.util.toCreditsString
+import net.starlegacy.util.white
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.litote.kmongo.eq
@@ -481,11 +501,14 @@ internal object SettlementCommand : SLCommand() {
 	}
 
 	@Subcommand("zone|region")
+	@Suppress("UNUSED_PARAMETER")
 	fun onZone(sender: CommandSender): Unit = fail { "Use /szone, not /s zone (remove the space)" }
 
 	@Subcommand("plot")
+	@Suppress("UNUSED_PARAMETER")
 	fun onPlot(sender: CommandSender): Unit = fail { "Use /splot, not /s plot (remove the space)" }
 
 	@Subcommand("role")
+	@Suppress("UNUSED_PARAMETER")
 	fun onRole(sender: CommandSender): Unit = fail { "Use /srole, not /s role (remove the space)" }
 }

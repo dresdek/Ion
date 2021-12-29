@@ -538,7 +538,7 @@ class StarLegacy : JavaPlugin() {
 		)
 	}
 
-	fun isMaster(): Boolean = SETTINGS.master
+	private fun isMaster(): Boolean = SETTINGS.master
 }
 
 fun <T> redis(block: Jedis.() -> T): T = PLUGIN.redisPool.resource.use(block)

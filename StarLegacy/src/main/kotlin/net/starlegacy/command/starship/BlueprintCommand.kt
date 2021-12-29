@@ -1,7 +1,10 @@
 package net.starlegacy.command.starship
 
-import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Optional
+import co.aikar.commands.annotation.Subcommand
 import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.extent.clipboard.Clipboard
@@ -13,11 +16,24 @@ import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.database.slPlayerId
 import net.starlegacy.feature.nations.gui.playerClicker
-import net.starlegacy.feature.starship.*
+import net.starlegacy.feature.starship.DeactivatedPlayerStarships
+import net.starlegacy.feature.starship.PilotedStarships
+import net.starlegacy.feature.starship.StarshipComputers
+import net.starlegacy.feature.starship.StarshipDetection
+import net.starlegacy.feature.starship.StarshipSchematic
+import net.starlegacy.feature.starship.StarshipType
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.factory.PrintItem
 import net.starlegacy.feature.starship.factory.StarshipFactories
-import net.starlegacy.util.*
+import net.starlegacy.util.MenuHelper
+import net.starlegacy.util.Notify
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.Vec3i
+import net.starlegacy.util.isAlphanumeric
+import net.starlegacy.util.msg
+import net.starlegacy.util.nms
+import net.starlegacy.util.placeSchematicEfficiently
+import net.starlegacy.util.toBukkitBlockData
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.litote.kmongo.and
@@ -29,7 +45,7 @@ import kotlin.collections.set
 
 @CommandAlias("blueprint")
 object BlueprintCommand : SLCommand() {
-
+	@Suppress("UNUSED_PARAMETER")
 	private fun getMaxBlueprints(player: Player): Int {
 		return 10
 	}

@@ -1,11 +1,11 @@
 package net.starlegacy.command.misc
 
-import net.starlegacy.command.SLCommand
-import net.starlegacy.feature.transport.Extractors
-import net.starlegacy.feature.transport.TransportConfig
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Subcommand
+import net.starlegacy.command.SLCommand
+import net.starlegacy.feature.transport.Extractors
+import net.starlegacy.feature.transport.TransportConfig
 import net.starlegacy.util.msg
 import org.bukkit.command.CommandSender
 
@@ -19,6 +19,7 @@ object TransportDebugCommand : SLCommand() {
 	}
 
 	@Subcommand("clearbusy")
+	@Suppress("UNUSED_PARAMETER")
 	fun onClearBusy(sender: CommandSender) {
 		Extractors.BUSY_PIPE_EXTRACTORS.clear()
 	}
