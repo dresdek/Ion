@@ -21,21 +21,11 @@ Grab yourself a Paper 1.18.1 jar file from (https://papermc.io/downloads) and go
 
 Then it's time for dependencies... oh boy.
 
-Lets start with the easy ones.
-
 - Dynmap from (https://github.com/webbukkit/dynmap/releases)
 - WorldEdit from (https://dev.bukkit.org/projects/worldedit/files) **OR** FastAsyncWorldEdit from (https://intellectualsites.github.io/download/fawe.html)
 - DiscordSRV from (https://github.com/DiscordSRV/DiscordSRV/releases)
 - Luckperms from (https://luckperms.net/download)
 - Citizens from (https://ci.citizensnpcs.co/job/Citizens2/)
-
-Now for the more annoying one.
-GriefDefender will require you to manually build it from source as while technically a paid plugin, it is under MIT license, so we can do what we please with it.
-Download the source code from (https://github.com/bloodmc/GriefDefender) and build it using an IDE or though the terminal.
-
-Linux `./gradlew shadowJar`
-
-Windows `gradlew.bat shadowJar`
 
 #### Configuration
 If earlier you set custom database login details you will need to configure them in the `config.yml` file created by the plugin after first launch.
