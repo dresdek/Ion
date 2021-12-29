@@ -23,7 +23,6 @@ Then it's time for dependencies... oh boy.
 
 - Dynmap from (https://github.com/webbukkit/dynmap/releases)
 - WorldEdit from (https://dev.bukkit.org/projects/worldedit/files) **OR** FastAsyncWorldEdit from (https://intellectualsites.github.io/download/fawe.html)
-- DiscordSRV from (https://github.com/DiscordSRV/DiscordSRV/releases)
 - Luckperms from (https://luckperms.net/download)
 - Citizens from (https://ci.citizensnpcs.co/job/Citizens2/)
 
