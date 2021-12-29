@@ -13,7 +13,6 @@ import net.horizonsend.ion.Ion.Companion.plugin
 import org.bukkit.command.CommandSender
 import java.io.File
 
-@ExperimentalSerializationApi
 @CommandPermission("ion.quickbalance")
 @CommandAlias("quickbalance")
 object QuickBalance: BaseCommand() {
