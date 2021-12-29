@@ -98,60 +98,6 @@ object Shuttles : SLComponent() {
 		}
 	}
 
-	private fun updateShuttles() {
-		if (true) {
-			return
-		}
-
-		for (shuttle in Shuttle.all()) {
-			if (shuttle.destinations.none()) {
-				continue
-			}
-
-			val currentPosition = shuttle.currentPosition
-
-			val currentDest = shuttle.destinations[currentPosition]
-
-			// only update shuttles with the world loaded on this server
-			val world = Bukkit.getWorld(currentDest.world) ?: continue
-			val currentLoc =
-				Location(world, currentDest.x.toDouble(), currentDest.y.toDouble(), currentDest.z.toDouble())
-
-			val minutes = (Instant.now().epochSecond - shuttle.lastMove.toInstant().epochSecond).toInt() / 60
-
-			// don't do the same phase twice for one shuttle
-			if (previousMinuteCache[shuttle._id] == minutes) {
-				continue
-			}
-
-			previousMinuteCache[shuttle._id] = minutes
-
-			val nextDest = shuttle.destinations[shuttle.nextPosition()].name
-
-			val shuttleName = shuttle.name
-
-			when (minutes) {
-				0 -> messageNearby(currentLoc, "&6Shuttle &b$shuttleName&6 departing to &d$nextDest&6 in &a3 minutes")
-				1 -> messageNearby(currentLoc, "&6Shuttle &b$shuttleName&6 departing to &d$nextDest&6 in &e2 minutes")
-				2 -> messageNearby(currentLoc, "&6Shuttle &b$shuttleName&6 departing to &d$nextDest&6 in &c1 minute")
-				// 3 or more (unless it's somehow negative)
-				else -> {
-					previousMinuteCache.remove(shuttle._id)
-					moveShuttle(shuttle, shuttle.nextPosition())
-					val time = (shuttle.destinations.size - 1) * 5
-
-					// run after a second delay so that it doesn't message passengers
-					Tasks.syncDelay(20) {
-						messageNearby(
-							currentLoc,
-							"&6Shuttle &b$shuttleName&6 departed. Scheduled return in $time minutes"
-						)
-					}
-				}
-			}
-		}
-	}
-
 	private val TICKET_DISPLAY_NAME = "&bShuttle &eTicket".colorize()
 
 	fun createTicket() = ItemStack(Material.PAPER, 1)
