@@ -1,9 +1,9 @@
 package net.starlegacy.feature.space
 
+import net.horizonsend.ion.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.util.Tasks
 import org.bukkit.Color
-import org.dynmap.bukkit.DynmapPlugin
 import org.dynmap.markers.MarkerSet
 import kotlin.random.Random
 
@@ -17,10 +17,8 @@ object SpaceMap : SLComponent() {
 	}
 
 	fun refresh() = Tasks.sync {
-		val markerAPI = DynmapPlugin.plugin.markerAPI
-
-		markerAPI.getMarkerSet("space")?.deleteMarkerSet()
-		markerSet = markerAPI.createMarkerSet("space", "Space", null, false)
+		dynmapAPI.markerAPI.getMarkerSet("space")?.deleteMarkerSet()
+		markerSet = dynmapAPI.markerAPI.createMarkerSet("space", "Space", null, false)
 
 		for (star in Space.getStars()) {
 			markerSet.createMarker(
@@ -30,7 +28,7 @@ object SpaceMap : SLComponent() {
 				star.location.x.toDouble(),
 				star.location.y.toDouble(),
 				star.location.z.toDouble(),
-				markerAPI.getMarkerIcon("sun"),
+				dynmapAPI.markerAPI.getMarkerIcon("sun"),
 				false // ??
 			)
 		}
@@ -44,7 +42,7 @@ object SpaceMap : SLComponent() {
 				planet.location.x.toDouble(),
 				planet.location.y.toDouble(),
 				planet.location.z.toDouble(),
-				markerAPI.getMarkerIcon("world"),
+				dynmapAPI.markerAPI.getMarkerIcon("world"),
 				false // ??
 			)
 

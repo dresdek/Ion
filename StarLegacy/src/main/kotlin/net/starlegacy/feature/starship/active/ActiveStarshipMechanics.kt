@@ -1,13 +1,14 @@
 package net.starlegacy.feature.starship.active
 
+import net.horizonsend.ion.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.DeactivatedPlayerStarships
 import net.starlegacy.feature.starship.PilotedStarships
 import net.starlegacy.feature.starship.StarshipDestruction
 import net.starlegacy.feature.starship.control.StarshipControl
-import net.starlegacy.feature.starship.subsystem.weapon.interfaces.AutoWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.StarshipWeapons
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
+import net.starlegacy.feature.starship.subsystem.weapon.interfaces.AutoWeaponSubsystem
 import net.starlegacy.util.Tasks
 import net.starlegacy.util.Vec3i
 import net.starlegacy.util.actionAndMsg
@@ -21,9 +22,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import org.dynmap.bukkit.DynmapPlugin
-import java.util.LinkedList
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 object ActiveStarshipMechanics : SLComponent() {
@@ -200,7 +199,7 @@ object ActiveStarshipMechanics : SLComponent() {
 		val isNoStarship = starship == null
 		val isHoldingController = StarshipControl.isHoldingController(player)
 		val isInvisible = isNoStarship && !isHoldingController
-		DynmapPlugin.plugin.assertPlayerInvisibility(player, isInvisible, plugin)
+		dynmapAPI.assertPlayerInvisibility(player, isInvisible, plugin)
 	}
 
 	private fun updateGlowing(player: Player, starship: ActivePlayerStarship?) {

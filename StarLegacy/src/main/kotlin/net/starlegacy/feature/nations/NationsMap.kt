@@ -1,5 +1,6 @@
 package net.starlegacy.feature.nations
 
+import net.horizonsend.ion.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.database.schema.nations.NPCTerritoryOwner
@@ -12,11 +13,9 @@ import net.starlegacy.feature.nations.region.types.RegionTerritory
 import net.starlegacy.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.Color
-import org.dynmap.bukkit.DynmapPlugin
 import org.dynmap.markers.AreaMarker
 import org.dynmap.markers.CircleMarker
 import org.dynmap.markers.Marker
-import org.dynmap.markers.MarkerAPI
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 object NationsMap : SLComponent() {
@@ -27,11 +26,9 @@ object NationsMap : SLComponent() {
 
 	private val dynmapLoaded by lazy { Bukkit.getPluginManager().isPluginEnabled("dynmap") }
 
-	private val markerAPI: MarkerAPI get() = DynmapPlugin.plugin.markerAPI
-
 	private val markerSet
-		get() = markerAPI.getMarkerSet("nations")
-			?: markerAPI.createMarkerSet("nations", "Nations, Settlements, & Stations", null, false)
+		get() = dynmapAPI.markerAPI.getMarkerSet("nations")
+			?: dynmapAPI.markerAPI.createMarkerSet("nations", "Nations, Settlements, & Stations", null, false)
 
 	override fun onEnable() {
 		if (!dynmapLoaded) {

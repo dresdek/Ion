@@ -28,7 +28,6 @@ dependencies {
 	compileOnly("com.discordsrv:discordsrv:1.24.0")
 	compileOnly("us.dynmap:dynmap-api:3.1") // https://github.com/webbukkit/dynmap
 	compileOnly("net.luckperms:api:5.3")
-	compileOnly("us.dynmap:spigot:3.1") // https://github.com/webbukkit/dynmap
 
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
