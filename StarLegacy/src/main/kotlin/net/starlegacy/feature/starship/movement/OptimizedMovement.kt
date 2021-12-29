@@ -32,18 +32,9 @@ import org.bukkit.Material
 import org.bukkit.World
 import java.util.*
 import java.util.concurrent.ExecutionException
-import kotlin.collections.Map
-import kotlin.collections.MutableMap
 import kotlin.collections.component1
 import kotlin.collections.component2
-import kotlin.collections.getOrPut
-import kotlin.collections.indices
-import kotlin.collections.iterator
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
-import kotlin.collections.toSet
 
 object OptimizedMovement {
 	private val passThroughBlocks = listOf(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.SNOW)
@@ -116,11 +107,10 @@ object OptimizedMovement {
 		newPositionArray: LongArray
 	) {
 		for ((chunkKey, sectionMap) in collisionChunkMap) {
-			val chunk = world.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
-			val nmsChunk = chunk.nms
+			val chunk = world.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey)).nms
 
 			for ((sectionKey, positionMap) in sectionMap) {
-				val section = getChunkSection(nmsChunk, sectionKey)
+				val section = getChunkSection(chunk, sectionKey)
 
 				for ((blockKey, index) in positionMap) {
 					check(newPositionArray[index] == blockKey)
