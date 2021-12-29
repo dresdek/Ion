@@ -80,7 +80,6 @@ import net.starlegacy.listener.SLEventListener
 import net.starlegacy.listener.gear.*
 import net.starlegacy.listener.misc.*
 import net.starlegacy.listener.nations.FriendlyFireListener
-import net.starlegacy.listener.nations.GriefDefenderListener
 import net.starlegacy.listener.nations.MovementListener
 import net.starlegacy.util.MATERIALS
 import net.starlegacy.util.Notify
@@ -208,8 +207,6 @@ class StarLegacy : JavaPlugin() {
 			MovementListener,
 			FriendlyFireListener,
 			ProtectionListener,
-
-			GriefDefenderListener,
 
 			BlockListener,
 			EntityListener,
