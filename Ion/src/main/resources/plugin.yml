@@ -6,5 +6,5 @@ api-version: 1.18
 load: POSTWORLD
 authors: [PeterCrawley, trainb0y, Sciath, DoctorXeno, MicleBrick]
 website: https://horizonsend.net
-depend: [dynmap, WorldEdit, Citizens, DiscordSRV, LuckPerms]
+depend: [dynmap, WorldEdit, Citizens, LuckPerms]
 softdepend: [WorldGuard] # WorldGuard is a softdepend because it must be loaded before Ion

@@ -1,16 +1,13 @@
 package net.starlegacy.util
 
-import github.scarsz.discordsrv.DiscordSRV
-import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.nations.Nation
 import net.starlegacy.database.schema.nations.Settlement
 import org.bukkit.Bukkit
-import org.bukkit.Bukkit.getPluginManager
 import org.litote.kmongo.id.WrappedObjectId
-import java.util.UUID
+import java.util.*
 
 object Notify : SLComponent() {
 	infix fun online(message: String) = notifyOnlineAction(message.colorize())
@@ -21,7 +18,6 @@ object Notify : SLComponent() {
 	infix fun all(message: String) {
 		val colorized = message.colorize()
 		online(colorized)
-		discord(colorized.stripColor())
 	}
 
 	fun player(player: UUID, message: String) {
@@ -53,21 +49,6 @@ object Notify : SLComponent() {
 			.filter { PlayerCache[it].nation == id }
 			.forEach { it.sendMessage(message) }
 	}.registerRedisAction("notify-nation", runSync = false)
-
-	infix fun discord(message: String) {
-		if (getPluginManager().isPluginEnabled("DiscordSRV")) {
-			Tasks.async {
-				val channel: TextChannel? = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("events")
-
-				if (channel == null) {
-					System.err.println("ERROR: No events channel found!")
-					return@async
-				}
-
-				channel.sendMessage(message).queue()
-			}
-		}
-	}
 
 	override fun supportsVanilla(): Boolean {
 		return true

@@ -1,6 +1,5 @@
 package net.starlegacy.feature.chat
 
-import github.scarsz.discordsrv.DiscordSRV
 import net.luckperms.api.LuckPermsProvider
 import net.luckperms.api.node.NodeEqualityPredicate
 import net.md_5.bungee.api.chat.BaseComponent
@@ -49,15 +48,6 @@ enum class ChatChannel(val displayName: String, val commandAliases: List<String>
 			val message = "$messageColor${event.message}"
 			val playerInfo = playerInfo(player)
 			globalAction(NormalChatMessage(prefix, message, playerInfo))
-			try {
-				discord(event)
-			} catch (e: ClassNotFoundException) {
-				// ignore, plugin just isn't loaded
-			}
-		}
-
-		private fun discord(event: AsyncPlayerChatEvent) {
-			DiscordSRV.getPlugin().processChatMessage(event.player, event.message, null, false)
 		}
 	},
 	LOCAL("&eLocal", listOf("local", "l"), SLTextStyle.YELLOW) {
