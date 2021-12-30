@@ -1,7 +1,7 @@
 package net.starlegacy.util
 
 import org.bukkit.Material
-import java.util.*
+import java.util.EnumSet
 
 /**
  * This should be used instead of Material.values() to avoid encountering legacy materials
