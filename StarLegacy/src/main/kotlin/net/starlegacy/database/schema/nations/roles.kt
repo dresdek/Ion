@@ -2,6 +2,9 @@ package net.starlegacy.database.schema.nations
 
 import com.mongodb.client.MongoIterable
 import com.mongodb.client.model.Filters
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid
 import net.starlegacy.database.OidDbObjectCompanion
@@ -25,9 +28,6 @@ import org.litote.kmongo.eq
 import org.litote.kmongo.projection
 import org.litote.kmongo.util.KMongoUtil.idFilterQuery
 import org.litote.kmongo.withDocumentClass
-import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty1
 
 /**
  * @property parent The parent entity of this role

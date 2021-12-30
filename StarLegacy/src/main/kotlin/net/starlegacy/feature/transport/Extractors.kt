@@ -1,6 +1,12 @@
 package net.starlegacy.feature.transport
 
 import com.google.gson.Gson
+import java.io.File
+import java.nio.file.Files
+import java.util.Timer
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.set
+import kotlin.concurrent.fixedRateTimer
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.transport.pipe.Pipes
 import net.starlegacy.feature.transport.pipe.filter.FilterItemData
@@ -31,12 +37,6 @@ import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.world.WorldLoadEvent
 import org.bukkit.event.world.WorldUnloadEvent
 import org.bukkit.inventory.InventoryHolder
-import java.io.File
-import java.nio.file.Files
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.set
-import kotlin.concurrent.fixedRateTimer
 
 object Extractors : SLComponent() {
 	private const val extractorTicksPerSecond = 1.0

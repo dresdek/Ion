@@ -1,5 +1,6 @@
 package net.starlegacy.util
 
+import java.util.UUID
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.database.Oid
@@ -7,7 +8,6 @@ import net.starlegacy.database.schema.nations.Nation
 import net.starlegacy.database.schema.nations.Settlement
 import org.bukkit.Bukkit
 import org.litote.kmongo.id.WrappedObjectId
-import java.util.*
 
 object Notify : SLComponent() {
 	infix fun online(message: String) = notifyOnlineAction(message.colorize())

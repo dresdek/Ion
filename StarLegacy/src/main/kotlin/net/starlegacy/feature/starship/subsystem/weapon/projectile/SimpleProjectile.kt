@@ -1,11 +1,11 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
+import java.util.UUID
 import net.minecraft.network.protocol.game.ClientboundCustomSoundPacket
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.Vec3
 import net.starlegacy.feature.starship.active.ActiveStarship
-import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
 import net.starlegacy.util.CBMagicNumbers
 import net.starlegacy.util.nms
@@ -19,8 +19,6 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.util.RayTraceResult
 import org.bukkit.util.Vector
-import java.util.*
-import java.util.concurrent.atomic.AtomicInteger
 
 abstract class SimpleProjectile(
 	starship: ActiveStarship?,

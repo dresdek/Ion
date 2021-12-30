@@ -1,9 +1,22 @@
 package net.starlegacy.database.schema.misc
 
-import net.starlegacy.database.*
-import org.litote.kmongo.*
 import java.time.Instant
-import java.util.*
+import java.util.Date
+import net.starlegacy.database.DbObject
+import net.starlegacy.database.Oid
+import net.starlegacy.database.OidDbObjectCompanion
+import net.starlegacy.database.objId
+import net.starlegacy.database.trx
+import org.litote.kmongo.SetTo
+import org.litote.kmongo.deleteOneById
+import org.litote.kmongo.ensureUniqueIndex
+import org.litote.kmongo.eq
+import org.litote.kmongo.findOne
+import org.litote.kmongo.pull
+import org.litote.kmongo.push
+import org.litote.kmongo.set
+import org.litote.kmongo.setValue
+import org.litote.kmongo.updateOneById
 
 data class Shuttle(
 	override val _id: Oid<Shuttle>,

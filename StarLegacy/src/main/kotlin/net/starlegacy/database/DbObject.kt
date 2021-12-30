@@ -12,6 +12,9 @@ import com.mongodb.client.model.changestream.ChangeStreamDocument
 import com.mongodb.client.model.changestream.FullDocument
 import com.mongodb.client.model.changestream.OperationType
 import com.mongodb.client.result.UpdateResult
+import java.io.Closeable
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 import net.starlegacy.StarLegacy
 import net.starlegacy.database.MongoManager.getCollection
 import org.bson.conversions.Bson
@@ -29,9 +32,6 @@ import org.litote.kmongo.match
 import org.litote.kmongo.updateOneById
 import org.litote.kmongo.util.KMongoUtil.idFilterQuery
 import org.slf4j.LoggerFactory
-import java.io.Closeable
-import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
 
 interface DbObject {
 	@Suppress("PropertyName")

@@ -1,5 +1,8 @@
 package net.starlegacy.feature.starship
 
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import net.starlegacy.SLComponent
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.database.schema.starships.PlayerStarshipData
@@ -29,9 +32,6 @@ import org.bukkit.boss.BarStyle
 import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerQuitEvent
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 object PilotedStarships : SLComponent() {
 	private val map = mutableMapOf<Player, ActivePlayerStarship>()

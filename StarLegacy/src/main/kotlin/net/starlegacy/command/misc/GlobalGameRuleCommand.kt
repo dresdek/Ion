@@ -1,10 +1,10 @@
 package net.starlegacy.command.misc
 
-import net.starlegacy.command.SLCommand
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
+import net.starlegacy.command.SLCommand
 import net.starlegacy.util.msg
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender

@@ -1,5 +1,8 @@
 package net.starlegacy.feature.nations
 
+import java.awt.Point
+import java.awt.Polygon
+import java.io.File
 import net.starlegacy.PLUGIN
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.nations.Territory
@@ -7,9 +10,6 @@ import net.starlegacy.feature.nations.region.packTerritoryPolygon
 import net.starlegacy.util.msg
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
-import java.awt.Point
-import java.awt.Polygon
-import java.io.File
 
 object TerritoryImporter {
 	private data class UpdateData(val id: Oid<Territory>, val polygonData: ByteArray)

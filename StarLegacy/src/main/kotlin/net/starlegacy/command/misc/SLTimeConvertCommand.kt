@@ -1,15 +1,15 @@
 package net.starlegacy.command.misc
 
-import net.starlegacy.command.SLCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
-import net.starlegacy.util.msg
-import org.bukkit.command.CommandSender
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import net.starlegacy.command.SLCommand
+import net.starlegacy.util.msg
+import org.bukkit.command.CommandSender
 
 @CommandAlias("sltimeconvert")
 object SLTimeConvertCommand : SLCommand() {

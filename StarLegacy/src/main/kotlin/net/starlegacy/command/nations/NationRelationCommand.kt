@@ -1,11 +1,11 @@
 package net.starlegacy.command.nations
 
-import net.starlegacy.command.SLCommand
-import net.starlegacy.database.schema.nations.NationRelation
-import net.starlegacy.database.schema.nations.NationRole
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.Subcommand
+import net.starlegacy.command.SLCommand
+import net.starlegacy.database.schema.nations.NationRelation
+import net.starlegacy.database.schema.nations.NationRole
 import net.starlegacy.util.Notify
 import net.starlegacy.util.msg
 import org.bukkit.entity.Player

@@ -1,6 +1,7 @@
 package net.starlegacy.database.schema.starships
 
 import com.sk89q.worldedit.extent.clipboard.Clipboard
+import java.util.Base64
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid
@@ -20,7 +21,6 @@ import org.litote.kmongo.ensureIndex
 import org.litote.kmongo.ensureUniqueIndex
 import org.litote.kmongo.eq
 import org.litote.kmongo.findOne
-import java.util.Base64
 
 data class Blueprint(
 	override val _id: Oid<Blueprint>,

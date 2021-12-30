@@ -1,6 +1,7 @@
 package net.starlegacy.feature.multiblock.defenseturret
 
 import com.google.common.collect.HashMultimap
+import java.util.UUID
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.RelationCache
 import net.starlegacy.cache.nations.SettlementCache
@@ -26,7 +27,6 @@ import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.util.Vector
-import java.util.*
 
 object APTurret : PowerStoringMultiblock(), FurnaceMultiblock {
 	private const val MAX_DISTANCE = 64.0

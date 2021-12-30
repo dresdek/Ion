@@ -13,14 +13,14 @@ import com.sk89q.worldedit.session.ClipboardHolder
 import com.sk89q.worldedit.util.io.file.FilenameException
 import com.sk89q.worldedit.world.block.BlockState
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import net.starlegacy.util.blockplacement.BlockPlacement
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 fun loadSchematic(player: Player?, filename: String): Clipboard? {
 	val file: File

@@ -1,5 +1,6 @@
 package net.starlegacy.feature.misc
 
+import kotlin.math.max
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.multiblock.Multiblocks
@@ -15,7 +16,6 @@ import org.bukkit.block.Sign
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
-import kotlin.math.max
 
 object Decomposers : SLComponent() {
 	val busySigns = mutableSetOf<Location>()

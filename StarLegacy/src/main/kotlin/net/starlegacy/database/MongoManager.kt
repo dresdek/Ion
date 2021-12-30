@@ -6,12 +6,29 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoCursor
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.changestream.ChangeStreamDocument
+import java.util.concurrent.Executors
+import kotlin.reflect.KClass
 import net.starlegacy.SETTINGS
 import net.starlegacy.SLComponent
-import net.starlegacy.database.schema.economy.*
+import net.starlegacy.database.schema.economy.BazaarItem
+import net.starlegacy.database.schema.economy.CargoCrate
+import net.starlegacy.database.schema.economy.CargoCrateShipment
+import net.starlegacy.database.schema.economy.CityNPC
+import net.starlegacy.database.schema.economy.CollectedItem
+import net.starlegacy.database.schema.economy.EcoStation
 import net.starlegacy.database.schema.misc.SLPlayer
 import net.starlegacy.database.schema.misc.Shuttle
-import net.starlegacy.database.schema.nations.*
+import net.starlegacy.database.schema.nations.CapturableStation
+import net.starlegacy.database.schema.nations.CapturableStationSiege
+import net.starlegacy.database.schema.nations.NPCTerritoryOwner
+import net.starlegacy.database.schema.nations.Nation
+import net.starlegacy.database.schema.nations.NationRelation
+import net.starlegacy.database.schema.nations.NationRole
+import net.starlegacy.database.schema.nations.Settlement
+import net.starlegacy.database.schema.nations.SettlementRole
+import net.starlegacy.database.schema.nations.SettlementZone
+import net.starlegacy.database.schema.nations.SpaceStation
+import net.starlegacy.database.schema.nations.Territory
 import net.starlegacy.database.schema.space.Planet
 import net.starlegacy.database.schema.space.Star
 import net.starlegacy.database.schema.starships.Blueprint
@@ -27,8 +44,6 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.id.IdGenerator
 import org.litote.kmongo.id.ObjectIdGenerator
 import org.litote.kmongo.util.KMongoUtil
-import java.util.concurrent.Executors
-import kotlin.reflect.KClass
 
 object MongoManager : SLComponent() {
 	private val watching = mutableListOf<MongoCursor<ChangeStreamDocument<*>>>()

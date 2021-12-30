@@ -2,6 +2,8 @@ package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
+import kotlin.collections.set
+import kotlin.math.sqrt
 import net.starlegacy.database.schema.starships.PlayerStarshipData
 import net.starlegacy.feature.misc.CryoPods
 import net.starlegacy.feature.space.CachedPlanet
@@ -11,15 +13,19 @@ import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.isFlyable
 import net.starlegacy.feature.starship.subsystem.CryoSubsystem
-import net.starlegacy.util.*
+import net.starlegacy.util.NMSBlockData
+import net.starlegacy.util.Vec3i
+import net.starlegacy.util.blockKey
+import net.starlegacy.util.blockKeyX
+import net.starlegacy.util.blockKeyY
+import net.starlegacy.util.blockKeyZ
+import net.starlegacy.util.nms
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Animals
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import kotlin.collections.set
-import kotlin.math.sqrt
 
 
 abstract class StarshipMovement(val starship: ActiveStarship, val newWorld: World? = null) {

@@ -1,5 +1,9 @@
 package net.starlegacy.feature.starship.control
 
+import java.util.Collections
+import java.util.UUID
+import kotlin.math.abs
+import kotlin.math.max
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.util.Tasks
@@ -16,9 +20,6 @@ import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.Objective
 import org.bukkit.scoreboard.Scoreboard
 import org.bukkit.util.Vector
-import java.util.*
-import kotlin.math.abs
-import kotlin.math.max
 
 object ContactsDisplay : SLComponent() {
 	const val range = 6000

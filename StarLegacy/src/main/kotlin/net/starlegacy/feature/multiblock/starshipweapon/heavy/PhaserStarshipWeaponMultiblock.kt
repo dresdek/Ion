@@ -5,10 +5,8 @@ import net.starlegacy.feature.multiblock.starshipweapon.SignlessStarshipWeaponMu
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.secondary.PhaserWeaponSubsystem
 import net.starlegacy.util.Vec3i
-import net.starlegacy.util.isSlab
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
-import org.bukkit.block.data.type.Slab
 
 object PhaserStarshipWeaponMultiblock : SignlessStarshipWeaponMultiblock<PhaserWeaponSubsystem>() {
 	override fun MultiblockShape.buildStructure() {

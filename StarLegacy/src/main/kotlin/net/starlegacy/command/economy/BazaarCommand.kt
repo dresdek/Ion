@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Description
 import co.aikar.commands.annotation.Subcommand
+import kotlin.math.ceil
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.economy.BazaarItem
 import net.starlegacy.database.schema.economy.CityNPC
@@ -35,7 +36,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.litote.kmongo.eq
-import kotlin.math.ceil
 
 @CommandAlias("bazaar")
 object BazaarCommand : SLCommand() {

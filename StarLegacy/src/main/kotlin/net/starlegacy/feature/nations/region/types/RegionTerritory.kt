@@ -1,6 +1,10 @@
 package net.starlegacy.feature.nations.region.types
 
 import com.mongodb.client.model.changestream.ChangeStreamDocument
+import java.awt.Polygon
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import net.starlegacy.SETTINGS
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.PlayerCache
@@ -23,10 +27,6 @@ import net.starlegacy.database.string
 import net.starlegacy.feature.nations.NationsMap
 import net.starlegacy.feature.nations.region.unpackTerritoryPolygon
 import org.bukkit.entity.Player
-import java.awt.Polygon
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 class RegionTerritory(territory: Territory) : Region<Territory>(territory),
 	RegionTopLevel, RegionParent {

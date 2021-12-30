@@ -5,6 +5,10 @@ import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Optional
 import co.aikar.commands.bukkit.contexts.OnlinePlayer
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.collections.set
+import kotlin.math.ln
+import kotlin.math.roundToInt
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.feature.space.Space
@@ -30,10 +34,6 @@ import net.starlegacy.util.randomInt
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.collections.set
-import kotlin.math.ln
-import kotlin.math.roundToInt
 
 object MiscStarshipCommands : SLCommand() {
 	@CommandAlias("release")

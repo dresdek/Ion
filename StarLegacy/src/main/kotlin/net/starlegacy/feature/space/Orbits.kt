@@ -1,12 +1,12 @@
 package net.starlegacy.feature.space
 
+import java.util.concurrent.TimeUnit
+import kotlin.system.measureNanoTime
 import net.starlegacy.SLComponent
 import net.starlegacy.database.schema.space.Planet
 import net.starlegacy.feature.misc.AutoRestart
 import net.starlegacy.util.Tasks
 import net.starlegacy.util.blockplacement.BlockPlacement
-import java.util.concurrent.TimeUnit
-import kotlin.system.measureNanoTime
 
 object Orbits : SLComponent() {
 	// schedule orbiting all the planets every midnight

@@ -1,6 +1,13 @@
 package net.starlegacy.command.misc
 
-import net.md_5.bungee.api.ChatColor.*
+import co.aikar.commands.ConditionFailedException
+import co.aikar.commands.InvalidCommandArgument
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.Default
+import net.md_5.bungee.api.ChatColor.GRAY
+import net.md_5.bungee.api.ChatColor.GREEN
+import net.md_5.bungee.api.ChatColor.RED
 import net.starlegacy.cache.nations.RelationCache
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.Oid
@@ -9,11 +16,6 @@ import net.starlegacy.database.schema.nations.Nation
 import net.starlegacy.database.schema.nations.NationRelation
 import net.starlegacy.database.schema.nations.Settlement
 import net.starlegacy.database.uuid
-import co.aikar.commands.ConditionFailedException
-import co.aikar.commands.InvalidCommandArgument
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
-import co.aikar.commands.annotation.Default
 import net.starlegacy.util.getDurationBreakdown
 import net.starlegacy.util.msg
 import org.bukkit.Bukkit

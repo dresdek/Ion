@@ -3,6 +3,7 @@ package net.starlegacy.feature.multiblock.autocrafter
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
+import java.util.Optional
 import net.minecraft.core.NonNullList
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.inventory.CraftingContainer
@@ -11,7 +12,13 @@ import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.multiblock.PowerStoringMultiblock
-import net.starlegacy.util.*
+import net.starlegacy.util.CBItemStack
+import net.starlegacy.util.NMSItemStack
+import net.starlegacy.util.getFacing
+import net.starlegacy.util.getStateIfLoaded
+import net.starlegacy.util.nms
+import net.starlegacy.util.orNull
+import net.starlegacy.util.rightFace
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Furnace
@@ -19,7 +26,6 @@ import org.bukkit.block.Sign
 import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 private const val POWER_USAGE_PER_INGREDIENT = 50
 

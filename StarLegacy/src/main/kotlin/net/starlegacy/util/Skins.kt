@@ -3,12 +3,12 @@ package net.starlegacy.util
 import com.destroystokyo.paper.profile.PlayerProfile
 import com.destroystokyo.paper.profile.ProfileProperty
 import com.google.gson.Gson
+import java.util.UUID
 import khttp.get
 import khttp.responses.Response
 import org.bukkit.Bukkit
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.UUID
 
 object Skins {
 	data class SkinData(val value: String, val signature: String) {

@@ -1,5 +1,6 @@
 package net.starlegacy.feature.economy.city
 
+import java.util.concurrent.ConcurrentHashMap
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.SettlementCache
 import net.starlegacy.database.Oid
@@ -11,7 +12,6 @@ import net.starlegacy.database.schema.nations.NPCTerritoryOwner
 import net.starlegacy.database.schema.nations.Settlement
 import net.starlegacy.database.schema.nations.Territory
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import java.util.concurrent.ConcurrentHashMap
 
 object TradeCities : SLComponent() {
 	private val cities: MutableMap<Oid<Territory>, TradeCityData> = ConcurrentHashMap()

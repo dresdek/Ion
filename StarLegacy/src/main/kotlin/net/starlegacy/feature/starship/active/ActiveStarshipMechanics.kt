@@ -1,5 +1,8 @@
 package net.starlegacy.feature.starship.active
 
+import java.util.LinkedList
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 import net.horizonsend.ion.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.DeactivatedPlayerStarships
@@ -22,8 +25,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 object ActiveStarshipMechanics : SLComponent() {
 	override fun onEnable() {

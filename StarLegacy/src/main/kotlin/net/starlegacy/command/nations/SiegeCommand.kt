@@ -1,9 +1,9 @@
 package net.starlegacy.command.nations
 
+import co.aikar.commands.annotation.CommandAlias
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.command.SLCommand
 import net.starlegacy.feature.nations.StationSieges
-import co.aikar.commands.annotation.CommandAlias
 import net.starlegacy.util.msg
 import org.bukkit.entity.Player
 

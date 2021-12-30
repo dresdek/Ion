@@ -1,17 +1,17 @@
 package net.starlegacy.command.space
 
-import net.starlegacy.command.SLCommand
-import net.starlegacy.database.schema.space.Star
-import net.starlegacy.feature.space.CachedPlanet
-import net.starlegacy.feature.space.CachedStar
-import net.starlegacy.feature.space.Space
-import net.starlegacy.feature.space.SpaceWorlds
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Subcommand
+import net.starlegacy.command.SLCommand
+import net.starlegacy.database.schema.space.Star
+import net.starlegacy.feature.space.CachedPlanet
+import net.starlegacy.feature.space.CachedStar
+import net.starlegacy.feature.space.Space
+import net.starlegacy.feature.space.SpaceWorlds
 import net.starlegacy.util.Vec3i
 import net.starlegacy.util.green
 import net.starlegacy.util.msg

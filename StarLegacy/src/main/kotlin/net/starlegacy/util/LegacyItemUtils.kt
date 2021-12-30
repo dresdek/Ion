@@ -1,11 +1,11 @@
 package net.starlegacy.util
 
+import java.lang.Math.min
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.FurnaceInventory
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import java.lang.Math.min
 
 object LegacyItemUtils {
 	val CONTRABAND = ChatColor.DARK_RED.toString() + "" + ChatColor.MAGIC + ChatColor.BOLD + "Contraband"

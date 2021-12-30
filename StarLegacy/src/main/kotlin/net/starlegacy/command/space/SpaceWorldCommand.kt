@@ -1,11 +1,11 @@
 package net.starlegacy.command.space
 
-import net.starlegacy.command.SLCommand
-import net.starlegacy.feature.space.SpaceWorlds
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Subcommand
+import net.starlegacy.command.SLCommand
+import net.starlegacy.feature.space.SpaceWorlds
 import net.starlegacy.util.green
 import net.starlegacy.util.msg
 import org.bukkit.Bukkit

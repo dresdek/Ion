@@ -10,6 +10,9 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter
 import com.sk89q.worldedit.extent.clipboard.Clipboard
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.world.block.BlockState
+import java.util.LinkedList
+import java.util.UUID
+import kotlin.collections.set
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.command.SLCommand
@@ -40,8 +43,6 @@ import org.litote.kmongo.and
 import org.litote.kmongo.descendingSort
 import org.litote.kmongo.eq
 import org.litote.kmongo.save
-import java.util.*
-import kotlin.collections.set
 
 @CommandAlias("blueprint")
 object BlueprintCommand : SLCommand() {

@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon
 
+import java.util.concurrent.ThreadLocalRandom
 import net.starlegacy.feature.multiblock.starshipweapon.turret.TurretMultiblock
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship
@@ -12,7 +13,6 @@ import org.bukkit.block.BlockFace
 import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import java.util.concurrent.ThreadLocalRandom
 
 abstract class TurretWeaponSubsystem(
 	ship: ActiveStarship,

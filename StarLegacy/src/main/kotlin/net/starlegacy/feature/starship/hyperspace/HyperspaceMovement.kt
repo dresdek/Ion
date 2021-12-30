@@ -1,12 +1,12 @@
 package net.starlegacy.feature.starship.hyperspace
 
+import kotlin.math.roundToInt
 import net.starlegacy.PLUGIN
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.util.distance
 import org.bukkit.Location
 import org.bukkit.scheduler.BukkitRunnable
-import kotlin.math.roundToInt
 
 class HyperspaceMovement(val ship: ActiveStarship, val speed: Int, val dest: Location) : BukkitRunnable() {
 	var x = ship.centerOfMass.x.toDouble()

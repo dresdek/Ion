@@ -1,5 +1,8 @@
 package net.starlegacy.feature.economy.collectors
 
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.set
 import net.citizensnpcs.api.CitizensAPI
 import net.citizensnpcs.api.npc.MemoryNPCDataStore
 import net.citizensnpcs.api.npc.NPC
@@ -14,9 +17,6 @@ import net.starlegacy.util.loadChunkAsync
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.set
 
 object Collectors : SLComponent() {
 	private val isCitizensLoaded get() = plugin.server.pluginManager.isPluginEnabled("Citizens")

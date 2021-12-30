@@ -1,5 +1,11 @@
 package net.starlegacy.util
 
+import java.util.function.Consumer
+import kotlin.math.atan
+import kotlin.math.atan2
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.Material
@@ -8,13 +14,6 @@ import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.util.NumberConversions
 import org.bukkit.util.Vector
-import java.util.HashSet
-import java.util.function.Consumer
-import kotlin.math.atan
-import kotlin.math.atan2
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 val Block.coordinates: Vec3i get() = Vec3i(x, y, z)
 

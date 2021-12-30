@@ -4,7 +4,9 @@ import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid
 import net.starlegacy.database.OidDbObjectCompanion
 import net.starlegacy.database.objId
-import org.litote.kmongo.*
+import org.litote.kmongo.ensureUniqueIndex
+import org.litote.kmongo.set
+import org.litote.kmongo.setTo
 
 data class Star(
 	override val _id: Oid<Star> = objId(),

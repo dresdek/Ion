@@ -2,7 +2,6 @@ package net.starlegacy.feature.starship.event
 
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.movement.RotationMovement
-import net.starlegacy.feature.starship.movement.TranslateMovement
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.HandlerList
