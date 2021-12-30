@@ -6,8 +6,6 @@ import com.google.common.cache.LoadingCache
 import com.sk89q.worldedit.extent.clipboard.Clipboard
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.regions.Region
-import java.io.File
-import java.util.UUID
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.misc.Shuttle
@@ -34,6 +32,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
+import java.io.File
+import java.util.*
 
 object Shuttles : SLComponent() {
 	const val TICKET_COST = 20
@@ -67,14 +67,14 @@ object Shuttles : SLComponent() {
 
 	@EventHandler
 	fun ticketVendorCreate(event: PlayerInteractEvent) {
-		if (!event.player.isOp || (event.clickedBlock?.state as? Sign)?.getLine(0) == "[ticketvendor]") return
-
-		val sign = event.clickedBlock?.state as? Sign ?: return
-		sign.setLine(0, line1)
-		sign.setLine(1, line2)
-		sign.setLine(2, line3)
-		sign.setLine(3, line4)
-		sign.update()
+		if (event.player.isOp && (event.clickedBlock?.state as? Sign)?.getLine(0) == "[ticketvendor]") {
+			val sign = event.clickedBlock?.state as? Sign ?: return
+			sign.setLine(0, line1)
+			sign.setLine(1, line2)
+			sign.setLine(2, line3)
+			sign.setLine(3, line4)
+			sign.update()
+		}
 	}
 
 	@EventHandler
