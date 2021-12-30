@@ -3,6 +3,7 @@ package net.starlegacy.feature.space
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
+import java.util.Optional
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.space.Planet
@@ -14,7 +15,6 @@ import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.data.BlockData
 import org.bukkit.event.world.WorldUnloadEvent
-import java.util.*
 
 object Space : SLComponent() {
 	private val stars = mutableListOf<CachedStar>()

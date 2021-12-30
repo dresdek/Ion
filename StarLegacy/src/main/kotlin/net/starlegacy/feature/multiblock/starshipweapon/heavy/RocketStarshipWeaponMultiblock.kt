@@ -5,7 +5,6 @@ import net.starlegacy.feature.multiblock.starshipweapon.SignlessStarshipWeaponMu
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.secondary.RocketWeaponSubsystem
 import net.starlegacy.util.Vec3i
-import org.bukkit.Material
 import org.bukkit.block.BlockFace
 
 sealed class RocketStarshipWeaponMultiblock : SignlessStarshipWeaponMultiblock<RocketWeaponSubsystem>() {

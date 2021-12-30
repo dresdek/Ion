@@ -1,15 +1,15 @@
 package net.starlegacy.util
 
 import co.aikar.timings.Timing
+import java.time.ZonedDateTime
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Future
+import java.util.concurrent.ThreadFactory
 import net.starlegacy.PLUGIN
 import net.starlegacy.StarLegacy
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
-import java.time.ZonedDateTime
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Future
-import java.util.concurrent.ThreadFactory
 
 object Tasks {
 	fun checkMainThread() = check(Bukkit.isPrimaryThread()) { "Attempted to call non-thread-safe method async!" }

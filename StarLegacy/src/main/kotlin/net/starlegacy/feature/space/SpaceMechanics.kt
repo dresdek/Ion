@@ -1,11 +1,17 @@
 package net.starlegacy.feature.space
 
+import java.util.concurrent.TimeUnit
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.gear.powerarmor.PowerArmorManager
 import net.starlegacy.feature.gear.powerarmor.PowerArmorModule
 import net.starlegacy.feature.misc.getPower
 import net.starlegacy.feature.misc.removePower
-import net.starlegacy.util.*
+import net.starlegacy.util.PerPlayerCooldown
+import net.starlegacy.util.Tasks
+import net.starlegacy.util.Vec3i
+import net.starlegacy.util.distanceSquared
+import net.starlegacy.util.isInside
+import net.starlegacy.util.squared
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Material
@@ -17,7 +23,6 @@ import org.bukkit.event.entity.EntityChangeBlockEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import java.util.concurrent.TimeUnit
 
 object SpaceMechanics : SLComponent() {
 	override fun onEnable() {

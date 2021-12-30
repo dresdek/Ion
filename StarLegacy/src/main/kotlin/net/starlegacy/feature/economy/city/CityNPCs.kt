@@ -1,5 +1,6 @@
 package net.starlegacy.feature.economy.city
 
+import java.util.UUID
 import net.citizensnpcs.api.CitizensAPI
 import net.citizensnpcs.api.event.NPCRightClickEvent
 import net.citizensnpcs.api.npc.MemoryNPCDataStore
@@ -24,7 +25,6 @@ import org.bukkit.World
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import java.util.*
 
 /**
  * Manages NPCs for cities, handles the synchronization of them with the worlds

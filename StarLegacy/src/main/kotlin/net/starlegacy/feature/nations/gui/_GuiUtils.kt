@@ -10,6 +10,9 @@ import com.github.stefvanschie.inventoryframework.pane.StaticPane
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
 import com.google.common.cache.LoadingCache
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 import net.md_5.bungee.api.ChatColor.RED
 import net.starlegacy.PLUGIN
 import net.starlegacy.util.Skins
@@ -22,8 +25,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 fun GuiItem.name(text: String?): GuiItem = apply { if (text != null) item.setDisplayNameAndGet(text) }
 

@@ -1,6 +1,5 @@
 package net.starlegacy.feature.misc
 
-import kotlinx.serialization.ExperimentalSerializationApi
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.FLYABLE_BLOCKS

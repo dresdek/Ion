@@ -1,5 +1,7 @@
 package net.starlegacy.feature.misc
 
+import java.io.File
+import java.util.concurrent.TimeUnit
 import net.starlegacy.SETTINGS
 import net.starlegacy.SLComponent
 import net.starlegacy.util.Tasks
@@ -7,8 +9,6 @@ import net.starlegacy.util.bold
 import net.starlegacy.util.text
 import net.starlegacy.util.yellow
 import org.bukkit.Bukkit
-import java.io.File
-import java.util.concurrent.TimeUnit
 
 object AutoRestart : SLComponent() {
 	private val file = File(plugin.dataFolder, "this_is_a_restart")

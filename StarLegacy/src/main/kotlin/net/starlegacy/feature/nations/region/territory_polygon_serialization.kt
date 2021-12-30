@@ -1,7 +1,11 @@
 package net.starlegacy.feature.nations.region
 
 import com.daveanthonythomas.moshipack.MoshiPack
-import com.squareup.moshi.*
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonReader
+import com.squareup.moshi.JsonWriter
+import com.squareup.moshi.ToJson
 import java.awt.Polygon
 
 private val moshi = MoshiPack({ add(PolygonAdapter()) })

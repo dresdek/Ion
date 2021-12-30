@@ -1,5 +1,7 @@
 package net.starlegacy.cache.nations
 
+import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import net.starlegacy.cache.ManualCache
 import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid
@@ -26,8 +28,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.litote.kmongo.`in`
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 object PlayerCache : ManualCache() {
 	/** Values should only be set here*/

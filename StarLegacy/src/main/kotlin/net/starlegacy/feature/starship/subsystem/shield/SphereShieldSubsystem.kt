@@ -2,7 +2,6 @@ package net.starlegacy.feature.starship.subsystem.shield
 
 import net.starlegacy.feature.multiblock.particleshield.SphereShieldMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
-import net.starlegacy.util.Vec3i
 import net.starlegacy.util.distanceSquared
 import net.starlegacy.util.squared
 import org.bukkit.block.Block

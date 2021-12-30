@@ -1,6 +1,7 @@
 package net.starlegacy.feature.starship
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem
+import java.util.LinkedList
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid
@@ -37,7 +38,6 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.litote.kmongo.addToSet
 import org.litote.kmongo.pull
-import java.util.*
 
 object StarshipComputers : SLComponent() {
 

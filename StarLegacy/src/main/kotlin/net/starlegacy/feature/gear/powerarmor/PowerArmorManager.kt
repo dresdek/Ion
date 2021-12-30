@@ -1,5 +1,6 @@
 package net.starlegacy.feature.gear.powerarmor
 
+import java.util.UUID
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.misc.getPower
 import net.starlegacy.feature.misc.removePower
@@ -16,7 +17,6 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import java.util.UUID
 
 object PowerArmorManager {
 

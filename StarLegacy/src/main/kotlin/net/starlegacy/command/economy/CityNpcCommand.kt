@@ -1,5 +1,10 @@
 package net.starlegacy.command.economy
 
+import co.aikar.commands.ConditionFailedException
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.Subcommand
+import java.util.UUID
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.economy.CityNPC
 import net.starlegacy.database.schema.misc.SLPlayer
@@ -10,16 +15,15 @@ import net.starlegacy.feature.economy.city.TradeCityData
 import net.starlegacy.feature.economy.city.TradeCityType
 import net.starlegacy.feature.nations.region.Regions
 import net.starlegacy.feature.nations.region.types.RegionTerritory
-import co.aikar.commands.ConditionFailedException
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
-import co.aikar.commands.annotation.Subcommand
-import net.starlegacy.util.*
+import net.starlegacy.util.Skins
+import net.starlegacy.util.distanceSquared
+import net.starlegacy.util.gray
+import net.starlegacy.util.green
+import net.starlegacy.util.msg
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.util.*
 
 @CommandAlias("citynpc|cnpc")
 object CityNpcCommand : SLCommand() {

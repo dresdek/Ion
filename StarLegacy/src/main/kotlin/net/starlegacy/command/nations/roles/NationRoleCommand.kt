@@ -1,5 +1,9 @@
 package net.starlegacy.command.nations.roles
 
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.Description
+import co.aikar.commands.annotation.Subcommand
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.SettlementCache
 import net.starlegacy.database.Oid
@@ -7,10 +11,6 @@ import net.starlegacy.database.schema.misc.SLPlayer
 import net.starlegacy.database.schema.misc.SLPlayerId
 import net.starlegacy.database.schema.nations.Nation
 import net.starlegacy.database.schema.nations.NationRole
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandCompletion
-import co.aikar.commands.annotation.Description
-import co.aikar.commands.annotation.Subcommand
 import net.starlegacy.util.SLTextStyle
 import org.bukkit.entity.Player
 

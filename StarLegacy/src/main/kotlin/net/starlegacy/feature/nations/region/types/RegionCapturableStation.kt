@@ -1,6 +1,7 @@
 package net.starlegacy.feature.nations.region.types
 
 import com.mongodb.client.model.changestream.ChangeStreamDocument
+import java.time.DayOfWeek
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.RelationCache
@@ -22,7 +23,6 @@ import net.starlegacy.util.d
 import net.starlegacy.util.distanceSquared
 import net.starlegacy.util.squared
 import org.bukkit.entity.Player
-import java.time.DayOfWeek
 
 class RegionCapturableStation(station: CapturableStation) : Region<CapturableStation>(station),
 	RegionTopLevel {

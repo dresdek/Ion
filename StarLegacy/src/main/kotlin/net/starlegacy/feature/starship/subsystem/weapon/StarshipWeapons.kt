@@ -9,7 +9,6 @@ import net.starlegacy.feature.starship.subsystem.weapon.interfaces.HeavyWeaponSu
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.ManualWeaponSubsystem
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import java.util.LinkedList
 
 object StarshipWeapons {
 	interface QueuedShot {

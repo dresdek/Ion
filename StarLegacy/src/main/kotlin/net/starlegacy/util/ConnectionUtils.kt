@@ -1,5 +1,6 @@
 package net.starlegacy.util
 
+import java.lang.reflect.Field
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.X_ROT
@@ -14,7 +15,6 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import java.lang.reflect.Field
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)

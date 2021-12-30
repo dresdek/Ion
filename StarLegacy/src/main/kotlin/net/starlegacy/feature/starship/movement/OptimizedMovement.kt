@@ -1,6 +1,12 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
+import java.util.LinkedList
+import java.util.UUID
+import java.util.concurrent.ExecutionException
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.IntTag
 import net.minecraft.server.level.ChunkHolder
@@ -30,11 +36,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.World
-import java.util.*
-import java.util.concurrent.ExecutionException
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 object OptimizedMovement {
 	private val passThroughBlocks = listOf(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.SNOW)

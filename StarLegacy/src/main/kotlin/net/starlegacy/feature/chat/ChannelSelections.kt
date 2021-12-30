@@ -1,5 +1,7 @@
 package net.starlegacy.feature.chat
 
+import java.util.Collections
+import java.util.UUID
 import net.starlegacy.SLComponent
 import net.starlegacy.redis
 import net.starlegacy.util.Tasks
@@ -12,7 +14,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import java.util.*
 
 object ChannelSelections : SLComponent() {
 	private val localCache = Collections.synchronizedMap(mutableMapOf<UUID, ChatChannel>())

@@ -1,10 +1,10 @@
 package net.starlegacy.command.starship
 
-import net.starlegacy.command.SLCommand
-import net.starlegacy.feature.starship.movement.StarshipTeleportation
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Subcommand
+import net.starlegacy.command.SLCommand
+import net.starlegacy.feature.starship.movement.StarshipTeleportation
 import net.starlegacy.util.CARDINAL_BLOCK_FACES
 import net.starlegacy.util.msg
 import org.bukkit.Location

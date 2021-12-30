@@ -10,6 +10,9 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+import java.util.UUID
+import java.util.concurrent.Executors
 import net.starlegacy.PLUGIN
 import net.starlegacy.SETTINGS
 import net.starlegacy.SLComponent
@@ -20,9 +23,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.server.PluginDisableEvent
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPubSub
-import java.lang.reflect.Type
-import java.util.*
-import java.util.concurrent.Executors
 
 object RedisActions : SLComponent() {
 	private val gson = GsonBuilder().registerTypeAdapter(

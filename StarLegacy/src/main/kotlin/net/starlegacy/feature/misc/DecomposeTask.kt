@@ -1,5 +1,6 @@
 package net.starlegacy.feature.misc
 
+import java.util.UUID
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.misc.DecomposerMultiblock
 import net.starlegacy.feature.starship.isFlyable
@@ -14,7 +15,6 @@ import org.bukkit.block.Sign
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import java.util.*
 
 class DecomposeTask(
 	private val signLoc: Location,

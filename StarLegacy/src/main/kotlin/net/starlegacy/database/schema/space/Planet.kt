@@ -7,7 +7,11 @@ import net.starlegacy.database.DbObject
 import net.starlegacy.database.Oid
 import net.starlegacy.database.OidDbObjectCompanion
 import net.starlegacy.database.objId
-import org.litote.kmongo.*
+import org.litote.kmongo.deleteOneById
+import org.litote.kmongo.ensureUniqueIndex
+import org.litote.kmongo.eq
+import org.litote.kmongo.setValue
+import org.litote.kmongo.updateOneById
 
 
 /**

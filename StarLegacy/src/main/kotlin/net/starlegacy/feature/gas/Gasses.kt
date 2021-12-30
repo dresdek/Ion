@@ -1,5 +1,7 @@
 package net.starlegacy.feature.gas
 
+import java.io.File
+import kotlin.collections.set
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.gas.collectionfactors.CollectionFactor
 import net.starlegacy.feature.misc.CustomItems
@@ -19,8 +21,6 @@ import org.bukkit.block.Sign
 import org.bukkit.block.data.Directional
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
-import java.io.File
-import kotlin.collections.set
 
 object Gasses : SLComponent() {
 	private var gasses = mutableMapOf<String, Gas>()

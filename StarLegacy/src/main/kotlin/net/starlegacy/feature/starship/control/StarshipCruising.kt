@@ -1,5 +1,8 @@
 package net.starlegacy.feature.starship.control
 
+import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.sign
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.space.SpaceWorlds
 import net.starlegacy.feature.starship.PilotedStarships
@@ -15,9 +18,6 @@ import net.starlegacy.util.msg
 import net.starlegacy.util.roundToHundredth
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import kotlin.math.abs
-import kotlin.math.min
-import kotlin.math.sign
 
 object StarshipCruising : SLComponent() {
 	const val SECONDS_PER_CRUISE = 2.0

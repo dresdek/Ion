@@ -1,7 +1,8 @@
 package net.starlegacy.feature.starship.active
 
-import com.google.gson.Gson
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet
+import kotlin.math.min
+import kotlin.math.roundToInt
 import net.starlegacy.database.schema.starships.PlayerStarshipData
 import net.starlegacy.feature.starship.Mass
 import net.starlegacy.feature.starship.subsystem.DirectionalSubsystem
@@ -10,12 +11,7 @@ import net.starlegacy.util.Vec3i
 import net.starlegacy.util.blockKeyX
 import net.starlegacy.util.blockKeyY
 import net.starlegacy.util.blockKeyZ
-import net.starlegacy.util.roundToHundredth
 import org.bukkit.Bukkit
-import org.bukkit.Material
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
 object ActiveStarshipFactory {
 	fun createPlayerStarship(

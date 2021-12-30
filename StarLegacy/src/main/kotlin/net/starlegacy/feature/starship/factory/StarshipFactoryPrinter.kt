@@ -1,6 +1,10 @@
 package net.starlegacy.feature.starship.factory
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
+import kotlin.math.min
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.util.NMSBlockData
 import net.starlegacy.util.blockKeyX
@@ -14,10 +18,6 @@ import org.bukkit.block.Sign
 import org.bukkit.block.data.BlockData
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
-import kotlin.math.min
 
 class StarshipFactoryPrinter(
 	private val world: World,

@@ -1,5 +1,9 @@
 package net.starlegacy.feature.multiblock.drills
 
+import java.util.Arrays
+import java.util.EnumSet
+import java.util.UUID
+import kotlin.math.max
 import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.misc.CustomBlocks
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
@@ -24,10 +28,6 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import org.jetbrains.annotations.Nullable
-import java.util.Arrays
-import java.util.EnumSet
-import java.util.UUID
-import kotlin.math.max
 
 abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : PowerStoringMultiblock(),
 	FurnaceMultiblock {

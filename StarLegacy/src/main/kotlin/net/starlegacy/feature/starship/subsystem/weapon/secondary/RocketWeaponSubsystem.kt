@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
+import java.util.concurrent.TimeUnit
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.RocketStarshipWeaponMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
@@ -8,7 +9,6 @@ import net.starlegacy.feature.starship.subsystem.weapon.WeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.AmmoConsumingWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.HeavyWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.interfaces.ManualWeaponSubsystem
-import net.starlegacy.feature.starship.subsystem.weapon.primary.HeavyTurretWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.projectile.RocketProjectile
 import net.starlegacy.util.Vec3i
 import net.starlegacy.util.leftFace
@@ -18,7 +18,6 @@ import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.util.Vector
-import java.util.concurrent.TimeUnit
 
 class RocketWeaponSubsystem(
 	starship: ActiveStarship,

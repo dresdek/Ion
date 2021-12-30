@@ -6,6 +6,8 @@ import com.google.common.cache.LoadingCache
 import com.sk89q.worldedit.extent.clipboard.Clipboard
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.regions.Region
+import java.io.File
+import java.util.UUID
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid
 import net.starlegacy.database.schema.misc.Shuttle
@@ -32,8 +34,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import java.io.File
-import java.util.*
 
 object Shuttles : SLComponent() {
 	const val TICKET_COST = 20

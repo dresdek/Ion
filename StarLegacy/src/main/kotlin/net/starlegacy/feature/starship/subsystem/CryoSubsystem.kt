@@ -3,7 +3,6 @@ package net.starlegacy.feature.starship.subsystem
 import net.starlegacy.feature.misc.CryoPods
 import net.starlegacy.feature.multiblock.misc.CryoPodMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
-import net.starlegacy.util.Vec3i
 import org.bukkit.block.Sign
 
 

@@ -1,5 +1,6 @@
 package net.starlegacy.cache.nations
 
+import java.util.concurrent.ConcurrentHashMap
 import net.starlegacy.cache.ManualCache
 import net.starlegacy.database.Oid
 import net.starlegacy.database.get
@@ -10,7 +11,6 @@ import net.starlegacy.database.schema.nations.Settlement
 import net.starlegacy.database.string
 import net.starlegacy.feature.nations.NationsMap
 import net.starlegacy.util.Tasks
-import java.util.concurrent.ConcurrentHashMap
 
 object NationCache : ManualCache() {
 	private fun synced(block: () -> Unit): Unit = Tasks.sync(block)
