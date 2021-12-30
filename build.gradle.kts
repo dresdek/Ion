@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+	compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT") // This has to be here otherwise it tries to use Bukkit 1.7.10... thanks Dynmap.
 	paperDevBundle("1.18.1-R0.1-SNAPSHOT")
 
 	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.8") // https://github.com/EngineHub/WorldEdit
