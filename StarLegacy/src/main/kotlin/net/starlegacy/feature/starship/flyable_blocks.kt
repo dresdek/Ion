@@ -2,10 +2,30 @@ package net.starlegacy.feature.starship
 
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
-import net.starlegacy.util.*
+import net.starlegacy.util.BANNER_TYPES
+import net.starlegacy.util.BED_TYPES
+import net.starlegacy.util.BUTTON_TYPES
+import net.starlegacy.util.CARPET_TYPES
+import net.starlegacy.util.CONCRETE_TYPES
+import net.starlegacy.util.DOOR_TYPES
+import net.starlegacy.util.FENCE_TYPES
+import net.starlegacy.util.GLAZED_TERRACOTTA_TYPES
+import net.starlegacy.util.NMSBlockData
+import net.starlegacy.util.PLANKS_TYPES
+import net.starlegacy.util.PRESSURE_PLATE_TYPES
+import net.starlegacy.util.SHULKER_BOX_TYPES
+import net.starlegacy.util.SIGN_TYPES
+import net.starlegacy.util.SLAB_TYPES
+import net.starlegacy.util.STAINED_GLASS_PANE_TYPES
+import net.starlegacy.util.STAINED_GLASS_TYPES
+import net.starlegacy.util.STAINED_TERRACOTTA_TYPES
+import net.starlegacy.util.STAIR_TYPES
+import net.starlegacy.util.TRAPDOOR_TYPES
+import net.starlegacy.util.WALL_TYPES
+import net.starlegacy.util.WOOL_TYPES
 import org.bukkit.Material
 import org.bukkit.Material.*
-import java.util.*
+import java.util.EnumSet
 
 val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	JUKEBOX, // ship computer
@@ -80,7 +100,7 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	WAXED_EXPOSED_COPPER,
 	WAXED_WEATHERED_COPPER,
 	WAXED_OXIDIZED_COPPER,
-	
+
 	SHROOMLIGHT,
 	BELL,
 	GRINDSTONE,
