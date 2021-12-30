@@ -13,6 +13,9 @@ Now you have to restart MongoDB, right click on the start button and click on co
 
 Once MongoDB is started, you need to open a mongo shell in your terminal or your "command prompt" for the Windows users, and run `rs.initiate()` and then `db.createUser({user:"test",pwd:"test",roles:[{role:"readWrite",db:"test"}]});`. Feel free to change the username, password, and database name however you will need to remember what you changed it to later.
 
+Next you will need Reddis. On windows this is more painful. You will need to download  https://github.com/dmajkic/redis/downloads its an older version of Reddis but works as on 30/12/21 on Ion. After installation, extract the file and open it up. Inside look for the folder labelled 64bit. Click on the redis-server.exe and thats it. You're done.
+Thats reddis working. You will have to open it up between computer restarts but besides that you're good to go.
+
 ### Building the plugin
 Build the plugin using the provided run configuration in IntelliJ or alternatively run the gradle task "`reobfJar`" either in your IDE or from the terminal:
 
