@@ -51,7 +51,6 @@ sourceSets {
 			srcDir("Ion/src/main/resources")
 		}
 	}
-
 }
 
 java {
