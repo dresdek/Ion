@@ -197,18 +197,18 @@ object MiscStarshipCommands : SLCommand() {
 	}
 
 	@CommandAlias("powerdivision|powerd|pdivision|pd|powermode|pm")
-	fun onPowerDivision(sender: Player, shield: Int, weapon: Int, thruster: Int) {
-		val sum = shield + weapon + thruster
+	fun onPowerDivision(sender: Player, shieldPercentage: Int, weaponPercentage: Int, thrusterPercentage: Int) {
+		val sum = shieldPercentage + weaponPercentage + thrusterPercentage
 
-		val shieldPct = (shield.toDouble() / sum * 100.0).toInt()
-		val weaponPct = (weapon.toDouble() / sum * 100.0).toInt()
-		val thrusterPct = (thruster.toDouble() / sum * 100.0).toInt()
+		val correctedShieldPercentage = shieldPercentage / sum * 100
+		val correctedWeaponPercentage = weaponPercentage / sum * 100
+		val correctedThrusterPercentage = thrusterPercentage / sum * 100
 
-		failIf(arrayOf(shieldPct, weaponPct, thrusterPct).any { it !in 0..50 }) {
-			"Power mode $shieldPct $weaponPct $thrusterPct is not allowed! None can be less than 0% or greater than 50%."
+		failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..50 }) {
+			"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 50%."
 		}
 
-		getStarshipRiding(sender).updatePower(sender, shieldPct, weaponPct, thrusterPct)
+		getStarshipRiding(sender).updatePower(sender, correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage)
 	}
 
 	@CommandAlias("nukeship")
