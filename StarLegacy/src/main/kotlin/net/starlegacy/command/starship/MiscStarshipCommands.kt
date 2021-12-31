@@ -201,9 +201,19 @@ object MiscStarshipCommands : SLCommand() {
 	fun onPowerDivision(sender: Player, shieldPercentage: Int, weaponPercentage: Int, thrusterPercentage: Int) {
 		val sum = shieldPercentage + weaponPercentage + thrusterPercentage
 
-		val correctedShieldPercentage = shieldPercentage / sum * 100
-		val correctedWeaponPercentage = weaponPercentage / sum * 100
-		val correctedThrusterPercentage = thrusterPercentage / sum * 100
+		val correctedShieldPercentage: Int
+		val correctedWeaponPercentage: Int
+		val correctedThrusterPercentage: Int
+
+		if (sum == 0) {
+			correctedShieldPercentage = 0
+			correctedWeaponPercentage = 0
+			correctedThrusterPercentage = 0
+		} else {
+			correctedShieldPercentage = shieldPercentage / sum * 100
+			correctedWeaponPercentage = weaponPercentage / sum * 100
+			correctedThrusterPercentage = thrusterPercentage / sum * 100
+		}
 
 		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0) {
 			failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..100 }) {
