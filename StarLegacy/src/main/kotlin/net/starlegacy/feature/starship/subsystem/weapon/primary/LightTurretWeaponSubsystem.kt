@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.primary
 
+import net.horizonsend.ion.QuickBalance
 import net.starlegacy.feature.multiblock.starshipweapon.turret.LightTurretMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
@@ -12,6 +13,6 @@ class LightTurretWeaponSubsystem(
 	face: BlockFace,
 	override val multiblock: LightTurretMultiblock
 ) : TurretWeaponSubsystem(ship, pos, face) {
-	override val powerUsage: Int = 6000
-	override val inaccuracyRadians: Double = Math.toRadians(2.0)
+	override val inaccuracyRadians get() = Math.toRadians(QuickBalance.getBalancedValue("LightTurretInaccuracy"))
+	override val powerUsage get() = QuickBalance.getBalancedValue("LightTurretPowerUsage").toInt()
 }
