@@ -199,12 +199,13 @@ object MiscStarshipCommands : SLCommand() {
 	@CommandAlias("powerdivision|powerd|pdivision|pd|powermode|pm")
 	fun onPowerDivision(sender: Player, shield: Int, weapon: Int, thruster: Int) {
 		val sum = shield + weapon + thruster
+
 		val shieldPct = (shield.toDouble() / sum * 100.0).toInt()
 		val weaponPct = (weapon.toDouble() / sum * 100.0).toInt()
 		val thrusterPct = (thruster.toDouble() / sum * 100.0).toInt()
 
-		failIf(arrayOf(shieldPct, weaponPct, thrusterPct).any { it !in 10..50 }) {
-			"Power mode $shieldPct $weaponPct $thrusterPct is not allowed! None can be less than 10% or greater than 50%."
+		failIf(arrayOf(shieldPct, weaponPct, thrusterPct).any { it !in 0..50 }) {
+			"Power mode $shieldPct $weaponPct $thrusterPct is not allowed! None can be less than 0% or greater than 50%."
 		}
 
 		getStarshipRiding(sender).updatePower(sender, shieldPct, weaponPct, thrusterPct)
