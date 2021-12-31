@@ -76,40 +76,28 @@ object InteractListener : SLEventListener() {
 
 	// Bring player down when they right click a tractor beam sign
 	@EventHandler
-	fun onTractorBeanDown(event: PlayerInteractEvent) {
+	fun onTractorBeamDown(event: PlayerInteractEvent) {
 		if (event.item?.type == Material.CLOCK && event.action == Action.RIGHT_CLICK_BLOCK && event.clickedBlock?.type?.isWallSign == true) {
 			val sign = event.clickedBlock ?: return
 			val below = event.player.location.block.getRelative(BlockFace.DOWN)
 
-			if (below.type != Material.GLASS && !below.type.isStainedGlass) {
-				return
-			}
+			if (below.type != Material.GLASS && !below.type.isStainedGlass) return
+			if (Multiblocks[sign.getState(false) as Sign] !is TractorBeamMultiblock) return
 
-			if (Multiblocks[sign.getState(false) as Sign] !is TractorBeamMultiblock) {
-				return
-			}
 
 			var distance = 1
 			val maxDistance = below.y - 1
 
 			while (distance < maxDistance) {
 				val relative = below.getRelative(BlockFace.DOWN, distance)
-
-//					if (relative.type != Material.AIR && !BaseShields.isShieldBlock(relative)) {
-//						break
-//					}
-
+					if (relative.isSolid) break // && !BaseShields.isShieldBlock(relative))
 				distance++
 			}
 
-			if (distance < 3) {
-				return
-			}
+			if (distance < 3) return
 
 			val relative = below.getRelative(BlockFace.DOWN, distance)
-			if (relative.type != Material.AIR) {
-				event.player.teleport(relative.location.add(0.5, 1.5, 0.5))
-			}
+			if (relative.isSolid) event.player.teleport(relative.location.add(0.5, 1.5, 0.5))
 		}
 	}
 
