@@ -1,6 +1,13 @@
 package net.starlegacy.feature.starship.movement
 
 import co.aikar.commands.ConditionFailedException
+import java.util.BitSet
+import java.util.LinkedList
+import java.util.UUID
+import java.util.concurrent.ExecutionException
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.IntTag
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket
@@ -31,11 +38,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Chunk
 import org.bukkit.Material
 import org.bukkit.World
-import java.util.*
-import java.util.concurrent.ExecutionException
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 object OptimizedMovement {
 	private val passThroughBlocks = listOf(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.SNOW)
@@ -345,14 +347,13 @@ object OptimizedMovement {
 			}
 		}
 
-		// for ((key, bitmask: Int) in bitmasks) {
-		for ((key, _) in bitmasks) {
+		for ((key, bitmask: Int) in bitmasks) {
 			val (worldID, chunkKey) = key
 			val chunk = Bukkit.getWorld(worldID)!!.getChunkAt(chunkKeyX(chunkKey), chunkKeyZ(chunkKey))
 			val nmsChunk = chunk.nms
 			val playerChunk: ChunkHolder = nmsChunk.playerChunk ?: continue
 
-			val packet = ClientboundLevelChunkWithLightPacket(nmsChunk, nmsChunk.level.lightEngine, null, null, false, true)
+			val packet = ClientboundLevelChunkWithLightPacket(nmsChunk, nmsChunk.level.lightEngine, null, BitSet(bitmask), false, true)
 			playerChunk.broadcast(packet, false)
 		}
 	}
