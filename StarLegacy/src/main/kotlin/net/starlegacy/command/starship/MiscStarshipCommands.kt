@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.set
 import kotlin.math.ln
 import kotlin.math.roundToInt
+import net.horizonsend.ion.QuickBalance.getBalancedValue
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.feature.space.Space
@@ -204,8 +205,14 @@ object MiscStarshipCommands : SLCommand() {
 		val correctedWeaponPercentage = weaponPercentage / sum * 100
 		val correctedThrusterPercentage = thrusterPercentage / sum * 100
 
-		failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..50 }) {
-			"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 50%."
+		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0) {
+			failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..100 }) {
+				"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 100%."
+			}
+		} else {
+			failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..50 }) {
+				"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 50%."
+			}
 		}
 
 		getStarshipRiding(sender).updatePower(sender, correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage)

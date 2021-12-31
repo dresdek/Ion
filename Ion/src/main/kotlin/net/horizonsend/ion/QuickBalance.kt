@@ -23,6 +23,7 @@ object QuickBalance: BaseCommand() {
 		"TriTurretProjectileSpeed" to 125.0,
 		"TriTurretExplosionPower" to 6.0,
 		"TriTurretShieldDamageMultiplier" to 3.0,
+		"AllowPowerModeOvercharging" to 0.0,
 	)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()
