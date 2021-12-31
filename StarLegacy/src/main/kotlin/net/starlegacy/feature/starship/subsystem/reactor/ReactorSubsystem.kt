@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.reactor
 
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import net.horizonsend.ion.QuickBalance.getBalancedValue
@@ -19,8 +20,8 @@ class ReactorSubsystem(
 	val weaponCapacitor = WeaponCapacitor(this)
 	val heavyWeaponBooster = HeavyWeaponBooster(this)
 
-	var shieldOverchargePoints = 0
-	var weaponsOverchargePoints = 0
+	var shieldOverchargePoints   = 0
+	var weaponsOverchargePoints  = 0
 	var thrusterOverchargePoints = 0
 
 	override fun isIntact(): Boolean {
@@ -28,9 +29,9 @@ class ReactorSubsystem(
 	}
 
 	fun tick(delta: Double) {
-		shieldOverchargePoints += (powerDistributor.shieldPortion * 10).toInt() - 5
-		weaponsOverchargePoints += (powerDistributor.weaponPortion * 10).toInt() - 5
-		thrusterOverchargePoints += (powerDistributor.thrusterPortion * 10).toInt() - 5
+		shieldOverchargePoints   += max( (powerDistributor.shieldPortion   * 10).toInt() - 5, 0 )
+		weaponsOverchargePoints  += max( (powerDistributor.weaponPortion   * 10).toInt() - 5, 0 )
+		thrusterOverchargePoints += max( (powerDistributor.thrusterPortion * 10).toInt() - 5, 0 )
 
 		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0)
 			(starship as? ActivePlayerStarship)?.pilot?.sendMessage(text("$shieldOverchargePoints $weaponsOverchargePoints $thrusterOverchargePoints"))
