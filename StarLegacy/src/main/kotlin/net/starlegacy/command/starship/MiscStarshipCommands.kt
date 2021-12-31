@@ -210,9 +210,9 @@ object MiscStarshipCommands : SLCommand() {
 			correctedWeaponPercentage = 0
 			correctedThrusterPercentage = 0
 		} else {
-			correctedShieldPercentage = shieldPercentage / sum * 100
-			correctedWeaponPercentage = weaponPercentage / sum * 100
-			correctedThrusterPercentage = thrusterPercentage / sum * 100
+			correctedShieldPercentage = (shieldPercentage.toDouble() / sum).toInt() * 100
+			correctedWeaponPercentage = (weaponPercentage.toDouble() / sum).toInt() * 100
+			correctedThrusterPercentage = (thrusterPercentage.toDouble() / sum).toInt() * 100
 		}
 
 		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0) {
