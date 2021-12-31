@@ -20,9 +20,9 @@ class ReactorSubsystem(
 	val weaponCapacitor = WeaponCapacitor(this)
 	val heavyWeaponBooster = HeavyWeaponBooster(this)
 
-	var shieldOverchargePoints   = 0
-	var weaponsOverchargePoints  = 0
-	var thrusterOverchargePoints = 0
+	private var shieldOverchargePoints   = 0
+	private var weaponsOverchargePoints  = 0
+	private var thrusterOverchargePoints = 0
 
 	override fun isIntact(): Boolean {
 		return true
