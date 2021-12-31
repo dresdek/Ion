@@ -10,7 +10,7 @@ repositories {
 	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
 	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{ excludeModule("org.bukkit", "bukkit") } }
 	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
-	maven { url = uri("https://maven.sk89q.com/repo/") }
+	maven { url = uri("https://maven.enginehub.org/repo/") }
 	maven { url = uri("https://repo.citizensnpcs.co/") }
 	maven { url = uri("https://repo.mikeprimm.com/") }
 	maven { url = uri("https://jitpack.io") }
