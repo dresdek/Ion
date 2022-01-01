@@ -43,9 +43,7 @@ class PointDefenseSubsystem(starship: ActiveStarship, pos: Vec3i, override var f
 		return dir
 	}
 
-	override fun canFire(dir: Vector, target: Vector?): Boolean {
-		return !starship.isInternallyObstructed(getFirePos(), dir)
-	}
+	override fun canFire(dir: Vector, target: Vector?) = true
 
 	override fun isIntact(): Boolean {
 		for (i in 0 until 3) {
