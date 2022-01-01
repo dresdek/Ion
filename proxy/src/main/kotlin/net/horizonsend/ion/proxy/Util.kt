@@ -26,7 +26,7 @@ val data get() = plugin.dataDirectory
 val banDataDirectory get() = File(data.toFile(), "banData").apply { mkdir() }
 
 @ExperimentalSerializationApi
-fun getNameFromUUIDString(uuid: UUID): String {
+fun getNameFromUUID(uuid: UUID): String {
 	return when(uuid) {
 		SERVER_UUID -> "Server"
 		else -> {
