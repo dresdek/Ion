@@ -14,7 +14,6 @@ import net.starlegacy.util.GLAZED_TERRACOTTA_TYPES
 import net.starlegacy.util.NMSBlockData
 import net.starlegacy.util.PLANKS_TYPES
 import net.starlegacy.util.PRESSURE_PLATE_TYPES
-import net.starlegacy.util.SHULKER_BOX_TYPES
 import net.starlegacy.util.SIGN_TYPES
 import net.starlegacy.util.SLAB_TYPES
 import net.starlegacy.util.STAINED_GLASS_PANE_TYPES
@@ -35,9 +34,6 @@ import org.bukkit.Material.CHEST
 import org.bukkit.Material.COMPARATOR
 import org.bukkit.Material.COPPER_BLOCK
 import org.bukkit.Material.CRAFTING_TABLE
-import org.bukkit.Material.CUT_COPPER
-import org.bukkit.Material.CUT_COPPER_SLAB
-import org.bukkit.Material.CUT_COPPER_STAIRS
 import org.bukkit.Material.DAYLIGHT_DETECTOR
 import org.bukkit.Material.DIAMOND_BLOCK
 import org.bukkit.Material.DISPENSER
@@ -47,9 +43,6 @@ import org.bukkit.Material.ENDER_CHEST
 import org.bukkit.Material.END_PORTAL_FRAME
 import org.bukkit.Material.END_ROD
 import org.bukkit.Material.EXPOSED_COPPER
-import org.bukkit.Material.EXPOSED_CUT_COPPER
-import org.bukkit.Material.EXPOSED_CUT_COPPER_SLAB
-import org.bukkit.Material.EXPOSED_CUT_COPPER_STAIRS
 import org.bukkit.Material.FLOWER_POT
 import org.bukkit.Material.FURNACE
 import org.bukkit.Material.GLASS
@@ -72,9 +65,6 @@ import org.bukkit.Material.NETHER_PORTAL
 import org.bukkit.Material.NOTE_BLOCK
 import org.bukkit.Material.OBSERVER
 import org.bukkit.Material.OXIDIZED_COPPER
-import org.bukkit.Material.OXIDIZED_CUT_COPPER
-import org.bukkit.Material.OXIDIZED_CUT_COPPER_SLAB
-import org.bukkit.Material.OXIDIZED_CUT_COPPER_STAIRS
 import org.bukkit.Material.PISTON
 import org.bukkit.Material.PISTON_HEAD
 import org.bukkit.Material.REDSTONE_BLOCK
@@ -93,25 +83,10 @@ import org.bukkit.Material.TORCH
 import org.bukkit.Material.TRAPPED_CHEST
 import org.bukkit.Material.WALL_TORCH
 import org.bukkit.Material.WAXED_COPPER_BLOCK
-import org.bukkit.Material.WAXED_CUT_COPPER
-import org.bukkit.Material.WAXED_CUT_COPPER_SLAB
-import org.bukkit.Material.WAXED_CUT_COPPER_STAIRS
 import org.bukkit.Material.WAXED_EXPOSED_COPPER
-import org.bukkit.Material.WAXED_EXPOSED_CUT_COPPER
-import org.bukkit.Material.WAXED_EXPOSED_CUT_COPPER_SLAB
-import org.bukkit.Material.WAXED_EXPOSED_CUT_COPPER_STAIRS
 import org.bukkit.Material.WAXED_OXIDIZED_COPPER
-import org.bukkit.Material.WAXED_OXIDIZED_CUT_COPPER
-import org.bukkit.Material.WAXED_OXIDIZED_CUT_COPPER_SLAB
-import org.bukkit.Material.WAXED_OXIDIZED_CUT_COPPER_STAIRS
 import org.bukkit.Material.WAXED_WEATHERED_COPPER
-import org.bukkit.Material.WAXED_WEATHERED_CUT_COPPER
-import org.bukkit.Material.WAXED_WEATHERED_CUT_COPPER_SLAB
-import org.bukkit.Material.WAXED_WEATHERED_CUT_COPPER_STAIRS
 import org.bukkit.Material.WEATHERED_COPPER
-import org.bukkit.Material.WEATHERED_CUT_COPPER
-import org.bukkit.Material.WEATHERED_CUT_COPPER_SLAB
-import org.bukkit.Material.WEATHERED_CUT_COPPER_STAIRS
 
 val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	JUKEBOX, // ship computer
@@ -200,7 +175,6 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	it.addAll(CARPET_TYPES)
 	it.addAll(STAINED_GLASS_TYPES)
 	it.addAll(STAINED_GLASS_PANE_TYPES)
-	it.addAll(SHULKER_BOX_TYPES)
 	it.addAll(SIGN_TYPES)
 	it.addAll(BUTTON_TYPES)
 	it.addAll(BANNER_TYPES)
