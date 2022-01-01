@@ -84,7 +84,7 @@ object QuickBalance: BaseCommand() {
 
 	@Subcommand("list")
 	fun list(sender: CommandSender): Boolean {
-		sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key.padEnd(balancedValues.keys.sortedBy{it.length}.size)} = ${it.value}"}.joinToString("\n"))
+		sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}"}.sortedBy{it.length}.joinToString("\n"))
 		return true
 	}
 
