@@ -19,9 +19,9 @@ object ConnectionUtils {
 
 	private var justTeleportedField = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works/
 //	private var teleportPosField = getField("y") // awaitingPositionFromClient / teleportPos
-//	private var lastPosXField = getField("o") // lastPosX / lastGoodX
-//	private var lastPosYField = getField("u") // lastPosY / lastGoodY
-//	private var lastPosZField = getField("q") // lastPosZ / lastGoodZ
+	private var lastPosXField = getField("o") // lastPosX / lastGoodX
+	private var lastPosYField = getField("u") // lastPosY / lastGoodY
+	private var lastPosZField = getField("q") // lastPosZ / lastGoodZ
 	private var teleportAwaitField = getField("z") // awaitingTeleport / teleportAwait
 
 	@Throws(NoSuchFieldException::class)
@@ -39,9 +39,9 @@ object ConnectionUtils {
 
 		justTeleportedField.set(connection, true)
 //		teleportPosField.set(connection, Vec3(targetLocation.x, targetLocation.y, targetLocation.z))
-//		lastPosXField.set(connection, serverPlayer.x)
-//		lastPosYField.set(connection, serverPlayer.y)
-//		lastPosZField.set(connection, serverPlayer.z)
+		lastPosXField.set(connection, serverPlayer.x)
+		lastPosYField.set(connection, serverPlayer.y)
+		lastPosZField.set(connection, serverPlayer.z)
 
 		var teleportAwait = teleportAwaitField.getInt(connection) + 1
 		if (teleportAwait == 2147483647) teleportAwait = 0
