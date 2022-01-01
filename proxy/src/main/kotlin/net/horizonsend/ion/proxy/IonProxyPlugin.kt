@@ -34,12 +34,7 @@ class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) {
 		VelocityCommandManager(server, this).apply {
-			registerCommand(BanCommand)
-			registerCommand(KickCommand)
-			registerCommand(MoveCommand)
-			registerCommand(SwitchCommand)
-			registerCommand(UnbanCommand)
-			registerCommand(WarnCommand)
+			setOf(BanCommand, KickCommand, MoveCommand, SwitchCommand, UnbanCommand, WarnCommand).forEach { registerCommand(it) }
 
 			commandCompletions.apply {
 				registerCompletion("multiTargets") {
