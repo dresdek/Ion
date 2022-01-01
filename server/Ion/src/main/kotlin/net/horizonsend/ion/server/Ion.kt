@@ -6,6 +6,9 @@ import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
 
+// All Ion specific additions to the code are uses this class instead of the main StarLegacy class
+// This is for future proofing, when/if we remove the main StarLegacy class, Ion's code should need little to no changes
+// This is why the class is structured like a Bukkit JavaPlugin class, despite not being one.
 class Ion {
 	companion object {
 		val plugin get() = PLUGIN
