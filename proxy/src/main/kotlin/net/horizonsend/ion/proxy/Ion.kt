@@ -10,7 +10,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import java.io.File
 import java.nio.file.Path
-import kotlinx.serialization.ExperimentalSerializationApi
+import java.util.UUID
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.commands.BanCommand
@@ -58,7 +58,6 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		}
 	}
 
-	@ExperimentalSerializationApi
 	@Subscribe
 	fun onLogin(event: LoginEvent) {
 		val banDataFile = File(banDataDirectory, "${event.player.ensuredUUID}.json")
@@ -66,7 +65,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		if (banDataFile.exists()) {
 			val banData = Json.decodeFromString<BanData>(banDataFile.readText())
 
-			event.player.disconnect(constructBanMessage(getNameFromUUIDString(banData.issuedBy), banData.reason, banData.expires))
+			event.player.disconnect(constructBanMessage(getNameFromUUID(UUID.fromString(banData.issuedBy)), banData.reason, banData.expires))
 		}
 	}
 }

@@ -18,6 +18,6 @@ object UnbanCommand: BaseCommand() {
 	@CommandPermission("ion.unban")
 	@Description("Unbans a player")
 	fun unban(source: CommandSource, target: String) {
-		File(banDataDirectory, getUUIDFromName(target) + ".json").delete()
+		File(banDataDirectory, getUUIDFromName(target).toString() + ".json").delete()
 	}
 }
