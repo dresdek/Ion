@@ -37,7 +37,7 @@ allprojects {
 	}
 }
 
-tasks.build {
+tasks.create("ionBuild") {
 	dependsOn("proxy:shadowJar")
 	dependsOn("server:reobfJar")
 }

@@ -17,11 +17,11 @@ Next you will need Redis. On Windows this is more painful. You will need to down
 That's redis working. You will have to open it up between computer restarts but besides that you're good to go.
 
 ### Building the plugin
-Build the plugin using the provided run configuration in IntelliJ or alternatively run the gradle task "`reobfJar`" either in your IDE or from the terminal:
+Build the plugin using the provided run configuration in IntelliJ or alternatively run the gradle task "`ionBuild`" either in your IDE or from the terminal:
 
-Linux `./gradlew reobfJar`
+Linux `./gradlew ionBuild`
 
-Windows `gradlew.bat reobfJar`
+Windows `gradlew.bat ionBuild`
 
 MacOS X *why are you using a mac?*
 
