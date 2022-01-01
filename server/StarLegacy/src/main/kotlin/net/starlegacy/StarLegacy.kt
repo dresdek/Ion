@@ -166,7 +166,7 @@ class StarLegacy : JavaPlugin() {
 			private set
 	}
 
-	val manager: PaperCommandManager = PaperCommandManager(PLUGIN)
+	lateinit var manager: PaperCommandManager
 
 	fun namespacedKey(key: String) = NamespacedKey(this, key)
 
@@ -275,6 +275,7 @@ class StarLegacy : JavaPlugin() {
 		)
 
 	override fun onEnable() {
+		manager = PaperCommandManager(this)
 		Ion().onEnable()
 
 		saveDefaultConfig()
