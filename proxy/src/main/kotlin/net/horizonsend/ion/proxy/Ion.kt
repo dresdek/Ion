@@ -23,9 +23,9 @@ import net.horizonsend.ion.proxy.data.BanData
 import org.slf4j.Logger
 
 @Plugin(id = "ion", name = "Ion", version = "2.0.0", description = "Ion Proxy Plugin", authors = ["PeterCrawley"], url = "https://horizonsend.net")
-class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
+class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
 	companion object {
-		lateinit var plugin: IonProxyPlugin
+		lateinit var plugin: Ion
 			private set
 	}
 
