@@ -166,6 +166,8 @@ class StarLegacy : JavaPlugin() {
 			private set
 	}
 
+	val manager: PaperCommandManager = PaperCommandManager(PLUGIN)
+
 	fun namespacedKey(key: String) = NamespacedKey(this, key)
 
 	/**
@@ -381,8 +383,6 @@ class StarLegacy : JavaPlugin() {
 		)
 
 	private fun registerCommands() {
-		val manager = PaperCommandManager(PLUGIN)
-
 		@Suppress("DEPRECATION")
 		manager.enableUnstableAPI("help")
 
