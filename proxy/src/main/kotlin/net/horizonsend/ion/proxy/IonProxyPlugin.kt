@@ -53,7 +53,7 @@ class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger
 				}
 			}
 
-			@Suppress("DEPRECATION")
+			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
 			enableUnstableAPI("help")
 		}
 	}
