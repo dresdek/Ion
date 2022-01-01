@@ -78,52 +78,36 @@ object QuickBalance: BaseCommand() {
 		}
 	}
 
-	private fun saveBalancedValues() {
-		Json.encodeToStream(customBalancedValues, File(ionInstance.dataFolder, "values.json").outputStream())
-	}
+	private fun saveBalancedValues() = Json.encodeToStream(customBalancedValues, File(ionInstance.dataFolder, "values.json").outputStream())
 
 	@Subcommand("list")
-	fun list(sender: CommandSender): Boolean {
-		sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}"}.sortedBy{it.length}.joinToString("\n"))
-		return true
-	}
+	fun list(sender: CommandSender) = sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}"}.sortedBy{it.length}.joinToString("\n"))
 
 	@Subcommand("get")
 	@CommandCompletion("@valueNames")
-	fun get(sender: CommandSender, name: String): Boolean {
-		if (!balancedValues.containsKey(name)) {
-			sender.sendMessage("Balance value $name does not exist.")
-			return false
-		}
+	fun get(sender: CommandSender, name: String) {
+		if (!balancedValues.containsKey(name)) sender.sendMessage("Balance value $name does not exist.")
 
 		sender.sendMessage("$name = ${balancedValues[name]}")
-		return true
 	}
 
 	@Subcommand("set")
 	@CommandCompletion("@valueNames")
-	fun set(sender: CommandSender, name: String, value: Double): Boolean {
-		if (!balancedValues.containsKey(name)) {
-			sender.sendMessage("Balance value $name does not exist.")
-			return false
-		}
+	fun set(sender: CommandSender, name: String, value: Double) {
+		if (!balancedValues.containsKey(name)) sender.sendMessage("Balance value $name does not exist.")
 
 		customBalancedValues[name] = value
 		saveBalancedValues()
 
 		sender.sendMessage("$name has been set to ${balancedValues[name]}")
-
-		return true
 	}
 
 	@Subcommand("clear")
 	@CommandCompletion("@valueNames")
-	fun clear(sender: CommandSender, name: String): Boolean {
+	fun clear(sender: CommandSender, name: String) {
 		customBalancedValues.remove(name)
 		saveBalancedValues()
 
 		sender.sendMessage("$name has been cleared")
-
-		return true
 	}
 }
