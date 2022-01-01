@@ -14,6 +14,9 @@ import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
+// Based on a modernised version from https://www.spigotmc.org/threads/teleport-player-smoothly.317416/page-2
+// Thanks "andrew121410", if only I found this sooner.
+
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
