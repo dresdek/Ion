@@ -1,11 +1,11 @@
 package net.horizonsend.ion.proxy
 
 import com.velocitypowered.api.command.CommandSource
-import com.velocitypowered.api.proxy.ConsoleCommandSource
 import com.velocitypowered.api.proxy.Player
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.net.URL
+import java.util.UUID
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
@@ -18,30 +18,17 @@ import net.horizonsend.ion.proxy.data.UsernameData
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 
+val SERVER_UUID: UUID = UUID.fromString("00000000-0000-0000-0000-000000000000")
+
 val proxy get() = plugin.server
 val data get() = plugin.dataDirectory
 
 val banDataDirectory get() = File(data.toFile(), "banData").apply { mkdir() }
 
-val CommandSource.ensuredName: String get() =
-	when (this) {
-		is Player -> this.username
-		is ConsoleCommandSource -> "Console"
-		else -> "Server"
-	}
-
-val CommandSource.ensuredUUID: String get() =
-	when (this) {
-		is Player -> this.uniqueId.toString()
-		is ConsoleCommandSource -> "Console"
-		else -> "Server"
-	}
-
 @ExperimentalSerializationApi
-fun getNameFromUUIDString(uuid: String): String {
+fun getNameFromUUIDString(uuid: UUID): String {
 	return when(uuid) {
-		"Console" -> "Console"
-		"Server" -> "Server"
+		SERVER_UUID -> "Server"
 		else -> {
 			URL("https://api.mojang.com/user/profiles/$uuid/names").openStream().use {
 				val names = Json.decodeFromStream<List<UsernameData>>(it)
@@ -52,13 +39,12 @@ fun getNameFromUUIDString(uuid: String): String {
 }
 
 @ExperimentalSerializationApi
-fun getUUIDFromName(name: String): String {
+fun getUUIDFromName(name: String): UUID {
 	return when(name) {
-		"Console" -> "Console"
-		"Server" -> "Server"
+		"Server" -> SERVER_UUID
 		else -> {
 			URL("https://api.mojang.com/users/profiles/minecraft/$name").openStream().use {
-				Json.decodeFromStream<UUIDData>(it).id
+				UUID.fromString(Json.decodeFromStream<UUIDData>(it).id)
 			}
 		}
 	}
@@ -74,7 +60,7 @@ fun targetsFromIonSelector(selector: String): Set<Player> =
 		if (targetPlayer != null) setOf(targetPlayer) else emptySet()
 	}
 
-fun constructBanMessage(issuerName: String, reason: String, expires: Long): Component {
+fun constructBanMessage(issuerName: String, reason: String, expires: Long = 0L): Component {
 	val expiresIn = (expires - currentTimeMillis()).milliseconds
 
 	val expiresInString = if (expires == 0L) "Never" else when {
@@ -88,12 +74,10 @@ fun constructBanMessage(issuerName: String, reason: String, expires: Long): Comp
 	return text("You were banned by $issuerName!\n\nReason: $reason\nExpires: $expiresInString")
 }
 
-fun banPlayer(issuer: CommandSource, uuid: String, reason: String, expires: Long) {
+fun banPlayer(issuer: CommandSource, uuid: UUID, reason: String, expires: Long = 0L) {
 	val targetPlayer = proxy.getPlayer(uuid).orElse(null)
 
 	targetPlayer?.disconnect(constructBanMessage(issuer.ensuredName, reason, expires))
 
-	File(banDataDirectory, "$uuid.json").apply{ createNewFile() }.writeText(Json.encodeToString(BanData(issuer.ensuredUUID, reason, expires)))
+	File(banDataDirectory, "$uuid.json").apply{ createNewFile() }.writeText(Json.encodeToString(BanData(issuer.ensuredUUID.toString(), reason, expires)))
 }
-
-fun banPlayer(issuer: CommandSource, uuid: String, reason: String) = banPlayer(issuer, uuid, reason, 0L)
