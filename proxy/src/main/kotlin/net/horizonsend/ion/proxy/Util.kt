@@ -11,7 +11,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import net.horizonsend.ion.proxy.IonProxyPlugin.Companion.plugin
+import net.horizonsend.ion.proxy.Ion.Companion.plugin
 import net.horizonsend.ion.proxy.data.BanData
 import net.horizonsend.ion.proxy.data.UUIDData
 import net.horizonsend.ion.proxy.data.UsernameData

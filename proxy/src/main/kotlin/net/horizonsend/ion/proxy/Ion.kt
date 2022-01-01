@@ -14,25 +14,18 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.commands.BanCommand
-import net.horizonsend.ion.proxy.commands.ChannelCommands
 import net.horizonsend.ion.proxy.commands.KickCommand
 import net.horizonsend.ion.proxy.commands.MoveCommand
-import net.horizonsend.ion.proxy.commands.MuteCommand
 import net.horizonsend.ion.proxy.commands.SwitchCommand
 import net.horizonsend.ion.proxy.commands.UnbanCommand
-import net.horizonsend.ion.proxy.commands.UnmuteCommand
 import net.horizonsend.ion.proxy.commands.WarnCommand
 import net.horizonsend.ion.proxy.data.BanData
-import net.horizonsend.ion.proxy.banDataDirectory
-import net.horizonsend.ion.proxy.constructBanMessage
-import net.horizonsend.ion.proxy.ensuredUUID
-import net.horizonsend.ion.proxy.getNameFromUUIDString
 import org.slf4j.Logger
 
 @Plugin(id = "ion", name = "Ion", version = "2.0.0", description = "Ion Proxy Plugin", authors = ["PeterCrawley"], url = "https://horizonsend.net")
-class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
+class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
 	companion object {
-		lateinit var plugin: IonProxyPlugin
+		lateinit var plugin: Ion
 			private set
 	}
 
@@ -41,15 +34,7 @@ class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) {
 		VelocityCommandManager(server, this).apply {
-			registerCommand(BanCommand)
-			registerCommand(ChannelCommands)
-			registerCommand(KickCommand)
-			registerCommand(MoveCommand)
-			registerCommand(MuteCommand)
-			registerCommand(SwitchCommand)
-			registerCommand(UnbanCommand)
-			registerCommand(UnmuteCommand)
-			registerCommand(WarnCommand)
+			setOf(BanCommand, KickCommand, MoveCommand, SwitchCommand, UnbanCommand, WarnCommand).forEach { registerCommand(it) }
 
 			commandCompletions.apply {
 				registerCompletion("multiTargets") {
@@ -68,7 +53,7 @@ class IonProxyPlugin @Inject constructor(val server: ProxyServer, logger: Logger
 				}
 			}
 
-			@Suppress("DEPRECATION")
+			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
 			enableUnstableAPI("help")
 		}
 	}
