@@ -12,7 +12,6 @@ import net.minecraft.world.phys.Vec3
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
-import org.bukkit.util.Vector
 
 object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
@@ -60,9 +59,5 @@ object ConnectionUtils {
 
 	fun teleportRotate(player: Player, loc: Location, theta: Float) {
 		move(player, loc, theta)
-	}
-
-	fun move(player: Player, loc: Location, dx: Double, dy: Double, dz: Double) {
-		move(player, loc, 0.0f, Vector(dx, dy, dz))
 	}
 }
