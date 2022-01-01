@@ -6,7 +6,6 @@ import net.starlegacy.util.nms
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
-import org.bukkit.block.BlockFace.DOWN
 import org.bukkit.block.BlockFace.EAST
 import org.bukkit.block.BlockFace.NORTH
 import org.bukkit.block.BlockFace.SOUTH
@@ -105,7 +104,6 @@ object CustomBlocks {
 	val MINERAL_COPPER = mineral("copper", setOf(NORTH, UP, WEST), setOf(EAST, UP))
 	val MINERAL_TITANIUM = mineral("titanium", setOf(UP, WEST), setOf(EAST, SOUTH, UP))
 	val MINERAL_URANIUM = mineral("uranium", setOf(UP), setOf(EAST, NORTH, SOUTH, WEST))
-	val MINERAL_ORIOMIUM = mineral("oriomium", setOf(EAST, NORTH, SOUTH, WEST, UP, DOWN), setOf(DOWN), "oriomium", 6)
 	//endregion Minerals
 
 	operator fun get(blockId: String?): CustomBlock? = idMap[blockId]
