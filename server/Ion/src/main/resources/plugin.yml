@@ -1,4 +1,4 @@
-main: net.starlegacy.StarLegacy
+main: StarLegacy
 name: Ion
 version: 1.0.0
 description: "A plugin built around Star Legacy's code base, specifically built for the Horizon's End Minecraft Server."

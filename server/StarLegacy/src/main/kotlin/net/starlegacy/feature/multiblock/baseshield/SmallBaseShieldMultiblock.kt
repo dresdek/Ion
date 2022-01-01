@@ -1,6 +1,6 @@
 //package net.starlegacy.feature.multiblock.baseshield
 //
-//import net.starlegacy.feature.multiblock.MultiblockShape
+//import MultiblockShape
 //import net.starlegacy.feature.progression.advancement.SLAdvancement
 //
 //object SmallBaseShieldMultiblock : BaseShieldMultiblock() {

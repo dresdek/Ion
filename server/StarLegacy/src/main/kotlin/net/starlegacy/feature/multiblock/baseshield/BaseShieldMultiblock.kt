@@ -1,10 +1,10 @@
 //package net.starlegacy.feature.multiblock.baseshield
 //
 //import net.starlegacy.feature.machine.BaseShields
-//import net.starlegacy.feature.machine.PowerMachines
-//import net.starlegacy.feature.multiblock.FurnaceMultiblock
-//import net.starlegacy.feature.multiblock.MultiblockShape
-//import net.starlegacy.feature.multiblock.PowerStoringMultiblock
+//import PowerMachines
+//import FurnaceMultiblock
+//import MultiblockShape
+//import PowerStoringMultiblock
 //import org.bukkit.Bukkit
 //import org.bukkit.Material
 //import org.bukkit.block.Furnace

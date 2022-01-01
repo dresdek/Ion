@@ -6,3 +6,7 @@ pluginManagement {
 }
 
 rootProject.name = "Ion"
+
+include("common")
+include("proxy")
+include("server")
