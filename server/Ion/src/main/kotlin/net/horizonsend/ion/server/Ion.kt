@@ -1,6 +1,7 @@
 package net.horizonsend.ion.server
 
 import net.starlegacy.PLUGIN
+import org.bukkit.Bukkit.getScheduler
 import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
@@ -16,13 +17,15 @@ class Ion {
 	fun onEnable() {
 		DynmapCommonAPIListener.register(Listener())
 
-		plugin.manager.apply {
-			registerCommand(QuickBalance)
+		getScheduler().runTaskAsynchronously(plugin, Runnable {
+			plugin.manager.apply {
+				registerCommand(QuickBalance)
 
-			commandCompletions.registerCompletion("valueNames") {
-				QuickBalance.balancedValues.keys
+				commandCompletions.registerCompletion("valueNames") {
+					QuickBalance.balancedValues.keys
+				}
 			}
-		}
+		})
 	}
 
 	class Listener: DynmapCommonAPIListener() {
