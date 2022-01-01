@@ -1,6 +1,7 @@
 package net.horizonsend.ion.server
 
 import net.starlegacy.PLUGIN
+import net.starlegacy.StarLegacy
 import org.bukkit.Bukkit.getScheduler
 import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
@@ -11,18 +12,13 @@ import org.dynmap.DynmapCommonAPIListener
 // This is why the class is structured like a Bukkit JavaPlugin class, despite not being one.
 class Ion {
 	companion object {
-		lateinit var ionInstance: Ion private set
+		val ionInstance get() = PLUGIN
+
+		lateinit var realIonInstance: Ion
+			private set
 	}
 
 	var dynmapAPI: DynmapAPI? = null
-		private set
-
-	// Bukkit JavaPlugin emulation
-	val dataFolder get() = PLUGIN.dataFolder
-	val log4JLogger get() = PLUGIN.log4JLogger
-
-	// StarLegacy JavaPlugin emulation
-	val manager get() = PLUGIN.manager
 
 	fun onEnable() {
 		DynmapCommonAPIListener.register(Listener())
@@ -44,3 +40,9 @@ class Ion {
 		}
 	}
 }
+
+var StarLegacy.dynmapAPI
+	get() = Ion.realIonInstance.dynmapAPI
+	set(value) {
+		Ion.realIonInstance.dynmapAPI = value
+	}
