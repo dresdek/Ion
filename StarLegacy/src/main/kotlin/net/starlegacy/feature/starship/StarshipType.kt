@@ -17,6 +17,18 @@ enum class StarshipType(
 	menuItemMaterial: Material,
 	val isWarship: Boolean
 ) {
+	SPEEDER(
+		displayName = "Speeder",
+		minSize = 25,
+		maxSize = 100,
+		containerPercent = 0.025,
+		sneakFlyAccelDistance = 5,
+		maxSneakFlyAccel = 5,
+		interdictionRange = 0,
+		hyperspaceRangeMultiplier = 3.0,
+		menuItemMaterial = Material.DEAD_BUSH,
+		isWarship = false
+	),
 	STARFIGHTER(
 		displayName = "Starfighter",
 		minSize = 250,

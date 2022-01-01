@@ -40,6 +40,9 @@ object QuickBalance: BaseCommand() {
 		"LightTurretExplosionPower" to 4.0,
 		"LightTurretShieldDamageMultiplier" to 2.0,
 		"LightTurretProjectileThickness" to 0.3,
+		"AllowPowerModeOvercharging" to 0.0,
+		"PowerModeOverchargingPointLimit" to 2000.0,
+		"PowerModeOverchargingFailureInterval" to 100.0,
 	)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()
