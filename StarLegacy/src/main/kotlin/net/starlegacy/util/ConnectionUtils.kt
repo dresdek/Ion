@@ -8,7 +8,6 @@ import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.Relat
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Y_ROT
 import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket.RelativeArgument.Z
 import net.minecraft.server.network.ServerGamePacketListenerImpl
-import net.minecraft.world.phys.Vec3
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
@@ -19,10 +18,10 @@ object ConnectionUtils {
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
 	private var justTeleportedField = getField("justTeleported") // I do not know the obfuscated name of this field, lets hope this just works/
-	private var teleportPosField = getField("y") // awaitingPositionFromClient / teleportPos
-	private var lastPosXField = getField("o") // lastPosX / lastGoodX
-	private var lastPosYField = getField("u") // lastPosY / lastGoodY
-	private var lastPosZField = getField("q") // lastPosZ / lastGoodZ
+//	private var teleportPosField = getField("y") // awaitingPositionFromClient / teleportPos
+//	private var lastPosXField = getField("o") // lastPosX / lastGoodX
+//	private var lastPosYField = getField("u") // lastPosY / lastGoodY
+//	private var lastPosZField = getField("q") // lastPosZ / lastGoodZ
 	private var teleportAwaitField = getField("z") // awaitingTeleport / teleportAwait
 
 	@Throws(NoSuchFieldException::class)
@@ -39,10 +38,10 @@ object ConnectionUtils {
 		if (serverPlayer.containerMenu !== serverPlayer.inventoryMenu) serverPlayer.closeContainer()
 
 		justTeleportedField.set(connection, true)
-		teleportPosField.set(connection, Vec3(targetLocation.x, targetLocation.y, targetLocation.z))
-		lastPosXField.set(connection, serverPlayer.x)
-		lastPosYField.set(connection, serverPlayer.y)
-		lastPosZField.set(connection, serverPlayer.z)
+//		teleportPosField.set(connection, Vec3(targetLocation.x, targetLocation.y, targetLocation.z))
+//		lastPosXField.set(connection, serverPlayer.x)
+//		lastPosYField.set(connection, serverPlayer.y)
+//		lastPosZField.set(connection, serverPlayer.z)
 
 		var teleportAwait = teleportAwaitField.getInt(connection) + 1
 		if (teleportAwait == 2147483647) teleportAwait = 0
