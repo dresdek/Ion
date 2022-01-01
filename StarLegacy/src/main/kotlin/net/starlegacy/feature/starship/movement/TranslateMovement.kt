@@ -3,6 +3,7 @@ package net.starlegacy.feature.starship.movement
 import java.util.concurrent.CompletableFuture
 import kotlin.math.max
 import kotlin.math.min
+import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.util.ConnectionUtils
 import net.starlegacy.util.NMSBlockData
@@ -89,10 +90,10 @@ class TranslateMovement(starship: ActiveStarship, val dx: Int, val dy: Int, val 
 			return
 		}
 
-//		if ((starship as? ActivePlayerStarship)?.isDirectControlEnabled == true) {
-//			ConnectionUtils.move(passenger, location, dx.toDouble(), dy.toDouble(), dz.toDouble())
-//			return
-//		}
+		if ((starship as? ActivePlayerStarship)?.isDirectControlEnabled == true) {
+			ConnectionUtils.move(passenger, location, dx.toDouble(), dy.toDouble(), dz.toDouble())
+			return
+		}
 
 		ConnectionUtils.teleport(passenger, location)
 	}
