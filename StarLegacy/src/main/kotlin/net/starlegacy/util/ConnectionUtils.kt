@@ -18,14 +18,14 @@ object ConnectionUtils {
 	private val OFFSET_DIRECTION = setOf(X_ROT, Y_ROT)
 	private val OFFSET_ALL = setOf(X_ROT, Y_ROT, X, Y, Z)
 
-	private var justTeleportedField: Field = getField("justTeleported")
-	private var teleportPosField: Field = getField("teleportPos")
-	private var lastPosXField: Field = getField("lastPosX")
-	private var lastPosYField: Field = getField("lastPosY")
-	private var lastPosZField: Field = getField("lastPosZ")
-	private var teleportAwaitField: Field = getField("teleportAwait")
-	private var AField: Field = getField("A")
-	private var eField: Field = getField("e")
+	private var justTeleportedField = getField("justTeleported")
+	private var awaitingPositionFromClientField = getField("y")
+	private var lastPosXField = getField("lastPosX")
+	private var lastPosYField = getField("lastPosY")
+	private var lastPosZField = getField("lastPosZ")
+	private var awaitingTeleportField = getField("z")
+	private var awaitingTeleportTimeField = getField("A")
+	private var aboveGroundVehicleTickCountField = getField("E")
 
 	@Throws(NoSuchFieldException::class)
 	private fun getField(name: String): Field {
@@ -36,27 +36,29 @@ object ConnectionUtils {
 
 	fun move(player: Player, loc: Location, theta: Float = 0.0f, offsetPos: Vector? = null) {
 		val handle = (player as CraftPlayer).handle
-		val connection = handle.connection
 		val x = loc.x
 		val y = loc.y
 		val z = loc.z
 
 		if (handle.containerMenu !== handle.inventoryMenu) handle.closeContainer()
 
-		var teleportAwait: Int
+		handle.absMoveTo(x, y, z, handle.yRot + theta, handle.xRot)
+
+		val connection = handle.connection
+
+		var teleportAwait = 0
+
 		justTeleportedField.set(connection, true)
-		teleportPosField.set(connection, Vec3(x, y, z))
+		awaitingPositionFromClientField.set(connection, Vec3(x, y, z))
 		lastPosXField.set(connection, x)
 		lastPosYField.set(connection, y)
 		lastPosZField.set(connection, z)
-		teleportAwait = teleportAwaitField.getInt(connection).plus(1)
 
-		if (teleportAwait == 2147483647) {
-			teleportAwait = 0
-		}
+		teleportAwait = awaitingTeleportField.getInt(connection) + 1
+		if (teleportAwait == 2147483647) teleportAwait = 0
+		awaitingTeleportField.set(connection, teleportAwait);
 
-		teleportAwaitField.set(connection, teleportAwait)
-		AField.set(connection, eField.get(connection))
+		awaitingTeleportTimeField.set(connection, aboveGroundVehicleTickCountField.get(connection))
 
 		val px: Double
 		val py: Double
@@ -71,8 +73,6 @@ object ConnectionUtils {
 			py = offsetPos.y
 			pz = offsetPos.z
 		}
-
-		handle.absMoveTo(x, y, z, handle.yRot + theta, handle.xRot)
 
 		val flags = if (offsetPos != null) OFFSET_ALL else OFFSET_DIRECTION
 		val packet = ClientboundPlayerPositionPacket(px, py, pz, theta, 0f, flags, teleportAwait, false)
