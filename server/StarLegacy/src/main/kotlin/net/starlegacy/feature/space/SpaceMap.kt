@@ -1,7 +1,7 @@
 package net.starlegacy.feature.space
 
 import kotlin.random.Random
-import net.horizonsend.ion.Ion.Companion.dynmapAPI
+import net.horizonsend.ion.server.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.util.Tasks
 import org.bukkit.Color

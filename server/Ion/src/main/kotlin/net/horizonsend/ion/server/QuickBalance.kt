@@ -1,4 +1,4 @@
-package net.horizonsend.ion
+package net.horizonsend.ion.server
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
@@ -9,7 +9,7 @@ import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
-import net.horizonsend.ion.Ion.Companion.plugin
+import net.horizonsend.ion.server.Ion.Companion.plugin
 import org.bukkit.command.CommandSender
 
 @CommandPermission("ion.quickbalance")

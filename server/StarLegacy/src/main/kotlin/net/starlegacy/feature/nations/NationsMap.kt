@@ -1,6 +1,6 @@
 package net.starlegacy.feature.nations
 
-import net.horizonsend.ion.Ion.Companion.dynmapAPI
+import net.horizonsend.ion.server.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.database.schema.nations.NPCTerritoryOwner

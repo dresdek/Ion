@@ -3,7 +3,7 @@ package net.starlegacy.feature.starship.active
 import java.util.LinkedList
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import net.horizonsend.ion.Ion.Companion.dynmapAPI
+import net.horizonsend.ion.server.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.DeactivatedPlayerStarships
 import net.starlegacy.feature.starship.PilotedStarships

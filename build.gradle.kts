@@ -1,11 +1,11 @@
 plugins {
-	id("org.jetbrains.kotlin.jvm") version "1.6.10"
+	java
+	kotlin("jvm") version "1.6.10"
 	id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 allprojects {
-	//apply plugins
-	apply(plugin = "org.jetbrains.kotlin.jvm")
+	apply(plugin = "kotlin")
 	apply(plugin = "com.github.johnrengelman.shadow")
 
 	repositories {
@@ -16,16 +16,28 @@ allprojects {
 	dependencies {
 		implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 	}
-}
 
-tasks {
-	replace("build")
+	tasks {
+		compileJava {
+			options.compilerArgs.add("-parameters")
+			options.isFork = true
+		}
 
-	build {
-		dependsOn("server:reobfJar")
+		compileKotlin {
+			kotlinOptions.javaParameters = true
+		}
+
+		shadowJar {
+			minimize()
+		}
+	}
+
+	java {
+		toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 	}
 }
 
-java {
-	toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+tasks.build {
+	dependsOn("proxy:shadowJar")
+	dependsOn("server:reobfJar")
 }

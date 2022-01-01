@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
-import net.horizonsend.ion.QuickBalance
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.feature.multiblock.starshipweapon.turret.TriTurretMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem

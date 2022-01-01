@@ -1,4 +1,4 @@
-package net.horizonsend.ion
+package net.horizonsend.ion.server
 
 import co.aikar.commands.PaperCommandManager
 import net.starlegacy.PLUGIN

@@ -2,7 +2,7 @@ package net.starlegacy.feature.starship.subsystem.reactor
 
 import kotlin.math.min
 import kotlin.math.roundToInt
-import net.horizonsend.ion.QuickBalance.getBalancedValue
+import net.horizonsend.ion.server.QuickBalance.getBalancedValue
 import net.kyori.adventure.text.Component.text
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship

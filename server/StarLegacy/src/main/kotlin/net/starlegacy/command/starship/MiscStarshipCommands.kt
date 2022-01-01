@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.set
 import kotlin.math.ln
 import kotlin.math.roundToInt
-import net.horizonsend.ion.QuickBalance.getBalancedValue
+import net.horizonsend.ion.server.QuickBalance.getBalancedValue
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.feature.space.Space
