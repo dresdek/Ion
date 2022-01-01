@@ -74,7 +74,7 @@ object QuickBalance: BaseCommand() {
 		try {
 			customBalancedValues = Json.decodeFromStream(File(ionInstance.dataFolder, "values.json").inputStream())
 		} catch (e: Exception) {
-			ionInstance.logger.warning("Failed to load custom balanced values. Creating new file.")
+			ionInstance.log4JLogger.warn("Failed to load custom balanced values. Creating new file.")
 			saveBalancedValues()
 		}
 	}

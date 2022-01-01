@@ -17,6 +17,11 @@ class Ion {
 	var dynmapAPI: DynmapAPI? = null
 		private set
 
+	// Bukkit JavaPlugin emulation
+	val dataFolder get() = PLUGIN.dataFolder
+	val log4JLogger get() = PLUGIN.log4JLogger
+
+	// StarLegacy JavaPlugin emulation
 	val manager get() = PLUGIN.manager
 
 	fun onEnable() {
