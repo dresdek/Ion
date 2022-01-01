@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.primary
 
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.CannonWeaponSubsystem
 import net.starlegacy.feature.starship.subsystem.weapon.projectile.PlasmaLaserProjectile
@@ -11,7 +12,7 @@ import org.bukkit.util.Vector
 
 class PlasmaCannonWeaponSubsystem(starship: ActiveStarship, pos: Vec3i, face: BlockFace) :
 	CannonWeaponSubsystem(starship, pos, face) {
-	override val powerUsage: Int = 2500
+	override val powerUsage get() = QuickBalance.getBalancedValue("PlasmaCannonPowerUsage").toInt()
 	override val length: Int = 3
 	override val angleRadians: Double = Math.toRadians(15.0)
 	override val convergeDist: Double = 10.0
@@ -24,7 +25,7 @@ class PlasmaCannonWeaponSubsystem(starship: ActiveStarship, pos: Vec3i, face: Bl
 	override fun isForwardOnly(): Boolean = true
 
 	override fun getMaxPerShot(): Int {
-		return 1
+		return 2
 	}
 
 	override fun fire(

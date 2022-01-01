@@ -43,7 +43,24 @@ object QuickBalance: BaseCommand() {
 		"AllowPowerModeOvercharging" to 0.0,
 		"PowerModeOverchargingPointLimit" to 2000.0,
 		"PowerModeOverchargingFailureInterval" to 100.0,
-	)
+		//Sorry Sciath here im listening torpedos as TorpedoProjectile as that's where the original file name of the variables was.
+		"TorpedoProjectileRange" to 100.0,
+		"TorpedoProjectileSpeed" to 70.0,
+		"TorpedoProjectileshieldDamageMultiplier" to 2.0,
+		"TorpedoProjectileThickness" to 0.4,
+		"TorpedoProjectileParticleThickness" to 1.0,
+		"TorpedoProjectileExplosionPower" to  6.0,
+		"TorpedoPowerUsage" to 10000.0,
+		"PlasmaCannonPowerUsage" to 2500.0,
+		"PlasmaLaserProjectileRange" to 160.0,
+		"PlasmaLaserProjectileSpeed" to 400.0,
+		"PlasmaLaserProjectileShieldDamageMultiplier" to 3.0,
+		"PlasmaLaserProjectileThickness" to 0.3,
+		"PlasmaLaserProjectileParticleThickness" to 0.5,
+		"PlasmaLaserProjectileExplosionPower" to 4.0,
+		"PlasmaLaserProjectileVolume" to 10.0,
+
+		)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()
 
