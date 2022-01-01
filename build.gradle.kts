@@ -26,10 +26,6 @@ allprojects {
 		compileKotlin {
 			kotlinOptions.javaParameters = true
 		}
-
-		shadowJar {
-			minimize()
-		}
 	}
 
 	java {
