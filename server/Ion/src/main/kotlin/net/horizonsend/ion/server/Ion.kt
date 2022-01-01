@@ -18,6 +18,8 @@ class Ion {
 			private set
 	}
 
+	init { realIonInstance = this }
+
 	var dynmapAPI: DynmapAPI? = null
 
 	fun onEnable() {
