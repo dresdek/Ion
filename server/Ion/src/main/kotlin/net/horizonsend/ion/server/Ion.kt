@@ -1,6 +1,5 @@
 package net.horizonsend.ion.server
 
-import co.aikar.commands.PaperCommandManager
 import net.starlegacy.PLUGIN
 import org.bukkit.Bukkit.getScheduler
 import org.dynmap.DynmapAPI
@@ -19,7 +18,7 @@ class Ion {
 		DynmapCommonAPIListener.register(Listener())
 
 		getScheduler().runTaskAsynchronously(plugin, Runnable {
-			PaperCommandManager(plugin).apply {
+			plugin.manager.apply {
 				registerCommand(QuickBalance)
 
 				commandCompletions.registerCompletion("valueNames") {
