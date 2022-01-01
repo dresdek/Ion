@@ -1,6 +1,7 @@
 package net.starlegacy.feature.multiblock.starshipweapon.turret
 
 import java.util.concurrent.TimeUnit
+import net.horizonsend.ion.QuickBalance
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem
@@ -15,14 +16,16 @@ sealed class LightTurretMultiblock : TurretMultiblock() {
 
 	protected abstract fun getSign(): Int
 
-	override val cooldownNanos: Long = TimeUnit.MILLISECONDS.toNanos(250L)
-	override val range: Double = 200.0
+	override val cooldownNanos get() = TimeUnit.SECONDS.toNanos(
+		QuickBalance.getBalancedValue("LightTurretCooldownSeconds").toLong())
+	override val range get() = QuickBalance.getBalancedValue("LightTurretRange")
 	override val sound: String = "starship.weapon.turbolaser.light.shoot"
 
-	override val projectileSpeed: Int = 250
-	override val projectileParticleThickness: Double = 0.3
-	override val projectileExplosionPower: Float = 4f
-	override val projectileShieldDamageMultiplier: Int = 2
+	override val projectileSpeed get() = QuickBalance.getBalancedValue("LightTurretProjectileSpeed").toInt()
+	override val projectileParticleThickness get() = QuickBalance.getBalancedValue("LightTurretProjectileThickness")
+	override val projectileExplosionPower get() = QuickBalance.getBalancedValue("LightTurretExplosionPower").toFloat()
+	override val projectileShieldDamageMultiplier get() = QuickBalance.getBalancedValue("LightTurretShieldDamageMultiplier")
+		.toInt()
 
 	override fun buildFirePointOffsets(): List<Vec3i> = listOf(Vec3i(0, +3 * getSign(), +4))
 

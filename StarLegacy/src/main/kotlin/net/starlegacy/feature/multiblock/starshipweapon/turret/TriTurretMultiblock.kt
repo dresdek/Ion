@@ -21,7 +21,7 @@ sealed class TriTurretMultiblock : TurretMultiblock() {
 	override val sound: String = "starship.weapon.turbolaser.tri.shoot"
 
 	override val projectileSpeed get() = getBalancedValue("TriTurretProjectileSpeed").toInt()
-	override val projectileParticleThickness: Double = 0.8
+	override val projectileParticleThickness get() = getBalancedValue("TriTurretProjectileThickness")
 	override val projectileExplosionPower get() = getBalancedValue("TriTurretExplosionPower").toFloat()
 	override val projectileShieldDamageMultiplier get() = getBalancedValue("TriTurretShieldDamageMultiplier").toInt()
 
