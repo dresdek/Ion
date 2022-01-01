@@ -1,6 +1,7 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
 import net.horizonsend.ion.server.QuickBalance
+import net.horizonsend.ion.server.QuickBalance.getBalancedValue
 import java.util.concurrent.TimeUnit
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TargetTrackingCannonWeaponSubsystem
@@ -23,11 +24,11 @@ class TorpedoWeaponSubsystem(
 	override fun isForwardOnly(): Boolean = true
 
 	override val length: Int = 3
-	override val powerUsage get() = QuickBalance.getBalancedValue("TorpedoPowerUsage").toInt()
+	override val powerUsage get() = getBalancedValue("TorpedoPowerUsage").toInt()
 	override val extraDistance: Int = 1
 	override val aimDistance: Int = 3
 
-	override fun getMaxPerShot() = 5
+	override fun getMaxPerShot() = getBalancedValue("MaxTorpedoPerShot").toInt()
 
 	override fun fire(loc: Location, dir: Vector, shooter: Player, target: Vector?) {
 		TorpedoProjectile(starship, loc, dir, shooter, checkNotNull(target), aimDistance).fire()

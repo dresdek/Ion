@@ -51,6 +51,7 @@ object QuickBalance: BaseCommand() {
 		"TorpedoProjectileParticleThickness" to 1.0,
 		"TorpedoProjectileExplosionPower" to  6.0,
 		"TorpedoPowerUsage" to 10000.0,
+		"MaxTorpedoPerShot" to 5.0,
 		"PlasmaCannonPowerUsage" to 2500.0,
 		"PlasmaLaserProjectileRange" to 160.0,
 		"PlasmaLaserProjectileSpeed" to 400.0,
@@ -59,7 +60,7 @@ object QuickBalance: BaseCommand() {
 		"PlasmaLaserProjectileParticleThickness" to 0.5,
 		"PlasmaLaserProjectileExplosionPower" to 4.0,
 		"PlasmaLaserProjectileVolume" to 10.0,
-
+        "MaxPlasmaPerShot" to 2.0,
 		)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()
