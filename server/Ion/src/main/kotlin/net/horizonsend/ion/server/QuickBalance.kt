@@ -10,6 +10,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import net.horizonsend.ion.server.Ion.Companion.ionInstance
+import net.starlegacy.feature.starship.subsystem.weapon.projectile.PhaserProjectile
 import org.bukkit.command.CommandSender
 
 @CommandPermission("ion.quickbalance")
@@ -43,6 +44,7 @@ object QuickBalance: BaseCommand() {
 		"AllowPowerModeOvercharging" to 0.0,
 		"PowerModeOverchargingPointLimit" to 2000.0,
 		"PowerModeOverchargingFailureInterval" to 100.0,
+		"TorpedoBoostChargeNanos" to 10.0,
 		"TorpedoProjectileRange" to 100.0,
 		"TorpedoProjectileSpeed" to 70.0,
 		"TorpedoProjectileshieldDamageMultiplier" to 2.0,
@@ -59,7 +61,53 @@ object QuickBalance: BaseCommand() {
 		"PlasmaLaserProjectileParticleThickness" to 0.5,
 		"PlasmaLaserProjectileExplosionPower" to 4.0,
 		"PlasmaLaserProjectileVolume" to 10.0,
-    "MaxPlasmaPerShot" to 2.0,
+        "MaxPlasmaPerShot" to 2.0,
+		"PlasmaThrusterAccel" to 0.75,
+		"PlasmaThrusterSpeed" to 2.5,
+		"PlasmaThrusterWeight" to 1.0,
+		"IonThrusterAccel" to 0.05,
+		"IonThrusterSpeed" to 4.0,
+		"IonThrusterWeight" to 1.0,
+		"AfterburnerThrusterAccel" to 3.0,
+		"AfterburnerThrusterSpeed" to 17.5,
+		"AfterburnerThrusterWeight" to 5.0,
+		"PointDefensePowerUsage" to 500.0,
+	    "PointDefenseRange" to 120.0,
+		"PointDefenseSpeed" to 150.0,
+		"PointDefenseShieldDamageMultiplier" to 0.0,
+		"PointDefenseThickness" to 0.2,
+		"PointDefenseParticleThickness" to 0.35,
+		"PointDefenseExplosionPower" to 0.0,
+		"HeavyLaserPowerUsage" to 30000.0,
+		"HeavyLaserBoostChargeTime" to 5.0,
+		"HeavyLaserRequiredAmmo" to 2.0,
+		"HeavyLaserShieldDamageMultiplier" to 2.0,
+		"HeavyLaserMaxDegrees" to 25.0,
+		"HeavyLaserRange" to 200.0,
+		"HeavyLaserSpeed" to 50.0,
+		"HeavyLaserThickness" to 0.35,
+		"HeavyLaserParticleThickness" to 1.0,
+		"HeavyLaserExplosionPower" to 12.0,
+		"PhaserProjectileRange" to 140.0,
+		"PhaserAmmoRequirement" to 4.0,
+		"PhaserBoostChargeTime" to 3.0,
+		"PhaserProjectileShieldDamageMultiplier" to 55.0,
+		"PhaserProjectileThickness" to 0.2,
+		"PhaserProjectileExplosionPower" to 2.0,
+		//No idea what either of the two below do tbh but speed it hates me when I mess with phaserprojectilespeed
+		//so I left it as it was as phasers have infinite spped.
+		"PhaserProjectileSpeedUpSpeed" to 1000.0,
+		"PhaserProjectileSpeedUpTime" to 500.0,
+		"RocketPowerUsage" to 50000.0,
+        "RocketRange" to 300.0,
+		"RocketSpeed" to 5.0,
+		"RocketShieldDamageMultiplier" to 5.0,
+		"RocketThickness" to 1.0,
+		"RocketExplosionPower" to 30.0,
+		"RocketVolume" to 10.0,
+		"CruisePulsingSlowDown" to 0.9,
+		"CombatNPCDespawnTime" to 1.0,
+		"DecomposersMaxLength" to 100.0,
 	)
 
 	private var customBalancedValues = mutableMapOf<String, Double> ()

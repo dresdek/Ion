@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.util.mcName
 import org.bukkit.Color
@@ -15,12 +16,12 @@ class PointDefenseLaserProjectile(
 	override val range: Double,
 	shooter: Player?
 ) : LaserProjectile(starship, loc, dir, shooter) {
-	override val speed: Double = 150.0
-	override val shieldDamageMultiplier: Int = 0
+	override val speed get() = QuickBalance.getBalancedValue("PointDefenseSpeed")
+	override val shieldDamageMultiplier get() = QuickBalance.getBalancedValue("PointDefenseShieldDamageMultiplier").toInt()
 	override val color: Color = Color.BLUE
-	override val thickness: Double = 0.2
-	override val particleThickness: Double = 0.35
-	override val explosionPower: Float = 0.0f
+	override val thickness get() = QuickBalance.getBalancedValue("PointDefenseThickness")
+	override val particleThickness get() = QuickBalance.getBalancedValue("PointDefenseParticleThickness")
+	override val explosionPower get() = QuickBalance.getBalancedValue("PointDefenseExplosionPower").toFloat()
 	override val volume: Int = 20
 	override val pitch: Float = 2.0f
 	override val soundName: String = Sound.ENTITY_FIREWORK_ROCKET_LARGE_BLAST.mcName

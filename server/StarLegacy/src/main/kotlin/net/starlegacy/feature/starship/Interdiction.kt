@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship
 
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.PlayerCache
 import net.starlegacy.cache.nations.RelationCache
@@ -103,7 +104,7 @@ object Interdiction : SLComponent() {
 				continue
 			}
 
-			cruisingShip.cruiseData.velocity.multiply(0.9)
+			cruisingShip.cruiseData.velocity.multiply(QuickBalance.getBalancedValue("CruisePulsingSlowDown"))
 			cruisingShip.sendMessage("&cQuantum fluctuations detected - velocity has been reduced by 10%.")
 		}
 

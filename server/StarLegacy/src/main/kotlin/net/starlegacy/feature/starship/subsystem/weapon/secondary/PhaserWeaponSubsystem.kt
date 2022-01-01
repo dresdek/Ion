@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
+import net.horizonsend.ion.server.QuickBalance
 import java.util.concurrent.TimeUnit
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.CannonWeaponSubsystem
@@ -28,8 +29,8 @@ class PhaserWeaponSubsystem(
 	override val convergeDist: Double = 0.0
 	override val extraDistance: Int = 0
 	override val angleRadians: Double = Math.toRadians(180.0) // unrestricted
-	override val powerUsage: Int = 50000
-	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(3L)
+	override val powerUsage get() = QuickBalance.getBalancedValue("PhaserPowerUsage").toInt()
+	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("PhaserBoostChargeTime").toLong())
 
 	override fun isAcceptableDirection(face: BlockFace) = true
 
@@ -60,6 +61,6 @@ class PhaserWeaponSubsystem(
 	}
 
 	override fun getRequiredAmmo(): ItemStack {
-		return ItemStack(Material.PRISMARINE_CRYSTALS, 4)
+		return ItemStack(Material.PRISMARINE_CRYSTALS, QuickBalance.getBalancedValue("PhaserAmmoRequirement").toInt())
 	}
 }

@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.primary
 
+import net.horizonsend.ion.server.QuickBalance
 import kotlin.math.sqrt
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship
@@ -15,8 +16,8 @@ import org.bukkit.util.Vector
 
 class PointDefenseSubsystem(starship: ActiveStarship, pos: Vec3i, override var face: BlockFace) :
 	WeaponSubsystem(starship, pos), DirectionalSubsystem, AutoWeaponSubsystem {
-	override val powerUsage: Int = 500
-	override val range: Double = 120.0
+	override val powerUsage get() = QuickBalance.getBalancedValue("PointDefensePowerUsage").toInt()
+	override val range get() = QuickBalance.getBalancedValue("PointDefenseRange")
 
 	override fun getMaxPerShot(): Int {
 		return (sqrt(starship.blockCount.toDouble()) / 32).toInt()

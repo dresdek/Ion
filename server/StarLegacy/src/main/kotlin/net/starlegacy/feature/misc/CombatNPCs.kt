@@ -5,6 +5,7 @@ import com.google.common.collect.HashBiMap
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import net.horizonsend.ion.server.QuickBalance
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -44,7 +45,8 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 
 object CombatNPCs : SLComponent() {
-	private const val remainTimeMinutes = 1L
+	//Removed const on remaintimeminutes 1/1/21
+	private val remainTimeMinutes = QuickBalance.getBalancedValue("CombatNPCDespawnTime").toLong()
 	private val helmetText = "${SLTextStyle.OBFUSCATED}COMBAT NPC"
 
 	/** Map of NPC entity ID to player ID */

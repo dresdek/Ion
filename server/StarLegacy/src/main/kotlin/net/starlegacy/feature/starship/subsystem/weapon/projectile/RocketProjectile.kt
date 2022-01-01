@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.util.Vec3i
 import org.bukkit.Location
@@ -103,12 +104,12 @@ class RocketProjectile(
 
 	override val blockMap: Map<Vec3i, BlockData> = blockMaps.getValue(face)
 
-	override val range: Double = 300.0
-	override var speed: Double = 5.0
-	override val shieldDamageMultiplier: Int = 5
-	override val thickness: Double = 1.0
-	override val explosionPower: Float = 30.0f
-	override val volume: Int = 10
+	override val range get() = QuickBalance.getBalancedValue("RocketRange")
+	override val speed get() = QuickBalance.getBalancedValue("RocketSpeed")
+	override val shieldDamageMultiplier get() = QuickBalance.getBalancedValue("RocketShieldDamageMultiplier").toInt()
+	override val thickness get() = QuickBalance.getBalancedValue("RocketThickness")
+	override val explosionPower get() = QuickBalance.getBalancedValue("RocketExplosionPower").toFloat()
+	override val volume get() = QuickBalance.getBalancedValue("RocketVolume").toInt()
 	override val soundName: String = "starship.weapon.rocket.shoot"
 
 	override fun impact(newLoc: Location, block: Block?, entity: Entity?) {
@@ -118,6 +119,6 @@ class RocketProjectile(
 
 	override fun moveVisually(oldLocation: Location, newLocation: Location, travel: Double) {
 		super.moveVisually(oldLocation, newLocation, travel)
-		speed += 5.0 * delta
+		QuickBalance.getBalancedValue("RocketSpeed") * delta
 	}
 }

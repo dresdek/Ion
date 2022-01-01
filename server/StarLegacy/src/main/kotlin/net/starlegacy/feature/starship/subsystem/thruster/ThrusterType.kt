@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.thruster
 
+import net.horizonsend.ion.server.QuickBalance.getBalancedValue
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.util.isGlass
@@ -8,19 +9,19 @@ import org.bukkit.Material
 import org.bukkit.block.BlockFace
 
 enum class ThrusterType(val accel: Double, val speed: Double, val weight: Int) {
-	PLASMA(0.75, 2.5, 1) {
+	PLASMA(getBalancedValue("PlasmaThrusterAccel"), getBalancedValue("PlasmaThrusterSpeed"), getBalancedValue("PlasmaThrusterWeight").toInt()) {
 		override fun MultiblockShape.buildStructure() {
 			at(0, 0, 0).type(Material.REDSTONE_LAMP)
 			at(0, 0, 1).type(Material.REDSTONE_BLOCK)
 		}
 	},
-	ION(0.05, 4.00, 1) {
+	ION(getBalancedValue("IonThrusterAccel"), getBalancedValue("IonThrusterSpeed"), getBalancedValue("IonThrusterWeight").toInt()) {
 		override fun MultiblockShape.buildStructure() {
 			at(0, 0, 0).type(Material.SEA_LANTERN)
 			at(0, 0, 1).type(Material.SPONGE)
 		}
 	},
-	AFTERBURNER(3.0, 17.5, 5) {
+	AFTERBURNER(getBalancedValue("AfterburnerThrusterAccel"), getBalancedValue("AfterburnerThrusterSpeed"), getBalancedValue("AfterburnerThrusterWeight").toInt()) {
 		override fun MultiblockShape.buildStructure() {
 			at(0, 0, 0).type(Material.MAGMA_BLOCK)
 			at(0, 0, 1).type(Material.GOLD_BLOCK)
