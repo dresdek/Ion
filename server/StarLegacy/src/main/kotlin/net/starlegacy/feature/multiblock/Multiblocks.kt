@@ -3,14 +3,8 @@ package net.starlegacy.feature.multiblock
 import co.aikar.timings.Timing
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import net.starlegacy.SLComponent
-import net.starlegacy.feature.multiblock.charger.ChargerMultiblockTier1
-import net.starlegacy.feature.multiblock.charger.ChargerMultiblockTier2
-import net.starlegacy.feature.multiblock.charger.ChargerMultiblockTier3
 import net.starlegacy.feature.multiblock.dockingtube.ConnectedDockingTubeMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.DisconnectedDockingTubeMultiblock
-import net.starlegacy.feature.multiblock.drills.DrillMultiblockTier1
-import net.starlegacy.feature.multiblock.drills.DrillMultiblockTier2
-import net.starlegacy.feature.multiblock.drills.DrillMultiblockTier3
 import net.starlegacy.feature.multiblock.gravitywell.AmplifiedGravityWellMultiblock
 import net.starlegacy.feature.multiblock.gravitywell.StandardGravityWellMultiblock
 import net.starlegacy.feature.multiblock.hyperdrive.HyperdriveMultiblockClass1
@@ -19,11 +13,9 @@ import net.starlegacy.feature.multiblock.hyperdrive.HyperdriveMultiblockClass3
 import net.starlegacy.feature.multiblock.hyperdrive.HyperdriveMultiblockClass4
 import net.starlegacy.feature.multiblock.misc.AirlockMultiblock
 import net.starlegacy.feature.multiblock.misc.CryoPodMultiblock
-import net.starlegacy.feature.multiblock.misc.DecomposerMultiblock
 import net.starlegacy.feature.multiblock.misc.GasCollectorMultiblock
 import net.starlegacy.feature.multiblock.misc.MagazineMultiblock
 import net.starlegacy.feature.multiblock.misc.MobDefender
-import net.starlegacy.feature.multiblock.misc.ShipFactoryMultiblock
 import net.starlegacy.feature.multiblock.misc.TractorBeamMultiblock
 import net.starlegacy.feature.multiblock.navigationcomputer.NavigationComputerMultiblockAdvanced
 import net.starlegacy.feature.multiblock.navigationcomputer.NavigationComputerMultiblockBasic
@@ -35,11 +27,6 @@ import net.starlegacy.feature.multiblock.particleshield.ShieldMultiblockClass20
 import net.starlegacy.feature.multiblock.particleshield.ShieldMultiblockClass30
 import net.starlegacy.feature.multiblock.particleshield.ShieldMultiblockClass65
 import net.starlegacy.feature.multiblock.particleshield.ShieldMultiblockClass85
-import net.starlegacy.feature.multiblock.printer.ArmorPrinterMultiblock
-import net.starlegacy.feature.multiblock.printer.CarbonPrinterMultiblock
-import net.starlegacy.feature.multiblock.printer.CarbonProcessorMultiblock
-import net.starlegacy.feature.multiblock.printer.GlassPrinterMultiblock
-import net.starlegacy.feature.multiblock.printer.TechnicalPrinterMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.cannon.PlasmaCannonStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.DownwardRocketStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.HeavyLaserStarshipWeaponMultiblock
@@ -74,10 +61,6 @@ object Multiblocks : SLComponent() {
 		multiblocks = listOf(
 			GasCollectorMultiblock,
 
-			ChargerMultiblockTier1,
-			ChargerMultiblockTier2,
-			ChargerMultiblockTier3,
-
 			HyperdriveMultiblockClass1,
 			HyperdriveMultiblockClass2,
 			HyperdriveMultiblockClass3,
@@ -85,7 +68,6 @@ object Multiblocks : SLComponent() {
 
 			NavigationComputerMultiblockBasic,
 			NavigationComputerMultiblockAdvanced,
-
 
 			ShieldMultiblockClass08Right,
 			ShieldMultiblockClass08Left,
@@ -96,13 +78,6 @@ object Multiblocks : SLComponent() {
 			ShieldMultiblockClass08i,
 			BoxShieldMultiblock,
 
-			CarbonProcessorMultiblock,
-
-			CarbonPrinterMultiblock,
-			TechnicalPrinterMultiblock,
-			GlassPrinterMultiblock,
-			ArmorPrinterMultiblock,
-
 			DisconnectedDockingTubeMultiblock,
 			ConnectedDockingTubeMultiblock,
 
@@ -110,12 +85,6 @@ object Multiblocks : SLComponent() {
 			MagazineMultiblock,
 			AirlockMultiblock,
 			TractorBeamMultiblock,
-
-			ShipFactoryMultiblock,
-
-			DrillMultiblockTier1,
-			DrillMultiblockTier2,
-			DrillMultiblockTier3,
 
 			StandardGravityWellMultiblock,
 			AmplifiedGravityWellMultiblock,
@@ -137,8 +106,7 @@ object Multiblocks : SLComponent() {
 			HorizontalRocketStarshipWeaponMultiblock,
 			UpwardRocketStarshipWeaponMultiblock,
 			DownwardRocketStarshipWeaponMultiblock,
-			PhaserStarshipWeaponMultiblock,
-			DecomposerMultiblock,
+			PhaserStarshipWeaponMultiblock
 		)
 	}
 
