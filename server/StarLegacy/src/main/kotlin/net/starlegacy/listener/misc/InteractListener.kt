@@ -7,7 +7,6 @@ import net.starlegacy.feature.multiblock.Multiblocks
 import net.starlegacy.feature.multiblock.dockingtube.ConnectedDockingTubeMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.DisconnectedDockingTubeMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.DockingTubeMultiblock
-import net.starlegacy.feature.multiblock.drills.DrillMultiblock
 import net.starlegacy.feature.multiblock.misc.AirlockMultiblock
 import net.starlegacy.feature.multiblock.misc.GasCollectorMultiblock
 import net.starlegacy.feature.multiblock.misc.TractorBeamMultiblock
@@ -21,7 +20,6 @@ import net.starlegacy.util.isStainedGlass
 import net.starlegacy.util.isWallSign
 import net.starlegacy.util.leftFace
 import net.starlegacy.util.msg
-import net.starlegacy.util.red
 import net.starlegacy.util.rightFace
 import org.bukkit.ChatColor
 import org.bukkit.GameMode
@@ -52,20 +50,6 @@ object InteractListener : SLEventListener() {
 				?: return
 
 			val multiblock = Multiblocks[sign]
-
-			if (multiblock is DrillMultiblock) {
-				if (furnace.inventory.let { it.fuel == null || it.smelting?.type != Material.PRISMARINE_CRYSTALS }) {
-					event.player msg red("You need Prismarine Crystals in both slots of the furnace!")
-					return
-				}
-
-				val player = when {
-					DrillMultiblock.isEnabled(sign) -> null
-					else -> event.player.name
-				}
-
-				DrillMultiblock.setUser(sign, player)
-			}
 		}
 	}
 
