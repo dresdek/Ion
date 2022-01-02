@@ -14,7 +14,7 @@ class PlasmaCannonWeaponSubsystem(starship: ActiveStarship, pos: Vec3i, face: Bl
 	CannonWeaponSubsystem(starship, pos, face) {
 	override val powerUsage get() = QuickBalance.getBalancedValue("PlasmaCannonPowerUsage").toInt()
 	override val length: Int = 3
-	override val angleRadians: Double = Math.toRadians(QuickBalance.getBalancedValue("PlasmaArc"))
+	override val angleRadians get() = Math.toRadians(QuickBalance.getBalancedValue("PlasmaArc"))
 	override val convergeDist: Double = 10.0
 	override val extraDistance: Int = 1
 
