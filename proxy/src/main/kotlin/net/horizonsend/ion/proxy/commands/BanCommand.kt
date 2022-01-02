@@ -8,7 +8,6 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import com.velocitypowered.api.command.CommandSource
 import kotlin.time.Duration
-import kotlinx.serialization.ExperimentalSerializationApi
 import net.horizonsend.ion.proxy.banPlayer
 import net.horizonsend.ion.proxy.ensuredUUID
 import net.horizonsend.ion.proxy.getUUIDFromName
@@ -16,7 +15,6 @@ import net.horizonsend.ion.proxy.proxy
 
 @CommandAlias("ban")
 object BanCommand: BaseCommand() {
-	@ExperimentalSerializationApi
 	@Default
 	@CommandCompletion("@players")
 	@CommandPermission("ion.ban")

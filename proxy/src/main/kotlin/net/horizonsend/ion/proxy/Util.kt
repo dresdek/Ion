@@ -7,7 +7,6 @@ import java.lang.System.currentTimeMillis
 import java.net.URL
 import java.util.UUID
 import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -25,7 +24,6 @@ val data get() = plugin.dataDirectory
 
 val banDataDirectory get() = File(data.toFile(), "banData").apply { mkdir() }
 
-@ExperimentalSerializationApi
 fun getNameFromUUID(uuid: UUID): String {
 	return when(uuid) {
 		SERVER_UUID -> "Server"
@@ -38,7 +36,6 @@ fun getNameFromUUID(uuid: UUID): String {
 	}
 }
 
-@ExperimentalSerializationApi
 fun getUUIDFromName(name: String): UUID {
 	return when(name) {
 		"Server" -> SERVER_UUID
