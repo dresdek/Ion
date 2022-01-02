@@ -24,7 +24,7 @@ class PlasmaCannonWeaponSubsystem(starship: ActiveStarship, pos: Vec3i, face: Bl
 
 	override fun isForwardOnly(): Boolean = true
 
-	override fun getMaxPerShot() = QuickBalance.getBalancedValue("MaxPlasmaPershot").toInt()
+	override fun getMaxPerShot() = QuickBalance.getBalancedValue( "MaxPlasmaPerShot").toInt()
 
 
 	override fun fire(

@@ -46,7 +46,7 @@ import org.bukkit.inventory.meta.SkullMeta
 
 object CombatNPCs : SLComponent() {
 	//Removed const on remaintimeminutes 1/1/21
-	private val remainTimeMinutes = QuickBalance.getBalancedValue("CombatNPCDespawnTime").toLong()
+	private val remainTimeMinutes get() = QuickBalance.getBalancedValue("CombatNPCDespawnTime").toLong()
 	private val helmetText = "${SLTextStyle.OBFUSCATED}COMBAT NPC"
 
 	/** Map of NPC entity ID to player ID */
