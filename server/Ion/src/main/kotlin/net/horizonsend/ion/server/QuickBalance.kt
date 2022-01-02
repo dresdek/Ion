@@ -129,7 +129,7 @@ object QuickBalance: BaseCommand() {
 	}
 
 	@Subcommand("list")
-	fun list(sender: CommandSender) = sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}${if (customBalancedValues.contains(it.key)) "*" else ""}"}.sortedBy{it.length}.joinToString("\n"))
+	fun list(sender: CommandSender) = sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}${if (customBalancedValues.contains(it.key)) "*" else ""}"}.joinToString("\n"))
 
 	@Subcommand("get")
 	@CommandCompletion("@valueNames")
