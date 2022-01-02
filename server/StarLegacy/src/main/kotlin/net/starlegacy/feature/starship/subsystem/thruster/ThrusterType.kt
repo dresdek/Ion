@@ -14,7 +14,7 @@ enum class ThrusterType(val accel: Double, val speed: Double, val weight: Int) {
 			at(0, 0, 1).type(Material.REDSTONE_BLOCK)
 		}
 	},
-	ION(0.05, 4.00, 1) {
+	ION(0.05, 4.0, 1) {
 		override fun MultiblockShape.buildStructure() {
 			at(0, 0, 0).type(Material.SEA_LANTERN)
 			at(0, 0, 1).type(Material.SPONGE)

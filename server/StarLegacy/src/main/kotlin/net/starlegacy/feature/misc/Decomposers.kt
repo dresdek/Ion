@@ -1,5 +1,6 @@
 package net.starlegacy.feature.misc
 
+import net.horizonsend.ion.server.QuickBalance
 import kotlin.math.max
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
@@ -19,8 +20,8 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 object Decomposers : SLComponent() {
 	val busySigns = mutableSetOf<Location>()
-
-	private const val MAX_LENGTH = 100
+//remove const on maxlength  1/1/21
+	private val MAX_LENGTH get() = QuickBalance.getBalancedValue("DecomposersMaxLength").toInt()
 	private const val BLOCKS_PER_SECOND = 1000
 	private val FRAME_MATERIAL = Material.CHISELED_QUARTZ_BLOCK
 

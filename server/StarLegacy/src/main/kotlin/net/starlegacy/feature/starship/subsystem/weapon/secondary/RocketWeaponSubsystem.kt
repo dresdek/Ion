@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
+import net.horizonsend.ion.server.QuickBalance
 import java.util.concurrent.TimeUnit
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.RocketStarshipWeaponMultiblock
@@ -29,7 +30,7 @@ class RocketWeaponSubsystem(
 	DirectionalSubsystem,
 	ManualWeaponSubsystem,
 	AmmoConsumingWeaponSubsystem {
-	override val powerUsage: Int = 50_000
+	override val powerUsage get() = QuickBalance.getBalancedValue("RocketPowerUsage").toInt()
 
 	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(7L)
 

@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
+import net.horizonsend.ion.server.QuickBalance
 import net.starlegacy.feature.starship.active.ActiveStarship
 import org.bukkit.Color
 import org.bukkit.Location
@@ -15,13 +16,13 @@ class HeavyLaserProjectile(
 	baseAimDistance: Int,
 	sound: String
 ) : TrackingLaserProjectile(starship, loc, dir, shooter, originalTarget, baseAimDistance) {
-	override val shieldDamageMultiplier = 2
-	override val maxDegrees: Double = 25.0
-	override val range: Double = 200.0
-	override val speed: Double = 50.0
+	override val shieldDamageMultiplier get() = QuickBalance.getBalancedValue("HeavyLaserShieldDamageMultiplier").toInt()
+	override val maxDegrees get() = QuickBalance.getBalancedValue("HeavyLaserMaxDegrees")
+	override val range get() = QuickBalance.getBalancedValue("HeavyLaserRange")
+	override val speed get() = QuickBalance.getBalancedValue("HeavyLaserSpeed")
 	override val color: Color = Color.RED
-	override val thickness: Double = 0.35
-	override val particleThickness: Double = 1.0
-	override val explosionPower: Float = 12.0f
+	override val thickness get() = QuickBalance.getBalancedValue("HeavyLaserThickness")
+	override val particleThickness get() = QuickBalance.getBalancedValue("HeavyLaserParticleThickness")
+	override val explosionPower get() = QuickBalance.getBalancedValue("HeavyLaserExplosionPower").toFloat()
 	override val soundName: String = sound
 }
