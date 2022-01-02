@@ -1,67 +1,39 @@
 plugins {
 	java
-	id("org.jetbrains.kotlin.jvm") version "1.6.10"
-	id("io.papermc.paperweight.userdev") version "1.3.3"
+	kotlin("jvm") version "1.6.10"
 	id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-repositories {
-	maven { url = uri("https://papermc.io/repo/repository/maven-public/")}
-	maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
-	maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{ excludeModule("org.bukkit", "bukkit") } }
-	maven { url = uri("https://www.myget.org/F/egg82-java/maven/") }
-	maven { url = uri("https://maven.sk89q.com/repo/") }
-	maven { url = uri("https://repo.citizensnpcs.co/") }
-	maven { url = uri("https://repo.mikeprimm.com/") }
-	maven { url = uri("https://jitpack.io") }
-	mavenCentral()
-}
+allprojects {
+	apply(plugin = "kotlin")
+	apply(plugin = "com.github.johnrengelman.shadow")
 
-dependencies {
-	paperDevBundle("1.18.1-R0.1-SNAPSHOT")
+	repositories {
+		maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{ excludeModule("org.bukkit", "bukkit") } }
+		mavenCentral()
+	}
 
-	compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.2.8") // https://github.com/EngineHub/WorldEdit
-	compileOnly("com.github.bloodmc:GriefDefenderAPI:master") // https://github.com/bloodmc/GriefDefender/
-	compileOnly("net.citizensnpcs:citizens:2.0.27-SNAPSHOT") // https://github.com/CitizensDev/Citizens2/
-	compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") // https://github.com/MilkBowl/Vault
-	compileOnly("com.discordsrv:discordsrv:1.24.0")
-	compileOnly("us.dynmap:dynmap-api:3.1") // https://github.com/webbukkit/dynmap
-	compileOnly("net.luckperms:api:5.3")
-	compileOnly("us.dynmap:spigot:3.1") // https://github.com/webbukkit/dynmap
+	dependencies {
+		implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+	}
 
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.0")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-	implementation("com.github.stefvanschie.inventoryframework:IF:0.10.3") // https://github.com/stefvanschie/IF
-	implementation("com.daveanthonythomas.moshipack:moshipack:1.0.1") // https://github.com/davethomas11/MoshiPack
-	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
-	implementation("ninja.egg82:event-chain-bukkit:1.0.7") // https://github.com/egg82/EventChain
-	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
-	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
-	implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT") // https://github.com/aikar/commands
-	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
-	implementation("net.dv8tion:JDA:5.0.0-alpha.3")
-	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
-}
-
-sourceSets {
-	main {
-		java {
-			srcDir("Ion/src/main/kotlin")
-			srcDir("StarLegacy/src/main/java")
-			srcDir("StarLegacy/src/main/kotlin")
+	tasks {
+		compileJava {
+			options.compilerArgs.add("-parameters")
+			options.isFork = true
 		}
-		resources {
-			srcDir("Ion/src/main/resources")
+
+		compileKotlin {
+			kotlinOptions.javaParameters = true
 		}
 	}
 
+	java {
+		toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+	}
 }
 
-java {
-	toolchain.languageVersion.set(JavaLanguageVersion.of(17))
-}
-
-tasks.reobfJar {
-	outputJar.set(file(rootProject.projectDir.absolutePath + "/build/Ion.jar"))
+tasks.create("ionBuild") {
+	dependsOn("proxy:shadowJar")
+	dependsOn("server:reobfJar")
 }

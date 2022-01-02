@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="reobfJar" />
+          <option value="ionBuild" />
         </list>
       </option>
       <option name="vmOptions" />

@@ -1,0 +1,11 @@
+main: net.starlegacy.StarLegacy
+name: ion
+prefix: "Ion (Server)"
+version: 1.0.0
+description: "A plugin built around Star Legacy's code base, specifically built for the Horizon's End Minecraft Server."
+api-version: 1.18
+load: POSTWORLD
+authors: [PeterCrawley, trainb0y, Sciath, DoctorXeno, MicleBrick]
+website: https://horizonsend.net
+depend: [dynmap, WorldEdit, Citizens, LuckPerms]
+softdepend: [WorldGuard] # WorldGuard is a softdepend because it must be loaded before Ion
