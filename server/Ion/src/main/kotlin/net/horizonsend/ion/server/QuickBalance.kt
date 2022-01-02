@@ -10,7 +10,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import net.horizonsend.ion.server.Ion.Companion.ionInstance
-import net.starlegacy.feature.starship.subsystem.weapon.projectile.PhaserProjectile
 import org.bukkit.command.CommandSender
 
 @CommandPermission("ion.quickbalance")
@@ -62,15 +61,6 @@ object QuickBalance: BaseCommand() {
 		"PlasmaLaserProjectileExplosionPower" to 4.0,
 		"PlasmaLaserProjectileVolume" to 10.0,
         "MaxPlasmaPerShot" to 2.0,
-		"PlasmaThrusterAccel" to 0.75,
-		"PlasmaThrusterSpeed" to 2.5,
-		"PlasmaThrusterWeight" to 1.0,
-		"IonThrusterAccel" to 0.05,
-		"IonThrusterSpeed" to 4.0,
-		"IonThrusterWeight" to 1.0,
-		"AfterburnerThrusterAccel" to 3.0,
-		"AfterburnerThrusterSpeed" to 17.5,
-		"AfterburnerThrusterWeight" to 5.0,
 		"PointDefensePowerUsage" to 500.0,
 	    "PointDefenseRange" to 120.0,
 		"PointDefenseSpeed" to 150.0,

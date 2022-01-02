@@ -30,7 +30,7 @@ class PhaserWeaponSubsystem(
 	override val extraDistance: Int = 0
 	override val angleRadians: Double = Math.toRadians(180.0) // unrestricted
 	override val powerUsage get() = QuickBalance.getBalancedValue("PhaserPowerUsage").toInt()
-	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("PhaserBoostChargeTime").toLong())
+	override val boostChargeNanos get() = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("PhaserBoostChargeTime").toLong())
 
 	override fun isAcceptableDirection(face: BlockFace) = true
 

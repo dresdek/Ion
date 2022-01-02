@@ -24,7 +24,7 @@ class HeavyLaserWeaponSubsystem(
 	AmmoConsumingWeaponSubsystem {
 	private val sound = "starship.weapon.heavy_laser.single.shoot"
 
-	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("HeavyLaserBoostChargeTime").toLong())
+	override val boostChargeNanos get() = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("HeavyLaserBoostChargeTime").toLong())
 
 	override val length: Int = 8
 	override val powerUsage get() = QuickBalance.getBalancedValue("RocketVolume").toInt()

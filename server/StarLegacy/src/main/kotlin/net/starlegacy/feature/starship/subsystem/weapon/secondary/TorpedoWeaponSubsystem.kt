@@ -19,7 +19,7 @@ class TorpedoWeaponSubsystem(
 	face: BlockFace
 ) : TargetTrackingCannonWeaponSubsystem(starship, pos, face),
 	HeavyWeaponSubsystem {
-	override val boostChargeNanos: Long = TimeUnit.SECONDS.toNanos(getBalancedValue("TorpedoBoostChargeNanos").toLong())
+	override val boostChargeNanos get() = TimeUnit.SECONDS.toNanos(getBalancedValue("TorpedoBoostChargeNanos").toLong())
 
 	override fun isForwardOnly(): Boolean = true
 
