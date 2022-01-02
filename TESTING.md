@@ -7,11 +7,11 @@ For MongoDB you need to ensure that MongoDB is started with the options `--replS
 #### Windows
 Head to https://www.mongodb.com/try/download/community after running the MSI installer look in programfiles/MongoDB/server/5.0/bin/mongod.cfg (open with notepad).
 
-Find where it says bindIP: after you find it change it so it says `bindIP: localhost`. You're half way there, good job! Then where it says #replication: remove the # and add `replSetName: "rs0"` to the line below replication:
+Find where it says bindIP: change it so it says `bindIP: localhost`. You're half way there, good job! Then where it says #replication: remove the # and add `replSetName: "rs0"` to the line below replication:
 
 Now you have to restart MongoDB, right click on the start button and click on computer management. On the left you'll see *"Services and Applications"* and then *"Services"*. In services look for MongoDB and right click it and look for where it says restart. Now start up MongoDBCompass. And now execute the rest of the installation process below.
 
-Once MongoDB is started, you need to open a mongo shell in your terminal or your "command prompt" for the Windows users, and run `rs.initiate()` and then `db.createUser({user:"test",pwd:"test",roles:[{role:"readWrite",db:"test"}]});`. Feel free to change the username, password, and database name however you will need to remember what you changed it to later.
+Once MongoDB is started, you need to open a mongo shell in your terminal or your "command prompt" for the Windows users, and run `rs.initiate()` and then `db.createUser({user:"test",pwd:"test",roles:[{role:"readWrite",db:"test"}]});`. Feel free to change the username, password, and database name however you will need to remember what you changed it to later. 
 
 Next you will need Redis. On Windows this is more painful. You will need to download  https://github.com/dmajkic/redis/downloads. It's an older version of Redis but works with Ion. After installation, extract the file and open it up. Inside look for the folder labelled 64bit. Click on the redis-server.exe and that's it. You're done.
 That's redis working. You will have to open it up between computer restarts but besides that you're good to go.
