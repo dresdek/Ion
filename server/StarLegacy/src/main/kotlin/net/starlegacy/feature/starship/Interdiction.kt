@@ -100,21 +100,11 @@ object Interdiction : SLComponent() {
 				continue
 			}
 
-			if (isAllied(pilot, player)) {
-				continue
-			}
-
 			cruisingShip.cruiseData.velocity.multiply(QuickBalance.getBalancedValue("CruisePulsingSlowDown"))
 			cruisingShip.sendMessage("&cQuantum fluctuations detected - velocity has been reduced by 10%.")
 		}
 
 		input.removeItem(CustomItems.MINERAL_CHETHERITE.itemStack(2))
 		starship.sendMessage("&5Gravity pulse has been invoked by ${player.name}.")
-	}
-
-	private fun isAllied(pilot: Player, player: Player): Boolean {
-		val pilotNation = PlayerCache[pilot].nation ?: return false
-		val playerNation = PlayerCache[player].nation ?: return false
-		return RelationCache[pilotNation, playerNation] >= NationRelation.Level.ALLY
 	}
 }
