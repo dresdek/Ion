@@ -139,7 +139,7 @@ object QuickBalance: BaseCommand() {
 	}
 
 	@Subcommand("set")
-	@CommandCompletion("@valueNames")
+	@CommandCompletion("@valueNames 0.0")
 	fun set(sender: CommandSender, name: String, value: Double) {
 		if (!balancedValues.containsKey(name)) sender.sendMessage("Balance value $name does not exist.")
 
