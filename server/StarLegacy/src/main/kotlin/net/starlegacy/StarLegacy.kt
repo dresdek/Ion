@@ -68,8 +68,6 @@ import net.starlegacy.feature.economy.collectors.CollectionMissions
 import net.starlegacy.feature.economy.collectors.Collectors
 import net.starlegacy.feature.gas.Gasses
 import net.starlegacy.feature.gear.Gear
-import net.starlegacy.feature.machine.AreaShields
-import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.machine.Turrets
 import net.starlegacy.feature.misc.AutoRestart
 import net.starlegacy.feature.misc.CombatNPCs
@@ -113,7 +111,6 @@ import net.starlegacy.feature.starship.hyperspace.Hyperspace
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
 import net.starlegacy.feature.transport.Extractors
 import net.starlegacy.feature.transport.TransportConfig
-import net.starlegacy.feature.transport.Wires
 import net.starlegacy.feature.transport.pipe.Pipes
 import net.starlegacy.feature.transport.pipe.filter.Filters
 import net.starlegacy.listener.SLEventListener
@@ -207,16 +204,12 @@ class StarLegacy : JavaPlugin() {
 			StationSieges,
 
 			Multiblocks,
-			PowerMachines,
-			AreaShields,
-//			BaseShields,
 			Gasses,
 
 			TransportConfig.Companion,
 			Extractors,
 			Pipes,
 			Filters,
-			Wires,
 
 			Gear,
 

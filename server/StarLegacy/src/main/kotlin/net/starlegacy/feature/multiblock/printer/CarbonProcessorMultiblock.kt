@@ -1,12 +1,10 @@
 package net.starlegacy.feature.multiblock.printer
 
-import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
+import net.starlegacy.feature.multiblock.Multiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
-import net.starlegacy.feature.multiblock.PowerStoringMultiblock
 import net.starlegacy.util.LegacyItemUtils
 import net.starlegacy.util.getFacing
-import net.starlegacy.util.isConcretePowder
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -16,8 +14,7 @@ import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 
-object CarbonProcessorMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
-	override val maxPower: Int = 30000
+object CarbonProcessorMultiblock : Multiblock(), FurnaceMultiblock {
 	override val name = "processor"
 
 	override val signText = createSignText(
@@ -31,7 +28,7 @@ object CarbonProcessorMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
 		z(+0) {
 			y(-1) {
 				x(-1).ironBlock()
-				x(+0).wireInputComputer()
+				x(+0).ironBlock()
 				x(+1).ironBlock()
 			}
 
@@ -90,20 +87,15 @@ object CarbonProcessorMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
 		event.isCancelled = true
 		val smelting = furnace.inventory.smelting
 		val fuel = furnace.inventory.fuel
-		if (PowerMachines.getPower(sign) == 0
-			|| smelting == null
-			|| smelting.type != Material.PRISMARINE_CRYSTALS
-			|| fuel == null
-			|| !fuel.type.isConcretePowder
-		) return
 		val inventory = (getOutputBlock(sign.block).getState(false) as InventoryHolder).inventory
 		val output = getOutput(sign.block)
 		if (!LegacyItemUtils.canFit(inventory, output)) {
 			return
 		}
 		LegacyItemUtils.addToInventory(inventory, output)
-		PowerMachines.removePower(sign, 100)
-		fuel.amount = fuel.amount - 1
+		if (fuel != null) {
+			fuel.amount = fuel.amount - 1
+		}
 		event.isBurning = false
 		event.burnTime = 50
 		furnace.cookTime = (-1000).toShort()

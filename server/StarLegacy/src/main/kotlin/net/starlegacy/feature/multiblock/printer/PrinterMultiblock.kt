@@ -1,9 +1,8 @@
 package net.starlegacy.feature.multiblock.printer
 
-import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
+import net.starlegacy.feature.multiblock.Multiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
-import net.starlegacy.feature.multiblock.PowerStoringMultiblock
 import net.starlegacy.util.LegacyItemUtils
 import net.starlegacy.util.getFacing
 import org.bukkit.Material
@@ -13,9 +12,8 @@ import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 
-abstract class PrinterMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
+abstract class PrinterMultiblock : Multiblock(), FurnaceMultiblock {
 	override val name: String = "printer"
-	override val maxPower: Int = 50_000
 	abstract fun getOutput(product: Material): ItemStack
 
 	protected abstract fun MultiblockShape.RequirementBuilder.printerCoreBlock()
@@ -26,7 +24,7 @@ abstract class PrinterMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
 		z(+0) {
 			y(-1) {
 				x(-1).ironBlock()
-				x(+0).wireInputComputer()
+				x(+0).ironBlock()
 				x(+1).ironBlock()
 			}
 
@@ -103,13 +101,6 @@ abstract class PrinterMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
 		val smelting = furnace.inventory.smelting
 		val fuel = furnace.inventory.fuel
 
-		if (PowerMachines.getPower(sign) == 0
-			|| smelting == null
-			|| smelting.type != Material.PRISMARINE_CRYSTALS
-			|| fuel == null
-			|| fuel.type != Material.COBBLESTONE
-		) return
-
 		event.isBurning = false
 		event.burnTime = 100
 		furnace.cookTime = (-1000).toShort()
@@ -130,7 +121,8 @@ abstract class PrinterMultiblock : PowerStoringMultiblock(), FurnaceMultiblock {
 		}
 
 		LegacyItemUtils.addToInventory(inventory, output)
-		fuel.amount = fuel.amount - 1
-		PowerMachines.removePower(sign, 250)
+		if (fuel != null) {
+			fuel.amount = fuel.amount - 1
+		}
 	}
 }
