@@ -153,9 +153,18 @@ object QuickBalance: BaseCommand() {
 	@Subcommand("clear")
 	@CommandCompletion("@valueNames")
 	fun clear(sender: CommandSender, name: String) {
-		customBalancedValues.remove(name)
-		saveBalancedValues()
+		if (name == "*") {
+			customBalancedValues.clear()
+			saveBalancedValues()
 
-		sender.sendMessage("$name has been cleared")
+			sender.sendMessage("All custom values have been cleared.")
+
+		} else {
+			customBalancedValues.remove(name)
+			saveBalancedValues()
+
+			sender.sendMessage("$name has been cleared")
+
+		}
 	}
 }
