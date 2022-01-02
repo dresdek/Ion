@@ -136,7 +136,7 @@ object QuickBalance: BaseCommand() {
 	fun get(sender: CommandSender, name: String) {
 		if (!balancedValues.containsKey(name)) sender.sendMessage("Balance value $name does not exist.")
 
-		sender.sendMessage("$name = ${balancedValues[name]}${if (customBalancedValues.contains(it.key)) "*" else ""}")
+		sender.sendMessage("$name = ${balancedValues[name]}${if (customBalancedValues.contains(name)) "*" else ""}")
 	}
 
 	@Subcommand("set")
