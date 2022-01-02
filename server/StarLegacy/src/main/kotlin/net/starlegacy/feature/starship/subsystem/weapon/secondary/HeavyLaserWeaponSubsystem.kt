@@ -27,7 +27,7 @@ class HeavyLaserWeaponSubsystem(
 	override val boostChargeNanos get() = TimeUnit.SECONDS.toNanos(QuickBalance.getBalancedValue("HeavyLaserBoostChargeTime").toLong())
 
 	override val length: Int = 8
-	override val powerUsage get() = QuickBalance.getBalancedValue("RocketVolume").toInt()
+	override val powerUsage get() = QuickBalance.getBalancedValue("HeavyLaserPowerUsage").toInt()
 	override val extraDistance: Int = 1
 	override val aimDistance: Int = 10
 
