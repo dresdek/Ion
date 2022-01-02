@@ -57,6 +57,7 @@ object QuickBalance: BaseCommand() {
 		"PlasmaLaserProjectileSpeed" to 400.0,
 		"PlasmaLaserProjectileShieldDamageMultiplier" to 3.0,
 		"PlasmaLaserProjectileThickness" to 0.3,
+		"PlasmaArc" to 15.0,
 		"PlasmaLaserProjectileParticleThickness" to 0.5,
 		"PlasmaLaserProjectileExplosionPower" to 4.0,
 		"PlasmaLaserProjectileVolume" to 10.0,
