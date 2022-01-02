@@ -38,6 +38,7 @@ abstract class SimpleProjectile(
 	protected var firedAtNanos: Long = -1
 	private var lastTick: Long = -1
 	protected var delta: Double = 0.0
+	private var hasHit: Boolean = false
 
 	override fun fire() {
 		firedAtNanos = System.nanoTime()
@@ -136,7 +137,10 @@ abstract class SimpleProjectile(
 		val fraction = 1.0 + (armorBlastResist - impactedBlastResist) / 20.0
 
 		StarshipShields.withExplosionPowerOverride(fraction * explosionPower * shieldDamageMultiplier) {
-			world.createExplosion(newLoc, explosionPower)
+			if (!hasHit) {
+				world.createExplosion(newLoc, explosionPower)
+				hasHit = true
+			}
 		}
 
 		if (block != null && shooter != null) {
