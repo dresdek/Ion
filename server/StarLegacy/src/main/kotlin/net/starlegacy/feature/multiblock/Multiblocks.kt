@@ -57,9 +57,7 @@ import net.starlegacy.feature.multiblock.printer.CarbonPrinterMultiblock
 import net.starlegacy.feature.multiblock.printer.CarbonProcessorMultiblock
 import net.starlegacy.feature.multiblock.printer.GlassPrinterMultiblock
 import net.starlegacy.feature.multiblock.printer.TechnicalPrinterMultiblock
-import net.starlegacy.feature.multiblock.starshipweapon.cannon.LaserCannonStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.cannon.PlasmaCannonStarshipWeaponMultiblock
-import net.starlegacy.feature.multiblock.starshipweapon.cannon.PulseCannonStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.DownwardRocketStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.HeavyLaserStarshipWeaponMultiblock
 import net.starlegacy.feature.multiblock.starshipweapon.heavy.HorizontalRocketStarshipWeaponMultiblock
@@ -164,9 +162,7 @@ object Multiblocks : SLComponent() {
 
 			MobDefender,
 
-			LaserCannonStarshipWeaponMultiblock,
 			PlasmaCannonStarshipWeaponMultiblock,
-			PulseCannonStarshipWeaponMultiblock,
 			HeavyLaserStarshipWeaponMultiblock,
 			TorpedoStarshipWeaponMultiblock,
 			PointDefenseStarshipWeaponMultiblockTop,
