@@ -26,7 +26,7 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 		lateinit var ionInstance: Ion
 			private set
 
-		lateinit var config: Config
+		lateinit var ionConfig: Config
 			private set
 	}
 
@@ -43,7 +43,7 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 			configPath.writeText(Json.encodeToString(Config()))
 		}
 
-		try { config = Json.decodeFromString(configPath.readText()) }
+		try { ionConfig = Json.decodeFromString(configPath.readText()) }
 		catch (exception: SerializationException) {
 			logger.error("Config file is invalid! Ion can not be loaded.\n${exception.message}")
 			return // Do not continue loading.
