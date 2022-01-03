@@ -48,29 +48,27 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 	}
 
 	@Subscribe
-	fun onStart(event: ProxyInitializeEvent) {
-		VelocityCommandManager(server, this).apply {
-			setOf(MoveCommand, SwitchCommand).forEach { registerCommand(it) }
+	fun onStart(event: ProxyInitializeEvent) = VelocityCommandManager(server, this).apply {
+		setOf(MoveCommand, SwitchCommand).forEach { registerCommand(it) }
 
-			commandCompletions.apply {
-				registerCompletion("multiTargets") {
-					server.allPlayers.map { it.username }.toMutableList().apply {
-						add("*")
-						addAll(server.allServers.map { "@${it.serverInfo.name}" })
-					}
-				}
-
-				registerCompletion("players") {
-					server.allPlayers.map { it.username }.toMutableList()
-				}
-
-				registerCompletion("servers") { context ->
-					server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
+		commandCompletions.apply {
+			registerCompletion("multiTargets") {
+				server.allPlayers.map { it.username }.toMutableList().apply {
+					add("*")
+					addAll(server.allServers.map { "@${it.serverInfo.name}" })
 				}
 			}
 
-			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
-			enableUnstableAPI("help")
+			registerCompletion("players") {
+				server.allPlayers.map { it.username }.toMutableList()
+			}
+
+			registerCompletion("servers") { context ->
+				server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
+			}
 		}
+
+		@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
+		enableUnstableAPI("help")
 	}
 }
