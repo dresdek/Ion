@@ -2,6 +2,7 @@ package net.horizonsend.ion.server
 
 import net.starlegacy.PLUGIN
 import net.starlegacy.StarLegacy
+import org.bukkit.Bukkit
 import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
@@ -23,6 +24,8 @@ class Ion {
 
 	fun onEnable() {
 		DynmapCommonAPIListener.register(Listener())
+
+		Bukkit.getPluginManager().registerEvents(Tweaks, ionInstance)
 
 		ionInstance.manager.apply {
 			registerCommand(QuickBalance)
