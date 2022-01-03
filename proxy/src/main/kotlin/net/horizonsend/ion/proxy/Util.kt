@@ -2,7 +2,6 @@ package net.horizonsend.ion.proxy
 
 import com.velocitypowered.api.proxy.Player
 import java.net.URL
-import java.util.UUID
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
@@ -19,7 +18,7 @@ fun targetsFromIonSelector(selector: String): Set<Player> =
 	}
 
 // TODO: Cache these requests to avoid spamming the API
-fun getUUIDFromName(name: String): UUID =
+fun getProfileFromName(name: String): UUIDData =
 	URL("https://api.mojang.com/users/profiles/minecraft/$name").openStream().use {
-		UUID.fromString(Json.decodeFromString<UUIDData>(it.readAllBytes().toString()).id)
+		Json.decodeFromString(it.readAllBytes().toString())
 	}
