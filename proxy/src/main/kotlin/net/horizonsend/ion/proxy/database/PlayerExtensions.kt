@@ -16,9 +16,9 @@ var Player.accountData: AccountData
 		if (accountData == null) {
 			// Randomly generate a new unique id for the cross account data
 			var newId = Random.nextInt()
-			while (MongoManager.crossAccountDataCollection.findOneById(newId) != null) { newId = Random.nextInt() }
+			while (crossAccountDataCollection.findOneById(newId) != null) { newId = Random.nextInt() }
 
-			MongoManager.crossAccountDataCollection.insertOne(CrossAccountData(newId)) // Save the new cross account data
+			crossAccountDataCollection.insertOne(CrossAccountData(newId)) // Save the new cross account data
 
 			accountData = AccountData(this.uniqueId.toString(), newId) // Create new account data
 
