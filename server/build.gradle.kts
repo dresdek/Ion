@@ -31,7 +31,6 @@ dependencies {
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
 	implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT") // https://github.com/aikar/commands
-	implementation("org.litote.kmongo:kmongo:4.4.0") // https://github.com/Litote/kmongo
 	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 }
 
