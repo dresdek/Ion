@@ -123,6 +123,8 @@ object QuickBalance: BaseCommand() {
 	}
 
 	private fun saveBalancedValues() {
+		ionInstance.dataFolder.mkdir() // Ensure the directory exists
+
 		Json.encodeToStream(customBalancedValues, File(ionInstance.dataFolder, "values.json").outputStream())
 
 		updateBalancedValues()
