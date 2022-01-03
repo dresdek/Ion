@@ -14,6 +14,7 @@ object SwitchCommand: BaseCommand() {
 	@Default
 	@CommandCompletion("@servers")
 	@Description("Switch to a server")
+	@Suppress("unused")
 	fun switch(source: Player, server: String) {
 		val targetServer = ionInstance.server.getServer(server).orElse(null)
 

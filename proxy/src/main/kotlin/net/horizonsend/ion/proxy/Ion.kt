@@ -21,7 +21,7 @@ import net.horizonsend.ion.proxy.database.MongoManager
 import org.slf4j.Logger
 
 @Plugin(id = "ion", name = "Ion (Proxy)", version = "1.0.0", description = "Ion (Proxy)", authors = ["PeterCrawley"], url = "https://horizonsend.net")
-class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @DataDirectory val dataDirectory: Path) {
+class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
 	companion object {
 		lateinit var ionInstance: Ion
 			private set

@@ -17,6 +17,7 @@ object MoveCommand: BaseCommand() {
 	@CommandCompletion("@multiTargets @servers")
 	@CommandPermission("ion.move")
 	@Description("Move a player to a server")
+	@Suppress("unused")
 	fun move(source: CommandSource, target: String, server: String) {
 		val targetServer = ionInstance.server.getServer(server).orElse(null)
 
