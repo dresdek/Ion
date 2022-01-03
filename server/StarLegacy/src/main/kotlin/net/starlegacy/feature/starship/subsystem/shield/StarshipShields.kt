@@ -10,39 +10,29 @@ import kotlin.math.abs
 import kotlin.math.sqrt
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket
 import net.minecraft.world.level.block.BaseEntityBlock
+import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
+import net.starlegacy.feature.multiblock.Multiblocks
+import net.starlegacy.feature.multiblock.particleshield.BoxShieldMultiblock
+import net.starlegacy.feature.multiblock.particleshield.ShieldMultiblock
+import net.starlegacy.feature.multiblock.particleshield.SphereShieldMultiblock
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.event.StarshipActivatedEvent
 import net.starlegacy.feature.starship.event.StarshipDeactivatedEvent
-import net.starlegacy.util.NMSBlockData
-import net.starlegacy.util.NMSBlockPos
-import net.starlegacy.util.NMSWorld
-import net.starlegacy.util.PerWorld
-import net.starlegacy.util.SLTextStyle
-import net.starlegacy.util.Tasks
-import net.starlegacy.util.Vec3i
-import net.starlegacy.util.blockKeyX
-import net.starlegacy.util.blockKeyY
-import net.starlegacy.util.blockKeyZ
-import net.starlegacy.util.d
-import net.starlegacy.util.distanceSquared
-import net.starlegacy.util.getFacing
-import net.starlegacy.util.nms
-import net.starlegacy.util.rightFace
-import net.starlegacy.util.timing
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.Sound
-import org.bukkit.World
+import net.starlegacy.util.*
+import org.bukkit.*
 import org.bukkit.block.Block
 import org.bukkit.block.Sign
 import org.bukkit.boss.BarColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
+import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.entity.EntityExplodeEvent
+import org.bukkit.event.player.PlayerInteractEvent
+import java.util.concurrent.TimeUnit
 
 object StarshipShields : SLComponent() {
 	var LAST_EXPLOSION_ABSORBED = false
@@ -409,38 +399,39 @@ object StarshipShields : SLComponent() {
 		}
 	}
 
-//	@EventHandler
-//	fun onClickShield(event: PlayerInteractEvent) {
-//		if (event.action != Action.RIGHT_CLICK_BLOCK) {
-//			return
-//		}
-//
-//		val sign = event.clickedBlock?.state as? Sign ?: return
-//		val multiblock = Multiblocks[sign] as? ShieldMultiblock ?: return
-//
-//		val blocks: List<Vec3i> = when (multiblock) {
-//			is SphereShieldMultiblock -> getSphereBlocks(multiblock.maxRange)
-//			is BoxShieldMultiblock -> getBoxShieldBlocks(sign)
-//			else -> return
-//		}
-//
-//		val world = sign.world
-//		val (x0, y0, z0) = Vec3i(sign.location)
-//
-//		val start = System.nanoTime()
-//		Tasks.bukkitRunnable {
-//			for ((dx, dy, dz) in blocks) {
-//				val x = x0 + dx + 0.5
-//				val y = y0 + dy + 0.5
-//				val z = z0 + dz + 0.5
-//				world.spawnParticle(Particle.BLOCK_MARKER, x, y, z, 1, 0.0, 0.0, 0.0, 0.0)
-//			}
-//
-//			if (System.nanoTime() - start > TimeUnit.SECONDS.toNanos(10L)) {
-//				cancel()
-//			}
-//		}.runTaskTimer(PLUGIN, 20, 20)
-//	}
+	@EventHandler
+	fun onClickShield(event: PlayerInteractEvent) {
+		if (event.action != Action.RIGHT_CLICK_BLOCK) {
+			return
+		}
+
+		val sign = event.clickedBlock?.state as? Sign ?: return
+		val multiblock = Multiblocks[sign] as? ShieldMultiblock ?: return
+
+		val blocks: List<Vec3i> = when (multiblock) {
+			is SphereShieldMultiblock -> getSphereBlocks(multiblock.maxRange)
+			is BoxShieldMultiblock -> getBoxShieldBlocks(sign)
+			else -> return
+		}
+
+		val world = sign.world
+		val (x0, y0, z0) = Vec3i(sign.location)
+
+		val start = System.nanoTime()
+		Tasks.bukkitRunnable {
+			for ((dx, dy, dz) in blocks) {
+				val x = x0 + dx + 0.5
+				val y = y0 + dy + 0.5
+				val z = z0 + dz + 0.5
+				val dustOptions = Particle.DustOptions(Color.RED, 2.5f)
+				world.spawnParticle(Particle.REDSTONE, x, y, z, 5, 0.0, 0.0, 0.0, 0.0, dustOptions)
+			}
+
+			if (System.nanoTime() - start > TimeUnit.SECONDS.toNanos(10L)) {
+				cancel()
+			}
+		}.runTaskTimer(PLUGIN, 20, 20)
+	}
 
 	private fun getBoxShieldBlocks(sign: Sign): List<Vec3i> {
 		val dimensions = sign.getLine(3)
