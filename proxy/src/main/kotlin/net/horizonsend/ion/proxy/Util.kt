@@ -1,14 +1,14 @@
 package net.horizonsend.ion.proxy
 
 import com.velocitypowered.api.proxy.Player
-import net.horizonsend.ion.proxy.Ion.Companion.plugin
+import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 
 fun targetsFromIonSelector(selector: String): Set<Player> =
-	if (selector == "*") plugin.server.allPlayers.toSet()
+	if (selector == "*") ionInstance.server.allPlayers.toSet()
 	else if (selector.startsWith("@")) {
-		val targetServer = plugin.server.getServer(selector.substring(1)).orElse(null)
+		val targetServer = ionInstance.server.getServer(selector.substring(1)).orElse(null)
 		targetServer?.playersConnected?.toSet() ?: emptySet()
 	} else {
-		val targetPlayer = plugin.server.getPlayer(selector).orElse(null)
+		val targetPlayer = ionInstance.server.getPlayer(selector).orElse(null)
 		if (targetPlayer != null) setOf(targetPlayer) else emptySet()
 	}

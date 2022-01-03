@@ -13,11 +13,11 @@ import org.slf4j.Logger
 @Plugin(id = "ion", name = "Ion (Proxy)", version = "1.0.0", description = "Ion (Proxy)", authors = ["PeterCrawley"], url = "https://horizonsend.net")
 class Ion @Inject constructor(val server: ProxyServer, logger: Logger) {
 	companion object {
-		lateinit var plugin: Ion
+		lateinit var ionInstance: Ion
 			private set
 	}
 
-	init { plugin = this }
+	init { ionInstance = this }
 
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) {

@@ -7,7 +7,7 @@ import co.aikar.commands.annotation.CommandPermission
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import com.velocitypowered.api.command.CommandSource
-import net.horizonsend.ion.proxy.Ion.Companion.plugin
+import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 import net.horizonsend.ion.proxy.targetsFromIonSelector
 import net.kyori.adventure.text.Component.text
 
@@ -18,7 +18,7 @@ object MoveCommand: BaseCommand() {
 	@CommandPermission("ion.move")
 	@Description("Move a player to a server")
 	fun move(source: CommandSource, target: String, server: String) {
-		val targetServer = plugin.server.getServer(server).orElse(null)
+		val targetServer = ionInstance.server.getServer(server).orElse(null)
 
 		if (targetServer == null) {
 			source.sendMessage(text("Target Server does not exist."))

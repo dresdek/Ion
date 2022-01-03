@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandCompletion
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import com.velocitypowered.api.proxy.Player
-import net.horizonsend.ion.proxy.Ion.Companion.plugin
+import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("switch")
@@ -15,7 +15,7 @@ object SwitchCommand: BaseCommand() {
 	@CommandCompletion("@servers")
 	@Description("Switch to a server")
 	fun switch(source: Player, server: String) {
-		val targetServer = plugin.server.getServer(server).orElse(null)
+		val targetServer = ionInstance.server.getServer(server).orElse(null)
 
 		if (targetServer == null || !source.hasPermission("ion.server.$server")) {
 			source.sendMessage(text("Server $server does not exist, or you can not access it."))
