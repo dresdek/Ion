@@ -12,12 +12,12 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.commands.MoveCommand
 import net.horizonsend.ion.proxy.commands.SwitchCommand
+import net.horizonsend.ion.proxy.database.MongoManager
 import org.slf4j.Logger
 
 @Plugin(id = "ion", name = "Ion (Proxy)", version = "1.0.0", description = "Ion (Proxy)", authors = ["PeterCrawley"], url = "https://horizonsend.net")
@@ -30,8 +30,7 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 			private set
 	}
 
-	@Subscribe
-	fun onStart(event: ProxyInitializeEvent) {
+	init {
 		ionInstance = this
 
 		val configPath = dataDirectory.resolve("config.json")
@@ -43,12 +42,13 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 			configPath.writeText(Json.encodeToString(Config()))
 		}
 
-		try { ionConfig = Json.decodeFromString(configPath.readText()) }
-		catch (exception: SerializationException) {
-			logger.error("Config file is invalid! Ion can not be loaded.\n${exception.message}")
-			return // Do not continue loading.
-		}
+		ionConfig = Json.decodeFromString(configPath.readText())
 
+		MongoManager
+	}
+
+	@Subscribe
+	fun onStart(event: ProxyInitializeEvent) {
 		VelocityCommandManager(server, this).apply {
 			setOf(MoveCommand, SwitchCommand).forEach { registerCommand(it) }
 
