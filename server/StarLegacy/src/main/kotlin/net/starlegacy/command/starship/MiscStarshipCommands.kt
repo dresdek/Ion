@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.set
 import kotlin.math.ln
 import kotlin.math.roundToInt
-import net.horizonsend.ion.server.QuickBalance.getBalancedValue
 import net.starlegacy.command.SLCommand
 import net.starlegacy.database.schema.starships.Blueprint
 import net.starlegacy.feature.space.Space
@@ -198,34 +197,17 @@ object MiscStarshipCommands : SLCommand() {
 	}
 
 	@CommandAlias("powerdivision|powerd|pdivision|pd|powermode|pm")
-	fun onPowerDivision(sender: Player, shieldPercentage: Int, weaponPercentage: Int, thrusterPercentage: Int) {
-		val sum = shieldPercentage + weaponPercentage + thrusterPercentage
+	fun onPowerDivision(sender: Player, shield: Int, weapon: Int, thruster: Int) {
+		val sum = shield + weapon + thruster
+		val shieldPct = (shield.toDouble() / sum * 100.0).toInt()
+		val weaponPct = (weapon.toDouble() / sum * 100.0).toInt()
+		val thrusterPct = (thruster.toDouble() / sum * 100.0).toInt()
 
-		val correctedShieldPercentage: Int
-		val correctedWeaponPercentage: Int
-		val correctedThrusterPercentage: Int
-
-		if (sum == 0) {
-			correctedShieldPercentage = 0
-			correctedWeaponPercentage = 0
-			correctedThrusterPercentage = 0
-		} else {
-			correctedShieldPercentage = (shieldPercentage.toDouble() / sum).toInt() * 100
-			correctedWeaponPercentage = (weaponPercentage.toDouble() / sum).toInt() * 100
-			correctedThrusterPercentage = (thrusterPercentage.toDouble() / sum).toInt() * 100
+		failIf(arrayOf(shieldPct, weaponPct, thrusterPct).any { it !in 10..50 }) {
+			"Power mode $shieldPct $weaponPct $thrusterPct is not allowed! None can be less than 10% or greater than 50%."
 		}
 
-		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0) {
-			failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..100 }) {
-				"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 100%."
-			}
-		} else {
-			failIf(arrayOf(correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage).any { it !in 0..50 }) {
-				"Power mode $correctedShieldPercentage $correctedWeaponPercentage $correctedThrusterPercentage is not allowed! None can be less than 0% or greater than 50%."
-			}
-		}
-
-		getStarshipRiding(sender).updatePower(sender, correctedShieldPercentage, correctedWeaponPercentage, correctedThrusterPercentage)
+		getStarshipRiding(sender).updatePower(sender, shieldPct, weaponPct, thrusterPct)
 	}
 
 	@CommandAlias("nukeship")

@@ -2,8 +2,6 @@ package net.starlegacy.feature.starship.subsystem.reactor
 
 import kotlin.math.min
 import kotlin.math.roundToInt
-import net.horizonsend.ion.server.QuickBalance.getBalancedValue
-import net.kyori.adventure.text.Component.text
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.StarshipSubsystem
@@ -28,17 +26,6 @@ class ReactorSubsystem(
 	}
 
 	fun tick(delta: Double) {
-		shieldOverchargePoints   += (powerDistributor.shieldPortion   * 10).toInt() - 5
-		weaponsOverchargePoints  += (powerDistributor.weaponPortion   * 10).toInt() - 5
-		thrusterOverchargePoints += (powerDistributor.thrusterPortion * 10).toInt() - 5
-
-		if (shieldOverchargePoints < 0) shieldOverchargePoints = 0
-		if (weaponsOverchargePoints < 0) weaponsOverchargePoints = 0
-		if (thrusterOverchargePoints < 0) thrusterOverchargePoints = 0
-
-		if (getBalancedValue("AllowPowerModeOvercharging") == 1.0)
-			(starship as? ActivePlayerStarship)?.pilot?.sendMessage(text("$shieldOverchargePoints $weaponsOverchargePoints $thrusterOverchargePoints"))
-
 		chargeShields(delta)
 		weaponCapacitor.charge(delta)
 	}
