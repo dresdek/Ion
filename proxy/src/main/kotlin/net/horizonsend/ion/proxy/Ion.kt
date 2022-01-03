@@ -25,10 +25,10 @@ class Ion @Inject constructor(val server: ProxyServer, val logger: Logger, @Data
 	companion object {
 		lateinit var ionInstance: Ion
 			private set
-	}
 
-	lateinit var config: Config
-		private set
+		lateinit var config: Config
+			private set
+	}
 
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) {
