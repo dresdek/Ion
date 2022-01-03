@@ -3,6 +3,7 @@ package net.horizonsend.ion.proxy.database
 import com.velocitypowered.api.proxy.Player
 import kotlin.random.Random
 import net.horizonsend.ion.proxy.database.MongoManager.accountDataCollection
+import net.horizonsend.ion.proxy.database.MongoManager.crossAccountDataCollection
 import net.horizonsend.ion.proxy.database.data.AccountData
 import net.horizonsend.ion.proxy.database.data.CrossAccountData
 import org.litote.kmongo.findOneById
@@ -27,3 +28,7 @@ var Player.accountData: AccountData
 		return accountData
 	}
 	set(value) { accountDataCollection.replaceOneById(this.uniqueId.toString(), value) }
+
+var Player.crossAccountData: CrossAccountData
+	get() = crossAccountDataCollection.findOneById(this.accountData.crossAccountDataId) ?: throw IllegalStateException("Account does not not have CrossAccountData!")
+	set(value) { crossAccountDataCollection.replaceOneById(this.accountData.crossAccountDataId, value) }
