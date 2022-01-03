@@ -10,8 +10,7 @@ import net.horizonsend.ion.proxy.data.UUIDData
 fun targetsFromIonSelector(selector: String): Collection<Player> =
 	if (selector == "*") ionInstance.server.allPlayers
 	else if (selector.startsWith("@")) {
-		val targetServer = ionInstance.server.getServer(selector.substring(1)).orElse(null)
-		targetServer?.playersConnected ?: emptySet()
+		ionInstance.server.getServer(selector.substring(1)).orElse(null).playersConnected ?: emptySet()
 	} else {
 		val targetPlayer = ionInstance.server.getPlayer(selector).orElse(null)
 		if (targetPlayer != null) setOf(targetPlayer) else emptySet()
