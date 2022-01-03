@@ -15,6 +15,7 @@ import kotlin.io.path.writeText
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.horizonsend.ion.proxy.commands.Linking
 import net.horizonsend.ion.proxy.commands.MoveCommand
 import net.horizonsend.ion.proxy.commands.SwitchCommand
 import net.horizonsend.ion.proxy.database.MongoManager
@@ -49,7 +50,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) = VelocityCommandManager(server, this).apply {
-		setOf(MoveCommand, SwitchCommand).forEach { registerCommand(it) }
+		setOf(Linking, MoveCommand, SwitchCommand).forEach { registerCommand(it) }
 
 		commandCompletions.apply {
 			registerCompletion("multiTargets") {
