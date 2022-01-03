@@ -1,5 +1,7 @@
 package net.horizonsend.ion.proxy.database.data
 
-data class CrossAccountData(
+import org.bson.codecs.pojo.annotations.BsonId
 
+data class CrossAccountData(
+	@BsonId val _id: Int, // CrossAccountData ID
 )
