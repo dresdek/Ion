@@ -10,7 +10,7 @@ import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("switch")
-object SwitchCommand: BaseCommand() {
+object Switch: BaseCommand() {
 	@Default
 	@CommandCompletion("@servers")
 	@Description("Switch to a server")

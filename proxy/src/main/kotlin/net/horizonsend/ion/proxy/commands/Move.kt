@@ -12,7 +12,7 @@ import net.horizonsend.ion.proxy.targetsFromIonSelector
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("move")
-object MoveCommand: BaseCommand() {
+object Move: BaseCommand() {
 	@Default
 	@CommandCompletion("@multiTargets @servers")
 	@CommandPermission("ion.move")
