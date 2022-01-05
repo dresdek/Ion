@@ -57,7 +57,9 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		ionConfig = Json.decodeFromString(configPath.readText())
 
 		// Connect to discord
-		jda = JDABuilder.create(ionConfig.discordToken, GUILD_MESSAGES, DIRECT_MESSAGES, GUILD_MEMBERS).build()
+		jda = JDABuilder.create(ionConfig.discordToken, GUILD_MESSAGES, DIRECT_MESSAGES, GUILD_MEMBERS).build().apply {
+			addEventListener(JDAListener)
+		}
 
 		// Init MongoDB
 		MongoManager
