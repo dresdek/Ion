@@ -8,5 +8,7 @@ data class Config(
 	val username: String = "test",
 	val password: String = "test",
 	val database: String = "test",
-	val port: Int = 27017
+	val port: Int = 27017,
+
+	val discordToken: String = "",
 )

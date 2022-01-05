@@ -15,6 +15,11 @@ import kotlin.io.path.writeText
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.requests.GatewayIntent.DIRECT_MESSAGES
+import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS
+import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES
 import net.horizonsend.ion.proxy.commands.Move
 import net.horizonsend.ion.proxy.commands.Switch
 import net.horizonsend.ion.proxy.database.MongoManager
@@ -28,11 +33,15 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 		lateinit var ionConfig: Config
 			private set
+
+		lateinit var jda: JDA
+			private set
 	}
 
 	init {
 		ionInstance = this
 
+		// Loading of config
 		val configPath = dataDirectory.resolve("config.json")
 
 		dataDirectory.createDirectories() // Ensure the directories exist
@@ -44,6 +53,10 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 		ionConfig = Json.decodeFromString(configPath.readText())
 
+		// Connect to discord
+		jda = JDABuilder.create(ionConfig.discordToken, GUILD_MESSAGES, DIRECT_MESSAGES, GUILD_MEMBERS).build()
+
+		// Init MongoDB
 		MongoManager
 	}
 
