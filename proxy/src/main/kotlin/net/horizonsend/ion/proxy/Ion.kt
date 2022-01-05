@@ -20,6 +20,7 @@ import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.requests.GatewayIntent.DIRECT_MESSAGES
 import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS
 import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES
+import net.horizonsend.ion.proxy.commands.Link
 import net.horizonsend.ion.proxy.commands.Move
 import net.horizonsend.ion.proxy.commands.Switch
 import net.horizonsend.ion.proxy.database.MongoManager
@@ -62,7 +63,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 	@Subscribe
 	fun onStart(event: ProxyInitializeEvent) = VelocityCommandManager(server, this).apply {
-		setOf(Move, Switch).forEach { registerCommand(it) }
+		setOf(Link, Move, Switch).forEach { registerCommand(it) }
 
 		commandCompletions.apply {
 			registerCompletion("multiTargets") {
