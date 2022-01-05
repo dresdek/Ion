@@ -10,11 +10,11 @@ import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("switch")
+@Suppress("unused")
 object Switch: BaseCommand() {
 	@Default
 	@CommandCompletion("@servers")
 	@Description("Switch to a server")
-	@Suppress("unused")
 	fun switch(source: Player, server: String) {
 		val targetServer = ionInstance.server.getServer(server).orElse(null)
 

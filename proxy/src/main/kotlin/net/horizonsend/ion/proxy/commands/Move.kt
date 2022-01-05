@@ -12,12 +12,12 @@ import net.horizonsend.ion.proxy.targetsFromIonSelector
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("move")
+@Suppress("unused")
 object Move: BaseCommand() {
 	@Default
 	@CommandCompletion("@multiTargets @servers")
 	@CommandPermission("ion.move")
 	@Description("Move a player to a server")
-	@Suppress("unused")
 	fun move(source: CommandSource, target: String, server: String) {
 		val targetServer = ionInstance.server.getServer(server).orElse(null)
 
