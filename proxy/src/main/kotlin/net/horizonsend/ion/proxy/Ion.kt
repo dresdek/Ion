@@ -32,6 +32,8 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		lateinit var ionInstance: Ion
 			private set
 
+		val server get() = ionInstance.server
+
 		lateinit var ionConfig: Config
 			private set
 

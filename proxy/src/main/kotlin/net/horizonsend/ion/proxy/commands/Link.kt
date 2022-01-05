@@ -5,13 +5,18 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import com.velocitypowered.api.proxy.Player
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
+import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
+import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("link")
 @Suppress("unused")
 object Link: BaseCommand() {
-	val linkCodes = mutableMapOf<Player, String>()
+	private const val CODE_LIFETIME_SECONDS = 120L
+
+	private val linkCodes = mutableMapOf<Player, String>()
 
 	@Default
 	@Description("Link your discord account to your minecraft account.")
@@ -21,5 +26,12 @@ object Link: BaseCommand() {
 		source.sendMessage(text("Your link code is: $linkCode\nMessage this code to the Horizon's End Chat Link using your discord account to link your accounts."))
 
 		linkCodes[source] = linkCode
+
+		server.scheduler.buildTask(ionInstance) {
+			linkCodes.remove(source)
+		}.apply {
+			delay(CODE_LIFETIME_SECONDS, TimeUnit.SECONDS)
+			schedule()
+		}
 	}
 }
