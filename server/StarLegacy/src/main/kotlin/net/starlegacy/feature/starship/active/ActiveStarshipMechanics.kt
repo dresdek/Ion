@@ -3,8 +3,7 @@ package net.starlegacy.feature.starship.active
 import java.util.LinkedList
 import java.util.UUID
 import java.util.concurrent.TimeUnit
-import net.horizonsend.ion.server.Ion
-import net.horizonsend.ion.server.dynmapAPI
+import net.horizonsend.ion.server.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.starship.DeactivatedPlayerStarships
 import net.starlegacy.feature.starship.PilotedStarships
@@ -201,7 +200,7 @@ object ActiveStarshipMechanics : SLComponent() {
 		val isNoStarship = starship == null
 		val isHoldingController = StarshipControl.isHoldingController(player)
 		val isInvisible = isNoStarship && !isHoldingController
-		Ion.ionInstance.dynmapAPI!!.assertPlayerInvisibility(player, isInvisible, plugin)
+		dynmapAPI!!.assertPlayerInvisibility(player, isInvisible, plugin)
 	}
 
 	private fun updateGlowing(player: Player, starship: ActivePlayerStarship?) {

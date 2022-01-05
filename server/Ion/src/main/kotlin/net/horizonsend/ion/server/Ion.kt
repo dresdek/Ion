@@ -1,7 +1,6 @@
 package net.horizonsend.ion.server
 
 import net.starlegacy.PLUGIN
-import net.starlegacy.StarLegacy
 import org.bukkit.Bukkit
 import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
@@ -14,13 +13,9 @@ class Ion {
 	companion object {
 		val ionInstance get() = PLUGIN
 
-		lateinit var realIonInstance: Ion
+		var dynmapAPI: DynmapAPI? = null
 			private set
 	}
-
-	init { realIonInstance = this }
-
-	var dynmapAPI: DynmapAPI? = null
 
 	fun onEnable() {
 		DynmapCommonAPIListener.register(Listener())
@@ -38,13 +33,7 @@ class Ion {
 
 	class Listener: DynmapCommonAPIListener() {
 		override fun apiEnabled(api: DynmapCommonAPI) {
-			ionInstance.dynmapAPI = api as DynmapAPI
+			dynmapAPI = api as DynmapAPI
 		}
 	}
 }
-
-var StarLegacy.dynmapAPI
-	get() = Ion.realIonInstance.dynmapAPI
-	set(value) {
-		Ion.realIonInstance.dynmapAPI = value
-	}

@@ -1,7 +1,6 @@
 package net.starlegacy.feature.nations
 
-import net.horizonsend.ion.server.Ion.Companion.ionInstance
-import net.horizonsend.ion.server.dynmapAPI
+import net.horizonsend.ion.server.Ion.Companion.dynmapAPI
 import net.starlegacy.SLComponent
 import net.starlegacy.cache.nations.NationCache
 import net.starlegacy.database.schema.nations.NPCTerritoryOwner
@@ -28,8 +27,8 @@ object NationsMap : SLComponent() {
 	private val dynmapLoaded by lazy { Bukkit.getPluginManager().isPluginEnabled("dynmap") }
 
 	private val markerSet
-		get() = ionInstance.dynmapAPI!!.markerAPI.getMarkerSet("nations")
-			?: ionInstance.dynmapAPI!!.markerAPI.createMarkerSet("nations", "Nations, Settlements, & Stations", null, false)
+		get() = dynmapAPI!!.markerAPI.getMarkerSet("nations")
+			?: dynmapAPI!!.markerAPI.createMarkerSet("nations", "Nations, Settlements, & Stations", null, false)
 
 	override fun onEnable() {
 		if (!dynmapLoaded) {
