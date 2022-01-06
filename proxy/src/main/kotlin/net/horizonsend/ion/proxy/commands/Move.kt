@@ -16,7 +16,7 @@ import net.kyori.adventure.text.Component.text
 object Move: BaseCommand() {
 	@Default
 	@CommandCompletion("@multiTargets @servers")
-	@CommandPermission("ion.move")
+	@CommandPermission("ion.admin")
 	@Description("Move a player to a server")
 
 	fun move(source: CommandSource, targetPlayer: String, targetServer: String) {
