@@ -27,7 +27,7 @@ object MongoManager {
 
 		database = client.getDatabase(ionConfig.database)
 
-		accountDataCollection = database.getCollection<AccountData>()
+		accountDataCollection = database.getCollection()
 	}
 
 	@Subscribe
