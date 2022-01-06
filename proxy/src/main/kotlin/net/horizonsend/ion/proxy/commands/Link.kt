@@ -28,7 +28,7 @@ object Link: BaseCommand() {
 	@Default
 	@Description("Link your discord account to your minecraft account.")
 	fun link(source: Player) {
-		if (getAccountData(source.uniqueId).discordUserId != null) {
+		if (getAccountData(source.uniqueId).discordUserId != "") {
 			source.sendMessage(text("Your minecraft account has already been linked to a discord account. Accounts can only be unlinked by Horizon's End staff."))
 			return
 		}

@@ -22,7 +22,7 @@ object Unlink: BaseCommand() {
 	fun unlink(sender: CommandSource, targetUser: String) {
 		sender.sendMessage(text("$targetUser has been unlinked, assuming the account exists, and was linked."))
 
-		try { saveAccountData(getAccountData(uuidFromName(targetUser)).apply { discordUserId = null }) }
+		try { saveAccountData(getAccountData(uuidFromName(targetUser)).apply { discordUserId = "" }) }
 		catch (_: Exception) {} // Silently fail: This probably should not be done.
 	}
 }

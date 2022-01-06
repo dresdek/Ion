@@ -4,5 +4,5 @@ import org.bson.codecs.pojo.annotations.BsonId
 
 data class AccountData(
 	@BsonId val _id: String, // Minecraft UUID
-	var discordUserId: String? = null // Discord User ID
+	var discordUserId: String = "" // Discord User ID
 )
