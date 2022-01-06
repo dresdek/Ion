@@ -18,10 +18,15 @@ object Link: BaseCommand() {
 
 	private val linkCodes = mutableMapOf<String, String>()
 
+	private fun generateUniqueCode(): String {
+		val linkCode = (0..3).map{ Char(Random.nextInt(65, 90)) }.joinToString()
+		return if (linkCodes.containsKey(linkCode)) generateUniqueCode() else linkCode
+	}
+
 	@Default
 	@Description("Link your discord account to your minecraft account.")
 	fun link(source: Player) {
-		val linkCode = (0..3).map{ Char(Random.nextInt(65, 90)) }.joinToString()
+		val linkCode = generateUniqueCode()
 
 		source.sendMessage(text("Your link code is: $linkCode\nMessage this code to the Horizon's End Chat Link using your discord account to link your accounts."))
 
