@@ -3,7 +3,7 @@ package net.horizonsend.ion.proxy
 import com.velocitypowered.api.proxy.Player
 import java.net.URL
 import java.util.UUID
-import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.horizonsend.ion.proxy.data.UsernameData
@@ -19,5 +19,5 @@ fun targetsFromIonSelector(selector: String): Collection<Player> =
 
 fun nameFromUUID(uuid: UUID): String =
 	URL("https://api.mojang.com/user/profiles/$uuid/names").openStream().use {
-		Json.decodeFromString<List<UsernameData>>(it.readAllBytes().toString()).last().name
+		Json.decodeFromString(ListSerializer(UsernameData.serializer()), it.readAllBytes().toString()).last().name
 	}
