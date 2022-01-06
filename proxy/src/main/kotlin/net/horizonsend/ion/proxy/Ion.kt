@@ -18,8 +18,11 @@ import kotlinx.serialization.json.Json
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.requests.GatewayIntent.DIRECT_MESSAGES
-import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MEMBERS
-import net.dv8tion.jda.api.requests.GatewayIntent.GUILD_MESSAGES
+import net.dv8tion.jda.api.utils.cache.CacheFlag.ACTIVITY
+import net.dv8tion.jda.api.utils.cache.CacheFlag.CLIENT_STATUS
+import net.dv8tion.jda.api.utils.cache.CacheFlag.EMOTE
+import net.dv8tion.jda.api.utils.cache.CacheFlag.ONLINE_STATUS
+import net.dv8tion.jda.api.utils.cache.CacheFlag.VOICE_STATE
 import net.horizonsend.ion.proxy.commands.Link
 import net.horizonsend.ion.proxy.commands.Move
 import net.horizonsend.ion.proxy.commands.Switch
@@ -57,8 +60,12 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		ionConfig = Json.decodeFromString(configPath.readText())
 
 		// Connect to discord
-		jda = JDABuilder.create(ionConfig.discordToken, GUILD_MESSAGES, DIRECT_MESSAGES, GUILD_MEMBERS).build().apply {
+		jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
+			disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
+
+		}.build().apply {
 			addEventListener(JDAListener)
+
 		}
 
 		// Init MongoDB
