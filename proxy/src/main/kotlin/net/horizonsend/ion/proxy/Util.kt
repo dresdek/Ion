@@ -6,6 +6,7 @@ import java.util.UUID
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.horizonsend.ion.proxy.Ion.Companion.server
+import net.horizonsend.ion.proxy.data.UUIDData
 import net.horizonsend.ion.proxy.data.UsernameData
 
 fun targetsFromIonSelector(selector: String): Collection<Player> =
@@ -20,3 +21,7 @@ fun targetsFromIonSelector(selector: String): Collection<Player> =
 fun nameFromUUID(uuid: UUID): String =
 	server.getPlayer(uuid).orElse(null)?.username ?:
 	Json.decodeFromString<List<UsernameData>>(URL("https://api.mojang.com/user/profiles/$uuid/names").readText()).last().name
+
+fun uuidFromName(name: String): UUID =
+	server.getPlayer(name).orElse(null)?.uniqueId ?:
+	UUID.fromString(Json.decodeFromString<UUIDData>(URL("https://api.mojang.com/users/profiles/minecraft/$name").readText()).id)
