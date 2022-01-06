@@ -16,7 +16,7 @@ object JDAListener: ListenerAdapter() {
 				val player = validateLinkCode(event.message.contentRaw)
 
 				if (player != null) {
-					saveAccountData(getAccountData(player)?.apply { discordUserId = event.author.id } ?: throw IllegalStateException("Account data not found"))
+					saveAccountData(getAccountData(player).apply { discordUserId = event.author.id })
 
 					event.message.reply("Your discord account has been linked to the minecraft account \"${nameFromUUID(player)}\". If this is a mistake please contact Horizon's End staff.")
 
