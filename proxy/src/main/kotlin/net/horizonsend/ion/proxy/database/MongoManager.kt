@@ -5,13 +5,15 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import net.horizonsend.ion.proxy.Ion.Companion.ionConfig
 import net.horizonsend.ion.proxy.database.data.AccountData
 import org.litote.kmongo.KMongo.createClient
+import org.litote.kmongo.findOneById
 import org.litote.kmongo.getCollection
+import org.litote.kmongo.replaceOneById
 
 object MongoManager {
 	private val client = createClient("mongodb://${ionConfig.username}:${ionConfig.password}@${ionConfig.host}:${ionConfig.port}/${ionConfig.database}")
 	private val database = client.getDatabase(ionConfig.database)
 
-	val accountDataCollection = database.getCollection<AccountData>()
+	private val accountDataCollection = database.getCollection<AccountData>()
 
 	init {
 		// https://github.com/Litote/kmongo/issues/98
@@ -20,4 +22,7 @@ object MongoManager {
 
 	@Subscribe
 	fun onProxyShutdown(event: ProxyShutdownEvent) = client.close()
+
+	fun getAccountData(uuid: String): AccountData? = accountDataCollection.findOneById(uuid)
+	fun saveAccountData(accountData: AccountData) = accountDataCollection.replaceOneById(accountData._id, accountData)
 }
