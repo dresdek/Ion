@@ -12,6 +12,7 @@ import net.kyori.adventure.text.Component
 object JDAListener: ListenerAdapter() {
 	override fun onMessageReceived(event: MessageReceivedEvent) {
 		if (!event.isFromType(ChannelType.PRIVATE)) return
+		if (event.author.isBot) return
 
 		if (event.message.contentRaw.length != 4) {
 			event.message.reply("Message is too short or too long to be a verification code. Please resend the code.").queue()
