@@ -2,6 +2,7 @@ package net.horizonsend.ion.proxy.database
 
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
+import java.util.UUID
 import net.horizonsend.ion.proxy.Ion.Companion.ionConfig
 import net.horizonsend.ion.proxy.database.data.AccountData
 import org.litote.kmongo.KMongo.createClient
@@ -23,6 +24,6 @@ object MongoManager {
 	@Subscribe
 	fun onProxyShutdown(event: ProxyShutdownEvent) = client.close()
 
-	fun getAccountData(uuid: String): AccountData? = accountDataCollection.findOneById(uuid)
+	fun getAccountData(uuid: UUID): AccountData? = accountDataCollection.findOneById(uuid)
 	fun saveAccountData(accountData: AccountData) = accountDataCollection.replaceOneById(accountData._id, accountData)
 }

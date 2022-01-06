@@ -1,6 +1,5 @@
 package net.horizonsend.ion.proxy
 
-import java.util.UUID
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -21,7 +20,7 @@ object JDAListener: ListenerAdapter() {
 
 					event.message.reply("Your discord account has been linked to the minecraft account \"${nameFromUUID(player)}\". If this is a mistake please contact Horizon's End staff.")
 
-					server.getPlayer(UUID.fromString(player)).ifPresent{
+					server.getPlayer(player).ifPresent{
 						it.sendMessage(text("Your minecraft account has been linked to the discord account \"${event.author.asTag}\". If this is a mistake please contact Horizon's End staff."))
 					}
 

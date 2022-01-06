@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import com.velocitypowered.api.proxy.Player
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
@@ -16,7 +17,7 @@ import net.kyori.adventure.text.Component.text
 object Link: BaseCommand() {
 	private const val CODE_LIFETIME_SECONDS = 120L
 
-	private val linkCodes = mutableMapOf<String, String>()
+	private val linkCodes = mutableMapOf<String, UUID>()
 
 	private fun generateUniqueCode(): String {
 		val linkCode = (0..3).map{ Char(Random.nextInt(65, 90)) }.joinToString()
@@ -30,7 +31,7 @@ object Link: BaseCommand() {
 
 		source.sendMessage(text("Your link code is: $linkCode\nMessage this code to the Horizon's End Chat Link using your discord account to link your accounts."))
 
-		linkCodes[linkCode] = source.uniqueId.toString()
+		linkCodes[linkCode] = source.uniqueId
 
 		server.scheduler.buildTask(ionInstance) {
 			linkCodes.remove(linkCode)
@@ -40,5 +41,5 @@ object Link: BaseCommand() {
 		}
 	}
 
-	fun validateLinkCode(linkCode: String): String? = linkCodes.remove(linkCode)
+	fun validateLinkCode(linkCode: String): UUID? = linkCodes.remove(linkCode)
 }
