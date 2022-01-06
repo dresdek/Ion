@@ -1,17 +1,17 @@
 package net.horizonsend.ion.proxy
 
-import net.dv8tion.jda.api.entities.ChannelType
+import net.dv8tion.jda.api.entities.ChannelType.PRIVATE
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.horizonsend.ion.proxy.commands.Link.validateLinkCode
 import net.horizonsend.ion.proxy.database.MongoManager.getAccountData
 import net.horizonsend.ion.proxy.database.MongoManager.saveAccountData
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 
 object JDAListener: ListenerAdapter() {
 	override fun onMessageReceived(event: MessageReceivedEvent) {
-		if (!event.isFromType(ChannelType.PRIVATE)) return
+		if (!event.isFromType(PRIVATE)) return
 		if (event.author.isBot) return
 
 		if (event.message.contentRaw.length != 4) {
@@ -38,7 +38,7 @@ object JDAListener: ListenerAdapter() {
 			event.message.reply("Your discord account has been linked to the minecraft account \"${nameFromUUID(player)}\". If this is a mistake please contact Horizon's End staff.").queue()
 
 			server.getPlayer(player).ifPresent {
-				it.sendMessage(Component.text("Your minecraft account has been linked to the discord account \"${event.author.asTag}\". If this is a mistake please contact Horizon's End staff."))
+				it.sendMessage(text("Your minecraft account has been linked to the discord account \"${event.author.asTag}\". If this is a mistake please contact Horizon's End staff."))
 			}
 		}
 	}
