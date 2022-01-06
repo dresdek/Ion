@@ -20,7 +20,7 @@ object Link: BaseCommand() {
 	private val linkCodes = mutableMapOf<String, UUID>()
 
 	private fun generateUniqueCode(): String {
-		val linkCode = (0..3).map{ Char(Random.nextInt(65, 90)) }.joinToString()
+		val linkCode = (0..3).map{ Char(Random.nextInt(65, 90)) }.joinToString("")
 		return if (linkCodes.containsKey(linkCode)) generateUniqueCode() else linkCode
 	}
 
