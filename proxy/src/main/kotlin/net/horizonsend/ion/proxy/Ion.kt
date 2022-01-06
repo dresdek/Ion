@@ -66,6 +66,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 	}
 
 	@Subscribe
+	@Suppress("UNUSED_PARAMETER")
 	fun onStart(event: ProxyInitializeEvent) = VelocityCommandManager(server, this).apply {
 		setOf(Link, Move, Switch).forEach { registerCommand(it) }
 

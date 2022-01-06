@@ -22,6 +22,7 @@ object MongoManager {
 	}
 
 	@Subscribe
+	@Suppress("UNUSED_PARAMETER")
 	fun onProxyShutdown(event: ProxyShutdownEvent) = client.close()
 
 	fun getAccountData(uuid: UUID): AccountData? = accountDataCollection.findOneById(uuid)
