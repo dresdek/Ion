@@ -13,7 +13,7 @@ import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("link")
-@Suppress("unused")
+@Suppress("unused") // Functions are used as entry points for commands
 object Link: BaseCommand() {
 	private const val CODE_LIFETIME_SECONDS = 120L
 

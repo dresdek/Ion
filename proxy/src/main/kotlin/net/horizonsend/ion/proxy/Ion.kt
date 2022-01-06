@@ -66,7 +66,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 	}
 
 	@Subscribe
-	@Suppress("UNUSED_PARAMETER")
+	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
 	fun onStart(event: ProxyInitializeEvent) = VelocityCommandManager(server, this).apply {
 		setOf(Link, Move, Switch).forEach { registerCommand(it) }
 

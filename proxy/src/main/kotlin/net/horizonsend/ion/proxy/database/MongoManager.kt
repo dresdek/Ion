@@ -22,7 +22,7 @@ object MongoManager {
 	}
 
 	@Subscribe
-	@Suppress("UNUSED_PARAMETER")
+	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
 	fun onProxyShutdown(event: ProxyShutdownEvent) = client.close()
 
 	fun getAccountData(uuid: UUID): AccountData? = accountDataCollection.findOneById(uuid)

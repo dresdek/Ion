@@ -10,7 +10,7 @@ import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("switch")
-@Suppress("unused")
+@Suppress("unused") // Functions are used as entry points for commands
 object Switch: BaseCommand() {
 	@Default
 	@CommandCompletion("@servers")
