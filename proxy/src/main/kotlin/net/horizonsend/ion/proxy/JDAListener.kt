@@ -27,7 +27,7 @@ object JDAListener: ListenerAdapter() {
 		}
 
 		getAccountData(player).apply {
-			if (discordUserId == "") {
+			if (discordUserId != "") {
 				event.message.reply("Your discord account has already been linked to a minecraft account. Accounts can only be unlinked by Horizon's End staff.").queue()
 				return
 			}
