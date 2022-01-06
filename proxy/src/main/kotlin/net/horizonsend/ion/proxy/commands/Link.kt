@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
 import net.horizonsend.ion.proxy.Ion.Companion.server
+import net.horizonsend.ion.proxy.database.MongoManager.getAccountData
 import net.kyori.adventure.text.Component.text
 
 @CommandAlias("link")
@@ -27,9 +28,14 @@ object Link: BaseCommand() {
 	@Default
 	@Description("Link your discord account to your minecraft account.")
 	fun link(source: Player) {
+		if (getAccountData(source.uniqueId).discordUserId != null) {
+			source.sendMessage(text("Your minecraft account has already been linked to a discord account. Accounts can only be unlinked by Horizon's End staff."))
+			return
+		}
+
 		val linkCode = generateUniqueCode()
 
-		source.sendMessage(text("Your link code is: $linkCode\nMessage this code to the Horizon's End Chat Link using your discord account to link your accounts."))
+		source.sendMessage(text("Your link code is: $linkCode. Message this code to the Horizon's End Chat Link using your discord account to link your accounts."))
 
 		linkCodes[linkCode] = source.uniqueId
 
