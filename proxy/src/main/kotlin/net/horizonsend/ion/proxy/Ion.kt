@@ -3,38 +3,81 @@ package net.horizonsend.ion.proxy
 import co.aikar.commands.VelocityCommandManager
 import com.google.inject.Inject
 import com.velocitypowered.api.event.Subscribe
-import com.velocitypowered.api.event.connection.LoginEvent
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
-import java.io.File
 import java.nio.file.Path
-import java.util.UUID
+import kotlin.io.path.createDirectories
+import kotlin.io.path.exists
+import kotlin.io.path.readText
+import kotlin.io.path.writeText
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import net.horizonsend.ion.proxy.commands.BanCommand
-import net.horizonsend.ion.proxy.commands.KickCommand
-import net.horizonsend.ion.proxy.commands.MoveCommand
-import net.horizonsend.ion.proxy.commands.SwitchCommand
-import net.horizonsend.ion.proxy.commands.UnbanCommand
-import net.horizonsend.ion.proxy.commands.WarnCommand
-import net.horizonsend.ion.proxy.data.BanData
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.requests.GatewayIntent.DIRECT_MESSAGES
+import net.dv8tion.jda.api.utils.cache.CacheFlag.ACTIVITY
+import net.dv8tion.jda.api.utils.cache.CacheFlag.CLIENT_STATUS
+import net.dv8tion.jda.api.utils.cache.CacheFlag.EMOTE
+import net.dv8tion.jda.api.utils.cache.CacheFlag.ONLINE_STATUS
+import net.dv8tion.jda.api.utils.cache.CacheFlag.VOICE_STATE
+import net.horizonsend.ion.proxy.commands.Link
+import net.horizonsend.ion.proxy.commands.Move
+import net.horizonsend.ion.proxy.commands.Switch
+import net.horizonsend.ion.proxy.commands.Unlink
+import net.horizonsend.ion.proxy.database.MongoManager
 import org.slf4j.Logger
 
 @Plugin(id = "ion", name = "Ion (Proxy)", version = "1.0.0", description = "Ion (Proxy)", authors = ["PeterCrawley"], url = "https://horizonsend.net")
 class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDirectory val dataDirectory: Path) {
 	companion object {
-		lateinit var plugin: Ion
+		lateinit var ionInstance: Ion
+			private set
+
+		val server get() = ionInstance.server
+
+		lateinit var ionConfig: Config
+			private set
+
+		lateinit var jda: JDA
 			private set
 	}
 
-	init { plugin = this }
+	init {
+		ionInstance = this
+
+		// Loading of config
+		val configPath = dataDirectory.resolve("config.json")
+
+		dataDirectory.createDirectories() // Ensure the directories exist
+
+		if (!configPath.exists()) {
+			logger.warn("Failed to find the config file, creating a new one.")
+			configPath.writeText(Json.encodeToString(Config()))
+		}
+
+		ionConfig = Json.decodeFromString(configPath.readText())
+
+		// Connect to discord
+		jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
+			disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
+
+		}.build().apply {
+			addEventListener(JDAListener)
+
+		}
+
+		// Init MongoDB
+		MongoManager
+	}
 
 	@Subscribe
+	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
 	fun onStart(event: ProxyInitializeEvent) {
 		VelocityCommandManager(server, this).apply {
-			setOf(BanCommand, KickCommand, MoveCommand, SwitchCommand, UnbanCommand, WarnCommand).forEach { registerCommand(it) }
+			setOf(Link, Move, Switch, Unlink).forEach { registerCommand(it) }
 
 			commandCompletions.apply {
 				registerCompletion("multiTargets") {
@@ -55,17 +98,6 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
 			enableUnstableAPI("help")
-		}
-	}
-
-	@Subscribe
-	fun onLogin(event: LoginEvent) {
-		val banDataFile = File(banDataDirectory, "${event.player.ensuredUUID}.json")
-
-		if (banDataFile.exists()) {
-			val banData = Json.decodeFromString<BanData>(banDataFile.readText())
-
-			event.player.disconnect(constructBanMessage(getNameFromUUID(UUID.fromString(banData.issuedBy)), banData.reason, banData.expires))
 		}
 	}
 }

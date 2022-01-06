@@ -17,7 +17,5 @@ dependencies {
 }
 
 tasks.shadowJar {
-	minimize()
-
 	archiveFileName.set("../../../build/IonProxy.jar")
 }
