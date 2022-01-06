@@ -17,4 +17,6 @@ fun targetsFromIonSelector(selector: String): Collection<Player> =
 		if (targetPlayer != null) setOf(targetPlayer) else emptySet()
 	}
 
-fun nameFromUUID(uuid: UUID): String = Json.decodeFromString<List<UsernameData>>(URL("https://api.mojang.com/user/profiles/$uuid/names").readText()).last().name
+fun nameFromUUID(uuid: UUID): String =
+	server.getPlayer(uuid).orElse(null)?.username ?:
+	Json.decodeFromString<List<UsernameData>>(URL("https://api.mojang.com/user/profiles/$uuid/names").readText()).last().name
