@@ -1,5 +1,8 @@
 package net.horizonsend.ion.proxy.database
 
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent
 import java.util.UUID
@@ -11,14 +14,20 @@ import org.litote.kmongo.getCollection
 import org.litote.kmongo.replaceOneById
 
 object MongoManager {
-	private val client = createClient("mongodb://${ionConfig.username}:${ionConfig.password}@${ionConfig.host}:${ionConfig.port}/${ionConfig.database}")
-	private val database = client.getDatabase(ionConfig.database)
+	private val client: MongoClient
+	private val database: MongoDatabase
 
-	private val accountDataCollection = database.getCollection<AccountData>()
+	private val accountDataCollection: MongoCollection<AccountData>
 
 	init {
 		// https://github.com/Litote/kmongo/issues/98
 		System.setProperty("org.litote.mongo.test.mapping.service", "org.litote.kmongo.jackson.JacksonClassMappingTypeService")
+
+		client = createClient("mongodb://${ionConfig.username}:${ionConfig.password}@${ionConfig.host}:${ionConfig.port}/${ionConfig.database}")
+
+		database = client.getDatabase(ionConfig.database)
+
+		accountDataCollection = database.getCollection<AccountData>()
 	}
 
 	@Subscribe
