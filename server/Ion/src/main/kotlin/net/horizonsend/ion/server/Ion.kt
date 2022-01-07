@@ -6,10 +6,10 @@ import org.dynmap.DynmapAPI
 import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
 
-// All Ion specific additions to the code are uses this class instead of the main StarLegacy class
-// This is for future proofing, when/if we remove the main StarLegacy class, Ion's code should require minimal changes
-// This is why the class is structured like a Bukkit JavaPlugin class, despite not being one.
 class Ion {
+	/**
+	 * To make things statically accessable for convenience a companion object is used.
+	 */
 	companion object {
 		val ionInstance get() = PLUGIN
 
@@ -19,6 +19,9 @@ class Ion {
 		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
 
+	/**
+	 * Initializes Ion's additions, realistically this should be done in onEnable()
+	 */
 	init {
 		DynmapCommonAPIListener.register(DynmapEnabledListener)
 
