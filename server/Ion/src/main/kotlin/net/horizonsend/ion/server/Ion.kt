@@ -15,10 +15,14 @@ class Ion {
 
 		var dynmapAPI: DynmapAPI? = null
 			private set
+
+		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
 
 	fun onEnable() {
 		DynmapCommonAPIListener.register(Listener())
+
+		protocolLib.registerPacketListener(PacketTweaks)
 
 		Bukkit.getPluginManager().registerEvents(Tweaks, ionInstance)
 
