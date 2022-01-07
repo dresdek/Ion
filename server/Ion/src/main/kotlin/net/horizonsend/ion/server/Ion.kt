@@ -1,9 +1,13 @@
 package net.horizonsend.ion.server
 
+import com.comphenix.protocol.ProtocolLibrary.getProtocolManager
+import com.comphenix.protocol.ProtocolManager
+import net.horizonsend.ion.server.listeners.dynmap.DynmapEnabledListener
+import net.horizonsend.ion.server.listeners.paper.Tweaks
+import net.horizonsend.ion.server.listeners.protocollib.PacketTweaks
 import net.starlegacy.PLUGIN
 import org.bukkit.Bukkit
 import org.dynmap.DynmapAPI
-import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
 
 class Ion {
@@ -14,7 +18,6 @@ class Ion {
 		val ionInstance get() = PLUGIN
 
 		var dynmapAPI: DynmapAPI? = null
-			protected set
 
 		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
@@ -25,7 +28,7 @@ class Ion {
 	init {
 		DynmapCommonAPIListener.register(DynmapEnabledListener)
 
-		protocolLib.registerPacketListener(PacketTweaks)
+		protocolLib?.addPacketListener(PacketTweaks)
 
 		Bukkit.getPluginManager().registerEvents(Tweaks, ionInstance)
 
