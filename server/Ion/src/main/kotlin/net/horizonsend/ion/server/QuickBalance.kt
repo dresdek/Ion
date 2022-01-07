@@ -10,11 +10,18 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import net.horizonsend.ion.server.Ion.Companion.ionInstance
+import net.horizonsend.ion.server.QuickBalance.customBalancedValues
 import org.bukkit.command.CommandSender
 
+/**
+ * Quick Balance is the first feature Ion added, it allows for quick changing of various balancing values without server restarts.
+ */
 @CommandPermission("ion.quickbalance")
 @CommandAlias("quickbalance")
 object QuickBalance: BaseCommand() {
+	/**
+	 * The default Quick Balance values.
+	 */
 	private val defaultBalancedValues = mapOf(
 		"TriTurretCooldownSeconds"                    to     3.0,
 		"TriTurretInaccuracy"                         to     3.0,
@@ -97,13 +104,33 @@ object QuickBalance: BaseCommand() {
 		"DecomposersMaxLength"                        to   100.0,
 	)
 
+	/**
+	 * All Quick Balance values specified in values.json.
+	 */
 	private var customBalancedValues = mutableMapOf<String, Double> ()
 
+	/**
+	 * A combination of all the values in [defaultBalancedValues] and [customBalancedValues].
+	 * This should never be altered directly, instead [updateBalancedValues] should be used.
+	 */
 	var balancedValues = defaultBalancedValues.toMutableMap()
 		private set
 
+	/**
+	 * Used to update the [balancedValues] map with a fresh combination of [defaultBalancedValues] and [customBalancedValues].
+	 */
+	private fun updateBalancedValues() {
+		balancedValues = defaultBalancedValues.toMutableMap().apply { putAll(customBalancedValues) }
+	}
+
+	/**
+	 * Allows code external to quick balance to get values from the [balancedValues] map.
+	 */
 	fun getBalancedValue(name: String) = balancedValues[name] ?: throw IllegalArgumentException("No balanced value for $name")
 
+	/**
+	 * Quick Balance init logic, ensures that [customBalancedValues] is populated with values from values.json and that [balancedValues] is updated.
+	 */
 	init {
 		try {
 			customBalancedValues = Json.decodeFromStream(File(ionInstance.dataFolder, "values.json").inputStream())
@@ -114,10 +141,9 @@ object QuickBalance: BaseCommand() {
 		updateBalancedValues()
 	}
 
-	private fun updateBalancedValues() {
-		balancedValues = defaultBalancedValues.toMutableMap().apply { putAll(customBalancedValues) }
-	}
-
+	/**
+	 * Saves the [customBalancedValues] map to values.json.
+	 */
 	private fun saveBalancedValues() {
 		ionInstance.dataFolder.mkdir() // Ensure the directory exists
 
@@ -126,9 +152,15 @@ object QuickBalance: BaseCommand() {
 		updateBalancedValues()
 	}
 
+	/**
+	 * Command for listing quick balance values.
+	 */
 	@Subcommand("list")
 	fun list(sender: CommandSender) = sender.sendMessage("QuickBalance Values:\n" + balancedValues.map{"${it.key} = ${it.value}${if (customBalancedValues.contains(it.key)) "*" else ""}"}.joinToString("\n"))
 
+	/**
+	 * Command for getting a specific quick balance value.
+	 */
 	@Subcommand("get")
 	@CommandCompletion("@valueNames")
 	fun get(sender: CommandSender, name: String) {
@@ -137,6 +169,9 @@ object QuickBalance: BaseCommand() {
 		sender.sendMessage("$name = ${balancedValues[name]}${if (customBalancedValues.contains(name)) "*" else ""}")
 	}
 
+	/**
+	 * Command for setting a specific quick balance value.
+	 */
 	@Subcommand("set")
 	@CommandCompletion("@valueNames 0.0")
 	fun set(sender: CommandSender, name: String, value: Double) {
@@ -148,6 +183,9 @@ object QuickBalance: BaseCommand() {
 		sender.sendMessage("$name has been set to ${balancedValues[name]}")
 	}
 
+	/**
+	 * Command for resetting a specific quick balance value.
+	 */
 	@Subcommand("clear")
 	@CommandCompletion("@valueNames")
 	fun clear(sender: CommandSender, name: String) {
