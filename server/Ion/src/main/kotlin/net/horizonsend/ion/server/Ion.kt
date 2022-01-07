@@ -19,7 +19,7 @@ class Ion {
 		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
 
-	fun onEnable() {
+	init {
 		DynmapCommonAPIListener.register(DynmapEnabledListener)
 
 		protocolLib.registerPacketListener(PacketTweaks)
