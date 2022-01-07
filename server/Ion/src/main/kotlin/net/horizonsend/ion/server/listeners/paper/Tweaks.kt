@@ -1,4 +1,4 @@
-package net.horizonsend.ion.server
+package net.horizonsend.ion.server.listeners.paper
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

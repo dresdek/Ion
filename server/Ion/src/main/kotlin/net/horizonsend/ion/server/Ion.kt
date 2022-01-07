@@ -20,7 +20,7 @@ class Ion {
 	}
 
 	fun onEnable() {
-		DynmapCommonAPIListener.register(Listener())
+		DynmapCommonAPIListener.register(DynmapEnabledListener)
 
 		protocolLib.registerPacketListener(PacketTweaks)
 
@@ -32,12 +32,6 @@ class Ion {
 			commandCompletions.registerCompletion("valueNames") {
 				QuickBalance.balancedValues.keys
 			}
-		}
-	}
-
-	class Listener: DynmapCommonAPIListener() {
-		override fun apiEnabled(api: DynmapCommonAPI) {
-			dynmapAPI = api as DynmapAPI
 		}
 	}
 }

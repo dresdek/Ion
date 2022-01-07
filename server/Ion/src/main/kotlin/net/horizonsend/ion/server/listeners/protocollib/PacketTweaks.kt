@@ -1,4 +1,4 @@
-package net.horizonsend.ion.server
+package net.horizonsend.ion.server.listeners.protocollib
 
 object PacketTweaks: PacketAdapter(this, ListenerPriority.HIGHEST, PacketType.Play.Server.LOGIN) {
 	fun onPacketSending(event: PacketEvent) {
