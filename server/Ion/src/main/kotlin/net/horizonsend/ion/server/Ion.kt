@@ -14,7 +14,7 @@ class Ion {
 		val ionInstance get() = PLUGIN
 
 		var dynmapAPI: DynmapAPI? = null
-			private set
+			protected set
 
 		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
