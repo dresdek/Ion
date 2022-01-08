@@ -9,9 +9,9 @@ import com.velocitypowered.api.proxy.Player
 import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.kyori.adventure.text.Component.text
 
-@CommandAlias("switch")
+@CommandAlias("server")
 @Suppress("unused") // Functions are used as entry points for commands
-object Switch: BaseCommand() {
+object Server: BaseCommand() {
 	@Default
 	@CommandCompletion("@servers")
 	@Description("Switch to a server")
