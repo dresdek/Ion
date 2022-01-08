@@ -1,0 +1,6 @@
+package net.horizonsend.ion.server
+
+import kotlin.math.round
+
+val Double.t0Int get() = round(this).toInt()
+val Float.t0Int get() = round(this).toInt()
