@@ -10,7 +10,7 @@ import net.horizonsend.ion.server.Ion.Companion.ionInstance
  * As part of code to enable ship movements to be seen beyond the normal render distance of the server, this event
  * listener is used to lie to the client as to the server's render distance.
  */
-object PacketTweaks: PacketAdapter(ionInstance, HIGHEST, Server.LOGIN) {
+object LoginPacketListener: PacketAdapter(ionInstance, HIGHEST, Server.LOGIN) {
 	override fun onPacketSending(event: PacketEvent) {
 		if (event.packetType != Server.LOGIN) return
 
