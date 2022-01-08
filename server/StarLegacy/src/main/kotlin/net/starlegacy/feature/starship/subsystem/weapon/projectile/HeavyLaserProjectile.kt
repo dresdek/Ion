@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.projectile
 
-import net.horizonsend.ion.server.QuickBalance
+import net.horizonsend.ion.server.commands.QuickBalance
 import net.starlegacy.feature.starship.active.ActiveStarship
 import org.bukkit.Color
 import org.bukkit.Location

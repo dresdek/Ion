@@ -5,7 +5,7 @@ import com.google.common.collect.HashBiMap
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
-import net.horizonsend.ion.server.QuickBalance
+import net.horizonsend.ion.server.commands.QuickBalance
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter

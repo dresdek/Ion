@@ -1,7 +1,7 @@
 package net.starlegacy.feature.multiblock.starshipweapon.turret
 
 import java.util.concurrent.TimeUnit
-import net.horizonsend.ion.server.QuickBalance.getBalancedValue
+import net.horizonsend.ion.server.commands.QuickBalance.getBalancedValue
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.TurretWeaponSubsystem

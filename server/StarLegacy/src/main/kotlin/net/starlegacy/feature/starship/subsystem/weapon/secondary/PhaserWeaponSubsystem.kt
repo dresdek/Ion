@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.secondary
 
-import net.horizonsend.ion.server.QuickBalance
+import net.horizonsend.ion.server.commands.QuickBalance
 import java.util.concurrent.TimeUnit
 import net.starlegacy.feature.starship.active.ActiveStarship
 import net.starlegacy.feature.starship.subsystem.weapon.CannonWeaponSubsystem
