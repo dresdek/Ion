@@ -25,7 +25,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag.ONLINE_STATUS
 import net.dv8tion.jda.api.utils.cache.CacheFlag.VOICE_STATE
 import net.horizonsend.ion.proxy.commands.Link
 import net.horizonsend.ion.proxy.commands.Move
-import net.horizonsend.ion.proxy.commands.Switch
+import net.horizonsend.ion.proxy.commands.Server
 import net.horizonsend.ion.proxy.commands.Unlink
 import net.horizonsend.ion.proxy.database.MongoManager
 import org.slf4j.Logger
@@ -77,7 +77,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
 	fun onStart(event: ProxyInitializeEvent) {
 		VelocityCommandManager(server, this).apply {
-			setOf(Link, Move, Switch, Unlink).forEach { registerCommand(it) }
+			setOf(Link, Move, Server, Unlink).forEach { registerCommand(it) }
 
 			commandCompletions.apply {
 				registerCompletion("multiTargets") {

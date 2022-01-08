@@ -1,24 +1,34 @@
 package net.horizonsend.ion.server
 
+import com.comphenix.protocol.ProtocolLibrary.getProtocolManager
+import com.comphenix.protocol.ProtocolManager
+import net.horizonsend.ion.server.listeners.dynmap.DynmapEnabledListener
+import net.horizonsend.ion.server.listeners.paper.Tweaks
+import net.horizonsend.ion.server.listeners.protocollib.LoginPacketListener
 import net.starlegacy.PLUGIN
 import org.bukkit.Bukkit
 import org.dynmap.DynmapAPI
-import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
 
-// All Ion specific additions to the code are uses this class instead of the main StarLegacy class
-// This is for future proofing, when/if we remove the main StarLegacy class, Ion's code should require minimal changes
-// This is why the class is structured like a Bukkit JavaPlugin class, despite not being one.
 class Ion {
+	/**
+	 * To make things statically accessable for convenience a companion object is used.
+	 */
 	companion object {
 		val ionInstance get() = PLUGIN
 
 		var dynmapAPI: DynmapAPI? = null
-			private set
+
+		var protocolLib: ProtocolManager? = getProtocolManager()
 	}
 
-	fun onEnable() {
-		DynmapCommonAPIListener.register(Listener())
+	/**
+	 * Initializes Ion's additions, realistically this should be done in onEnable()
+	 */
+	init {
+		DynmapCommonAPIListener.register(DynmapEnabledListener)
+
+		protocolLib?.addPacketListener(LoginPacketListener)
 
 		Bukkit.getPluginManager().registerEvents(Tweaks, ionInstance)
 
@@ -28,12 +38,6 @@ class Ion {
 			commandCompletions.registerCompletion("valueNames") {
 				QuickBalance.balancedValues.keys
 			}
-		}
-	}
-
-	class Listener: DynmapCommonAPIListener() {
-		override fun apiEnabled(api: DynmapCommonAPI) {
-			dynmapAPI = api as DynmapAPI
 		}
 	}
 }
