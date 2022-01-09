@@ -48,62 +48,60 @@ class Ion @Inject constructor(val server: ProxyServer, private val logger: Logge
 
 	@Subscribe
 	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
-	fun onStart(event: ProxyInitializeEvent): EventTask {
-		return EventTask.async {
-			ionInstance = this
+	fun onStart(event: ProxyInitializeEvent): EventTask = EventTask.async {
+		ionInstance = this
 
-			dataDirectory.createDirectories() // Ensure the directories exist
+		dataDirectory.createDirectories() // Ensure the directories exist
 
-			// Loading of config
-			dataDirectory.resolve("config.json").apply {
-				if (!exists()) {
-					logger.warn("Failed to find the config file, creating a new one.")
-					writeText(Json.encodeToString(ionConfig))
-				}
-
-				else ionConfig = Json.decodeFromString(readText())
+		// Loading of config
+		dataDirectory.resolve("config.json").apply {
+			if (!exists()) {
+				logger.warn("Failed to find the config file, creating a new one.")
+				writeText(Json.encodeToString(ionConfig))
 			}
 
-			if (ionConfig.discordToken == "")
-				logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+			else ionConfig = Json.decodeFromString(readText())
+		}
 
-			// Connect to discord
-			else try {
-				jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
-					disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
-				}.build().apply {
-					addEventListener(JDAListener)
-				}
-			} catch (e: Exception) {
-				logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+		if (ionConfig.discordToken == "")
+			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+
+		// Connect to discord
+		else try {
+			jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
+				disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
+			}.build().apply {
+				addEventListener(JDAListener)
 			}
+		} catch (e: Exception) {
+			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+		}
 
-			// Init MongoDB
-			MongoManager
+		// Init MongoDB
+		MongoManager
 
-			VelocityCommandManager(server, this).apply {
-				setOf(Link, Move, Server, Unlink).forEach { registerCommand(it) }
+		VelocityCommandManager(server, this).apply {
+			setOf(Link, Move, Server, Unlink).forEach { registerCommand(it) }
 
-				commandCompletions.apply {
-					registerCompletion("multiTargets") {
-						server.allPlayers.map { it.username }.toMutableList().apply {
-							add("*")
-							addAll(server.allServers.map { "@${it.serverInfo.name}" })
-						}
-					}
-
-					registerCompletion("players") {
-						server.allPlayers.map { it.username }.toMutableList()
-					}
-
-					registerCompletion("servers") { context ->
-						server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
+			commandCompletions.apply {
+				registerCompletion("multiTargets") {
+					server.allPlayers.map { it.username }.toMutableList().apply {
+						add("*")
+						addAll(server.allServers.map { "@${it.serverInfo.name}" })
 					}
 				}
 
-				@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
-				enableUnstableAPI("help")
+				registerCompletion("players") {
+					server.allPlayers.map { it.username }.toMutableList()
+				}
+
+				registerCompletion("servers") { context ->
+					server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
+				}
 			}
+
+			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
+			enableUnstableAPI("help")
 		}
 	}
 }
