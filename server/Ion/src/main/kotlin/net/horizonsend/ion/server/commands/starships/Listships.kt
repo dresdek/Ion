@@ -34,8 +34,7 @@ object Listships: BaseCommand() {
 			component.append(text(" on ", NamedTextColor.GRAY))
 			component.append(text(it.world, NamedTextColor.GOLD))
 			component.append(text(" at ", NamedTextColor.GRAY))
-			component.append(text("${blockKeyX(it.blockKey)}, ${blockKeyY(it.blockKey)}, ${blockKeyZ(it.blockKey)} ",
-				NamedTextColor.LIGHT_PURPLE))
+			component.append(text("${blockKeyX(it.blockKey)}, ${blockKeyY(it.blockKey)}, ${blockKeyZ(it.blockKey)} ", NamedTextColor.LIGHT_PURPLE))
 			component.append(text("last used ", NamedTextColor.GRAY))
 			component.append(text(niceTimeFormatting(System.currentTimeMillis() - it.lastUsed),
 				NamedTextColor.YELLOW))
