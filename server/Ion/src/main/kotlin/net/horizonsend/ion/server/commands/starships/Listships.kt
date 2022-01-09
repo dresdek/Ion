@@ -57,15 +57,19 @@ object Listships: BaseCommand() {
 		ActiveStarships.all().forEach {
 			blockCountAccumulator += it.blockCount
 
+			val activePlayerStarship = it as ActivePlayerStarship
+			val pilotName = activePlayerStarship.pilot?.name ?: "[nobody]"
+			val shipName = activePlayerStarship.data.name ?: "[nothing]"
+
 			component.append(text("\n${it.type.displayName}", NamedTextColor.AQUA))
 			component.append(text(" on ", NamedTextColor.GRAY))
 			component.append(text(it.world.name, NamedTextColor.GOLD))
 			component.append(text(" at ", NamedTextColor.GRAY))
 			component.append(text("${it.centerOfMass.x}, ${it.centerOfMass.y}, ${it.centerOfMass.z} ", NamedTextColor.LIGHT_PURPLE))
 			component.append(text("piloted by ", NamedTextColor.GRAY))
-			component.append(text((it as? ActivePlayerStarship)?.pilot?.name ?: "Unknown", NamedTextColor.YELLOW))
+			component.append(text(pilotName, NamedTextColor.YELLOW))
 			component.append(text(" named ", NamedTextColor.GRAY))
-			component.append(text((it as? ActivePlayerStarship)?.data?.name ?: "[nothing]", NamedTextColor.GREEN))
+			component.append(text(shipName, NamedTextColor.GREEN))
 		}
 
 		component.append(text("\nTotal blocks: ", NamedTextColor.GRAY))
