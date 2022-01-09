@@ -9,6 +9,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 import net.horizonsend.ion.proxy.Ion.Companion.ionInstance
+import net.horizonsend.ion.proxy.Ion.Companion.jda
 import net.horizonsend.ion.proxy.Ion.Companion.server
 import net.horizonsend.ion.proxy.database.MongoManager.getAccountData
 import net.kyori.adventure.text.Component.text
@@ -28,6 +29,11 @@ object Link: BaseCommand() {
 	@Default
 	@Description("Link your discord account to your minecraft account.")
 	fun link(source: Player) {
+		if (jda == null) {
+			source.sendMessage(text("JDA failed to initialize on start up, as a result this command is unavailable."))
+			return
+		}
+
 		if (getAccountData(source.uniqueId).discordUserId != "") {
 			source.sendMessage(text("Your minecraft account has already been linked to a discord account. Accounts can only be unlinked by Horizon's End staff."))
 			return
