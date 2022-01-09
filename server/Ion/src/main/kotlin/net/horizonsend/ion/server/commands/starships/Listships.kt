@@ -65,7 +65,7 @@ object Listships: BaseCommand() {
 			component.append(text("piloted by ", NamedTextColor.GRAY))
 			component.append(text((it as? ActivePlayerStarship)?.pilot?.name ?: "Unknown", NamedTextColor.YELLOW))
 			component.append(text(" named ", NamedTextColor.GRAY))
-			component.append(text((it as? ActivePlayerStarship)?.pilot?.name ?: "Unknown", NamedTextColor.GREEN))
+			component.append(text((it as? ActivePlayerStarship)?.data?.name ?: "[nothing]", NamedTextColor.GREEN))
 		}
 
 		component.append(text("\nTotal blocks: ", NamedTextColor.GRAY))
