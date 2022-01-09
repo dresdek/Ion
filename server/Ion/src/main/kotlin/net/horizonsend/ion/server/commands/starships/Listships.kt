@@ -11,6 +11,7 @@ import net.kyori.adventure.text.format.TextDecoration
 import net.starlegacy.database.MongoManager
 import net.starlegacy.database.schema.starships.PlayerStarshipData
 import net.starlegacy.database.slPlayerId
+import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.util.blockKeyX
 import net.starlegacy.util.blockKeyY
@@ -41,6 +42,32 @@ object Listships: BaseCommand() {
 			component.append(text(" named ", NamedTextColor.GRAY))
 			component.append(text(it.name ?: "[nothing]", NamedTextColor.GREEN))
 		}
+
+		sender.sendMessage(component)
+	}
+
+	fun active(sender: Player) {
+		val component = text()
+		component.append(text("Active Starships:").decorate(TextDecoration.BOLD))
+
+		var blockCountAccumulator = 0
+
+		ActiveStarships.all().forEach {
+			blockCountAccumulator += it.blockCount
+
+			component.append(text("\n${it.type.displayName}", NamedTextColor.AQUA))
+			component.append(text(" on ", NamedTextColor.GRAY))
+			component.append(text(it.world.name, NamedTextColor.GOLD))
+			component.append(text(" at ", NamedTextColor.GRAY))
+			component.append(text("${it.centerOfMass.x}, ${it.centerOfMass.y}, ${it.centerOfMass.z} ", NamedTextColor.LIGHT_PURPLE))
+			component.append(text("piloted by ", NamedTextColor.GRAY))
+			component.append(text((it as? ActivePlayerStarship)?.pilot?.name ?: "Unknown", NamedTextColor.YELLOW))
+			component.append(text(" named ", NamedTextColor.GRAY))
+			component.append(text((it as? ActivePlayerStarship)?.pilot?.name ?: "Unknown", NamedTextColor.GREEN))
+		}
+
+		component.append(text("\nTotal blocks: ", NamedTextColor.GRAY))
+		component.append(text(blockCountAccumulator.toString(), NamedTextColor.GREEN))
 
 		sender.sendMessage(component)
 	}

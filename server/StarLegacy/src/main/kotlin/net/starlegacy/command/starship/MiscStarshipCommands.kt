@@ -17,7 +17,6 @@ import net.starlegacy.feature.starship.DeactivatedPlayerStarships
 import net.starlegacy.feature.starship.PilotedStarships
 import net.starlegacy.feature.starship.StarshipDestruction
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
-import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.feature.starship.control.StarshipControl
 import net.starlegacy.feature.starship.control.StarshipCruising
 import net.starlegacy.feature.starship.hyperspace.Hyperspace
@@ -264,26 +263,5 @@ object MiscStarshipCommands : SLCommand() {
 		player.teleport(location)
 		starship.sendMessage("&c${player.name} was ejected from the starship")
 		player msg "&cYou were ejected from the starship"
-	}
-
-	@CommandAlias("listships")
-	@CommandPermission("starships.listships")
-	fun onListShips(sender: Player) {
-		var totalShips = 0
-		var totalBlocks = 0
-
-		for (starship in ActiveStarships.all()) {
-			val pilot: Player? = (starship as? ActivePlayerStarship)?.pilot
-			totalShips++
-			val size: Int = starship.blockCount
-			totalBlocks += size
-			val typeName = starship.type.displayName
-			val pilotName = pilot?.name ?: "none"
-			val worldName = starship.world.name
-			sender msg "$typeName piloted by $pilotName with block count $size in world $worldName"
-		}
-
-		sender msg "&7Total Ships&8:&b $totalShips&8"
-		sender msg "&7Total Blocks in all ships&8:&b $totalBlocks"
 	}
 }
