@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Description
 import net.horizonsend.ion.server.niceTimeFormatting
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.starlegacy.database.MongoManager
@@ -28,19 +28,19 @@ object Starships: BaseCommand() {
 		component.append(Component.text("Your Starships:").decorate(TextDecoration.BOLD))
 
 		MongoManager.getCollection(PlayerStarshipData::class).find(PlayerStarshipData::captain eq sender.slPlayerId).forEach {
-			component.append(Component.text("\n"))
-			if (it.isLockActive()) component.append(Component.text("Locked ", NamedTextColor.RED))
-			component.append(Component.text(it.type.displayName, NamedTextColor.AQUA))
-			component.append(Component.text(" on ", NamedTextColor.GRAY))
-			component.append(Component.text(it.world, NamedTextColor.GOLD))
-			component.append(Component.text(" at ", NamedTextColor.GRAY))
-			component.append(Component.text("${blockKeyX(it.blockKey)}, ${blockKeyY(it.blockKey)}, ${blockKeyZ(it.blockKey)} ",
+			component.append(text("\n"))
+			if (it.isLockActive()) component.append(text("Locked ", NamedTextColor.RED))
+			component.append(text(it.type.displayName, NamedTextColor.AQUA))
+			component.append(text(" on ", NamedTextColor.GRAY))
+			component.append(text(it.world, NamedTextColor.GOLD))
+			component.append(text(" at ", NamedTextColor.GRAY))
+			component.append(text("${blockKeyX(it.blockKey)}, ${blockKeyY(it.blockKey)}, ${blockKeyZ(it.blockKey)} ",
 				NamedTextColor.LIGHT_PURPLE))
-			component.append(Component.text("last used ", NamedTextColor.GRAY))
-			component.append(Component.text(niceTimeFormatting(System.currentTimeMillis() - it.lastUsed),
+			component.append(text("last used ", NamedTextColor.GRAY))
+			component.append(text(niceTimeFormatting(System.currentTimeMillis() - it.lastUsed),
 				NamedTextColor.YELLOW))
-			component.append(Component.text(" named ", NamedTextColor.GRAY))
-			component.append(Component.text(it.name ?: "[nothing]", NamedTextColor.GREEN))
+			component.append(text(" named ", NamedTextColor.GRAY))
+			component.append(text(it.name ?: "[nothing]", NamedTextColor.GREEN))
 		}
 
 		sender.sendMessage(component)

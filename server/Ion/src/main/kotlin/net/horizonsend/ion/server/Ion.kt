@@ -1,7 +1,7 @@
 package net.horizonsend.ion.server
 
 import net.horizonsend.ion.server.commands.QuickBalance
-import net.horizonsend.ion.server.commands.starships.Starships
+import net.horizonsend.ion.server.commands.starships.Listships
 import net.horizonsend.ion.server.listeners.dynmap.DynmapEnabledListener
 import net.horizonsend.ion.server.listeners.paper.Tweaks
 import net.starlegacy.PLUGIN
@@ -28,7 +28,7 @@ class Ion {
 		Bukkit.getPluginManager().registerEvents(Tweaks, ionInstance)
 
 		ionInstance.manager.apply {
-			registerCommand(Starships)
+			registerCommand(Listships)
 			registerCommand(QuickBalance)
 
 			commandCompletions.registerCompletion("valueNames") {
