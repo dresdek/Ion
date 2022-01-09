@@ -2,27 +2,29 @@ package net.starlegacy.feature.starship
 
 import com.google.common.cache.CacheBuilder
 import com.google.common.cache.CacheLoader
-import java.util.EnumSet
-import net.starlegacy.util.BANNER_TYPES
-import net.starlegacy.util.BED_TYPES
-import net.starlegacy.util.BUTTON_TYPES
-import net.starlegacy.util.CARPET_TYPES
 import net.starlegacy.util.CONCRETE_TYPES
-import net.starlegacy.util.DOOR_TYPES
-import net.starlegacy.util.FENCE_TYPES
-import net.starlegacy.util.GLAZED_TERRACOTTA_TYPES
-import net.starlegacy.util.NMSBlockData
-import net.starlegacy.util.PLANKS_TYPES
-import net.starlegacy.util.PRESSURE_PLATE_TYPES
-import net.starlegacy.util.SIGN_TYPES
 import net.starlegacy.util.SLAB_TYPES
-import net.starlegacy.util.STAINED_GLASS_PANE_TYPES
-import net.starlegacy.util.STAINED_GLASS_TYPES
-import net.starlegacy.util.STAINED_TERRACOTTA_TYPES
 import net.starlegacy.util.STAIR_TYPES
-import net.starlegacy.util.TRAPDOOR_TYPES
-import net.starlegacy.util.WALL_TYPES
+import net.starlegacy.util.GLAZED_TERRACOTTA_TYPES
+import net.starlegacy.util.STAINED_TERRACOTTA_TYPES
 import net.starlegacy.util.WOOL_TYPES
+import net.starlegacy.util.CARPET_TYPES
+import net.starlegacy.util.STAINED_GLASS_TYPES
+import net.starlegacy.util.STAINED_GLASS_PANE_TYPES
+import net.starlegacy.util.SIGN_TYPES
+import net.starlegacy.util.BUTTON_TYPES
+import net.starlegacy.util.BANNER_TYPES
+import net.starlegacy.util.DOOR_TYPES
+import net.starlegacy.util.TRAPDOOR_TYPES
+import net.starlegacy.util.PRESSURE_PLATE_TYPES
+import net.starlegacy.util.BED_TYPES
+import net.starlegacy.util.FENCE_TYPES
+import net.starlegacy.util.WALL_TYPES
+import net.starlegacy.util.PLANKS_TYPES
+import net.starlegacy.util.CANDLE_TYPES
+import net.starlegacy.util.CAKE_TYPES
+import net.starlegacy.util.NMSBlockData
+import java.util.EnumSet
 import org.bukkit.Material
 import org.bukkit.Material.ANVIL
 import org.bukkit.Material.BELL
@@ -87,6 +89,9 @@ import org.bukkit.Material.WAXED_EXPOSED_COPPER
 import org.bukkit.Material.WAXED_OXIDIZED_COPPER
 import org.bukkit.Material.WAXED_WEATHERED_COPPER
 import org.bukkit.Material.WEATHERED_COPPER
+import org.bukkit.Material.BARREL
+import org.bukkit.Material.TINTED_GLASS
+import org.bukkit.Material.SCAFFOLDING
 
 val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	JUKEBOX, // ship computer
@@ -165,6 +170,10 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	SHROOMLIGHT,
 	BELL,
 	GRINDSTONE,
+	BARREL,
+	TINTED_GLASS,
+	SCAFFOLDING
+
 ).also {
 	it.addAll(CONCRETE_TYPES)
 	it.addAll(SLAB_TYPES)
@@ -185,6 +194,9 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	it.addAll(FENCE_TYPES)
 	it.addAll(WALL_TYPES)
 	it.addAll(PLANKS_TYPES)
+	it.addAll(CANDLE_TYPES)
+	it.addAll(CAKE_TYPES)
+
 }.filter { it.isBlock }.toCollection(EnumSet.noneOf(Material::class.java))
 
 val DESTROYABLE_BLOCKS = setOf(
