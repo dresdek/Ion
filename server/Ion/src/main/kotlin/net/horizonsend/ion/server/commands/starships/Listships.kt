@@ -46,6 +46,8 @@ object Listships: BaseCommand() {
 		sender.sendMessage(component)
 	}
 
+	@Description("Lists all starships that are active.")
+	@Subcommand("mine")
 	fun active(sender: Player) {
 		val component = text()
 		component.append(text("Active Starships:").decorate(TextDecoration.BOLD))
