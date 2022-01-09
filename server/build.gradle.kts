@@ -12,6 +12,8 @@ repositories {
 	maven { url = uri("https://repo.citizensnpcs.co/") }
 	maven { url = uri("https://repo.mikeprimm.com/") }
 	maven { url = uri("https://jitpack.io") }
+
+	maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 }
 
 dependencies {
@@ -32,6 +34,7 @@ dependencies {
 	implementation("com.googlecode.cqengine:cqengine:3.6.0") // https://github.com/npgall/cqengine
 	implementation("com.github.jkcclemens:khttp:0.1.0") // https://github.com/jkcclemens/khttp
 	implementation("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
+	implementation("net.wesjd:anvilgui-1_18_R1:1.5.3-SNAPSHOT")
 	implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT") // https://github.com/aikar/commands
 	implementation("redis.clients:jedis:3.7.1") // https://github.com/xetorthio/jedis
 }

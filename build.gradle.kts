@@ -9,7 +9,10 @@ allprojects {
 	apply(plugin = "com.github.johnrengelman.shadow")
 
 	repositories {
-		maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{ excludeModule("org.bukkit", "bukkit") } }
+		maven { url = uri("https://repo.aikar.co/content/groups/aikar/"); content{
+			excludeModule("org.bukkit", "bukkit")
+			excludeModule("net.wesjd", "anvilgui")
+		}}
 		mavenCentral()
 	}
 

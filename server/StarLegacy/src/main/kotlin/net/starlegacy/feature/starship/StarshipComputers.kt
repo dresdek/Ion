@@ -2,6 +2,7 @@ package net.starlegacy.feature.starship
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem
 import java.util.LinkedList
+import net.horizonsend.ion.server.Ion.Companion.ionInstance
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent
 import net.starlegacy.database.Oid
@@ -22,7 +23,10 @@ import net.starlegacy.util.actionAndMsg
 import net.starlegacy.util.colorize
 import net.starlegacy.util.msg
 import net.starlegacy.util.toText
+import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.Material
+import org.bukkit.Material.GRAY_STAINED_GLASS_PANE
+import org.bukkit.Material.NAME_TAG
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.conversations.Conversation
@@ -36,8 +40,10 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 import org.litote.kmongo.addToSet
 import org.litote.kmongo.pull
+import org.litote.kmongo.setValue
 
 object StarshipComputers : SLComponent() {
 
@@ -129,20 +135,43 @@ object StarshipComputers : SLComponent() {
 				tryReDetect(playerClicker, data)
 			}.setName("&5Re-detect".colorize()), 0, 0)
 
-			pane.addItem(guiButton(Material.PLAYER_HEAD) {
-				openPilotsMenu(playerClicker, data)
-			}.setName("&6Pilots".colorize()), 1, 0)
+			pane.addItem(guiButton(NAME_TAG) {
+				AnvilGUI.Builder().apply {
+					onComplete { player, newName ->
+						if (newName == "[nothing]") return@onComplete AnvilGUI.Response.text("Name can not be [nothing]!")
+
+						player.sendMessage("Ship renamed from \"${data.name ?: "[nothing]"}\" to \"$newName\"")
+
+						PlayerStarshipData.updateById(data._id, setValue(PlayerStarshipData::name, newName))
+
+						AnvilGUI.Response.close()
+					}
+					title("Rename Starship")
+					text(data.name ?: "[nothing]")
+					itemLeft(ItemStack(GRAY_STAINED_GLASS_PANE))
+					plugin(ionInstance)
+					open(player)
+				}
+			}.setName("Name"), 1, 0)
 
 			pane.addItem(guiButton(Material.GHAST_TEAR) {
 				openTypeMenu(playerClicker, data)
 			}.setName("&fType (${data.type})".colorize()), 2, 0)
 
+			pane.addItem(guiButton(Material.REDSTONE_BLOCK) {
+				handleRightClick(data, playerClicker)
+			}.setName("Pilot".colorize()), 4, 1)
+
 			val lockDisplayTag = if (data.isLockEnabled) "&aLock Enabled" else "&cLock Disabled"
+
+			pane.addItem(guiButton(Material.PLAYER_HEAD) {
+				openPilotsMenu(playerClicker, data)
+			}.setName("&6Pilots".colorize()), 8, 0)
 
 			pane.addItem(guiButton(Material.IRON_DOOR) {
 				toggleLockEnabled(playerClicker, data)
 				tryOpenMenu(player, data)
-			}.setName(lockDisplayTag.colorize()), 3, 0)
+			}.setName(lockDisplayTag.colorize()), 9, 0)
 
 			pane.setOnClick { e ->
 				e.isCancelled = true
