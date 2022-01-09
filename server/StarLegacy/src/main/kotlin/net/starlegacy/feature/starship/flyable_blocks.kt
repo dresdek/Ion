@@ -91,6 +91,7 @@ import org.bukkit.Material.WAXED_WEATHERED_COPPER
 import org.bukkit.Material.WEATHERED_COPPER
 import org.bukkit.Material.BARREL
 import org.bukkit.Material.TINTED_GLASS
+import org.bukkit.Material.SCAFFOLDING
 
 val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	JUKEBOX, // ship computer
@@ -171,6 +172,7 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	GRINDSTONE,
 	BARREL,
 	TINTED_GLASS,
+	SCAFFOLDING
 
 ).also {
 	it.addAll(CONCRETE_TYPES)
