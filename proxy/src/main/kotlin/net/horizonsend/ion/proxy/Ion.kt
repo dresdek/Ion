@@ -41,7 +41,7 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 		lateinit var ionConfig: Config
 			private set
 
-		lateinit var jda: JDA
+		var jda: JDA? = null
 			private set
 	}
 
@@ -60,13 +60,18 @@ class Ion @Inject constructor(val server: ProxyServer, logger: Logger, @DataDire
 
 		ionConfig = Json.decodeFromString(configPath.readText())
 
+		if (ionConfig.discordToken == "")
+			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+
 		// Connect to discord
-		jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
-			disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
-
-		}.build().apply {
-			addEventListener(JDAListener)
-
+		else try {
+			jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
+				disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
+			}.build().apply {
+				addEventListener(JDAListener)
+			}
+		} catch (e: Exception) {
+			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
 		}
 
 		// Init MongoDB
