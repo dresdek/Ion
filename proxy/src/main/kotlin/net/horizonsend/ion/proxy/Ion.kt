@@ -2,6 +2,7 @@ package net.horizonsend.ion.proxy
 
 import co.aikar.commands.VelocityCommandManager
 import com.google.inject.Inject
+import com.velocitypowered.api.event.EventTask
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent
 import com.velocitypowered.api.plugin.Plugin
@@ -44,63 +45,65 @@ class Ion @Inject constructor(val server: ProxyServer, private val logger: Logge
 		var jda: JDA? = null
 			private set
 	}
-	
+
 	@Subscribe
 	@Suppress("UNUSED_PARAMETER") // Parameter is required to indicate what event to subscribe to
-	fun onStart(event: ProxyInitializeEvent) {
-		ionInstance = this
+	fun onStart(event: ProxyInitializeEvent): EventTask {
+		return EventTask.async {
+			ionInstance = this
 
-		// Loading of config
-		val configPath = dataDirectory.resolve("config.json")
+			// Loading of config
+			val configPath = dataDirectory.resolve("config.json")
 
-		dataDirectory.createDirectories() // Ensure the directories exist
+			dataDirectory.createDirectories() // Ensure the directories exist
 
-		if (!configPath.exists()) {
-			logger.warn("Failed to find the config file, creating a new one.")
-			configPath.writeText(Json.encodeToString(Config()))
-		}
-
-		ionConfig = Json.decodeFromString(configPath.readText())
-
-		if (ionConfig.discordToken == "")
-			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
-
-		// Connect to discord
-		else try {
-			jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
-				disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
-			}.build().apply {
-				addEventListener(JDAListener)
+			if (!configPath.exists()) {
+				logger.warn("Failed to find the config file, creating a new one.")
+				configPath.writeText(Json.encodeToString(Config()))
 			}
-		} catch (e: Exception) {
-			logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
-		}
 
-		// Init MongoDB
-		MongoManager
+			ionConfig = Json.decodeFromString(configPath.readText())
 
-		VelocityCommandManager(server, this).apply {
-			setOf(Link, Move, Server, Unlink).forEach { registerCommand(it) }
+			if (ionConfig.discordToken == "")
+				logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
 
-			commandCompletions.apply {
-				registerCompletion("multiTargets") {
-					server.allPlayers.map { it.username }.toMutableList().apply {
-						add("*")
-						addAll(server.allServers.map { "@${it.serverInfo.name}" })
+			// Connect to discord
+			else try {
+				jda = JDABuilder.create(ionConfig.discordToken, DIRECT_MESSAGES).apply {
+					disableCache(ACTIVITY, VOICE_STATE, EMOTE, CLIENT_STATUS, ONLINE_STATUS)
+				}.build().apply {
+					addEventListener(JDAListener)
+				}
+			} catch (e: Exception) {
+				logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
+			}
+
+			// Init MongoDB
+			MongoManager
+
+			VelocityCommandManager(server, this).apply {
+				setOf(Link, Move, Server, Unlink).forEach { registerCommand(it) }
+
+				commandCompletions.apply {
+					registerCompletion("multiTargets") {
+						server.allPlayers.map { it.username }.toMutableList().apply {
+							add("*")
+							addAll(server.allServers.map { "@${it.serverInfo.name}" })
+						}
+					}
+
+					registerCompletion("players") {
+						server.allPlayers.map { it.username }.toMutableList()
+					}
+
+					registerCompletion("servers") { context ->
+						server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
 					}
 				}
 
-				registerCompletion("players") {
-					server.allPlayers.map { it.username }.toMutableList()
-				}
-
-				registerCompletion("servers") { context ->
-					server.allServers.map { it.serverInfo.name }.filter { context.sender.hasPermission("ion.server.$it") }
-				}
+				@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
+				enableUnstableAPI("help")
 			}
-
-			@Suppress("DEPRECATION") // To quote Micle (Regions.kt L209) "our standards are very low"
-			enableUnstableAPI("help")
 		}
 	}
 }
