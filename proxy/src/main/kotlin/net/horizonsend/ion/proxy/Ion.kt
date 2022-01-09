@@ -39,7 +39,7 @@ class Ion @Inject constructor(val server: ProxyServer, private val logger: Logge
 
 		val server get() = ionInstance.server
 
-		lateinit var ionConfig: Config
+		var ionConfig: Config = Config()
 			private set
 
 		var jda: JDA? = null
@@ -52,17 +52,17 @@ class Ion @Inject constructor(val server: ProxyServer, private val logger: Logge
 		return EventTask.async {
 			ionInstance = this
 
-			// Loading of config
-			val configPath = dataDirectory.resolve("config.json")
-
 			dataDirectory.createDirectories() // Ensure the directories exist
 
-			if (!configPath.exists()) {
-				logger.warn("Failed to find the config file, creating a new one.")
-				configPath.writeText(Json.encodeToString(Config()))
-			}
+			// Loading of config
+			dataDirectory.resolve("config.json").apply {
+				if (!exists()) {
+					logger.warn("Failed to find the config file, creating a new one.")
+					writeText(Json.encodeToString(ionConfig))
+				}
 
-			ionConfig = Json.decodeFromString(configPath.readText())
+				else ionConfig = Json.decodeFromString(readText())
+			}
 
 			if (ionConfig.discordToken == "")
 				logger.error("Unable to start JDA, the bot token is likely invalid. The plugin will continue with reduced functionality.")
