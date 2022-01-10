@@ -17,6 +17,8 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
+//TODO: FIX THIS SHOCKINGLY INEFFICIENT MATHS
+
 class RotationMovement(starship: ActiveStarship, val clockwise: Boolean) : StarshipMovement(starship) {
 	private val origin = starship.centerOfMass
 	private val nmsRotation = if (clockwise) Rotation.CLOCKWISE_90 else Rotation.COUNTERCLOCKWISE_90
