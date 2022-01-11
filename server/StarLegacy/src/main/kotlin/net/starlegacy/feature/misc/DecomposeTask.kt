@@ -65,6 +65,10 @@ class DecomposeTask(
 		val sign = signBlock.state as? Sign
 			?: return false
 
+		if (!multiblock.signMatchesStructure(sign, loadChunks = false)) {
+			return false
+		}
+
 		val storage = DecomposerMultiblock.getStorage(sign)
 
 		for (offsetUp: Int in 0 until height) {

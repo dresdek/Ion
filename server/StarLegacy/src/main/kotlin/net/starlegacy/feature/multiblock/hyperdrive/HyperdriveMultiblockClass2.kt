@@ -20,7 +20,7 @@ object HyperdriveMultiblockClass2 : HyperdriveMultiblock() {
 
 		z(+0) {
 			y(-1) {
-				x(+0).ironBlock()
+				x(+0).wireInputComputer()
 			}
 
 			y(+0) {
