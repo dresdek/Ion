@@ -1,9 +1,14 @@
 package net.starlegacy.listener.misc
 
+//import net.starlegacy.feature.machine.BaseShields
+import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.misc.CustomBlockItem
 import net.starlegacy.feature.misc.CustomBlocks
 import net.starlegacy.feature.misc.CustomItems
+import net.starlegacy.feature.misc.getPower
+import net.starlegacy.feature.misc.setPower
 import net.starlegacy.feature.multiblock.Multiblocks
+import net.starlegacy.feature.multiblock.PowerStoringMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.ConnectedDockingTubeMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.DisconnectedDockingTubeMultiblock
 import net.starlegacy.feature.multiblock.dockingtube.DockingTubeMultiblock
@@ -160,6 +165,34 @@ object InteractListener : SLEventListener() {
 
 			sign.setLine(1, if (enabled) AirlockMultiblock.ON else AirlockMultiblock.OFF)
 			sign.update()
+		}
+	}
+
+	// Put power into the sign if right clicking with a battery
+	@EventHandler
+	fun onPowerSignRecharge(event: PlayerInteractEvent) {
+		if (event.action == Action.RIGHT_CLICK_BLOCK && CustomItems[event.item] is CustomItems.BatteryItem) {
+			val sign = event.clickedBlock?.getState(false) as? Sign ?: return
+			val multiblock = Multiblocks[sign] as? PowerStoringMultiblock ?: return
+
+			event.isCancelled = true
+
+			val item = event.item ?: return
+
+			val power = getPower(item)
+			var powerToTransfer = power * item.amount
+			if (powerToTransfer == 0) {
+				return
+			}
+
+			val machinePower = PowerMachines.getPower(sign)
+			val maxMachinePower = multiblock.maxPower
+			if (maxMachinePower - machinePower < powerToTransfer) {
+				powerToTransfer = maxMachinePower - machinePower
+			}
+
+			setPower(item, power - powerToTransfer / item.amount)
+			PowerMachines.addPower(sign, powerToTransfer)
 		}
 	}
 

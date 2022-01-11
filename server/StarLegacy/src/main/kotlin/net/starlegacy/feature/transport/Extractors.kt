@@ -15,10 +15,12 @@ import net.starlegacy.util.ADJACENT_BLOCK_FACES
 import net.starlegacy.util.Tasks
 import net.starlegacy.util.Vec3i
 import net.starlegacy.util.coordinates
+import net.starlegacy.util.getBlockDataSafe
 import net.starlegacy.util.getBlockTypeSafe
 import net.starlegacy.util.getStateIfLoaded
 import net.starlegacy.util.gzip
 import net.starlegacy.util.randomEntry
+import net.starlegacy.util.randomFloat
 import net.starlegacy.util.timing
 import net.starlegacy.util.ungzip
 import org.bukkit.Material
@@ -27,6 +29,7 @@ import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.block.BlockState
 import org.bukkit.block.data.BlockData
+import org.bukkit.block.data.type.DaylightDetector
 import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftInventory
 import org.bukkit.event.EventPriority
 import org.bukkit.event.block.BlockBreakEvent
@@ -164,6 +167,8 @@ object Extractors : SLComponent() {
 				continue
 			}
 
+			val computers: MutableList<Vec3i> = mutableListOf() // list of note block power machine computers
+			val wires: MutableList<BlockFace> = mutableListOf() // list of end rod wires
 			val inventories: MutableList<Vec3i> = mutableListOf() // list of inventories to extract from to pipes
 			val pipes: MutableList<BlockFace> = mutableListOf() // list of pipes to extract to
 
@@ -187,12 +192,37 @@ object Extractors : SLComponent() {
 					Pipes.isAnyPipe(adjacentType) -> {
 						pipes.add(face)
 					}
+
+					adjacentType == Wires.INPUT_COMPUTER_BLOCK -> {
+						computers.add(Vec3i(adjacentX, adjacentY, adjacentZ))
+					}
+
+					Wires.isAnyWire(adjacentType) -> {
+						wires.add(face)
+					}
+
+					isDay && adjacentType == Material.DIAMOND_BLOCK && face == BlockFace.UP -> {
+						val sensor: BlockData = getBlockDataSafe(world, adjacentX, adjacentY + 1, adjacentZ)
+							?: continue@extractorLoop
+
+						if (sensor.material == Material.DAYLIGHT_DETECTOR) {
+							solarSensor = sensor
+						}
+					}
 				}
 			}
 
 			// if there is an inventory and a pipe and it was not already busy, handle it
 			if (inventories.isNotEmpty() && pipes.isNotEmpty() && BUSY_PIPE_EXTRACTORS.add(extractorLocation)) {
 				handlePipe(world, extractorLocation, inventories, pipes)
+			}
+
+			if (computers.isNotEmpty() && wires.isNotEmpty()) {
+				handleWire(world, x, y, z, computers, wires)
+			}
+
+			if (solarSensor != null) {
+				handleSolarPanel(world, x, y, z, wires, solarSensor)
 			}
 		}
 	}
@@ -268,6 +298,37 @@ object Extractors : SLComponent() {
 		val cb = (inventory as CraftInventory)
 		val nms = cb.inventory
 		return nms.contents.any { it != null && !it.isEmpty }
+	}
+
+	private fun handleWire(world: World, x: Int, y: Int, z: Int, computers: List<Vec3i>, wires: List<BlockFace>) {
+		val wire: BlockFace = wires.randomEntry()
+		val computer: Vec3i = computers.randomEntry()
+
+		Wires.startWireChain(world, x, y, z, wire, computer)
+	}
+
+	private const val SOLAR_PANEL_CHANCE = 0.05
+
+	private fun handleSolarPanel(world: World, x: Int, y: Int, z: Int, wires: List<BlockFace>, sensor: BlockData) {
+		if (wires.isEmpty()) {
+			return
+		}
+
+		if (randomFloat() > (SOLAR_PANEL_CHANCE / extractorTicksPerSecond)) {
+			return
+		}
+
+		sensor as DaylightDetector
+		val inverted: Boolean = sensor.isInverted
+		val power: Int = sensor.power
+
+		// make it so it works in the day only, whether it be a night sensor or a day sensor,
+		// and also only if it has sky light. tldr; based on the power
+		if ((power < 4 && !inverted) || (power > 2 && inverted)) {
+			return
+		}
+
+		Wires.startWireChain(world, x, y, z, wires.randomEntry(), null)
 	}
 
 	private fun getExtractorSet(world: World): MutableSet<Vec3i> {

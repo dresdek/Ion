@@ -5,6 +5,7 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.set
 import kotlin.math.min
+import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.util.NMSBlockData
 import net.starlegacy.util.blockKeyX
 import net.starlegacy.util.blockKeyY
@@ -190,6 +191,16 @@ class StarshipFactoryPrinter(
 				sign.setLine(index, line)
 			}
 			sign.update(false, false)
+
+			resetPower(sign)
 		}
+	}
+
+	private fun resetPower(sign: Sign) {
+		if (PowerMachines.getPower(sign) <= 0) {
+			return
+		}
+
+		PowerMachines.setPower(sign, 0, fast = true)
 	}
 }

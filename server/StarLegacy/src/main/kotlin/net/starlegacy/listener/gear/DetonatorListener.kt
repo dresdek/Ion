@@ -1,6 +1,7 @@
 package net.starlegacy.listener.gear
 
 import net.starlegacy.PLUGIN
+import net.starlegacy.feature.machine.AreaShields
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.listener.SLEventListener
 import net.starlegacy.util.Tasks
@@ -83,6 +84,7 @@ object DetonatorListener : SLEventListener() {
 				}
 
 				val blockExplodeEvent = BlockExplodeEvent(block, blocks, 0.123f)
+				AreaShields.bypassShieldEvents.add(blockExplodeEvent)
 				player.world.createExplosion(detonator, 1f, false, false)
 				player.world.playSound(detonator.location, Sound.ENTITY_GENERIC_EXPLODE, 10f, 0.5f)
 

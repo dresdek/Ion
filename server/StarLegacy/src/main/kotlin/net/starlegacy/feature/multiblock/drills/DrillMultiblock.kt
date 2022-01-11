@@ -4,10 +4,11 @@ import java.util.Arrays
 import java.util.EnumSet
 import java.util.UUID
 import kotlin.math.max
+import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.misc.CustomBlocks
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
-import net.starlegacy.feature.multiblock.Multiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
+import net.starlegacy.feature.multiblock.PowerStoringMultiblock
 import net.starlegacy.util.LegacyItemUtils
 import net.starlegacy.util.Tasks
 import net.starlegacy.util.getFacing
@@ -28,7 +29,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import org.jetbrains.annotations.Nullable
 
-abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : Multiblock(),
+abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : PowerStoringMultiblock(),
 	FurnaceMultiblock {
 	companion object {
 		private val DISABLED = ChatColor.RED.toString() + "[DISABLED]"
@@ -89,7 +90,7 @@ abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : M
 			y(+0) {
 				x(-1).anyPipedInventory()
 				x(+0).machineFurnace()
-				x(+1).ironBlock()
+				x(+1).wireInputComputer()
 			}
 		}
 
@@ -151,6 +152,17 @@ abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : M
 		}
 
 		event.isCancelled = true
+		val power = PowerMachines.getPower(sign, true)
+		if (power == 0) {
+			setUser(sign, null)
+			player.sendMessage(
+				String.format(
+					"%sYour drill at %s ran out of power! It was disabled.",
+					ChatColor.RED, sign.location.toVector()
+				)
+			)
+			return
+		}
 
 		event.isBurning = false
 		event.burnTime = 5
@@ -162,6 +174,9 @@ abstract class DrillMultiblock(tierText: String, val tierMaterial: Material) : M
 		val maxBroken = max(1, if (drills > 5) (5 + drills) / drills + 15 / drills else 10 - drills)
 
 		val broken = breakBlocks(sign, fuel, maxBroken, toDestroy, player)
+
+		val powerUsage = broken * 10
+		PowerMachines.setPower(sign, power - powerUsage, true)
 	}
 
 	private fun breakBlocks(

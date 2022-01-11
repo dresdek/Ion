@@ -1,6 +1,7 @@
 package net.starlegacy.feature.misc
 
 import java.util.UUID
+import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.misc.DecomposerMultiblock
 import net.starlegacy.feature.starship.isFlyable
 import net.starlegacy.util.getBlockIfLoaded
@@ -71,6 +72,8 @@ class DecomposeTask(
 
 		val storage = DecomposerMultiblock.getStorage(sign)
 
+		var power = PowerMachines.getPower(sign, fast = true)
+
 		for (offsetUp: Int in 0 until height) {
 			for (offsetForward: Int in 0 until length) {
 				val blockPosition = origin.clone()
@@ -94,6 +97,13 @@ class DecomposeTask(
 				if (!BlockBreakEvent(block, player).callEvent()) {
 					continue
 				}
+
+				if (power < 10) {
+					player msg "&cDecomposer out of power"
+					return false
+				}
+
+				PowerMachines.removePower(sign, 10)
 
 				// get drops BEFORE breaking
 				val drops: Collection<ItemStack> = block.drops

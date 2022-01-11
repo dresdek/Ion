@@ -68,12 +68,17 @@ import net.starlegacy.feature.economy.collectors.CollectionMissions
 import net.starlegacy.feature.economy.collectors.Collectors
 import net.starlegacy.feature.gas.Gasses
 import net.starlegacy.feature.gear.Gear
+<<<<<<< HEAD
 <<<<<<< HEAD:server/StarLegacy/src/main/kotlin/net/starlegacy/StarLegacy.kt
 =======
 import net.starlegacy.feature.machine.AreaShields
 import net.starlegacy.feature.machine.BaseShields
 import net.starlegacy.feature.machine.PowerMachines
 >>>>>>> parent of 699065e (Actually disable base shields):src/main/kotlin/net/starlegacy/StarLegacy.kt
+=======
+import net.starlegacy.feature.machine.AreaShields
+import net.starlegacy.feature.machine.PowerMachines
+>>>>>>> parent of 15a4d6f (First pass of wiring removal)
 import net.starlegacy.feature.machine.Turrets
 import net.starlegacy.feature.misc.AutoRestart
 import net.starlegacy.feature.misc.CombatNPCs
@@ -117,6 +122,7 @@ import net.starlegacy.feature.starship.hyperspace.Hyperspace
 import net.starlegacy.feature.starship.subsystem.shield.StarshipShields
 import net.starlegacy.feature.transport.Extractors
 import net.starlegacy.feature.transport.TransportConfig
+import net.starlegacy.feature.transport.Wires
 import net.starlegacy.feature.transport.pipe.Pipes
 import net.starlegacy.feature.transport.pipe.filter.Filters
 import net.starlegacy.listener.SLEventListener
@@ -210,18 +216,25 @@ class StarLegacy : JavaPlugin() {
 			StationSieges,
 
 			Multiblocks,
+<<<<<<< HEAD
 <<<<<<< HEAD:server/StarLegacy/src/main/kotlin/net/starlegacy/StarLegacy.kt
 =======
 			PowerMachines,
 			AreaShields,
 			BaseShields,
 >>>>>>> parent of 699065e (Actually disable base shields):src/main/kotlin/net/starlegacy/StarLegacy.kt
+=======
+			PowerMachines,
+			AreaShields,
+//			BaseShields,
+>>>>>>> parent of 15a4d6f (First pass of wiring removal)
 			Gasses,
 
 			TransportConfig.Companion,
 			Extractors,
 			Pipes,
 			Filters,
+			Wires,
 
 			Gear,
 
