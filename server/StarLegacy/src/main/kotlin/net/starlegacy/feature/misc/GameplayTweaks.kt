@@ -104,6 +104,7 @@ object GameplayTweaks : SLComponent() {
 		SLAB_TYPES.forEach { setBlastResistance(it, 6.0f) }
 		STAIR_TYPES.forEach { setBlastResistance(it, 6.0f) }
 		setBlastResistance(Material.GLASS, 5.0f)
+		setBlastResistance(Material.TINTED_GLASS, 5.0f)
 
 		// allow underwater explosions, cancel the liquid from actually exploding
 		setBlastResistance(Material.WATER, 0.0f)
