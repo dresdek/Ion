@@ -68,22 +68,9 @@ import net.starlegacy.feature.economy.collectors.CollectionMissions
 import net.starlegacy.feature.economy.collectors.Collectors
 import net.starlegacy.feature.gas.Gasses
 import net.starlegacy.feature.gear.Gear
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:server/StarLegacy/src/main/kotlin/net/starlegacy/StarLegacy.kt
-=======
 import net.starlegacy.feature.machine.AreaShields
 import net.starlegacy.feature.machine.BaseShields
 import net.starlegacy.feature.machine.PowerMachines
->>>>>>> parent of 699065e (Actually disable base shields):src/main/kotlin/net/starlegacy/StarLegacy.kt
-=======
-import net.starlegacy.feature.machine.AreaShields
-import net.starlegacy.feature.machine.PowerMachines
->>>>>>> parent of 15a4d6f (First pass of wiring removal)
-=======
-import net.starlegacy.feature.machine.AreaShields
-import net.starlegacy.feature.machine.PowerMachines
->>>>>>> parent of 15a4d6f (First pass of wiring removal)
 import net.starlegacy.feature.machine.Turrets
 import net.starlegacy.feature.misc.AutoRestart
 import net.starlegacy.feature.misc.CombatNPCs
@@ -191,76 +178,48 @@ class StarLegacy : JavaPlugin() {
 
 	// put the get() so the classes aren't initialized right away
 	private val components: List<SLComponent>
-		get() = listOf(
+		get() = setOf(
 			RedisActions,
 			AutoRestart,
 			Caches,
 			Notify,
 			Shuttles,
-
 			ChannelSelections,
 			ChatChannel.ChannelActions,
-
 			CombatNPCs,
-
 			CryoPods,
 			CustomRecipes,
 			GameplayTweaks,
-
 			SpaceWorlds,
 			Space,
 			SpaceMap,
 			Orbits,
-
 			SpaceMechanics,
-
 			NationsBalancing,
 			Regions,
 			NationsMap,
-
 			StationSieges,
-
 			Multiblocks,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:server/StarLegacy/src/main/kotlin/net/starlegacy/StarLegacy.kt
-=======
 			PowerMachines,
 			AreaShields,
 			BaseShields,
->>>>>>> parent of 699065e (Actually disable base shields):src/main/kotlin/net/starlegacy/StarLegacy.kt
-=======
 			PowerMachines,
 			AreaShields,
-//			BaseShields,
->>>>>>> parent of 15a4d6f (First pass of wiring removal)
-=======
 			PowerMachines,
 			AreaShields,
-//			BaseShields,
->>>>>>> parent of 15a4d6f (First pass of wiring removal)
-			Gasses,
-
 			TransportConfig.Companion,
 			Extractors,
 			Pipes,
 			Filters,
 			Wires,
-
 			Gear,
-
 			TradeCities,
-
 			CollectionMissions,
 			Collectors,
-
 			CityNPCs,
-
 			Bazaars,
 			Merchants,
-
 			PlanetSpawns,
-
 			DeactivatedPlayerStarships,
 			ActiveStarships,
 			ActiveStarshipMechanics,
@@ -278,11 +237,11 @@ class StarLegacy : JavaPlugin() {
 			Interdiction,
 			StarshipDealers,
 			Decomposers
-		)
+		).toList();
 
 	// put the get() so the classes aren't initialized right away
 	private val listeners: List<SLEventListener>
-		get() = listOf(
+		get() = setOf(
 			JoinLeaveListener,
 			ChatListener,
 			MovementListener,
@@ -301,7 +260,7 @@ class StarLegacy : JavaPlugin() {
 			PowerArmorListener,
 			PowerToolListener,
 			SwordListener,
-		)
+		).toList();
 
 	override fun onEnable() {
 		manager = PaperCommandManager(this)
