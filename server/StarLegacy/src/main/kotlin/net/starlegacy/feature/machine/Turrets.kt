@@ -27,6 +27,13 @@ object Turrets : SLComponent() {
 
 		subscribe<PlayerInteractEvent>(EventPriority.LOWEST) { event ->
 			// prevent double call
+
+			fun getStarshipPiloting() = ActiveStarships.findByPilot(event.player)
+			if (getStarshipPiloting() != null){
+				return@subscribe
+			}
+
+
 			if (event.hand != EquipmentSlot.HAND) {
 				return@subscribe
 			}
