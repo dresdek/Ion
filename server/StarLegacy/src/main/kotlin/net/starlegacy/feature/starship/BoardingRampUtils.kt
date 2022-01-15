@@ -22,8 +22,8 @@ object BoardingRampUtils {
 		}
 
 		sign.line(1, BoardingRamps.SECOND_LINE_OPEN)
-		sign.setLine(2, base.blockData.asString)
-		sign.setLine(3, ramp.blockData.asString)
+		sign.line(2, Component.text(base.blockData.asString))
+		sign.line(3, Component.text(ramp.blockData.asString))
 		sign.update()
 
 		air.setType(ramp.type, false)
