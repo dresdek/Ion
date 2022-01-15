@@ -2,9 +2,11 @@ package net.starlegacy.feature.machine
 
 import java.util.concurrent.TimeUnit
 import net.starlegacy.SLComponent
+import net.starlegacy.database.schema.starships.PlayerStarshipData.Companion.findByPilot
 import net.starlegacy.feature.multiblock.Multiblocks
 import net.starlegacy.feature.multiblock.starshipweapon.turret.TurretMultiblock
 import net.starlegacy.feature.starship.active.ActiveStarships
+import net.starlegacy.feature.starship.active.ActiveStarships.findByPassenger
 import net.starlegacy.feature.starship.control.StarshipControl
 import net.starlegacy.util.PerPlayerCooldown
 import net.starlegacy.util.Vec3i
@@ -76,6 +78,7 @@ object Turrets : SLComponent() {
 			if (sign == null || multiblock == null) {
 				return@subscribe
 			}
+			if (findByPassenger(event.player) != null) return@subscribe
 			when (event.action) {
 				Action.RIGHT_CLICK_AIR, Action.RIGHT_CLICK_BLOCK -> {
 					cooldown.tryExec(player) {
