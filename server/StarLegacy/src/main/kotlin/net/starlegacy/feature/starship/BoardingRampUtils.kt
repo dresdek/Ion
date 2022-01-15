@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship
 
+import net.kyori.adventure.text.Component
 import net.starlegacy.util.getFacing
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -20,7 +21,7 @@ object BoardingRampUtils {
 			return
 		}
 
-		sign.setLine(1, BoardingRamps.SECOND_LINE_OPEN)
+		sign.line(1, BoardingRamps.SECOND_LINE_OPEN)
 		sign.setLine(2, base.blockData.asString)
 		sign.setLine(3, ramp.blockData.asString)
 		sign.update()
@@ -60,10 +61,10 @@ object BoardingRampUtils {
 	}
 
 	private fun shutSign(sign: Sign) {
-		sign.setLine(0, BoardingRamps.FIRST_LINE)
-		sign.setLine(1, BoardingRamps.SECOND_LINE_SHUT)
-		sign.setLine(2, "")
-		sign.setLine(3, "")
+		sign.line(0, BoardingRamps.FIRST_LINE)
+		sign.line(1, BoardingRamps.SECOND_LINE_SHUT)
+		sign.line(2, Component.empty())
+		sign.line(3, Component.empty())
 		sign.update()
 		sign.block.world.playSound(
 			sign.block.location, Sound.BLOCK_PISTON_CONTRACT,

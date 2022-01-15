@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship
 
+import net.kyori.adventure.text.Component
 import net.starlegacy.feature.starship.active.ActiveStarships
 import net.starlegacy.util.colorize
 import net.starlegacy.util.msg
@@ -7,12 +8,12 @@ import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 
 object BoardingRamps {
-	val FIRST_LINE = "&cBoarding Ramp".colorize()
-	val SECOND_LINE_OPEN = "{&cOPEN&0}".colorize()
-	val SECOND_LINE_SHUT = "{&aSHUT&0}".colorize()
+	val FIRST_LINE = Component.text("&cBoarding Ramp".colorize()) // sussy
+	val SECOND_LINE_OPEN = Component.text("{&cOPEN&0}".colorize())
+	val SECOND_LINE_SHUT = Component.text("{&aSHUT&0}".colorize())
 
 	fun toggle(player: Player, sign: Sign) {
-		when (sign.getLine(1)) {
+		when (sign.line(1)) {
 			SECOND_LINE_OPEN -> shut(player, sign)
 			SECOND_LINE_SHUT -> open(player, sign)
 			else -> sign.block.breakNaturally()
