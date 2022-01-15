@@ -115,7 +115,7 @@ enum class StarshipSigns(val undetectedText: String, val baseLines: Array<String
 			return true
 		}
 	},
-	BOARDING_RAMP("[boardingramp]", arrayOf(BoardingRamps.FIRST_LINE, null, null, null)) {
+	BOARDING_RAMP("[boardingramp]", arrayOf(BoardingRamps.FIRST_LINE.content(), null, null, null)) {
 		override fun onDetect(player: Player, sign: Sign): Boolean {
 			return BoardingRamps.shut(player, sign)
 		}

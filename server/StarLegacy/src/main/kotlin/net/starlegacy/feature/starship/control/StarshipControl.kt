@@ -1,5 +1,6 @@
 package net.starlegacy.feature.starship.control
 
+import net.kyori.adventure.text.Component
 import java.util.Collections
 import java.util.LinkedList
 import java.util.UUID
@@ -404,10 +405,8 @@ object StarshipControl : SLComponent() {
 	private fun detectSign(signType: StarshipSigns, player: Player, sign: Sign) {
 		if (signType.onDetect(player, sign)) {
 			for ((index, line) in signType.baseLines.withIndex()) {
-				if (line == null) {
-					continue
-				}
-				sign.setLine(index, line)
+				if (line == null) { continue }
+				sign.line(index, Component.text(line))
 			}
 			sign.update()
 		}
