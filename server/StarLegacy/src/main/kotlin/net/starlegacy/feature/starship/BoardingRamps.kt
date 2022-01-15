@@ -8,7 +8,7 @@ import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 
 object BoardingRamps {
-	val FIRST_LINE = Component.text("&cBoarding Ramp".colorize()) // sussy
+	val FIRST_LINE = Component.text("&cBoarding Ramp".colorize()) // use Color class later
 	val SECOND_LINE_OPEN = Component.text("{&cOPEN&0}".colorize())
 	val SECOND_LINE_SHUT = Component.text("{&aSHUT&0}".colorize())
 
