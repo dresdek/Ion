@@ -54,7 +54,7 @@ abstract class StarshipMovement(val starship: ActiveStarship, val newWorld: Worl
 			return
 		}
 
-		if (displaceY(starship.min.y) < 0) {
+		if (displaceY(starship.min.y) < -80) {
 			throw ConditionFailedException("Minimum height limit reached")
 		}
 
