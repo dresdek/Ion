@@ -93,6 +93,34 @@ import org.bukkit.Material.BARREL
 import org.bukkit.Material.TINTED_GLASS
 import org.bukkit.Material.SCAFFOLDING
 import org.bukkit.Material.CHAIN
+import org.bukkit.Material.POTTED_AZURE_BLUET
+import org.bukkit.Material.POTTED_BAMBOO
+import org.bukkit.Material.POTTED_BIRCH_SAPLING
+import org.bukkit.Material.POTTED_BLUE_ORCHID
+import org.bukkit.Material.POTTED_BROWN_MUSHROOM
+import org.bukkit.Material.POTTED_CACTUS
+import org.bukkit.Material.POTTED_CORNFLOWER
+import org.bukkit.Material.POTTED_CRIMSON_FUNGUS
+import org.bukkit.Material.POTTED_CRIMSON_ROOTS
+import org.bukkit.Material.POTTED_DANDELION
+import org.bukkit.Material.POTTED_DARK_OAK_SAPLING
+import org.bukkit.Material.POTTED_DEAD_BUSH
+import org.bukkit.Material.POTTED_FERN
+import org.bukkit.Material.POTTED_FLOWERING_AZALEA_BUSH
+import org.bukkit.Material.POTTED_JUNGLE_SAPLING
+import org.bukkit.Material.POTTED_LILY_OF_THE_VALLEY
+import org.bukkit.Material.POTTED_OAK_SAPLING
+import org.bukkit.Material.POTTED_ORANGE_TULIP
+import org.bukkit.Material.POTTED_OXEYE_DAISY
+import org.bukkit.Material.POTTED_PINK_TULIP
+import org.bukkit.Material.POTTED_POPPY
+import org.bukkit.Material.POTTED_RED_MUSHROOM
+import org.bukkit.Material.POTTED_RED_TULIP
+import org.bukkit.Material.POTTED_SPRUCE_SAPLING
+import org.bukkit.Material.POTTED_WARPED_FUNGUS
+import org.bukkit.Material.POTTED_WARPED_ROOTS
+import org.bukkit.Material.POTTED_WHITE_TULIP
+import org.bukkit.Material.POTTED_WITHER_ROSE
 
 val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	JUKEBOX, // ship computer
@@ -174,9 +202,39 @@ val FLYABLE_BLOCKS: EnumSet<Material> = mutableSetOf(
 	BARREL,
 	TINTED_GLASS,
 	SCAFFOLDING,
-	CHAIN
+	CHAIN,
 
-).also {
+	POTTED_AZURE_BLUET,
+	POTTED_BAMBOO,
+	POTTED_BIRCH_SAPLING,
+	POTTED_BLUE_ORCHID,
+	POTTED_BROWN_MUSHROOM,
+	POTTED_CACTUS,
+	POTTED_CORNFLOWER,
+	POTTED_CRIMSON_FUNGUS,
+	POTTED_CRIMSON_ROOTS,
+	POTTED_DANDELION,
+	POTTED_DARK_OAK_SAPLING,
+	POTTED_DEAD_BUSH,
+	POTTED_FERN,
+	POTTED_FLOWERING_AZALEA_BUSH,
+	POTTED_JUNGLE_SAPLING,
+	POTTED_LILY_OF_THE_VALLEY,
+	POTTED_OAK_SAPLING,
+	POTTED_ORANGE_TULIP,
+	POTTED_OXEYE_DAISY,
+	POTTED_PINK_TULIP,
+	POTTED_POPPY,
+	POTTED_RED_MUSHROOM,
+	POTTED_RED_TULIP,
+	POTTED_SPRUCE_SAPLING,
+	POTTED_WARPED_FUNGUS,
+	POTTED_WARPED_ROOTS,
+	POTTED_WHITE_TULIP,
+	POTTED_WITHER_ROSE,
+
+
+	).also {
 	it.addAll(CONCRETE_TYPES)
 	it.addAll(SLAB_TYPES)
 	it.addAll(STAIR_TYPES)
