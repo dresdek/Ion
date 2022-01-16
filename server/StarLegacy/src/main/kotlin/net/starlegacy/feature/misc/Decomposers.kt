@@ -1,6 +1,6 @@
 package net.starlegacy.feature.misc
 
-import net.horizonsend.ion.server.commands.QuickBalance
+import net.horizonsend.ion.server.listeners.commands.QuickBalance
 import kotlin.math.max
 import net.starlegacy.PLUGIN
 import net.starlegacy.SLComponent

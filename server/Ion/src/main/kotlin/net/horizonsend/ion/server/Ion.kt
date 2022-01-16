@@ -1,7 +1,7 @@
 package net.horizonsend.ion.server
 
-import net.horizonsend.ion.server.commands.QuickBalance
-import net.horizonsend.ion.server.commands.starships.Listships
+import net.horizonsend.ion.server.listeners.commands.QuickBalance
+import net.horizonsend.ion.server.listeners.commands.starships.Listships
 import net.horizonsend.ion.server.listeners.dynmap.DynmapEnabledListener
 import net.horizonsend.ion.server.listeners.paper.Tweaks
 import net.starlegacy.PLUGIN

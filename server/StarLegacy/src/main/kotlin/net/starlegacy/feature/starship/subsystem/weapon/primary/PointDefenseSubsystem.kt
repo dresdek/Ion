@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship.subsystem.weapon.primary
 
-import net.horizonsend.ion.server.commands.QuickBalance
+import net.horizonsend.ion.server.listeners.commands.QuickBalance
 import kotlin.math.sqrt
 import net.starlegacy.feature.starship.active.ActivePlayerStarship
 import net.starlegacy.feature.starship.active.ActiveStarship

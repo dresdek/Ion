@@ -1,4 +1,4 @@
-package net.horizonsend.ion.server.commands.starships
+package net.horizonsend.ion.server.listeners.commands.starships
 
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias

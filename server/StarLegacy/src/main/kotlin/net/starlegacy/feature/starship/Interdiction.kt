@@ -1,6 +1,6 @@
 package net.starlegacy.feature.starship
 
-import net.horizonsend.ion.server.commands.QuickBalance
+import net.horizonsend.ion.server.listeners.commands.QuickBalance
 import net.starlegacy.SLComponent
 import net.starlegacy.feature.misc.CustomItems
 import net.starlegacy.feature.multiblock.Multiblocks
