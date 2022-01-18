@@ -5,6 +5,7 @@ import net.starlegacy.feature.machine.PowerMachines
 import net.starlegacy.feature.multiblock.FurnaceMultiblock
 import net.starlegacy.feature.multiblock.MultiblockShape
 import net.starlegacy.feature.multiblock.PowerStoringMultiblock
+import net.starlegacy.feature.progression.advancement.SLAdvancement
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Furnace
@@ -16,6 +17,7 @@ abstract class BaseShieldMultiblock : PowerStoringMultiblock(), FurnaceMultibloc
 	override val name = "baseshield"
 
 	abstract val radius: Int
+	abstract val advancement: SLAdvancement
 
 	protected fun MultiblockShape.sideRings(vararg xAxes: Int) {
 		for (x in xAxes) {
