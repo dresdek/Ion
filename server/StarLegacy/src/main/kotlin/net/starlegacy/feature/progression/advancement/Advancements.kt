@@ -1,6 +1,6 @@
 package net.starlegacy.feature.progression.advancement
 
-import net.minecraft.server.v1_16_R3.AdvancementProgress
+import net.minecraft.server.PlayerAdvancements
 import net.starlegacy.SLComponent
 import net.starlegacy.database.schema.misc.SLPlayer
 import net.starlegacy.database.slPlayerId
@@ -8,6 +8,7 @@ import net.starlegacy.util.*
 import net.starlegacy.util.redisaction.RedisAction
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
+import org.bukkit.advancement.AdvancementProgress //net.minecraft.AdvancementProgress
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
@@ -167,7 +168,7 @@ object Advancements : SLComponent() {
 
         val nmsPlayer: NMSPlayer = player.nms
 
-        val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancementData.data.keys
+        val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements .data.keys
             .filter { it.name.namespace == namespace && nmsPlayer.advancementData.getProgress(it).isDone }
 
         val newAdvancements: Set<SLAdvancement> = Advancements[player]

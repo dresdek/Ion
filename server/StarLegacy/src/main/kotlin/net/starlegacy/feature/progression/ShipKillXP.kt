@@ -35,7 +35,7 @@ object ShipKillXP : SLComponent() {
 
     private fun data(starship: ActiveStarship): ShipDamageData {
         // needs to be a direct reference to the starship's damagers so it stays synchronized
-        val map = starship.damagers
+        val map = starship.damagers // link to Damager class
         val size = starship.blockCount
         val type = starship.type
         return ShipDamageData(map, size, type)
@@ -100,13 +100,9 @@ object ShipKillXP : SLComponent() {
     private fun onShipKill(killed: UUID, killedName: String, data: ShipDamageData, isInStation: Boolean) {
         var baseXP = log2(data.size.toDouble()) * 200.0
 
-        if (data.type.isWarship) {
-            baseXP *= 2.5
-        }
+        if (data.type.isWarship) { baseXP *= 2.5 }
 
-        if (isInStation) {
-            baseXP *= 1.5
-        }
+        if (isInStation) { baseXP *= 1.5 }
 
         val dataMap: Map<Damager, Int> = data.map.filterKeys { damager ->
             // require they be online to get xp
