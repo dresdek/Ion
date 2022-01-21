@@ -8,7 +8,9 @@ import net.starlegacy.util.*
 import net.starlegacy.util.redisaction.RedisAction
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
-import org.bukkit.advancement.AdvancementProgress //net.minecraft.AdvancementProgress
+import org.bukkit.advancement.Advancement
+//import org.bukkit.advancement.AdvancementProgress
+import net.minecraft.advancements.AdvancementProgress
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
@@ -22,6 +24,9 @@ import kotlin.collections.set
 class AdvancementConfig(val baseCost: Double = 1000.0)
 
 internal lateinit var advancementBalancing: AdvancementConfig
+
+// aliases
+typealias BukkitAdvancement = Advancement
 
 object Advancements : SLComponent() {
     private val synchronizationTiming = timing("Advancement Vanilla Synchronization")
@@ -168,7 +173,7 @@ object Advancements : SLComponent() {
 
         val nmsPlayer: NMSPlayer = player.nms
 
-        // nms got updated to use maps. time to filter - Demopans
+        // nms got updated to use maps. apparently, 1.12 code won't compile - Demopans
         val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements.advancements.filter {
             it.value.isDone
         }.keys.toList()
@@ -177,26 +182,27 @@ object Advancements : SLComponent() {
 
         val oldNames: Set<String> = oldAdvancements.asSequence().map {
             it.id.namespace
-        }.toSet() // sussy - Demopans
+        }.toSet() // ToDo: sussy - Demopans
         val newNames: Set<String> = newAdvancements.asSequence().map { it.advancementKey }.toSet()
 
-        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.id.namespace) }// sussy - Demopans
+        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.id.namespace) }// ToDo: sussy - Demopans
         val added: List<SLAdvancement> = newAdvancements.filter { !oldNames.contains(it.advancementKey) }
 
         removed.forEach { nmsAdvancement ->
-            val progress: AdvancementProgress = nmsPlayer.advancementData.getProgress(nmsAdvancement)
+            val progress: AdvancementProgress =
+                nmsPlayer.advancements.advancements[nmsAdvancement]!! // migrated to mc hooks - Demopans
 
-            progress.awardedCriteria.forEach { criteria ->
-                nmsPlayer.advancementData.revokeCritera(nmsAdvancement, criteria)
+            progress.completedCriteria.forEach { criteria ->
+                nmsPlayer.advancements.revokeCritera(nmsAdvancement, criteria) // migrated to mc hooks - Demopans
             }
         }
 
         added.forEach { advancement ->
-            val progress: AdvancementProgress = nmsPlayer.advancementData.getProgress(advancement.nmsAdvancement)
+            val progress: AdvancementProgress = nmsPlayer.advancements.getOrStartProgress(advancement.nmsAdvancement) // migrated to mc hooks - Demopans
 
             if (!progress.isDone) {
                 progress.remainingCriteria.forEach { criteria ->
-                    nmsPlayer.advancementData.grantCriteria(advancement.nmsAdvancement, criteria)
+                    nmsPlayer.advancements.grantCriteria(advancement.nmsAdvancement, criteria) // migrated to mc hooks - Demopans
                 }
             }
         }
