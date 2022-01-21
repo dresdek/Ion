@@ -172,33 +172,34 @@ object Advancements : SLComponent() {
         // nms got updated to use maps. apparently, 1.12 code won't compile - Demopans
         val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements.advancements.filter {
             it.value.isDone
-        }.keys.toList()
+        }.keys.toList() // ToDo: migrate to bukkit - Demopans
 
         val newAdvancements: Set<SLAdvancement> = Advancements[player]
 
         val oldNames: Set<String> = oldAdvancements.asSequence().map {
-            it.id.namespace
-        }.toSet() // ToDo: sussy - Demopans
+            it.bukkit.toString()
+        }.toSet() // ToDo: migrate to bukkit - Demopans
+
         val newNames: Set<String> = newAdvancements.asSequence().map { it.advancementKey }.toSet()
 
-        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.id.namespace) }// ToDo: sussy - Demopans
+        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.bukkit.toString()) }// ToDo: sussy - Demopans
         val added: List<SLAdvancement> = newAdvancements.filter { !oldNames.contains(it.advancementKey) }
 
         removed.forEach { nmsAdvancement ->
-            val progress: AdvancementProgress =
-                nmsPlayer.advancements.advancements[nmsAdvancement]!! // migrated to mc hooks - Demopans
+            val progress: AdvancementProgress = player.getAdvancementProgress(nmsAdvancement.bukkit)
+                nmsPlayer.advancements.advancements[nmsAdvancement] // ToDo: migrate to bukkit - Demopans
 
-            progress.completedCriteria.forEach { criteria ->
-                nmsPlayer.advancements.revokeCritera(nmsAdvancement, criteria) // migrated to mc hooks - Demopans
+            progress.awardedCriteria.forEach { criteria ->
+                progress.revokeCriteria(criteria) // ToDo: migrate to bukkit - Demopans
             }
         }
 
         added.forEach { advancement ->
-            val progress: AdvancementProgress = nmsPlayer.advancements.getOrStartProgress(advancement.nmsAdvancement) // migrated to mc hooks - Demopans
+            val progress: AdvancementProgress = player.getAdvancementProgress(advancement.nmsAdvancement.bukkit) // migrated to mc hooks - Demopans
 
             if (!progress.isDone) {
                 progress.remainingCriteria.forEach { criteria ->
-                    nmsPlayer.advancements.grantCriteria(advancement.nmsAdvancement, criteria) // migrated to mc hooks - Demopans
+                    progress.awardCriteria(criteria) // ToDo: migrate to bukkit - Demopans
                 }
             }
         }
