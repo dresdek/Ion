@@ -9,8 +9,7 @@ import net.starlegacy.util.redisaction.RedisAction
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.advancement.Advancement
-//import org.bukkit.advancement.AdvancementProgress
-import net.minecraft.advancements.AdvancementProgress
+import org.bukkit.advancement.AdvancementProgress
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
@@ -24,9 +23,6 @@ import kotlin.collections.set
 class AdvancementConfig(val baseCost: Double = 1000.0)
 
 internal lateinit var advancementBalancing: AdvancementConfig
-
-// aliases
-typealias BukkitAdvancement = Advancement
 
 object Advancements : SLComponent() {
     private val synchronizationTiming = timing("Advancement Vanilla Synchronization")
