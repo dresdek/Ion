@@ -168,15 +168,19 @@ object Advancements : SLComponent() {
 
         val nmsPlayer: NMSPlayer = player.nms
 
-        val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements .data.keys
-            .filter { it.name.namespace == namespace && nmsPlayer.advancementData.getProgress(it).isDone }
+        // nms got updated to use maps. time to filter - Demopans
+        val oldAdvancements: List<NMSAdvancement> = nmsPlayer.advancements.advancements.filter {
+            it.value.isDone
+        }.keys.toList()
 
         val newAdvancements: Set<SLAdvancement> = Advancements[player]
 
-        val oldNames: Set<String> = oldAdvancements.asSequence().map { it.name.key }.toSet()
+        val oldNames: Set<String> = oldAdvancements.asSequence().map {
+            it.id.namespace
+        }.toSet() // sussy - Demopans
         val newNames: Set<String> = newAdvancements.asSequence().map { it.advancementKey }.toSet()
 
-        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.name.key) }
+        val removed: List<NMSAdvancement> = oldAdvancements.filter { !newNames.contains(it.id.namespace) }// sussy - Demopans
         val added: List<SLAdvancement> = newAdvancements.filter { !oldNames.contains(it.advancementKey) }
 
         removed.forEach { nmsAdvancement ->

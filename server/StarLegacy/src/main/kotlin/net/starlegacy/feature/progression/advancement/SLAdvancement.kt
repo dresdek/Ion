@@ -5,6 +5,7 @@ import net.starlegacy.util.nms
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.*
 
 /** Root advancements */
 enum class SLAdvancementCategory(
@@ -580,7 +581,7 @@ enum class SLAdvancement(
     );
     //endregion
 
-    val advancementKey = name.toLowerCase()
+    val advancementKey = name.lowercase(Locale.getDefault()) // updated from deprecated method - Demopans
 
     val namespacedKey = PLUGIN.namespacedKey(advancementKey)
 
