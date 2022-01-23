@@ -7,6 +7,8 @@ import org.bukkit.block.Sign
 import org.bukkit.entity.Player
 
 abstract class AreaShield(val radius: Int) : PowerStoringMultiblock() {
+    abstract val advancement: SLAdvancement;
+
     override fun onTransformSign(player: Player, sign: Sign) {
         AreaShields.register(sign.location, radius)
         player.sendMessage(ChatColor.GREEN.toString() + "Area Shield created.")
