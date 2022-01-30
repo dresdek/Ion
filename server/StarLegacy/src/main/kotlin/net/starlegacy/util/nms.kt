@@ -28,6 +28,7 @@ typealias NMSItem = net.minecraft.world.item.Item
 typealias NMSNBTTagCompound = net.minecraft.nbt.CompoundTag
 typealias NMSPlayer = net.minecraft.server.level.ServerPlayer
 typealias NMSAdvancement = net.minecraft.advancements.Advancement
+typealias NMSAdvancementProgress = net.minecraft.advancements.AdvancementProgress
 typealias NMSMinecraftKey = net.minecraft.resources.ResourceLocation
 typealias NMSWorld = net.minecraft.world.level.Level
 typealias NMSChunk = net.minecraft.world.level.chunk.LevelChunk

@@ -15,6 +15,7 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import net.starlegacy.feature.multiblock.gravitywell.GravityWellMultiblock
+import net.starlegacy.feature.progression.ShipKillXP
 import net.starlegacy.feature.space.CachedPlanet
 import net.starlegacy.feature.starship.StarshipType
 import net.starlegacy.feature.starship.movement.StarshipMovement
@@ -52,6 +53,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.util.NumberConversions
 import org.bukkit.util.Vector
+import java.util.concurrent.atomic.AtomicInteger
 
 abstract class ActiveStarship(
 	world: World,
@@ -86,6 +88,8 @@ abstract class ActiveStarship(
 	val weaponSets: HashMultimap<String, WeaponSubsystem> = HashMultimap.create()
 	val weaponSetSelections: HashBiMap<UUID, String> = HashBiMap.create()
 	val autoTurretTargets = mutableMapOf<String, UUID>()
+
+	val damagers: MutableMap<ShipKillXP.Damager, AtomicInteger> = mutableMapOf() // removes error at ShipKillXP.kt
 
 	val shieldEfficiency: Double
 		get() = (shields.size.d().pow(0.9) / (blockCount / 500.0).coerceAtLeast(1.0).pow(0.7))
@@ -141,9 +145,7 @@ abstract class ActiveStarship(
 	}
 
 	private fun buildThrustData(faceThrusters: List<ThrusterSubsystem>): ThrustData {
-		if (faceThrusters.none()) {
-			return ThrustData(0.0, 0)
-		}
+		if (faceThrusters.none()) { return ThrustData(0.0, 0) }
 
 		val baseSpeedFactor = 50.0
 		val speedExponent = 0.5
@@ -167,13 +169,9 @@ abstract class ActiveStarship(
 		return ThrustData(acceleration, speed)
 	}
 
-	fun calculateHitbox() {
-		this.hitbox.calculate(this.blocks)
-	}
+	fun calculateHitbox() { this.hitbox.calculate(this.blocks) }
 
-	fun calculateMinMax() {
-		this.hitbox.calculateMinMax(this.blocks)
-	}
+	fun calculateMinMax() { this.hitbox.calculateMinMax(this.blocks) }
 
 	fun isInBounds(x: Int, y: Int, z: Int): Boolean {
 		return x >= min.x && y >= min.y && z >= min.z && x <= max.x && y <= max.y && z <= max.z
@@ -233,17 +231,11 @@ abstract class ActiveStarship(
 		return passengers.contains(playerID)
 	}
 
-	open fun addPassenger(playerID: UUID) {
-		passengers.add(playerID)
-	}
+	open fun addPassenger(playerID: UUID) { passengers.add(playerID) }
 
-	open fun removePassenger(playerID: UUID) {
-		passengers.remove(playerID)
-	}
+	open fun removePassenger(playerID: UUID) { passengers.remove(playerID) }
 
-	open fun clearPassengers() {
-		passengers.clear()
-	}
+	open fun clearPassengers() { passengers.clear() }
 
 	abstract fun moveAsync(movement: StarshipMovement): CompletableFuture<Boolean>
 
