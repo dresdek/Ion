@@ -46,6 +46,7 @@ sourceSets {
 			srcDir("Ion/src/main/kotlin")
 			srcDir("StarLegacy/src/main/java")
 			srcDir("StarLegacy/src/main/kotlin")
+			exclude("StarLegacy/src/main/kotlin/net/starlegacy/listener/misc/InteractListener.kt") // broken
 		}
 		resources {
 			srcDir("Ion/src/main/resources")

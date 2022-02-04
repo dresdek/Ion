@@ -49,6 +49,7 @@ object InteractListener : SLEventListener() {
 		// When someone clicks a drill sign, toggle it
 		// If they don't have any prismarine crystals, warn them
 		// (noobs used to ask why it wasn't working so much and this is usually why, lack of crystals)
+
 		subscribe<PlayerInteractEvent>()
 			.filtered { it.action == Action.RIGHT_CLICK_BLOCK }
 			.filtered { it.clickedBlock?.type?.isWallSign == true }
