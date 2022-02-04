@@ -52,7 +52,7 @@ object LegacyItemUtils {
 				space += maxStackSize - smelting.amount
 			}
 		} else
-			for (stack in inventory.storageContents)
+			for (stack in inventory.storageContents!!) // added null check - Demopans
 				if (stack == null) {
 					space += maxStackSize
 				} else if (stack.isSimilar(item)) {

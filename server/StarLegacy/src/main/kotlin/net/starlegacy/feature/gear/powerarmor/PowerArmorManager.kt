@@ -34,10 +34,8 @@ object PowerArmorManager {
 
 	private fun powerModuleTick() {
 		for (player in Bukkit.getOnlinePlayers()) {
-			for (item: ItemStack? in player.inventory.armorContents) {
-				if (item == null || !isPowerArmor(item) || getPower(item) == 0) {
-					continue
-				}
+			for (item: ItemStack? in player.inventory.armorContents!!) {
+				if (item == null || !isPowerArmor(item) || getPower(item) == 0) { continue }
 
 				for (module in getModules(item)) {
 					when (module) {
@@ -77,10 +75,8 @@ object PowerArmorManager {
 				continue
 			}
 
-			for (item in player.inventory.armorContents) {
-				if (!isPowerArmor(item) || getPower(item) == 0) {
-					continue
-				}
+			for (item in player.inventory.armorContents!!) {
+				if (!isPowerArmor(item) || getPower(item!!) == 0) { continue }
 
 				for (module in getModules(item)) {
 					if (module != PowerArmorModule.ROCKET_BOOSTING) {

@@ -41,7 +41,7 @@ object PowerArmorListener : SLEventListener() {
 				return@sync
 			}
 
-			val item: ItemStack = player.inventory.armorContents[3 - slot.ordinal]
+			val item: ItemStack = player.inventory.armorContents!![3 - slot.ordinal]!! // null ptr checks - Demopans
 			val customItem: CustomItems.PowerArmorItem = CustomItems[item] as? CustomItems.PowerArmorItem ?: return@sync
 
 			val meta = item.itemMeta as LeatherArmorMeta
@@ -72,12 +72,12 @@ object PowerArmorListener : SLEventListener() {
 		val modules = HashMap<PowerArmorModule, ItemStack>()
 		val cause = event.cause
 
-		for (item in player.inventory.armorContents) {
+		for (item in player.inventory.armorContents!!) { // added null checks - Demopans
 			if (!PowerArmorManager.isPowerArmor(item)) {
 				continue
 			}
 
-			if (getPower(item) < 100) {
+			if (getPower(item!!) < 100) {
 				continue
 			}
 
@@ -131,7 +131,7 @@ object PowerArmorListener : SLEventListener() {
 
 		val matrix = event.inventory.matrix
 
-		for (item in matrix) {
+		for (item in matrix!!) { // added null check - Demopans
 			if (PowerArmorManager.isPowerArmor(item)) armor = item
 			else if (PowerArmorManager.isModule(item)) module = item
 		}
@@ -167,8 +167,8 @@ object PowerArmorListener : SLEventListener() {
 	@EventHandler
 	fun onToggleRocketBoosters(event: PlayerToggleSneakEvent) {
 		val player = event.player
-		for (item in player.inventory.armorContents) {
-			if (!PowerArmorManager.isPowerArmor(item) || getPower(item) == 0) continue
+		for (item in player.inventory.armorContents!!) { // added null check - Demopans
+			if (!PowerArmorManager.isPowerArmor(item) || getPower(item!!) == 0) continue
 			for (module in PowerArmorManager.getModules(item)) {
 				if (module == PowerArmorModule.ROCKET_BOOSTING) {
 					PowerArmorManager.toggleGliding(player)

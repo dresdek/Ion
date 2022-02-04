@@ -158,7 +158,7 @@ object CollectionMissions : SLComponent() {
 		val items: List<CollectedItem> = itemCache[station._id]
 			.takeIf { it.isNotEmpty() } ?: error("No items available at ${station.name}")
 
-		val freeSpace: Int = player.inventory.storageContents.count { it == null || it.type == Material.AIR }
+		val freeSpace: Int = player.inventory.storageContents!!.count { it == null || it.type == Material.AIR }
 
 		MenuHelper.apply {
 			val buttons: List<GuiItem> = items.map { collectedItem ->
@@ -322,7 +322,7 @@ object CollectionMissions : SLComponent() {
 
 	private fun getMaxBuy(shiftClick: Boolean, player: Player): Int {
 		return when {
-			shiftClick -> player.inventory.storageContents.count { it == null || it.type == Material.AIR }
+			shiftClick -> player.inventory.storageContents!!.count { it == null || it.type == Material.AIR }
 			else -> 1
 		}
 	}
